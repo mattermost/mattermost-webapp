@@ -8,8 +8,6 @@ import {Dropdown, Tooltip} from 'react-bootstrap';
 import {RootCloseWrapper} from 'react-overlays';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
-import Icon from '@mattermost/compass-components/foundations/icon';
-
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 import {AppBinding} from '@mattermost/types/apps';
@@ -20,13 +18,11 @@ import {HandleBindingClick, OpenAppsModal, PostEphemeralCallResponseForChannel} 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from 'components/widgets/icons/plugin_channel_header_icon';
 import OverlayTrigger from 'components/overlay_trigger';
-import MarketplaceModal from 'components/plugin_marketplace';
 
 import {PluginComponent} from 'types/store/plugins';
 
 import {createCallContext} from 'utils/apps';
-import {Constants, ModalIdentifiers} from 'utils/constants';
-import {ModalData} from 'types/actions';
+import {Constants} from 'utils/constants';
 
 type CustomMenuProps = {
     open?: boolean;
@@ -110,12 +106,10 @@ type ChannelHeaderPlugProps = {
     theme: Theme;
     sidebarOpen: boolean;
     shouldShowAppBar: boolean;
-    canOpenMarketplace: boolean;
     actions: {
         handleBindingClick: HandleBindingClick;
         postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
         openAppsModal: OpenAppsModal;
-        openModal: <P>(modalData: ModalData<P>) => void;
     };
 }
 
@@ -256,36 +250,6 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         );
     }
 
-    handleOpenMarketplace = () => {
-        this.props.actions.openModal({
-            modalId: ModalIdentifiers.PLUGIN_MARKETPLACE,
-            dialogType: MarketplaceModal,
-            dialogProps: {openedFrom: 'channel_header'},
-        });
-    };
-
-    createMarketplaceButton = () => {
-        const {formatMessage} = this.props.intl;
-
-        return (
-            <HeaderIconWrapper
-                key='channelHeaderButton-marketplace'
-                buttonClass='channel-header__icon'
-                iconComponent={(
-                    <Icon
-                        size={16}
-                        glyph={'view-grid-plus-outline'}
-                    />
-                )}
-                onClick={this.handleOpenMarketplace}
-                buttonId='channel_header_plug_marketplace'
-                tooltipKey='plugin'
-                tooltipText={formatMessage({id: 'channel_header_plug.marketplace', defaultMessage: 'App Marketplace'})}
-                pluginId='channel_header_plug_marketplace'
-            />
-        );
-    }
-
     createDropdown = (plugs: PluginComponent[], appBindings: AppBinding[]) => {
         const componentItems = plugs.filter((plug) => plug.action).map((plug) => {
             return (
@@ -386,11 +350,6 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
             if (this.props.appsEnabled) {
                 componentButtons = componentButtons.concat(appBindings.map(this.createAppBindingButton));
             }
-
-            if (this.props.canOpenMarketplace) {
-                componentButtons.push(this.createMarketplaceButton());
-            }
-
             return componentButtons;
         }
 

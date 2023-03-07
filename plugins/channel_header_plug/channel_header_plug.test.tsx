@@ -7,7 +7,7 @@ import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
 import ChannelHeaderPlug from 'plugins/channel_header_plug/channel_header_plug';
-import {mountWithIntl, shallowWithIntl} from '../../tests/helpers/intl-test-helper';
+import {mountWithIntl} from '../../tests/helpers/intl-test-helper';
 import {PluginComponent} from 'types/store/plugins';
 
 describe('plugins/ChannelHeaderPlug', () => {
@@ -32,12 +32,10 @@ describe('plugins/ChannelHeaderPlug', () => {
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
-                    openModal: jest.fn(),
                 }}
                 appBindings={[]}
                 appsEnabled={false}
                 shouldShowAppBar={false}
-                canOpenMarketplace={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -55,12 +53,10 @@ describe('plugins/ChannelHeaderPlug', () => {
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
-                    openModal: jest.fn(),
                 }}
                 appBindings={[]}
                 appsEnabled={false}
                 shouldShowAppBar={false}
-                canOpenMarketplace={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -94,12 +90,10 @@ describe('plugins/ChannelHeaderPlug', () => {
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
-                    openModal: jest.fn(),
                 }}
                 appBindings={[]}
                 appsEnabled={false}
                 shouldShowAppBar={false}
-                canOpenMarketplace={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -122,66 +116,12 @@ describe('plugins/ChannelHeaderPlug', () => {
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
-                    openModal: jest.fn(),
                 }}
                 appBindings={[]}
                 appsEnabled={false}
                 shouldShowAppBar={true}
-                canOpenMarketplace={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should not show marketplace if disabled or user does not have SYSCONSOLE_WRITE_PLUGINS permission', () => {
-        const wrapper = shallowWithIntl(
-            <ChannelHeaderPlug
-                components={[testPlug]}
-                channel={{} as Channel}
-                channelMember={{} as ChannelMembership}
-                theme={{} as Theme}
-                sidebarOpen={false}
-                actions={{
-                    handleBindingClick: jest.fn(),
-                    postEphemeralCallResponseForChannel: jest.fn(),
-                    openAppsModal: jest.fn(),
-                    openModal: jest.fn(),
-                }}
-                appBindings={[]}
-                appsEnabled={false}
-                shouldShowAppBar={false}
-                canOpenMarketplace={false}
-            />,
-        );
-
-        const marketplaceItems = wrapper.find('HeaderIconWrapper');
-        expect(marketplaceItems.length).toEqual(1);
-        expect(marketplaceItems.at(0).prop('buttonId')).not.toEqual('channel_header_plug_marketplace');
-    });
-
-    test('should show marketplace if enabled and user has SYSCONSOLE_WRITE_PLUGINS permission', () => {
-        const wrapper = shallowWithIntl(
-            <ChannelHeaderPlug
-                components={[testPlug]}
-                channel={{} as Channel}
-                channelMember={{} as ChannelMembership}
-                theme={{} as Theme}
-                sidebarOpen={false}
-                actions={{
-                    handleBindingClick: jest.fn(),
-                    postEphemeralCallResponseForChannel: jest.fn(),
-                    openAppsModal: jest.fn(),
-                    openModal: jest.fn(),
-                }}
-                appBindings={[]}
-                appsEnabled={false}
-                shouldShowAppBar={false}
-                canOpenMarketplace={true}
-            />,
-        );
-
-        const marketplaceItems = wrapper.find('HeaderIconWrapper');
-        expect(marketplaceItems.length).toEqual(2);
-        expect(marketplaceItems.at(1).prop('buttonId')).toEqual('channel_header_plug_marketplace');
     });
 });

@@ -6,13 +6,11 @@ exports[`plugins/ChannelHeaderPlug should match snapshot when the App Bar is vis
     Object {
       "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
-      "openModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={Array []}
   appsEnabled={false}
-  canOpenMarketplace={false}
   channel={Object {}}
   channelMember={Object {}}
   components={
@@ -106,13 +104,11 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with no extended compon
     Object {
       "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
-      "openModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={Array []}
   appsEnabled={false}
-  canOpenMarketplace={false}
   channel={Object {}}
   channelMember={Object {}}
   components={Array []}
@@ -163,13 +159,11 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
     Object {
       "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
-      "openModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={Array []}
   appsEnabled={false}
-  canOpenMarketplace={false}
   channel={Object {}}
   channelMember={Object {}}
   components={
@@ -344,13 +338,11 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
     Object {
       "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
-      "openModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={Array []}
   appsEnabled={false}
-  canOpenMarketplace={false}
   channel={Object {}}
   channelMember={Object {}}
   components={

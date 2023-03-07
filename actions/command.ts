@@ -130,7 +130,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
             return {data: true};
         case '/marketplace':
             // check if user has permissions to access the read plugins
-            if (!haveICurrentTeamPermission(state, Permissions.SYSCONSOLE_READ_PLUGINS)) {
+            if (!haveICurrentTeamPermission(state, Permissions.SYSCONSOLE_WRITE_PLUGINS)) {
                 return {error: {message: localizeMessage('marketplace_command.no_permission', 'You do not have the appropriate permissions to access the marketplace.')}};
             }
 
