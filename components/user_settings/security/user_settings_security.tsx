@@ -6,7 +6,7 @@
 import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Link} from 'react-router-dom';
-import {EmailOutlineIcon} from '@mattermost/compass-icons/components';
+import {EmailOutlineIcon, LockOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 
@@ -677,6 +677,9 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                                     encodeURIComponent(user.email)
                                 }
                             >
+                                <span className='mr-1'>
+                                    <LockOutlineIcon size={14}/>
+                                </span>
                                 <FormattedMessage
                                     id='user.settings.security.switchLdap'
                                     defaultMessage='Switch to AD/LDAP'
@@ -701,6 +704,9 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                                     Constants.SAML_SERVICE
                                 }
                             >
+                                <span className='mr-1'>
+                                    <LockOutlineIcon size={14}/>
+                                </span>
                                 <FormattedMessage
                                     id='user.settings.security.switchSaml'
                                     defaultMessage='Switch to SAML SSO'

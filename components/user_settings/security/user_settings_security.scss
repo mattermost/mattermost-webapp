@@ -5,6 +5,10 @@
         @include secondary-button;
         @include button-small;
 
-        background-color: unset;
+        background-color: transparent;
+
+        &:hover {
+            text-decoration: none;
+        }
     }
 }
