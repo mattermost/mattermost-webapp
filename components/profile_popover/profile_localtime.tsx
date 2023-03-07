@@ -24,35 +24,27 @@ const returnTimeDiff = (
     const currentUserDate = DateTime.local().setZone(currentUserTimezone);
     const profileUserDate = DateTime.local().setZone(profileUserTimezone?.manualTimezone || profileUserTimezone?.automaticTimezone);
 
-    const hoursDiff = Duration.fromObject({
-        minutes: profileUserDate.offset - currentUserDate.offset,
-    }).as('hours');
+    const offset = Duration.fromObject({
+        hours: (profileUserDate.offset - currentUserDate.offset) / 60,
+    });
 
-    if (!hoursDiff) {
+    if (!offset.valueOf()) {
         return undefined;
     }
 
-    const aheadOrBehind = hoursDiff > 0 ? 'ahead' : 'behind';
+    const timeOffset = offset.toHuman({unitDisplay: 'short', signDisplay: 'never'});
 
-    if (aheadOrBehind === 'ahead') {
-        return (
-            <FormattedMessage
-                id='user_profile.account.hoursAhead'
-                defaultMessage='({hourDiff} hr. ahead)'
-                values={{
-                    hourDiff: Math.abs(hoursDiff),
-                }}
-            />
-        );
-    }
-
-    return (
+    return offset.valueOf() > 0 ? (
+        <FormattedMessage
+            id='user_profile.account.hoursAhead'
+            defaultMessage='({timeOffset} ahead)'
+            values={{timeOffset}}
+        />
+    ) : (
         <FormattedMessage
             id='user_profile.account.hoursBehind'
-            defaultMessage='({hourDiff} hr. behind)'
-            values={{
-                hourDiff: Math.abs(hoursDiff),
-            }}
+            defaultMessage='({timeOffset} behind)'
+            values={{timeOffset}}
         />
     );
 };
