@@ -287,7 +287,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             return;
         }
         this.setState({loadingDMChannel: user.id});
-        actions.openDirectChannelToUserId(user.id).then((result: { error: ServerError }) => {
+        actions.openDirectChannelToUserId(user.id).then((result: {error: ServerError}) => {
             if (!result.error) {
                 if (this.props.isMobileView) {
                     GlobalActions.emitCloseRightHandSide();
