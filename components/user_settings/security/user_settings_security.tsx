@@ -814,7 +814,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                             <FormattedMessage
                                 id='user.settings.security.oneSigninTitle'
                                 defaultMessage='You current sign in method is {method}'
-                                values={{method: oauthServiceMethods[user.auth_service] || 'N/A'}}
+                                values={{method: oauthServiceMethods[user.auth_service] || 'Email and Password'}}
                             />
                         </strong>
                     </div>
