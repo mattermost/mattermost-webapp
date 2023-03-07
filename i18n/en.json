@@ -2844,7 +2844,6 @@
   "change_url.shorter": "URLs must have maximum 64 characters.",
   "change_url.startAndEndWithLetter": "URLs must start and end with a lowercase letter or number.",
   "change_url.startWithLetter": "URLs must start with a lowercase letter or number.",
-  "channel_header_plug.marketplace": "App Marketplace",
   "channel_header.addChannelHeader": "Add a channel header",
   "channel_header.channelFiles": "Channel files",
   "channel_header.channelHasGuests": "This channel has guests",
