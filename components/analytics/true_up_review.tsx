@@ -27,6 +27,7 @@ import {GlobalState} from '@mattermost/types/store';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import classNames from 'classnames';
 
 const TrueUpReview: React.FC = () => {
     const dispatch = useDispatch();
@@ -48,7 +49,7 @@ const TrueUpReview: React.FC = () => {
 
     // Download the review profile as a base64 encoded json file when the review request is submitted.
     useEffect(() => {
-        if (submitted && isAirGapped) {
+        if (submitted && isAirGapped && !trueUpReviewError && reviewProfile.content.length > 0) {
             // Create the bundle as a blob containing base64 encoded json data and assign it to a link element.
             const blob = new Blob([reviewProfile.content], {type: 'application/text'});
             const href = URL.createObjectURL(blob);
@@ -93,7 +94,7 @@ const TrueUpReview: React.FC = () => {
     };
 
     const dueDate = (
-        <div className='dueDate'>
+        <div className='TrueUpReview__dueDate'>
             <span>
                 <FormattedMessage
                     id='admin.billing.trueUpReview.due_date'
@@ -108,7 +109,7 @@ const TrueUpReview: React.FC = () => {
 
     const submitButton = (
         <button
-            className={trueUpReviewError ? 'Submit_Button_Error' : 'Submit_Button'}
+            className={classNames({'btn btn-primary TrueUpReview__submit': !trueUpReviewError}, {'TrueUpReview__submit--error': trueUpReviewError})}
             onClick={isAirGapped ? handleDownloadBundle : handleSubmitReview}
         >
             {isAirGapped ?
@@ -126,7 +127,7 @@ const TrueUpReview: React.FC = () => {
 
     const errorStatus = (
         <>
-            <WarningIcon additionalClassName={'warning-icon'}/>
+            <WarningIcon additionalClassName={'TrueUpReview__warning'}/>
             <FormattedMessage
                 id='admin.billing.trueUpReview.submit_error'
                 defaultMessage='There was an issue sending your True Up Review. Please try again.'
