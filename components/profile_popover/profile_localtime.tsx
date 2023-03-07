@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {UserTimezone} from '@mattermost/types/users';
 import Timestamp from 'components/timestamp';
+import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
 type ProfileTimezoneProps = {
     profileUserTimezone?: UserTimezone;
@@ -55,20 +56,29 @@ const ProfileTimezone = (
         profileUserTimezone,
     }: ProfileTimezoneProps,
 ) => {
-    const profileTimezone = profileUserTimezone?.manualTimezone || profileUserTimezone?.automaticTimezone;
+    const profileTimezone = getUserCurrentTimezone(profileUserTimezone);
+    const profileTimezoneShort = profileTimezone ? DateTime.now().setZone(profileTimezone).offsetNameShort : undefined;
 
     return (
         <div
             className='user-popover__time-status-container'
         >
             <span className='user-popover__subtitle'>
-                <FormattedMessage
-                    id='user_profile.account.localTime'
-                    defaultMessage='Local Time {timezone}'
-                    values={{
-                        timezone: profileTimezone ? `(${DateTime.now().setZone(profileTimezone).offsetNameShort})` : '',
-                    }}
-                />
+                {profileTimezoneShort ? (
+                    <FormattedMessage
+                        id='user_profile.account.localTimeWithTimezone'
+                        defaultMessage='Local Time {timezone}'
+                        values={{
+                            timezone: profileTimezoneShort,
+                        }}
+                    />
+                ) : (
+                    <FormattedMessage
+                        id='user_profile.account.localTime'
+                        defaultMessage='Local Time'
+                    />
+                )}
+
             </span>
             <span>
                 <Timestamp
