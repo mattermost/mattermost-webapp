@@ -18,10 +18,10 @@ export default function useOpenSalesLink(): [() => void, string] {
     let companyName = '';
 
     if (isCloud && customer) {
-        customerEmail = customer.email;
-        firstName = customer.contact_first_name;
-        lastName = customer.contact_last_name;
-        companyName = customer.name;
+        customerEmail = customer.email || '';
+        firstName = customer.contact_first_name || '';
+        lastName = customer.contact_last_name || '';
+        companyName = customer.name || '';
     } else {
         customerEmail = currentUser.email;
     }

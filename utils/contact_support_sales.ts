@@ -10,8 +10,6 @@ const baseZendeskFormURL = 'https://support.mattermost.com/hc/en-us/requests/new
 export enum ZendeskSupportForm {
     SELF_HOSTED_SUPPORT_FORM = '11184911962004',
     CLOUD_SUPPORT_FORM = '11184929555092',
-    MOBILE_SUPPORT_FORM = '11184464799380',
-    BILLING_LICENSING_SALES_SUPPORT_FORM = '360000852671',
 }
 
 export enum ZendeskFormFieldIDs {
@@ -21,20 +19,6 @@ export enum ZendeskFormFieldIDs {
     EMAIL = 'anonymous_requester_email',
     SUBJECT = 'subject',
     DESCRIPTION = 'description'
-}
-
-export enum ZendeskFormFieldValues {
-    SALES_GENERAL = 'sales_general',
-    SALES_RENEWALS = 'sales-renewals',
-    SALES_PRICING = 'sales_pricing',
-}
-
-export enum ZendeskFormPrefillSubjects {
-    GENERAL_INQUIRY = 'General Inquiry',
-    PASSWORD_RESET = 'Support for password reset process',
-    LICENSE_PURCHASE = 'License purchase',
-    LICENSE_RENEWAL = 'License renewal',
-    LICENSE_EXPANSION = 'License expansion',
 }
 
 export type PrefillFieldFormFieldIDs = {
@@ -54,16 +38,6 @@ export const buildZendeskSupportForm = (form: ZendeskSupportForm, formFieldIDs: 
     }
 
     return formUrl;
-};
-
-export const goToBillingGeneralSalesSupportForm = (email: string, subject: string) => {
-    const form = ZendeskSupportForm.BILLING_LICENSING_SALES_SUPPORT_FORM;
-    const url = buildZendeskSupportForm(form, [
-        {id: ZendeskFormFieldIDs.EMAIL, val: email},
-        {id: ZendeskFormFieldIDs.SUBJECT, val: subject},
-        {id: ZendeskFormFieldIDs.BILLING_SALES_CATEGORY, val: ZendeskFormFieldValues.SALES_GENERAL},
-    ]);
-    window.open(url, '_blank');
 };
 
 export const goToSelfHostedSupportForm = (email: string, subject: string) => {
