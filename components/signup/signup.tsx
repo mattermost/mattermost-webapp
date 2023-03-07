@@ -522,7 +522,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
             telemetryEvents.success = false;
         }
 
-        sendSignUpTelemetryEvents('click_create_account', telemetryEvents);
+        sendSignUpTelemetryEvents('validate_user', telemetryEvents);
 
         return isValid;
     };
@@ -533,8 +533,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
 
     const handleSubmit = async (e: React.MouseEvent | React.KeyboardEvent) => {
         e.preventDefault();
-        trackEvent('signup_email', 'click_create_account', getRoleFromTrackFlow());
-        sendSignUpTelemetryEvents('click_create_account');
+        sendSignUpTelemetryEvents('click_create_account', getRoleFromTrackFlow());
         setIsWaiting(true);
 
         if (isUserValid()) {
