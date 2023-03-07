@@ -43,7 +43,7 @@ function TeamController(props: Props) {
     const history = useHistory();
     const {team: teamNameParam} = useParams<Props['match']['params']>();
 
-    const [initialChannelsLoaded, setInitialChannelsLoaded] = useState(props.graphQLEnabled);
+    const [initialChannelsLoaded, setInitialChannelsLoaded] = useState(false);
 
     const [team, setTeam] = useState<Team | null>(getTeamFromTeamList(props.teamsList, teamNameParam));
 
@@ -71,7 +71,7 @@ function TeamController(props: Props) {
             const currentTime = Date.now();
             if ((currentTime - lastTime.current) > WAKEUP_THRESHOLD) {
                 console.log('computer woke up - fetching latest'); //eslint-disable-line no-console
-                reconnect(false);
+                reconnect();
             }
             lastTime.current = currentTime;
         }, WAKEUP_CHECK_INTERVAL);

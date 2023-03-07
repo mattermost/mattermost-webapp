@@ -11,5 +11,7 @@ export default keyMirror({
     WORK_TEMPLATES_REQUEST: null,
     RECEIVED_WORK_TEMPLATES: null,
     CLEAR_WORK_TEMPLATES: null,
+
+    EXECUTE_SUCCESS: null,
 });
 

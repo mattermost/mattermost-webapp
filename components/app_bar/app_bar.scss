@@ -12,12 +12,24 @@ $app-bar-width: 48px;
 
     position: relative;
     width: $app-bar-width;
+    padding-top: 16px;
     background-color: var(--center-channel-bg);
     -ms-overflow-style: none;
     overflow-x: hidden;
     overflow-y: scroll;
     scrollbar-width: none;
     text-align: center;
+
+    &::before {
+        position: absolute;
+        top: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-left: solid 1px rgba(var(--center-channel-color-rgb), 0.12);
+        background-color: rgba(var(--center-channel-color-rgb), 0.04);
+        content: '';
+    }
 
     .app-bar__icon {
         position: relative;

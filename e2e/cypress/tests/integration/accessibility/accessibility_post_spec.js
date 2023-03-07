@@ -206,7 +206,7 @@ describe('Verify Accessibility Support in Post', () => {
 
                 if (emojiPickerEnabled) {
                     // * Verify focus is on the more button
-                    cy.get(`#CENTER_button_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'more');
+                    cy.get(`#CENTER_button_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'More');
                     cy.focused().tab();
                 }
 
@@ -246,7 +246,7 @@ describe('Verify Accessibility Support in Post', () => {
 
                 if (emojiPickerEnabled) {
                     // * Verify focus is on the actions button
-                    cy.get(`#RHS_COMMENT_button_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'more');
+                    cy.get(`#RHS_COMMENT_button_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'More');
                     cy.focused().tab({shift: true});
                 }
 

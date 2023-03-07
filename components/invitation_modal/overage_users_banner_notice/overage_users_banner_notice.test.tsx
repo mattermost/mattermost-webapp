@@ -7,9 +7,10 @@ import {fireEvent, screen} from '@testing-library/react';
 import {DeepPartial} from '@mattermost/types/utilities';
 import {GlobalState} from 'types/store';
 import {General} from 'mattermost-redux/constants';
-import {OverActiveUserLimits, Preferences, StatTypes} from 'utils/constants';
+import {LicenseLinks, OverActiveUserLimits, Preferences, StatTypes} from 'utils/constants';
 import {renderWithIntlAndStore} from 'tests/react_testing_utils';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {trackEvent} from 'actions/telemetry_actions';
 import {TestHelper} from 'utils/test_helper';
 import {generateId} from 'utils/utils';
 
@@ -28,6 +29,10 @@ jest.mock('mattermost-redux/actions/preferences', () => ({
     savePreferences: jest.fn(),
 }));
 
+jest.mock('actions/telemetry_actions', () => ({
+    trackEvent: jest.fn(),
+}));
+
 const seatsPurchased = 40;
 
 const seatsMinimumFor5PercentageState = (Math.ceil(seatsPurchased * OverActiveUserLimits.MIN)) + seatsPurchased;
@@ -37,6 +42,9 @@ const seatsMinimumFor10PercentageState = (Math.ceil(seatsPurchased * OverActiveU
 const text5PercentageState = `Your workspace user count has exceeded your paid license seat count by ${seatsMinimumFor5PercentageState - seatsPurchased} seats`;
 const text10PercentageState = `Your workspace user count has exceeded your paid license seat count by ${seatsMinimumFor10PercentageState - seatsPurchased} seats`;
 const notifyText = 'Notify your Customer Success Manager on your next true-up check';
+
+const contactSalesTextLink = 'Contact Sales';
+const expandSeatsTextLink = 'Purchase additional seats';
 
 const licenseId = generateId();
 
@@ -58,6 +66,9 @@ describe('components/invitation_modal/overage_users_banner_notice', () => {
                 },
             },
             general: {
+                config: {
+                    CWSURL: 'http://testing',
+                },
                 license: {
                     IsLicensed: 'true',
                     IssuedAt: '1517714643650',
@@ -73,8 +84,25 @@ describe('components/invitation_modal/overage_users_banner_notice', () => {
             preferences: {
                 myPreferences: {},
             },
+            cloud: {
+                subscriptionStats: {
+                    is_expandable: false,
+                    getRequestState: 'IDLE',
+                },
+            },
         },
     };
+
+    let windowSpy: jest.SpyInstance;
+
+    beforeAll(() => {
+        windowSpy = jest.spyOn(window, 'open');
+        windowSpy.mockImplementation(() => {});
+    });
+
+    afterAll(() => {
+        windowSpy.mockRestore();
+    });
 
     const renderComponent = ({store}: RenderComponentArgs = {store: initialState}) => {
         return renderWithIntlAndStore(
@@ -168,6 +196,37 @@ describe('components/invitation_modal/overage_users_banner_notice', () => {
         expect(screen.getByText(notifyText, {exact: false})).toBeInTheDocument();
     });
 
+    it('should track if the admin click Contact Sales CTA in a 5% overage state', () => {
+        const store: GlobalState = JSON.parse(JSON.stringify(initialState));
+
+        store.entities.admin = {
+            ...store.entities.admin,
+            analytics: {
+                [StatTypes.TOTAL_USERS]: seatsMinimumFor5PercentageState,
+            },
+        };
+
+        store.entities.cloud = {
+            ...store.entities.cloud,
+            subscriptionStats: {
+                is_expandable: false,
+                getRequestState: 'OK',
+            },
+        };
+
+        renderComponent({
+            store,
+        });
+
+        fireEvent.click(screen.getByText(contactSalesTextLink));
+        expect(screen.getByRole('link')).toHaveAttribute('href', LicenseLinks.CONTACT_SALES);
+        expect(trackEvent).toBeCalledTimes(1);
+        expect(trackEvent).toBeCalledWith('insights', 'click_true_up_warning', {
+            cta: 'Contact Sales',
+            banner: 'invite modal',
+        });
+    });
+
     it('should render the banner because we are over 5% and we have preferences from one old banner', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
 
@@ -237,6 +296,37 @@ describe('components/invitation_modal/overage_users_banner_notice', () => {
 
         expect(screen.getByText(text10PercentageState)).toBeInTheDocument();
         expect(screen.getByText(notifyText, {exact: false})).toBeInTheDocument();
+    });
+
+    it('should track if the admin click Contact Sales CTA in a 10% overage state', () => {
+        const store: GlobalState = JSON.parse(JSON.stringify(initialState));
+
+        store.entities.admin = {
+            ...store.entities.admin,
+            analytics: {
+                [StatTypes.TOTAL_USERS]: seatsMinimumFor10PercentageState,
+            },
+        };
+
+        store.entities.cloud = {
+            ...store.entities.cloud,
+            subscriptionStats: {
+                is_expandable: false,
+                getRequestState: 'OK',
+            },
+        };
+
+        renderComponent({
+            store,
+        });
+
+        fireEvent.click(screen.getByText(contactSalesTextLink));
+        expect(screen.getByRole('link')).toHaveAttribute('href', LicenseLinks.CONTACT_SALES);
+        expect(trackEvent).toBeCalledTimes(1);
+        expect(trackEvent).toBeCalledWith('insights', 'click_true_up_error', {
+            cta: 'Contact Sales',
+            banner: 'invite modal',
+        });
     });
 
     it('should render the banner because we are over 10%, and we have preference only for the warning state', () => {
@@ -318,5 +408,94 @@ describe('components/invitation_modal/overage_users_banner_notice', () => {
             user_id: store.entities.users.profiles.current_user.id,
             value: 'Overage users banner watched',
         }]);
+    });
+
+    it('should track if the admin click expansion seats CTA in a 5% overage state', () => {
+        const store: GlobalState = JSON.parse(JSON.stringify(initialState));
+
+        store.entities.admin = {
+            ...store.entities.admin,
+            analytics: {
+                [StatTypes.TOTAL_USERS]: seatsMinimumFor5PercentageState,
+            },
+        };
+
+        store.entities.cloud = {
+            ...store.entities.cloud,
+            subscriptionStats: {
+                is_expandable: true,
+                getRequestState: 'OK',
+            },
+        };
+
+        renderComponent({
+            store,
+        });
+
+        fireEvent.click(screen.getByText(expandSeatsTextLink));
+        expect(screen.getByRole('link')).toHaveAttribute('href', `http://testing/subscribe/expand?licenseId=${licenseId}`);
+        expect(trackEvent).toBeCalledTimes(1);
+        expect(trackEvent).toBeCalledWith('insights', 'click_true_up_warning', {
+            cta: 'Self Serve',
+            banner: 'invite modal',
+        });
+    });
+
+    it('should track if the admin click expansion seats CTA in a 10% overage state', () => {
+        const store: GlobalState = JSON.parse(JSON.stringify(initialState));
+
+        store.entities.admin = {
+            ...store.entities.admin,
+            analytics: {
+                [StatTypes.TOTAL_USERS]: seatsMinimumFor10PercentageState,
+            },
+        };
+
+        store.entities.cloud = {
+            ...store.entities.cloud,
+            subscriptionStats: {
+                is_expandable: true,
+                getRequestState: 'OK',
+            },
+        };
+
+        renderComponent({
+            store,
+        });
+
+        fireEvent.click(screen.getByText(expandSeatsTextLink));
+        expect(screen.getByRole('link')).toHaveAttribute('href', `http://testing/subscribe/expand?licenseId=${licenseId}`);
+        expect(trackEvent).toBeCalledTimes(1);
+        expect(trackEvent).toBeCalledWith('insights', 'click_true_up_error', {
+            cta: 'Self Serve',
+            banner: 'invite modal',
+        });
+    });
+
+    it('gov sku sees overage notice but not a call to do true up', () => {
+        const store: GlobalState = JSON.parse(JSON.stringify(initialState));
+
+        store.entities.admin = {
+            ...store.entities.admin,
+            analytics: {
+                [StatTypes.TOTAL_USERS]: seatsMinimumFor10PercentageState,
+            },
+        };
+
+        store.entities.cloud = {
+            ...store.entities.cloud,
+            subscriptionStats: {
+                is_expandable: false,
+                getRequestState: 'OK',
+            },
+        };
+        store.entities.general.license.IsGovSku = 'true';
+
+        renderComponent({
+            store,
+        });
+
+        screen.getByText(text10PercentageState);
+        expect(screen.queryByText(notifyText)).not.toBeInTheDocument();
     });
 });

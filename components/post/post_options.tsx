@@ -147,7 +147,7 @@ const PostOptions = (props: Props): JSX.Element => {
         );
     }
 
-    const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !systemMessage && !channelIsArchived && oneClickReactionsEnabled && props.enableEmojiPicker && hoverLocal);
+    const showRecentlyUsedReactions = (!isMobileView && !isReadOnly && !isEphemeral && !post.failed && !systemMessage && !channelIsArchived && oneClickReactionsEnabled && props.enableEmojiPicker && hoverLocal);
 
     let showRecentReactions: ReactNode;
     if (showRecentlyUsedReactions) {
