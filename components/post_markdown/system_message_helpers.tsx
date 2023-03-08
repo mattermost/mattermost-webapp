@@ -2,19 +2,20 @@
 // See LICENSE.txt for license information.
 
 import React, {ReactNode} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 
 import {General, Posts} from 'mattermost-redux/constants';
-import {Post} from '@mattermost/types/posts';
-
-import {Channel} from '@mattermost/types/channels';
 
 import * as Utils from 'utils/utils';
 import {TextFormattingOptions} from 'utils/text_formatting';
-
+import {getSiteURL} from 'utils/url';
 import Markdown from 'components/markdown';
 import CombinedSystemMessage from 'components/post_view/combined_system_message';
 import PostAddChannelMember from 'components/post_view/post_add_channel_member';
+
+import {Channel} from '@mattermost/types/channels';
+import {Post} from '@mattermost/types/posts';
+import {Team} from '@mattermost/types/teams';
 
 function renderUsername(value: string): ReactNode {
     const username = (value[0] === '@') ? value : `@${value}`;
@@ -380,10 +381,12 @@ const systemMessageRenderers = {
     [Posts.POST_TYPES.ME]: renderMeMessage,
 };
 
-export function renderSystemMessage(post: Post, channel: Channel, isUserCanManageMembers?: boolean): ReactNode {
+export function renderSystemMessage(post: Post, currentTeam: Team, channel: Channel, isUserCanManageMembers?: boolean, isMilitaryTime?: boolean, timezone?: string): ReactNode {
+    const isEphemeral = Utils.isPostEphemeral(post);
+    if (isEphemeral && post.props?.type === Posts.POST_TYPES.REMINDER) {
+        return renderReminderACKMessage(post, currentTeam, Boolean(isMilitaryTime), timezone);
+    }
     if (post.props && post.props.add_channel_member) {
-        const isEphemeral = Utils.isPostEphemeral(post);
-
         if (channel && (channel.type === General.PRIVATE_CHANNEL || channel.type === General.OPEN_CHANNEL) &&
             isUserCanManageMembers &&
             isEphemeral
@@ -417,4 +420,56 @@ export function renderSystemMessage(post: Post, channel: Channel, isUserCanManag
     }
 
     return null;
+}
+
+function renderReminderACKMessage(post: Post, currentTeam: Team, isMilitaryTime: boolean, timezone?: string): ReactNode {
+    const username = renderUsername(post.props.username);
+    const teamUrl = `${getSiteURL()}/${post.props.team_name || currentTeam.name}`;
+    const link = `${teamUrl}/pl/${post.props.post_id}`;
+    const permaLink = renderFormattedText(`[${link}](${link})`);
+    const localTime = new Date(post.props.target_time * 1000);
+
+    const reminderTime = (
+        <FormattedTime
+            value={localTime}
+            hour12={!isMilitaryTime}
+            timeZone={timezone}
+        />);
+    const reminderDate = (
+        <FormattedDate
+            value={localTime}
+            day='2-digit'
+            month='short'
+            year='numeric'
+            timeZone={timezone}
+        />);
+    return (
+        <FormattedMessage
+            id={'post.reminder.acknowledgement'}
+            defaultMessage='You will be reminded at {reminderTime}, {reminderDate} about this message from {username}: {permaLink}'
+            values={{
+                reminderTime,
+                reminderDate,
+                username,
+                permaLink,
+            }}
+        />
+    );
+}
+
+export function renderReminderSystemBotMessage(post: Post, currentTeam: Team): ReactNode {
+    const username = post.props.username ? renderUsername(post.props.username) : '';
+    const teamUrl = `${getSiteURL()}/${post.props.team_name || currentTeam.name}`;
+    const link = `${teamUrl}/pl/${post.props.post_id}`;
+    const permaLink = renderFormattedText(`[${link}](${link})`);
+    return (
+        <FormattedMessage
+            id={'post.reminder.systemBot'}
+            defaultMessage="Hi there, here's your reminder about this message from {username}: {permaLink}"
+            values={{
+                username,
+                permaLink,
+            }}
+        />
+    );
 }

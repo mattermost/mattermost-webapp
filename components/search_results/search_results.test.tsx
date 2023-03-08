@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import {arePropsEqual} from 'components/search_results/search_results';
 
 describe('components/SearchResults', () => {
@@ -24,18 +22,18 @@ describe('components/SearchResults', () => {
         // But the tests are written using arbitrary props
 
         test('should not render', () => {
-            assert.ok(arePropsEqual(props as any, {...props} as any));
-            assert.ok(arePropsEqual(props as any, {...props, results: [result1, result2]} as any));
-            assert.ok(arePropsEqual(props as any, {...props, fileResults: [fileResult1, fileResult2]} as any));
+            expect(arePropsEqual(props as any, {...props} as any)).toBeTruthy();
+            expect(arePropsEqual(props as any, {...props, results: [result1, result2]} as any)).toBeTruthy();
+            expect(arePropsEqual(props as any, {...props, fileResults: [fileResult1, fileResult2]} as any)).toBeTruthy();
         });
 
         test('should render', () => {
-            assert.ok(!arePropsEqual(props as any, {...props, prop1: 'newprop'} as any));
-            assert.ok(!arePropsEqual(props as any, {...props, results: [result2, result1]} as any));
-            assert.ok(!arePropsEqual(props as any, {...props, results: [result1, result2, {test: 'test'}]} as any));
-            assert.ok(!arePropsEqual(props as any, {...props, fileResults: [fileResult2, fileResult1]} as any));
-            assert.ok(!arePropsEqual(props as any, {...props, fileResults: [fileResult1, fileResult2, {test: 'test'}]} as any));
-            assert.ok(!arePropsEqual(props as any, {...props, somearray: [1, 2, 3]} as any));
+            expect(!arePropsEqual(props as any, {...props, prop1: 'newprop'} as any)).toBeTruthy();
+            expect(!arePropsEqual(props as any, {...props, results: [result2, result1]} as any)).toBeTruthy();
+            expect(!arePropsEqual(props as any, {...props, results: [result1, result2, {test: 'test'}]} as any)).toBeTruthy();
+            expect(!arePropsEqual(props as any, {...props, fileResults: [fileResult2, fileResult1]} as any)).toBeTruthy();
+            expect(!arePropsEqual(props as any, {...props, fileResults: [fileResult1, fileResult2, {test: 'test'}]} as any)).toBeTruthy();
+            expect(!arePropsEqual(props as any, {...props, somearray: [1, 2, 3]} as any)).toBeTruthy();
         });
     });
 });

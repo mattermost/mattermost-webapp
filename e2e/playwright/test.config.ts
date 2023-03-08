@@ -7,7 +7,6 @@ dotenv.config();
 
 export type TestArgs = {
     page: Page;
-    isMobile?: boolean;
     browserName: string;
     viewport?: ViewportSize | null;
 };
@@ -18,7 +17,7 @@ export type TestConfig = {
     adminUsername: string;
     adminPassword: string;
     adminEmail: string;
-    lessThanCloudUserLimit: boolean;
+    boardsProductEnabled: boolean;
     resetBeforeTest: boolean;
     haClusterEnabled: boolean;
     haClusterNodeCount: number;
@@ -27,6 +26,7 @@ export type TestConfig = {
     isCI: boolean;
     // Playwright
     headless: boolean;
+    slowMo: number;
     workers: number;
     // Visual tests
     snapshotEnabled: boolean;
@@ -41,20 +41,29 @@ const config: TestConfig = {
     adminUsername: process.env.PW_ADMIN_USERNAME || 'sysadmin',
     adminPassword: process.env.PW_ADMIN_PASSWORD || 'Sys@dmin-sample1',
     adminEmail: process.env.PW_ADMIN_EMAIL || 'sysadmin@sample.mattermost.com',
-    lessThanCloudUserLimit: process.env.PW_LESS_THAN_CLOUD_USER_LIMIT === 'true',
-    haClusterEnabled: process.env.PW_HA_CLUSTER_ENABLED === 'true',
-    haClusterNodeCount: process.env.PW_HA_CLUSTER_NODE_COUNT ? parseInt(process.env.PW_HA_CLUSTER_NODE_COUNT, 10) : 3,
+    boardsProductEnabled: parseBool(process.env.PW_BOARDS_PRODUCT_ENABLED, true),
+    haClusterEnabled: parseBool(process.env.PW_HA_CLUSTER_ENABLED, false),
+    haClusterNodeCount: parseNumber(process.env.PW_HA_CLUSTER_NODE_COUNT, 2),
     haClusterName: process.env.PW_HA_CLUSTER_NAME || 'mm_dev_cluster',
-    resetBeforeTest: process.env.PW_RESET_BEFORE_TEST === 'true',
+    resetBeforeTest: parseBool(process.env.PW_RESET_BEFORE_TEST, false),
     // CI
     isCI: !!process.env.CI,
     // Playwright
-    headless: process.env.PW_HEADLESS === 'true',
-    workers: process.env.PW_WORKERS ? parseInt(process.env.PW_WORKERS, 10) : 1,
+    headless: parseBool(process.env.PW_HEADLESS, false),
+    slowMo: parseNumber(process.env.PW_SLOWMO, 0),
+    workers: parseNumber(process.env.PW_WORKERS, 1),
     // Visual tests
-    snapshotEnabled: process.env.PW_SNAPSHOT_ENABLE === 'true',
-    percyEnabled: process.env.PW_PERCY_ENABLE === 'true',
+    snapshotEnabled: parseBool(process.env.PW_SNAPSHOT_ENABLE, false),
+    percyEnabled: parseBool(process.env.PW_PERCY_ENABLE, false),
     percyToken: process.env.PERCY_TOKEN,
 };
+
+function parseBool(actualValue: string | undefined, defaultValue: boolean) {
+    return actualValue ? actualValue === 'true' : defaultValue;
+}
+
+function parseNumber(actualValue: string | undefined, defaultValue: number) {
+    return actualValue ? parseInt(actualValue, 10) : defaultValue;
+}
 
 export default config;
