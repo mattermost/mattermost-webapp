@@ -2,8 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {UserProfile} from '@mattermost/types/users';
-
-import {getRandomId} from '@e2e-support/utils';
+import {getRandomId} from '@e2e-support/util';
 import testConfig from '@e2e-test.config';
 
 export function createRandomUser(prefix = 'user') {

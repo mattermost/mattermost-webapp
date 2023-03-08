@@ -6,6 +6,7 @@ import {styled} from '@mui/material/styles';
 
 interface Props extends MuiMenuProps {
     asSubMenu?: boolean;
+    width?: string;
 }
 
 /**
@@ -15,7 +16,7 @@ interface Props extends MuiMenuProps {
 export const MuiMenuStyled = styled(MuiMenu, {
     shouldForwardProp: (prop) => prop !== 'asSubMenu',
 })<Props>(
-    ({asSubMenu}) => ({
+    ({asSubMenu, width}) => ({
         '& .MuiPaper-root': {
             backgroundColor: 'var(--center-channel-bg)',
             boxShadow: `${
@@ -24,6 +25,7 @@ export const MuiMenuStyled = styled(MuiMenu, {
             minWidth: '114px',
             maxWidth: '496px',
             maxHeight: '80vh',
+            width,
         },
     }),
 );

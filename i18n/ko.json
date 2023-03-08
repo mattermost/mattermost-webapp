@@ -2334,7 +2334,6 @@
   "create_team.team_url.unavailable": "This URL is unavailable. Please try another.",
   "create_team.team_url.webAddress": "팀의 웹 주소:",
   "custom_emoji.header": "커스텀 이모지",
-  "custom_status.expiry.date_picker.title": "날짜",
   "custom_status.expiry.time_picker.title": "시간",
   "custom_status.expiry.until": "까지",
   "custom_status.expiry_dropdown.dont_clear": "삭제 금지",

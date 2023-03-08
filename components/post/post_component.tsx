@@ -200,7 +200,7 @@ const PostComponent = (props: Props): JSX.Element => {
             name = (
                 <FormattedMessage
                     id='search_item.thread_direct'
-                    defaultMessage='Thread in Direct Message with {username}'
+                    defaultMessage='Thread in Direct Message (with {username})'
                     values={{
                         username: props.displayName,
                     }}
