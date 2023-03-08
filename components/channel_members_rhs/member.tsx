@@ -2,23 +2,28 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import styled, {css} from 'styled-components';
+import styled from 'styled-components';
 import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from '@mattermost/types/users';
+import GuestTag from 'components/widgets/tag/guest_tag';
+import ProfilePopover from 'components/profile_popover';
+
 import ProfilePicture from 'components/profile_picture';
 import {Client4} from 'mattermost-redux/client';
 import ChannelMembersDropdown from 'components/channel_members_dropdown';
-import {Channel} from '@mattermost/types/channels';
 
-import OverlayTrigger from 'components/overlay_trigger';
+import OverlayTrigger, {BaseOverlayTrigger} from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
 import Constants from 'utils/constants';
 
 import {isGuest} from 'mattermost-redux/utils/user_utils';
-import GuestBadge from 'components/widgets/badges/guest_badge';
+
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
+
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 import {ChannelMember} from './channel_members_rhs';
 
@@ -32,9 +37,12 @@ const UserInfo = styled.div`
     overflow-x: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    cursor: pointer;
 `;
 
 const DisplayName = styled.span`
+    display: inline-flex;
+    gap: 8px;
     margin-left: 8px;
     font-size: 14px;
     line-height: 20px;
@@ -81,7 +89,7 @@ const RoleChooser = styled.div`
             background: rgba(var(--button-bg-rgb), 0.16);
         }
         &:not(.MenuWrapper--open):hover {
-            background: rgba(var(--center-channel-text-rgb), 0.08);
+            background: rgba(var(--center-channel-color-rgb), 0.08);
         }
     }
 `;
@@ -98,34 +106,75 @@ interface Props {
     };
 }
 
+interface MMOverlayTrigger extends BaseOverlayTrigger {
+    hide: () => void;
+}
+
 const Member = ({className, channel, member, index, totalUsers, editing, actions}: Props) => {
+    const overlay = React.createRef<MMOverlayTrigger>();
+    const profileSrc = Client4.getProfilePictureUrl(member.user.id, member.user.last_picture_update);
+
+    const hideProfilePopover = () => {
+        if (overlay.current) {
+            overlay.current.hide();
+        }
+    };
+
     return (
         <div
             className={className}
             data-testid={`memberline-${member.user.id}`}
         >
-            <Avatar>
-                <ProfilePicture
-                    isRHS={true}
-                    popoverPlacement='left'
-                    size='sm'
-                    status={member.status}
-                    isBot={member.user.is_bot}
-                    userId={member.user.id}
-                    username={member.displayName}
-                    src={Client4.getProfilePictureUrl(member.user.id, member.user.last_picture_update)}
-                />
-            </Avatar>
-            <UserInfo>
-                <DisplayName>
-                    {member.displayName}
-                    <GuestBadge show={isGuest(member.user.roles)}/>
-                </DisplayName>
-                {member.displayName === member.user.username ?
-                    null :
-                    <Username>{'@'}{member.user.username}</Username>
+
+            <OverlayTrigger
+                ref={overlay}
+                trigger={['click']}
+                placement={'left'}
+                rootClose={true}
+                overlay={
+                    <ProfilePopover
+                        className='user-profile-popover'
+                        userId={member.user.id}
+                        src={profileSrc}
+                        hide={hideProfilePopover}
+                        isRHS={true}
+                        hideStatus={member.user.is_bot}
+                    />
                 }
-            </UserInfo>
+            >
+                <span className='ProfileSpan'>
+                    <Avatar>
+                        <ProfilePicture
+                            isRHS={true}
+                            popoverPlacement='left'
+                            size='sm'
+                            status={member.status}
+                            isBot={member.user.is_bot}
+                            userId={member.user.id}
+                            username={member.displayName}
+                            src={Client4.getProfilePictureUrl(member.user.id, member.user.last_picture_update)}
+                        />
+                    </Avatar>
+                    <UserInfo>
+                        <DisplayName>
+                            {member.displayName}
+                            {isGuest(member.user.roles) && <GuestTag/>}
+                        </DisplayName>
+                        {
+                            member.displayName === member.user.username ? null : <Username>{'@'}{member.user.username}</Username>
+                        }
+                        <CustomStatusEmoji
+                            userID={member.user.id}
+                            showTooltip={true}
+                            emojiSize={16}
+                            emojiStyle={{
+                                marginLeft: '8px',
+                            }}
+                        />
+                    </UserInfo>
+                </span>
+            </OverlayTrigger>
+
             <RoleChooser
                 className={classNames({editing}, 'member-role-chooser')}
                 data-testid='rolechooser'
@@ -188,15 +237,19 @@ export default styled(Member)`
     border-radius: 4px;
 
     &:hover {
-        background: rgba(var(--center-channel-text-rgb), 0.08);
-        color: rgba(var(--center-channel-text-rgb), 0.56);
-        ${() => {
-        return css`
-            ${SendMessage} {
-                display: block;
-            }
-            `;
-    }}
+        background: rgba(var(--center-channel-color-rgb), 0.08);
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+
+        ${SendMessage} {
+            display: block;
+        }
+    }
+
+    .ProfileSpan {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-right: auto;
     }
 
     .MenuWrapper {

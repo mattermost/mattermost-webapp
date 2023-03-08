@@ -204,19 +204,21 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
 `;
 
 exports[`components/channel_header/components/HeaderIconWrapper should match snapshot, on PluginIcon without tooltipText 1`] = `
-<div
-  className="flex-child"
->
-  <button
-    className="button_class"
-    id="button_id"
-    onClick={[Function]}
+<Fragment>
+  <div
+    className="flex-child"
   >
-    <i
-      className="fa fa-anchor"
-    />
-  </button>
-</div>
+    <button
+      className="button_class"
+      id="button_id"
+      onClick={[Function]}
+    >
+      <i
+        className="fa fa-anchor"
+      />
+    </button>
+  </div>
+</Fragment>
 `;
 
 exports[`components/channel_header/components/HeaderIconWrapper should match snapshot, on SearchIcon 1`] = `

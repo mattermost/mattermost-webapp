@@ -33,7 +33,7 @@ const DescriptionMessages: Record<DescriptionStatusKey, JSX.Element> = {
     noLimits: (
         <FormattedMessage
             id='cloud_delinquency.modal.workspace_downgraded_freemium'
-            defaultMessage='Cloud Starter is restricted to 10,000 message history, 10GB file storage, 10 apps, and 500 board cards.'
+            defaultMessage='Cloud Free is restricted to 10,000 message history and 1GB file storage.'
         >
             {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
         </FormattedMessage>
@@ -46,26 +46,10 @@ const DescriptionMessages: Record<DescriptionStatusKey, JSX.Element> = {
             {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
         </FormattedMessage>
     ),
-    [LimitTypes.enabledIntegrations]: (
-        <FormattedMessage
-            id='cloud_delinquency.modal.workspace_downgraded_integrations_surpassed'
-            defaultMessage='You have reached the limit of enabled integrations in your workspace. Upgrade to a paid plan to remove restrictions.'
-        >
-            {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
-        </FormattedMessage>
-    ),
     [LimitTypes.fileStorage]: (
         <FormattedMessage
             id='cloud_delinquency.modal.workspace_downgraded_storage_surpassed'
             defaultMessage={'Some of your workspace\'s files are no longer accessible. Upgrade to a paid plan and get unlimited access to your files.'}
-        >
-            {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
-        </FormattedMessage>
-    ),
-    [LimitTypes.boardsCards]: (
-        <FormattedMessage
-            id='cloud_delinquency.modal.workspace_downgraded_boards_surpassed'
-            defaultMessage={'Some of your workspace\'s board cards are no longer accessible. Upgrade to a paid plan and get unlimited access to your board cards.'}
         >
             {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
         </FormattedMessage>
@@ -147,7 +131,7 @@ export const FreemiumModal = ({onClose, onExited, planName, isAdminConsole}: Fre
     const secondaryAction = {
         message: {
             id: t('cloud_delinquency.modal.stay_on_freemium'),
-            defaultMessage: 'Stay on Starter (Free Plan)',
+            defaultMessage: 'Stay on Free',
         },
         onClick: handleClose,
     };

@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -1265,4 +1264,3 @@ export default class PluginManagement extends AdminSettings<Props, State> {
         );
     }
 }
-/* eslint-enable react/no-string-refs */

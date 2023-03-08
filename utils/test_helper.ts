@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {Channel, ChannelMembership, ChannelNotifyProps, ChannelWithTeamData} from '@mattermost/types/channels';
 import {Bot} from '@mattermost/types/bots';
 import {Role} from '@mattermost/types/roles';
@@ -11,13 +12,14 @@ import {Post} from '@mattermost/types/posts';
 import {CategorySorting, ChannelCategory} from '@mattermost/types/channel_categories';
 import {Command, IncomingWebhook} from '@mattermost/types/integrations';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-import {CustomEmoji} from '@mattermost/types/emojis';
+import {SystemEmoji, CustomEmoji} from '@mattermost/types/emojis';
 import {Session} from '@mattermost/types/sessions';
 import {ProductComponent} from 'types/store/plugins';
 import {ClientLicense} from '@mattermost/types/config';
 import {PreferenceType} from '@mattermost/types/preferences';
+import {Reaction} from '@mattermost/types/reactions';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
-import {Invoice, Product, Subscription} from '@mattermost/types/cloud';
+import {Invoice, Product, Subscription, CloudCustomer} from '@mattermost/types/cloud';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -169,6 +171,7 @@ export class TestHelper {
             last_update_at: 0,
             scheme_user: true,
             scheme_admin: false,
+            urgent_mention_count: 0,
         };
         return Object.assign({}, defaultMembership, override);
     }
@@ -366,6 +369,8 @@ export class TestHelper {
             headerCentreComponent: () => null,
             headerRightComponent: () => null,
             showTeamSidebar: false,
+            showAppBar: false,
+            wrapped: true,
         };
     }
 
@@ -378,6 +383,18 @@ export class TestHelper {
             update_at: 0,
             delete_at: 0,
             creator_id: 'user_id',
+            ...override,
+        };
+    }
+    public static getSystemEmojiMock(override: Partial<SystemEmoji>): SystemEmoji {
+        return {
+            name: '',
+            category: 'recent',
+            image: '',
+            short_name: '',
+            short_names: [],
+            batch: 0,
+            unified: '',
             ...override,
         };
     }
@@ -449,6 +466,55 @@ export class TestHelper {
             sku: '',
             billing_scheme: '',
             recurring_interval: '',
+            cross_sells_to: '',
+            ...override,
+        };
+    }
+
+    public static getCloudCustomerMock(override: Partial<CloudCustomer> = {}): CloudCustomer {
+        return {
+            id: '',
+            billing_address: {
+                city: '',
+                state: '',
+                country: '',
+                postal_code: '',
+                line1: '',
+                line2: '',
+            },
+            company_address: {
+                city: '',
+                state: '',
+                country: '',
+                postal_code: '',
+                line1: '',
+                line2: '',
+            },
+            payment_method: {
+                type: '',
+                last_four: '',
+                exp_month: 0,
+                exp_year: 0,
+                card_brand: '',
+                name: '',
+            },
+            name: '',
+            email: '',
+            contact_first_name: '',
+            contact_last_name: '',
+            create_at: 0,
+            creator_id: '',
+            num_employees: 100,
+            ...override,
+        };
+    }
+
+    public static getReactionMock(override: Partial<Reaction> = {}): Reaction {
+        return {
+            user_id: '',
+            post_id: '',
+            emoji_name: '',
+            create_at: 0,
             ...override,
         };
     }

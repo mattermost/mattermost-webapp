@@ -26,11 +26,6 @@ describe('Bots in lists', () => {
     };
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableBotAccountCreation: true,
-            },
-        });
         cy.apiInitSetup().then((out) => {
             team = out.team;
             channel = out.channel;
@@ -99,10 +94,10 @@ describe('Bots in lists', () => {
             cy.get('.more-modal__row--bot .status-wrapper .status').should('not.exist');
 
             // * Verify bot badges
-            cy.get('.more-modal__row--bot .Badge').then(($badges) => {
-                $badges.toArray().forEach((badgeEl) => {
-                    cy.wrap(badgeEl).then(() => badgeEl.scrollIntoView());
-                    cy.wrap(badgeEl).should('be.visible').and('have.text', 'BOT');
+            cy.get('.more-modal__row--bot .Tag').then(($tags) => {
+                $tags.toArray().forEach((tagEl) => {
+                    cy.wrap(tagEl).then(() => tagEl.scrollIntoView());
+                    cy.wrap(tagEl).should('be.visible').and('have.text', 'BOT');
                 });
             });
         });

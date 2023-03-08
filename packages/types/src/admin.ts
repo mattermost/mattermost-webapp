@@ -12,8 +12,37 @@ import {Team} from './teams';
 import {UserAccessToken, UserProfile} from './users';
 import {RelationOneToOne} from './utilities';
 
+export enum LogLevelEnum {
+    SILLY = 'silly',
+    DEBUG = 'debug',
+    INFO = 'info',
+    WARN = 'warn',
+    ERROR = 'error',
+}
+
+export type LogServerNames = string[];
+export type LogLevels = LogLevelEnum[];
+export type LogDateFrom = string; // epoch
+export type LogDateTo = string; // epoch
+
+export type LogObject = {
+    caller: string;
+    job_id: string;
+    level: LogLevelEnum;
+    msg: string;
+    timestamp: string;
+    worker: string;
+}
+
+export type LogFilter = {
+    serverNames: LogServerNames;
+    logLevels: LogLevels;
+    dateFrom: LogDateFrom;
+    dateTo: LogDateTo;
+}
+
 export type AdminState = {
-    logs: string[];
+    logs: LogObject[];
     audits: Record<string, Audit>;
     config: Partial<AdminConfig>;
     environmentConfig: Partial<EnvironmentConfig>;

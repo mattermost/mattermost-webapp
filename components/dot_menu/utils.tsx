@@ -1,10 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+import React from 'react';
+
 import {trackEvent} from 'actions/telemetry_actions';
 
 import {EventTypes, TELEMETRY_CATEGORIES} from 'utils/constants';
 
-export type ChangeEvent = KeyboardEvent | MouseEvent;
+export type ChangeEvent = React.KeyboardEvent | React.MouseEvent;
 
 export const trackDotMenuEvent = (e: ChangeEvent, suffix: string): void => {
     if (e.type === EventTypes.CLICK) {

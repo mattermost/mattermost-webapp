@@ -6,14 +6,15 @@ import {FormattedMessage} from 'react-intl';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-
-import {localizeMessage} from 'utils/utils';
-import {Constants} from 'utils/constants';
-import {t} from 'utils/i18n';
+import NewChannelWithBoardTourTip from 'components/app_bar/new_channel_with_board_tour_tip';
 import KeyboardShortcutSequence, {
     KEYBOARD_SHORTCUTS,
     KeyboardShortcutDescriptor,
 } from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
+
+import {localizeMessage} from 'utils/utils';
+import {Constants, suitePluginIds} from 'utils/constants';
+import {t} from 'utils/i18n';
 
 type Props = {
     ariaLabel?: boolean;
@@ -24,6 +25,7 @@ type Props = {
     tooltipKey: string;
     tooltipText?: React.ReactNode;
     isRhsOpen?: boolean;
+    pluginId?: string;
 }
 
 type TooltipInfo = {
@@ -34,7 +36,7 @@ type TooltipInfo = {
     keyboardShortcut?: KeyboardShortcutDescriptor;
 }
 
-const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
+const HeaderIconWrapper = (props: Props) => {
     const {
         ariaLabel,
         buttonClass,
@@ -44,6 +46,7 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
         tooltipKey,
         tooltipText,
         isRhsOpen,
+        pluginId,
     } = props;
 
     const toolTips: Record<string, TooltipInfo> = {
@@ -142,6 +145,8 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
         ariaLabelText = `${localizeMessage(toolTips[tooltipKey].messageID, toolTips[tooltipKey].message)}`;
     }
 
+    const boardsEnabled = pluginId === suitePluginIds.focalboard || pluginId === suitePluginIds.boards;
+
     if (tooltip) {
         return (
             <div>
@@ -160,20 +165,34 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
                         {iconComponent}
                     </button>
                 </OverlayTrigger>
+                {boardsEnabled &&
+                    <NewChannelWithBoardTourTip
+                        pulsatingDotPlacement={'start'}
+                        pulsatingDotTranslate={{x: 0, y: -22}}
+                    />
+                }
             </div>
         );
     }
 
     return (
-        <div className='flex-child'>
-            <button
-                id={buttonId}
-                className={buttonClass || 'channel-header__icon'}
-                onClick={onClick}
-            >
-                {iconComponent}
-            </button>
-        </div>
+        <>
+            <div className='flex-child'>
+                <button
+                    id={buttonId}
+                    className={buttonClass || 'channel-header__icon'}
+                    onClick={onClick}
+                >
+                    {iconComponent}
+                </button>
+            </div>
+            {boardsEnabled &&
+                <NewChannelWithBoardTourTip
+                    pulsatingDotPlacement={'start'}
+                    pulsatingDotTranslate={{x: 0, y: -22}}
+                />
+            }
+        </>
     );
 };
 

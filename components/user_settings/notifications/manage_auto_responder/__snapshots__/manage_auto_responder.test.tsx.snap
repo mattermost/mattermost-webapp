@@ -76,7 +76,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
       >
         <div
           className="setting-list"
-          tabIndex="-1"
+          tabIndex={-1}
         >
           <div
             className="setting-list-item"
@@ -290,7 +290,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
       >
         <div
           className="setting-list"
-          tabIndex="-1"
+          tabIndex={-1}
         >
           <div
             className="setting-list-item"

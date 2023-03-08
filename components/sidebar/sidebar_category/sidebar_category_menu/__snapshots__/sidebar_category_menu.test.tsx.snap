@@ -1,186 +1,159 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/sidebar/sidebar_category/sidebar_category_menu should match snapshot and contain correct buttons 1`] = `
-<Fragment>
-  <Connect(SidebarMenu)
-    ariaLabel="Category Menu"
-    buttonAriaLabel="Category Menu"
-    id="SidebarCategoryMenu-category1"
-    isMenuOpen={false}
-    onOpenDirectionChange={[Function]}
-    onToggleMenu={[Function]}
-    tooltipText="Category options"
+<div
+  className="SidebarMenu MenuWrapper"
+>
+  <Menu
+    menu={
+      Object {
+        "aria-label": "Edit category menu",
+        "id": "SidebarChannelMenu-MenuList-test_category_id",
+        "onToggle": [Function],
+      }
+    }
+    menuButton={
+      Object {
+        "aria-label": "Category options",
+        "children": <DotsVerticalIcon
+          size={16}
+        />,
+        "class": "SidebarMenu_menuButton",
+        "id": "SidebarCategoryMenu-Button-test_category_id",
+      }
+    }
+    menuButtonTooltip={
+      Object {
+        "class": "hidden-xs",
+        "id": "SidebarCategoryMenu-ButtonTooltip-test_category_id",
+        "text": "Category options",
+      }
+    }
   >
-    <MenuGroup>
-      <MenuItemAction
-        icon={
-          <i
-            className="icon-bell-outline"
+    <MenuItem
+      id="mute-test_category_id"
+      labels={
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Mute Category"
+          id="sidebar_left.sidebar_category_menu.muteCategory"
+        />
+      }
+      leadingElement={
+        <BellOutlineIcon
+          size={18}
+        />
+      }
+      onClick={[Function]}
+    />
+    <MenuItem
+      aria-haspopup={true}
+      id="rename-test_category_id"
+      labels={
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Rename Category"
+          id="sidebar_left.sidebar_category_menu.renameCategory"
+        />
+      }
+      leadingElement={
+        <PencilOutlineIcon
+          size={18}
+        />
+      }
+      onClick={[Function]}
+    />
+    <MenuItem
+      aria-haspopup={true}
+      id="delete-test_category_id"
+      isDestructive={true}
+      labels={
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Delete Category"
+          id="sidebar_left.sidebar_category_menu.deleteCategory"
+        />
+      }
+      leadingElement={
+        <TrashCanOutlineIcon
+          size={18}
+        />
+      }
+      onClick={[Function]}
+    />
+    <MenuItemSeparator />
+    <SubMenu
+      id="sortChannels-test_category_id"
+      labels={
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Sort"
+          id="sidebar.sort"
+        />
+      }
+      leadingElement={
+        <SortAlphabeticalAscendingIcon
+          size={18}
+        />
+      }
+      menuAriaLabel="Sort submenu"
+      menuId="sortChannels-test_category_id-menu"
+      trailingElements={
+        <React.Fragment>
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Alphabetically"
+            id="user.settings.sidebar.sortAlpha"
+          />
+          <ChevronRightIcon
+            size={16}
+          />
+        </React.Fragment>
+      }
+    >
+      <MenuItem
+        id="sortAplhabetical-test_category_id"
+        labels={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Alphabetically"
+            id="user.settings.sidebar.sortAlpha"
           />
         }
-        id="mute-category1"
         onClick={[Function]}
-        show={true}
-        text="Mute Category"
       />
-      <MenuItemAction
-        icon={
-          <i
-            className="icon-pencil-outline"
+      <MenuItem
+        id="sortByMostRecent-test_category_id"
+        labels={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Recent Activity"
+            id="sidebar.sortedByRecencyLabel"
           />
         }
-        id="rename-category1"
         onClick={[Function]}
-        show={true}
-        text="Rename Category"
       />
-      <MenuItemAction
-        icon={
-          <i
-            className="icon-trash-can-outline"
+      <MenuItem
+        id="sortManual-test_category_id"
+        labels={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Manually"
+            id="sidebar.sortedManually"
           />
         }
-        id="delete-category1"
-        isDangerous={true}
         onClick={[Function]}
-        show={true}
-        text="Delete Category"
       />
-    </MenuGroup>
-    <MenuGroup>
-      <SubMenuItem
-        direction="right"
-        icon={
-          <i
-            className="icon-sort-alphabetical-ascending"
-          />
-        }
-        id="sortChannels"
-        openUp={false}
-        renderSelected={true}
-        selectedValueText="Alphabetically"
-        show={true}
-        styleSelectableItem={true}
-        subMenu={
-          Array [
-            Object {
-              "action": [Function],
-              "direction": "right",
-              "id": "sortAlphabetical",
-              "text": "Alphabetically",
-            },
-            Object {
-              "action": [Function],
-              "direction": "right",
-              "id": "sortByMostRecent",
-              "text": "Recent Activity",
-            },
-            Object {
-              "action": [Function],
-              "direction": "right",
-              "id": "sortManual",
-              "text": "Manually",
-            },
-          ]
-        }
-        subMenuClass="pl-4"
-        text="Sort"
-      />
-    </MenuGroup>
-    <MenuGroup>
-      <MenuItemAction
-        icon={
-          <i
-            className="icon-folder-plus-outline"
-          />
-        }
-        id="create-category1"
-        onClick={[Function]}
-        show={true}
-        text="Create New Category"
-      />
-    </MenuGroup>
-  </Connect(SidebarMenu)>
-</Fragment>
-`;
-
-exports[`components/sidebar/sidebar_category/sidebar_category_menu should match snapshot when category is favorites 1`] = `
-<Fragment>
-  <Connect(SidebarMenu)
-    ariaLabel="Category Menu"
-    buttonAriaLabel="Category Menu"
-    id="SidebarCategoryMenu-category1"
-    isMenuOpen={false}
-    onOpenDirectionChange={[Function]}
-    onToggleMenu={[Function]}
-    tooltipText="Category options"
-  >
-    <MenuGroup>
-      <MenuItemAction
-        icon={
-          <i
-            className="icon-bell-outline"
-          />
-        }
-        id="mute-category1"
-        onClick={[Function]}
-        show={true}
-        text="Mute Category"
-      />
-    </MenuGroup>
-    <MenuGroup>
-      <SubMenuItem
-        direction="right"
-        icon={
-          <i
-            className="icon-sort-alphabetical-ascending"
-          />
-        }
-        id="sortChannels"
-        openUp={false}
-        renderSelected={true}
-        selectedValueText="Alphabetically"
-        show={true}
-        styleSelectableItem={true}
-        subMenu={
-          Array [
-            Object {
-              "action": [Function],
-              "direction": "right",
-              "id": "sortAlphabetical",
-              "text": "Alphabetically",
-            },
-            Object {
-              "action": [Function],
-              "direction": "right",
-              "id": "sortByMostRecent",
-              "text": "Recent Activity",
-            },
-            Object {
-              "action": [Function],
-              "direction": "right",
-              "id": "sortManual",
-              "text": "Manually",
-            },
-          ]
-        }
-        subMenuClass="pl-4"
-        text="Sort"
-      />
-    </MenuGroup>
-    <MenuGroup>
-      <MenuItemAction
-        icon={
-          <i
-            className="icon-folder-plus-outline"
-          />
-        }
-        id="create-category1"
-        onClick={[Function]}
-        show={true}
-        text="Create New Category"
-      />
-    </MenuGroup>
-  </Connect(SidebarMenu)>
-</Fragment>
+    </SubMenu>
+    <MenuItemSeparator />
+    <MenuItem
+      aria-haspopup={true}
+      id="create-test_category_id"
+      labels={
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Create New Category"
+          id="sidebar_left.sidebar_category_menu.createCategory"
+        />
+      }
+      leadingElement={
+        <FolderPlusOutlineIcon
+          size={18}
+        />
+      }
+      onClick={[Function]}
+    />
+  </Menu>
+</div>
 `;

@@ -3,29 +3,18 @@
 
 import React from 'react';
 
-import {Channel} from '@mattermost/types/channels';
-
 type Props = {
     icon: JSX.Element | null;
-    channel: Channel;
-    hasDraft: boolean;
+    isDeleted: boolean;
 };
 
-export default class SidebarChannelIcon extends React.PureComponent<Props> {
-    render() {
-        if (this.props.channel.delete_at !== 0) {
-            return (
-                <i className='icon icon-archive-outline'/>
-            );
-        } else if (this.props.hasDraft) {
-            return (
-                <i
-                    data-testid='draftIcon'
-                    className='icon icon-pencil-outline'
-                />
-            );
-        }
-
-        return this.props.icon;
+function SidebarChannelIcon({isDeleted, icon}: Props) {
+    if (isDeleted) {
+        return (
+            <i className='icon icon-archive-outline'/>
+        );
     }
+    return icon;
 }
+
+export default SidebarChannelIcon;

@@ -10,9 +10,8 @@ import {UserProfile} from '@mattermost/types/users';
 import {Group, SyncablePatch, SyncableType} from '@mattermost/types/groups';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {Groups} from 'mattermost-redux/constants';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import BlockableLink from 'components/admin_console/blockable_link';
@@ -110,7 +109,6 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
     componentDidUpdate(prevProps: Props) {
         const {totalGroups, team} = this.props;
         if (prevProps.team.id !== team.id || totalGroups !== prevProps.totalGroups) {
-            // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
                 totalGroups,
                 syncChecked: Boolean(team.group_constrained),
@@ -156,7 +154,7 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
             this.setState({serverError, saving: false, saveNeeded, usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}});
             actions.setNavigationBlocked(saveNeeded);
             if (!saveNeeded) {
-                browserHistory.push('/admin_console/user_management/teams');
+                getHistory().push('/admin_console/user_management/teams');
             }
             return;
         } else if (this.teamToBeRestored() && !this.state.serverError) {
@@ -185,17 +183,17 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
                 filter((g) => {
                     return origGroups.some((group) => group.id === g.id && group.scheme_admin !== g.scheme_admin);
                 }).
-                map((g) => actions.patchGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM, {scheme_admin: g.scheme_admin}));
+                map((g) => actions.patchGroupSyncable(g.id, teamID, SyncableType.Team, {scheme_admin: g.scheme_admin}));
             const unlink = origGroups.
                 filter((g) => {
                     return !groups.some((group) => group.id === g.id);
                 }).
-                map((g) => actions.unlinkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM));
+                map((g) => actions.unlinkGroupSyncable(g.id, teamID, SyncableType.Team));
             const link = groups.
                 filter((g) => {
                     return !origGroups.some((group) => group.id === g.id);
                 }).
-                map((g) => actions.linkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true, scheme_admin: g.scheme_admin}));
+                map((g) => actions.linkGroupSyncable(g.id, teamID, SyncableType.Team, {auto_add: true, scheme_admin: g.scheme_admin}));
             const result = await Promise.all([patchTeamPromise, ...patchTeamSyncable, ...unlink, ...link]);
             const resultWithError = result.find((r) => r.error);
             if (resultWithError) {
@@ -289,7 +287,7 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
         this.setState({usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}, serverError, saving: false, saveNeeded}, () => {
             actions.setNavigationBlocked(saveNeeded);
             if (!saveNeeded && !serverError) {
-                browserHistory.push('/admin_console/user_management/teams');
+                getHistory().push('/admin_console/user_management/teams');
             }
         });
     }
@@ -339,15 +337,16 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
     addUsersToAdd = (users: UserProfile[]) => {
         let {usersToRemoveCount} = this.state;
         const {usersToAdd, usersToRemove} = this.state;
+        const usersToAddCopy = cloneDeep(usersToAdd);
         users.forEach((user) => {
             if (usersToRemove[user.id]?.id === user.id) {
                 delete usersToRemove[user.id];
                 usersToRemoveCount -= 1;
             } else {
-                usersToAdd[user.id] = user;
+                usersToAddCopy[user.id] = user;
             }
         });
-        this.setState({usersToAdd: {...usersToAdd}, usersToRemove: {...usersToRemove}, usersToRemoveCount, saveNeeded: true});
+        this.setState({usersToAdd: {...usersToAddCopy}, usersToRemove: {...usersToRemove}, usersToRemoveCount, saveNeeded: true});
         this.props.actions.setNavigationBlocked(true);
     }
 

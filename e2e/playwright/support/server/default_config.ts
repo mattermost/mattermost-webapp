@@ -2,17 +2,19 @@
 // See LICENSE.txt for license information.
 
 import merge from 'deepmerge';
+
 import {
     AdminConfig,
     ExperimentalSettings,
+    FeatureFlags,
     PasswordSettings,
     ServiceSettings,
     TeamSettings,
     PluginSettings,
     ClusterSettings,
-} from '@mattermost/types/lib/config';
-
-import testConfig from '@test.config';
+    CollapsedThreads,
+} from '@mattermost/types/config';
+import testConfig from '@e2e-test.config';
 
 export function getOnPremServerConfig(): AdminConfig {
     return merge<AdminConfig>(defaultServerConfig, onPremServerConfig() as AdminConfig);
@@ -21,6 +23,7 @@ export function getOnPremServerConfig(): AdminConfig {
 type TestAdminConfig = {
     ClusterSettings: Partial<ClusterSettings>;
     ExperimentalSettings: Partial<ExperimentalSettings>;
+    FeatureFlags: Partial<FeatureFlags>;
     PasswordSettings: Partial<PasswordSettings>;
     PluginSettings: Partial<PluginSettings>;
     ServiceSettings: Partial<ServiceSettings>;
@@ -37,6 +40,9 @@ const onPremServerConfig = (): Partial<TestAdminConfig> => {
         ExperimentalSettings: {
             EnableAppBar: true,
         },
+        FeatureFlags: {
+            BoardsProduct: testConfig.boardsProductEnabled,
+        },
         PasswordSettings: {
             MinimumLength: 5,
             Lowercase: false,
@@ -51,6 +57,11 @@ const onPremServerConfig = (): Partial<TestAdminConfig> => {
                     defaultenabled: true,
                 },
             },
+            PluginStates: {
+                focalboard: {
+                    Enable: !testConfig.boardsProductEnabled,
+                },
+            },
         },
         ServiceSettings: {
             SiteURL: testConfig.baseURL,
@@ -63,7 +74,7 @@ const onPremServerConfig = (): Partial<TestAdminConfig> => {
 };
 
 // Should be based only from the generated default config from mattermost-server via "make config-reset"
-// Based on v7.3 server
+// Based on v7.9 server
 const defaultServerConfig: AdminConfig = {
     ServiceSettings: {
         SiteURL: '',
@@ -86,7 +97,7 @@ const defaultServerConfig: AdminConfig = {
         IdleTimeout: 60,
         MaximumLoginAttempts: 10,
         GoroutineHealthThreshold: -1,
-        EnableOAuthServiceProvider: false,
+        EnableOAuthServiceProvider: true,
         EnableIncomingWebhooks: true,
         EnableOutgoingWebhooks: true,
         EnableCommands: true,
@@ -145,6 +156,7 @@ const defaultServerConfig: AdminConfig = {
         ExperimentalEnableDefaultChannelLeaveJoinMessages: true,
         ExperimentalGroupUnreadChannels: 'disabled',
         EnableAPITeamDeletion: false,
+        EnableAPITriggerAdminNotifications: false,
         EnableAPIUserDeletion: false,
         ExperimentalEnableHardenedMode: false,
         ExperimentalStrictCSRFEnforcement: false,
@@ -154,6 +166,7 @@ const defaultServerConfig: AdminConfig = {
         EnableSVGs: false,
         EnableLatex: false,
         EnableInlineLatex: true,
+        PostPriority: true,
         EnableAPIChannelDeletion: false,
         EnableLocalMode: false,
         LocalModeSocketLocation: '/var/tmp/mattermost_local.socket',
@@ -162,9 +175,12 @@ const defaultServerConfig: AdminConfig = {
         FeatureFlagSyncIntervalSeconds: 30,
         DebugSplit: false,
         ThreadAutoFollow: true,
-        CollapsedThreads: 'always_on',
+        CollapsedThreads: CollapsedThreads.ALWAYS_ON,
         ManagedResourcePaths: '',
         EnableCustomGroups: true,
+        SelfHostedPurchase: true,
+        AllowSyncedDrafts: true,
+        SelfHostedExpansion: false,
     },
     TeamSettings: {
         SiteName: 'Mattermost',
@@ -178,6 +194,7 @@ const defaultServerConfig: AdminConfig = {
         CustomBrandText: '',
         CustomDescriptionText: '',
         RestrictDirectMessage: 'any',
+        EnableLastActiveTime: true,
         UserStatusAwayTimeout: 300,
         MaxChannelsPerTeam: 2000,
         MaxNotificationsPerChannel: 1000,
@@ -223,6 +240,7 @@ const defaultServerConfig: AdminConfig = {
         FileLocation: '',
         EnableWebhookDebugging: true,
         EnableDiagnostics: true,
+        VerboseDiagnostics: false,
         EnableSentry: true,
         AdvancedLoggingConfig: '',
     },
@@ -524,6 +542,7 @@ const defaultServerConfig: AdminConfig = {
         EnableSharedChannels: false,
         EnableRemoteClusterService: false,
         EnableAppBar: false,
+        PatchPluginsReactDOM: false,
     },
     AnalyticsSettings: {
         MaxUsersForStatistics: 2500,
@@ -549,6 +568,9 @@ const defaultServerConfig: AdminConfig = {
         BatchSize: 10000,
         RequestTimeoutSeconds: 30,
         SkipTLSVerification: false,
+        CA: '',
+        ClientCert: '',
+        ClientKey: '',
         Trace: '',
     },
     BleveSettings: {
@@ -589,6 +611,9 @@ const defaultServerConfig: AdminConfig = {
         CleanupJobsThresholdDays: -1,
         CleanupConfigThresholdDays: -1,
     },
+    ProductSettings: {
+        EnablePublicSharedBoards: false,
+    },
     PluginSettings: {
         Enable: true,
         EnableUploads: false,
@@ -608,7 +633,7 @@ const defaultServerConfig: AdminConfig = {
                 Enable: true,
             },
             focalboard: {
-                Enable: true,
+                Enable: false,
             },
             playbooks: {
                 Enable: true,
@@ -645,7 +670,6 @@ const defaultServerConfig: AdminConfig = {
     FeatureFlags: {
         TestFeature: 'off',
         TestBoolFeature: false,
-        CollapsedThreads: true,
         EnableRemoteClusterService: false,
         AppsEnabled: true,
         PluginPlaybooks: '',
@@ -653,12 +677,8 @@ const defaultServerConfig: AdminConfig = {
         PluginFocalboard: '',
         PluginCalls: '',
         PermalinkPreviews: true,
-        CallsMobile: false,
         CallsEnabled: true,
         BoardsFeatureFlags: '',
-        GuidedChannelCreation: false,
-        InviteToTeam: 'none',
-        CustomGroups: true,
         BoardsDataRetention: false,
         NormalizeLdapDNs: false,
         EnableInactivityCheckJob: true,
@@ -666,9 +686,18 @@ const defaultServerConfig: AdminConfig = {
         GraphQL: false,
         InsightsEnabled: true,
         CommandPalette: false,
-        PostForwarding: true,
-        BoardsProduct: false,
-        PlanUpgradeButtonText: 'upgrade',
+        BoardsProduct: true,
+        SendWelcomePost: true,
+        WorkTemplate: false,
+        PostPriority: true,
+        WysiwygEditor: false,
+        PeopleProduct: false,
+        AnnualSubscription: false,
+        ReduceOnBoardingTaskList: false,
+        OnboardingAutoShowLinkedBoard: true,
+        ThreadsEverywhere: false,
+        GlobalDrafts: true,
+        OnboardingTourTips: true,
     },
     ImportSettings: {
         Directory: './import',

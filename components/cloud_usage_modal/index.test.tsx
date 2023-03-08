@@ -12,30 +12,24 @@ import {renderWithIntl} from 'tests/react_testing_utils';
 import mockStore from 'tests/test_store';
 import {FileSizes} from 'utils/file_utils';
 
-import {GlobalState} from '@mattermost/types/store';
 import {Constants} from 'utils/constants';
+
+import {GlobalState} from '@mattermost/types/store';
 
 import {Subscription} from '@mattermost/types/cloud';
 
 import CloudUsageModal, {Props} from './index';
 
 const freeLimits = {
-    integrations: {
-        enabled: 10,
-    },
     messages: {
         history: 10000,
     },
     files: {
-        total_storage: 10 * FileSizes.Gigabyte,
+        total_storage: FileSizes.Gigabyte,
     },
     teams: {
         active: 1,
         teamsLimits: true,
-    },
-    boards: {
-        cards: 500,
-        views: 5,
     },
 };
 
@@ -57,14 +51,6 @@ function setupStore(hasLimits: boolean) {
                 messages: {
                     history: 0,
                     historyLoaded: true,
-                },
-                boards: {
-                    cards: 0,
-                    cardsLoaded: true,
-                },
-                integrations: {
-                    enabled: 0,
-                    enabledLoaded: true,
                 },
                 teams: {
                     active: 0,

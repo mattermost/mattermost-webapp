@@ -1,13 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {CloudTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 
-import {DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 import {Address, CloudCustomerPatch} from '@mattermost/types/cloud';
-
-import {getCloudErrors} from 'mattermost-redux/selectors/entities/cloud';
-import {getCloudLimits} from 'actions/cloud';
 
 import {bindClientFunc} from './helpers';
 
@@ -39,6 +37,15 @@ export function getCloudCustomer(): ActionFunc {
     });
 }
 
+export function getLicenseSelfServeStatus(): ActionFunc {
+    return bindClientFunc({
+        clientFunc: Client4.getLicenseSelfServeStatus,
+        onRequest: CloudTypes.LICENSE_SELF_SERVE_STATS_REQUEST,
+        onSuccess: [CloudTypes.RECEIVED_LICENSE_SELF_SERVE_STATS],
+        onFailure: CloudTypes.LICENSE_SELF_SERVE_STATS_FAILED,
+    });
+}
+
 export function getInvoices(): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getInvoices,
@@ -46,37 +53,6 @@ export function getInvoices(): ActionFunc {
         onFailure: CloudTypes.CLOUD_INVOICES_FAILED,
         onRequest: CloudTypes.CLOUD_INVOICES_REQUEST,
     });
-}
-
-export function retryFailedCloudFetches() {
-    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const errors = getCloudErrors(getState());
-        if (Object.keys(errors).length === 0) {
-            return {data: true};
-        }
-
-        if (errors.subscription) {
-            dispatch(getCloudSubscription());
-        }
-
-        if (errors.products) {
-            dispatch(getCloudProducts());
-        }
-
-        if (errors.customer) {
-            dispatch(getCloudCustomer());
-        }
-
-        if (errors.invoices) {
-            dispatch(getInvoices());
-        }
-
-        if (errors.limits) {
-            getCloudLimits()(dispatch, getState);
-        }
-
-        return {data: true};
-    };
 }
 
 export function updateCloudCustomer(customerPatch: CloudCustomerPatch): ActionFunc {

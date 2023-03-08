@@ -33,7 +33,7 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
     muted={false}
     onClick={[Function]}
   >
-    <Connect(injectIntl(SidebarCategoryMenu))
+    <Connect(Component)
       category={
         Object {
           "channel_ids": Array [
@@ -49,8 +49,6 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
           "user_id": "",
         }
       }
-      isMenuOpen={false}
-      onToggleMenu={[Function]}
     />
   </SidebarCategoryHeader>
   <div
@@ -63,11 +61,10 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
       <Connect(SidebarChannel)
         channelId="channel_id"
         channelIndex={0}
-        getChannelRef={[MockFunction]}
         isAutoSortedCategory={true}
         isCategoryCollapsed={false}
         isCategoryDragged={false}
-        isDropDisabled={false}
+        isDraggable={true}
         key="channel_id"
         setChannelRef={[MockFunction]}
       />
@@ -109,7 +106,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
     muted={false}
     onClick={[Function]}
   >
-    <Connect(injectIntl(SidebarCategoryMenu))
+    <Connect(Component)
       category={
         Object {
           "channel_ids": Array [
@@ -125,8 +122,6 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
           "user_id": "",
         }
       }
-      isMenuOpen={false}
-      onToggleMenu={[Function]}
     />
   </SidebarCategoryHeader>
   <div
@@ -139,11 +134,10 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
       <Connect(SidebarChannel)
         channelId="channel_id"
         channelIndex={0}
-        getChannelRef={[MockFunction]}
         isAutoSortedCategory={true}
         isCategoryCollapsed={true}
         isCategoryDragged={false}
-        isDropDisabled={false}
+        isDraggable={true}
         key="channel_id"
         setChannelRef={[MockFunction]}
       />
@@ -193,7 +187,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
         id="sidebar_left.sidebar_category.newLabel"
       />
     </div>
-    <Connect(injectIntl(SidebarCategoryMenu))
+    <Connect(Component)
       category={
         Object {
           "channel_ids": Array [],
@@ -207,8 +201,6 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
           "user_id": "",
         }
       }
-      isMenuOpen={false}
-      onToggleMenu={[Function]}
     />
   </SidebarCategoryHeader>
   <div
@@ -269,6 +261,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
   </Connect(Droppable)>
   <InviteMembersButton
     className="followingSibling"
+    isAdmin={false}
     onClick={[Function]}
     touchedInviteMembersButton={false}
   />
@@ -288,7 +281,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
     muted={false}
     onClick={[Function]}
   >
-    <Connect(injectIntl(SidebarCategorySortingMenu))
+    <Connect(Component)
       category={
         Object {
           "channel_ids": Array [
@@ -305,9 +298,6 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
         }
       }
       handleOpenDirectMessagesModal={[Function]}
-      isCollapsed={false}
-      isMenuOpen={false}
-      onToggleMenu={[Function]}
     />
     <OverlayTrigger
       defaultOverlayShown={false}
@@ -356,7 +346,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
     </OverlayTrigger>
   </SidebarCategoryHeader>
   <div
-    className="SidebarChannelGroup_content hasFollowingSibling"
+    className="SidebarChannelGroup_content"
   >
     <ul
       className="NavGroupContent"
@@ -365,11 +355,10 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
       <Connect(SidebarChannel)
         channelId="channel_id"
         channelIndex={0}
-        getChannelRef={[MockFunction]}
         isAutoSortedCategory={true}
         isCategoryCollapsed={false}
         isCategoryDragged={false}
-        isDropDisabled={false}
+        isDraggable={true}
         key="channel_id"
         setChannelRef={[MockFunction]}
       />
@@ -397,6 +386,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
   </Connect(Droppable)>
   <InviteMembersButton
     className="followingSibling"
+    isAdmin={false}
     onClick={[Function]}
     touchedInviteMembersButton={false}
   />
@@ -416,7 +406,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
     muted={false}
     onClick={[Function]}
   >
-    <Connect(injectIntl(SidebarCategorySortingMenu))
+    <Connect(Component)
       category={
         Object {
           "channel_ids": Array [
@@ -433,9 +423,6 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
         }
       }
       handleOpenDirectMessagesModal={[Function]}
-      isCollapsed={false}
-      isMenuOpen={false}
-      onToggleMenu={[Function]}
     />
     <OverlayTrigger
       defaultOverlayShown={false}
@@ -484,7 +471,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
     </OverlayTrigger>
   </SidebarCategoryHeader>
   <div
-    className="SidebarChannelGroup_content hasFollowingSibling"
+    className="SidebarChannelGroup_content"
   >
     <ul
       className="NavGroupContent"

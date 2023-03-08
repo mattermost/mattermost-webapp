@@ -46,12 +46,12 @@ describe('Integrations', () => {
         cy.visit(`/${teamB}/integrations/incoming_webhooks`);
 
         // * Assert the page contains only Team B Outgoing Webhook
-        cy.findByText('Team', {exact: false}).contains('Team B Webhook').and('does.not.contain', 'Team A Webhook');
+        cy.findByText('Team B Webhook').and('does.not.contain', 'Team A Webhook');
 
         // # Visit Team A Incoming Webhooks page
         cy.visit(`/${teamA}/integrations/incoming_webhooks`);
 
         // * Assert the page contains only Team A Outgoing Webhook
-        cy.findByText('Team', {exact: false}).contains('Team A Webhook').and('does.not.contain', 'Team B Webhook');
+        cy.findByText('Team A Webhook').and('does.not.contain', 'Team B Webhook');
     });
 });

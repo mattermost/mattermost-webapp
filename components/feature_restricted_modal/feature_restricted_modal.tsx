@@ -17,7 +17,8 @@ import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 import GenericModal from 'components/generic_modal';
-import {useNotifyAdmin, NotifyStatus} from 'components/notify_admin_cta/notify_admin_cta';
+import {NotifyStatus} from 'components/common/hooks/useGetNotifyAdmin';
+import {useNotifyAdmin} from 'components/notify_admin_cta/notify_admin_cta';
 
 import {closeModal} from 'actions/views/modals';
 import {isModalOpen} from 'selectors/views/modals';
@@ -161,7 +162,7 @@ const FeatureRestrictedModal = ({
                     <p className='FeatureRestrictedModal__terms'>
                         <FormattedMessage
                             id='feature_restricted_modal.agreement'
-                            defaultMessage='By selecting <highlight>Try free for {trialLength} days</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
+                            defaultMessage='By selecting <highlight>Try free for {trialLength} days</highlight>, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
                             values={{
                                 trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
                                 highlight: (msg: React.ReactNode) => (
@@ -169,7 +170,7 @@ const FeatureRestrictedModal = ({
                                 ),
                                 linkEvaluation: (msg: React.ReactNode) => (
                                     <a
-                                        href={LicenseLinks.SOFTWARE_EVALUATION_AGREEMENT}
+                                        href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
                                         target='_blank'
                                         rel='noreferrer'
                                     >

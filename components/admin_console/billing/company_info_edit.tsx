@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {getName} from 'country-list';
 import React, {useCallback, useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
-import {getName} from 'country-list';
+import {useHistory} from 'react-router-dom';
 
 import {getCloudCustomer, updateCloudCustomer, updateCloudCustomerAddress} from 'mattermost-redux/actions/cloud';
 
@@ -14,18 +15,19 @@ import StateSelector from 'components/payment_form/state_selector';
 import Input from 'components/widgets/inputs/input/input';
 import SaveButton from 'components/save_button';
 import {GlobalState} from 'types/store';
-import {browserHistory} from 'utils/browser_history';
 import {COUNTRIES} from 'utils/countries';
 import * as Utils from 'utils/utils';
 
+import {setNavigationBlocked} from 'actions/admin_actions.jsx';
+
 import './company_info_edit.scss';
 
-type Props = {
-
-};
+type Props = Record<string, never>;
 
 const CompanyInfoEdit: React.FC<Props> = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
+
     const companyInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
 
     const [companyName, setCompanyName] = useState(companyInfo?.name);
@@ -37,6 +39,7 @@ const CompanyInfoEdit: React.FC<Props> = () => {
     const [postalCode, setPostalCode] = useState(companyInfo?.company_address?.postal_code);
     const [country, setCountry] = useState(companyInfo?.company_address?.country || getName('US'));
     const [state, setState] = useState(companyInfo?.company_address?.state);
+    const [contentChanged, setContentChanged] = useState(false);
 
     const [sameAsBillingAddress, setSameAsBillingAddress] = useState(Boolean(!companyInfo?.company_address?.line1 && companyInfo?.billing_address?.line1));
     const [isValid, setIsValid] = useState<boolean | undefined>(undefined);
@@ -54,6 +57,7 @@ const CompanyInfoEdit: React.FC<Props> = () => {
         return (event: React.ChangeEvent<HTMLInputElement>) => {
             setStateFunc(event.target.value);
             setValidation();
+            setContentChanged(true);
         };
     };
 
@@ -63,6 +67,7 @@ const CompanyInfoEdit: React.FC<Props> = () => {
         } else {
             setNumEmployees(undefined);
         }
+        setContentChanged(true);
     };
 
     useEffect(() => {
@@ -72,6 +77,12 @@ const CompanyInfoEdit: React.FC<Props> = () => {
     useEffect(() => {
         setValidation();
     }, [setValidation]);
+
+    useEffect(() => {
+        if (contentChanged) {
+            dispatch(setNavigationBlocked(true));
+        }
+    }, [contentChanged]);
 
     if (!companyInfo) {
         return null;
@@ -102,7 +113,7 @@ const CompanyInfoEdit: React.FC<Props> = () => {
         }
 
         setIsSaving(false);
-        browserHistory.push('/admin_console/billing/company_info');
+        history.push('/admin_console/billing/company_info');
     };
 
     const billingAddressDisplay = (
@@ -125,7 +136,10 @@ const CompanyInfoEdit: React.FC<Props> = () => {
     const companyAddressInput = (
         <>
             <DropdownInput
-                onChange={(option) => setCountry(option.value)}
+                onChange={(option) => {
+                    setCountry(option.value);
+                    setContentChanged(true);
+                }}
                 value={country ? {value: country, label: country} : undefined}
                 options={COUNTRIES.map((c) => ({value: c.name, label: c.name}))}
                 legend={Utils.localizeMessage('admin.billing.company_info.country', 'Country')}
@@ -166,7 +180,10 @@ const CompanyInfoEdit: React.FC<Props> = () => {
                     <StateSelector
                         country={country!}
                         state={state!}
-                        onChange={(stateValue) => setState(stateValue)}
+                        onChange={(stateValue) => {
+                            setState(stateValue);
+                            setContentChanged(true);
+                        }}
                     />
                 </div>
                 <div className='form-row-third-2'>
@@ -238,7 +255,10 @@ const CompanyInfoEdit: React.FC<Props> = () => {
                                         <input
                                             type='checkbox'
                                             checked={sameAsBillingAddress}
-                                            onChange={(event) => setSameAsBillingAddress(event.target.checked)}
+                                            onChange={(event) => {
+                                                setSameAsBillingAddress(event.target.checked);
+                                                setContentChanged(true);
+                                            }}
                                         />
                                         <FormattedMessage
                                             id='admin.billing.company_info_edit.sameAsBillingAddress'

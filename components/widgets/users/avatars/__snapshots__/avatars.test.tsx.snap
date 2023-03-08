@@ -34,7 +34,6 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
           "background": "rgb(240, 240, 241)",
         }
       }
-      tabIndex={0}
       userId="1"
     >
       <OverlayTrigger
@@ -43,6 +42,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
         overlay={
           <Memo(Connect(injectIntl(ProfilePopover)))
             className="user-profile-popover"
+            hide={[Function]}
             src="/api/v4/users/1/image?_=0"
             userId="1"
           />
@@ -56,6 +56,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
           overlay={
             <OverlayWrapper
               className="user-profile-popover"
+              hide={[Function]}
               intl={
                 Object {
                   "defaultFormats": Object {},
@@ -189,39 +190,48 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
                   ]
                 }
               >
-                <button
+                <RoundButton
                   className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
-                  tabIndex={-1}
                 >
-                  <Memo(Avatar)
-                    size="xl"
-                    style={
-                      Object {
-                        "background": "rgb(240, 240, 241)",
-                      }
-                    }
-                    tabIndex={0}
-                    url="/api/v4/users/1/image?_=1620680333191"
+                  <button
+                    className="RoundButton-dvlhqG gHOQXq style--none"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
                   >
-                    <img
-                      alt="user profile image"
-                      className="Avatar Avatar-xl"
-                      onError={[Function]}
-                      src="/api/v4/users/1/image?_=1620680333191"
+                    <Memo(Avatar)
+                      size="xl"
                       style={
                         Object {
                           "background": "rgb(240, 240, 241)",
                         }
                       }
-                      tabIndex={0}
-                    />
-                  </Memo(Avatar)>
-                </button>
+                      tabIndex={-1}
+                      url="/api/v4/users/1/image?_=1620680333191"
+                    >
+                      <img
+                        alt="user profile image"
+                        className="Avatar Avatar-xl"
+                        loading="lazy"
+                        onError={[Function]}
+                        src="/api/v4/users/1/image?_=1620680333191"
+                        style={
+                          Object {
+                            "background": "rgb(240, 240, 241)",
+                          }
+                        }
+                        tabIndex={-1}
+                      />
+                    </Memo(Avatar)>
+                  </button>
+                </RoundButton>
               </OverlayTrigger>
             </OverlayTrigger>
           </SimpleTooltip>
@@ -244,7 +254,6 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
           "background": "rgb(240, 240, 241)",
         }
       }
-      tabIndex={0}
       userId="6"
     >
       <OverlayTrigger
@@ -253,6 +262,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
         overlay={
           <Memo(Connect(injectIntl(ProfilePopover)))
             className="user-profile-popover"
+            hide={[Function]}
             src="/api/v4/users/6/image?_=0"
             userId="6"
           />
@@ -266,6 +276,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
           overlay={
             <OverlayWrapper
               className="user-profile-popover"
+              hide={[Function]}
               intl={
                 Object {
                   "defaultFormats": Object {},
@@ -399,39 +410,48 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
                   ]
                 }
               >
-                <button
+                <RoundButton
                   className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
-                  tabIndex={-1}
                 >
-                  <Memo(Avatar)
-                    size="xl"
-                    style={
-                      Object {
-                        "background": "rgb(240, 240, 241)",
-                      }
-                    }
-                    tabIndex={0}
-                    url="/api/v4/users/6/image?_=0"
+                  <button
+                    className="RoundButton-dvlhqG gHOQXq style--none"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
                   >
-                    <img
-                      alt="user profile image"
-                      className="Avatar Avatar-xl"
-                      onError={[Function]}
-                      src="/api/v4/users/6/image?_=0"
+                    <Memo(Avatar)
+                      size="xl"
                       style={
                         Object {
                           "background": "rgb(240, 240, 241)",
                         }
                       }
-                      tabIndex={0}
-                    />
-                  </Memo(Avatar)>
-                </button>
+                      tabIndex={-1}
+                      url="/api/v4/users/6/image?_=0"
+                    >
+                      <img
+                        alt="user profile image"
+                        className="Avatar Avatar-xl"
+                        loading="lazy"
+                        onError={[Function]}
+                        src="/api/v4/users/6/image?_=0"
+                        style={
+                          Object {
+                            "background": "rgb(240, 240, 241)",
+                          }
+                        }
+                        tabIndex={-1}
+                      />
+                    </Memo(Avatar)>
+                  </button>
+                </RoundButton>
               </OverlayTrigger>
             </OverlayTrigger>
           </SimpleTooltip>
@@ -454,7 +474,6 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
           "background": "rgb(240, 240, 241)",
         }
       }
-      tabIndex={0}
       userId="7"
     >
       <OverlayTrigger
@@ -463,6 +482,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
         overlay={
           <Memo(Connect(injectIntl(ProfilePopover)))
             className="user-profile-popover"
+            hide={[Function]}
             src="/api/v4/users/7/image?_=0"
             userId="7"
           />
@@ -476,6 +496,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
           overlay={
             <OverlayWrapper
               className="user-profile-popover"
+              hide={[Function]}
               intl={
                 Object {
                   "defaultFormats": Object {},
@@ -609,39 +630,48 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
                   ]
                 }
               >
-                <button
+                <RoundButton
                   className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
-                  tabIndex={-1}
                 >
-                  <Memo(Avatar)
-                    size="xl"
-                    style={
-                      Object {
-                        "background": "rgb(240, 240, 241)",
-                      }
-                    }
-                    tabIndex={0}
-                    url="/api/v4/users/7/image?_=0"
+                  <button
+                    className="RoundButton-dvlhqG gHOQXq style--none"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
                   >
-                    <img
-                      alt="user profile image"
-                      className="Avatar Avatar-xl"
-                      onError={[Function]}
-                      src="/api/v4/users/7/image?_=0"
+                    <Memo(Avatar)
+                      size="xl"
                       style={
                         Object {
                           "background": "rgb(240, 240, 241)",
                         }
                       }
-                      tabIndex={0}
-                    />
-                  </Memo(Avatar)>
-                </button>
+                      tabIndex={-1}
+                      url="/api/v4/users/7/image?_=0"
+                    >
+                      <img
+                        alt="user profile image"
+                        className="Avatar Avatar-xl"
+                        loading="lazy"
+                        onError={[Function]}
+                        src="/api/v4/users/7/image?_=0"
+                        style={
+                          Object {
+                            "background": "rgb(240, 240, 241)",
+                          }
+                        }
+                        tabIndex={-1}
+                      />
+                    </Memo(Avatar)>
+                  </button>
+                </RoundButton>
               </OverlayTrigger>
             </OverlayTrigger>
           </SimpleTooltip>
@@ -805,7 +835,6 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
           "background": "rgb(240, 240, 241)",
         }
       }
-      tabIndex={0}
       userId="1"
     >
       <OverlayTrigger
@@ -814,6 +843,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
         overlay={
           <Memo(Connect(injectIntl(ProfilePopover)))
             className="user-profile-popover"
+            hide={[Function]}
             src="/api/v4/users/1/image?_=0"
             userId="1"
           />
@@ -827,6 +857,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
           overlay={
             <OverlayWrapper
               className="user-profile-popover"
+              hide={[Function]}
               intl={
                 Object {
                   "defaultFormats": Object {},
@@ -960,39 +991,48 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                   ]
                 }
               >
-                <button
+                <RoundButton
                   className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
-                  tabIndex={-1}
                 >
-                  <Memo(Avatar)
-                    size="xl"
-                    style={
-                      Object {
-                        "background": "rgb(240, 240, 241)",
-                      }
-                    }
-                    tabIndex={0}
-                    url="/api/v4/users/1/image?_=1620680333191"
+                  <button
+                    className="RoundButton-dvlhqG gHOQXq style--none"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
                   >
-                    <img
-                      alt="user profile image"
-                      className="Avatar Avatar-xl"
-                      onError={[Function]}
-                      src="/api/v4/users/1/image?_=1620680333191"
+                    <Memo(Avatar)
+                      size="xl"
                       style={
                         Object {
                           "background": "rgb(240, 240, 241)",
                         }
                       }
-                      tabIndex={0}
-                    />
-                  </Memo(Avatar)>
-                </button>
+                      tabIndex={-1}
+                      url="/api/v4/users/1/image?_=1620680333191"
+                    >
+                      <img
+                        alt="user profile image"
+                        className="Avatar Avatar-xl"
+                        loading="lazy"
+                        onError={[Function]}
+                        src="/api/v4/users/1/image?_=1620680333191"
+                        style={
+                          Object {
+                            "background": "rgb(240, 240, 241)",
+                          }
+                        }
+                        tabIndex={-1}
+                      />
+                    </Memo(Avatar)>
+                  </button>
+                </RoundButton>
               </OverlayTrigger>
             </OverlayTrigger>
           </SimpleTooltip>
@@ -1015,7 +1055,6 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
           "background": "rgb(240, 240, 241)",
         }
       }
-      tabIndex={0}
       userId="2"
     >
       <OverlayTrigger
@@ -1024,6 +1063,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
         overlay={
           <Memo(Connect(injectIntl(ProfilePopover)))
             className="user-profile-popover"
+            hide={[Function]}
             src="/api/v4/users/2/image?_=0"
             userId="2"
           />
@@ -1037,6 +1077,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
           overlay={
             <OverlayWrapper
               className="user-profile-popover"
+              hide={[Function]}
               intl={
                 Object {
                   "defaultFormats": Object {},
@@ -1170,39 +1211,48 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                   ]
                 }
               >
-                <button
+                <RoundButton
                   className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
-                  tabIndex={-1}
                 >
-                  <Memo(Avatar)
-                    size="xl"
-                    style={
-                      Object {
-                        "background": "rgb(240, 240, 241)",
-                      }
-                    }
-                    tabIndex={0}
-                    url="/api/v4/users/2/image?_=1620680333191"
+                  <button
+                    className="RoundButton-dvlhqG gHOQXq style--none"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
                   >
-                    <img
-                      alt="user profile image"
-                      className="Avatar Avatar-xl"
-                      onError={[Function]}
-                      src="/api/v4/users/2/image?_=1620680333191"
+                    <Memo(Avatar)
+                      size="xl"
                       style={
                         Object {
                           "background": "rgb(240, 240, 241)",
                         }
                       }
-                      tabIndex={0}
-                    />
-                  </Memo(Avatar)>
-                </button>
+                      tabIndex={-1}
+                      url="/api/v4/users/2/image?_=1620680333191"
+                    >
+                      <img
+                        alt="user profile image"
+                        className="Avatar Avatar-xl"
+                        loading="lazy"
+                        onError={[Function]}
+                        src="/api/v4/users/2/image?_=1620680333191"
+                        style={
+                          Object {
+                            "background": "rgb(240, 240, 241)",
+                          }
+                        }
+                        tabIndex={-1}
+                      />
+                    </Memo(Avatar)>
+                  </button>
+                </RoundButton>
               </OverlayTrigger>
             </OverlayTrigger>
           </SimpleTooltip>
@@ -1225,7 +1275,6 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
           "background": "rgb(240, 240, 241)",
         }
       }
-      tabIndex={0}
       userId="3"
     >
       <OverlayTrigger
@@ -1234,6 +1283,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
         overlay={
           <Memo(Connect(injectIntl(ProfilePopover)))
             className="user-profile-popover"
+            hide={[Function]}
             src="/api/v4/users/3/image?_=0"
             userId="3"
           />
@@ -1247,6 +1297,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
           overlay={
             <OverlayWrapper
               className="user-profile-popover"
+              hide={[Function]}
               intl={
                 Object {
                   "defaultFormats": Object {},
@@ -1380,39 +1431,48 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                   ]
                 }
               >
-                <button
+                <RoundButton
                   className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
-                  tabIndex={-1}
                 >
-                  <Memo(Avatar)
-                    size="xl"
-                    style={
-                      Object {
-                        "background": "rgb(240, 240, 241)",
-                      }
-                    }
-                    tabIndex={0}
-                    url="/api/v4/users/3/image?_=1620680333191"
+                  <button
+                    className="RoundButton-dvlhqG gHOQXq style--none"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
                   >
-                    <img
-                      alt="user profile image"
-                      className="Avatar Avatar-xl"
-                      onError={[Function]}
-                      src="/api/v4/users/3/image?_=1620680333191"
+                    <Memo(Avatar)
+                      size="xl"
                       style={
                         Object {
                           "background": "rgb(240, 240, 241)",
                         }
                       }
-                      tabIndex={0}
-                    />
-                  </Memo(Avatar)>
-                </button>
+                      tabIndex={-1}
+                      url="/api/v4/users/3/image?_=1620680333191"
+                    >
+                      <img
+                        alt="user profile image"
+                        className="Avatar Avatar-xl"
+                        loading="lazy"
+                        onError={[Function]}
+                        src="/api/v4/users/3/image?_=1620680333191"
+                        style={
+                          Object {
+                            "background": "rgb(240, 240, 241)",
+                          }
+                        }
+                        tabIndex={-1}
+                      />
+                    </Memo(Avatar)>
+                  </button>
+                </RoundButton>
               </OverlayTrigger>
             </OverlayTrigger>
           </SimpleTooltip>
@@ -1574,7 +1634,6 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
           "background": "rgb(240, 240, 241)",
         }
       }
-      tabIndex={0}
       userId="1"
     >
       <OverlayTrigger
@@ -1583,6 +1642,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
         overlay={
           <Memo(Connect(injectIntl(ProfilePopover)))
             className="user-profile-popover"
+            hide={[Function]}
             src="/api/v4/users/1/image?_=0"
             userId="1"
           />
@@ -1596,6 +1656,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
           overlay={
             <OverlayWrapper
               className="user-profile-popover"
+              hide={[Function]}
               intl={
                 Object {
                   "defaultFormats": Object {},
@@ -1729,39 +1790,48 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                   ]
                 }
               >
-                <button
+                <RoundButton
                   className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
-                  tabIndex={-1}
                 >
-                  <Memo(Avatar)
-                    size="xl"
-                    style={
-                      Object {
-                        "background": "rgb(240, 240, 241)",
-                      }
-                    }
-                    tabIndex={0}
-                    url="/api/v4/users/1/image?_=1620680333191"
+                  <button
+                    className="RoundButton-dvlhqG gHOQXq style--none"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
                   >
-                    <img
-                      alt="user profile image"
-                      className="Avatar Avatar-xl"
-                      onError={[Function]}
-                      src="/api/v4/users/1/image?_=1620680333191"
+                    <Memo(Avatar)
+                      size="xl"
                       style={
                         Object {
                           "background": "rgb(240, 240, 241)",
                         }
                       }
-                      tabIndex={0}
-                    />
-                  </Memo(Avatar)>
-                </button>
+                      tabIndex={-1}
+                      url="/api/v4/users/1/image?_=1620680333191"
+                    >
+                      <img
+                        alt="user profile image"
+                        className="Avatar Avatar-xl"
+                        loading="lazy"
+                        onError={[Function]}
+                        src="/api/v4/users/1/image?_=1620680333191"
+                        style={
+                          Object {
+                            "background": "rgb(240, 240, 241)",
+                          }
+                        }
+                        tabIndex={-1}
+                      />
+                    </Memo(Avatar)>
+                  </button>
+                </RoundButton>
               </OverlayTrigger>
             </OverlayTrigger>
           </SimpleTooltip>
@@ -1784,7 +1854,6 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
           "background": "rgb(240, 240, 241)",
         }
       }
-      tabIndex={0}
       userId="2"
     >
       <OverlayTrigger
@@ -1793,6 +1862,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
         overlay={
           <Memo(Connect(injectIntl(ProfilePopover)))
             className="user-profile-popover"
+            hide={[Function]}
             src="/api/v4/users/2/image?_=0"
             userId="2"
           />
@@ -1806,6 +1876,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
           overlay={
             <OverlayWrapper
               className="user-profile-popover"
+              hide={[Function]}
               intl={
                 Object {
                   "defaultFormats": Object {},
@@ -1939,39 +2010,48 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                   ]
                 }
               >
-                <button
+                <RoundButton
                   className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
-                  tabIndex={-1}
                 >
-                  <Memo(Avatar)
-                    size="xl"
-                    style={
-                      Object {
-                        "background": "rgb(240, 240, 241)",
-                      }
-                    }
-                    tabIndex={0}
-                    url="/api/v4/users/2/image?_=1620680333191"
+                  <button
+                    className="RoundButton-dvlhqG gHOQXq style--none"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
                   >
-                    <img
-                      alt="user profile image"
-                      className="Avatar Avatar-xl"
-                      onError={[Function]}
-                      src="/api/v4/users/2/image?_=1620680333191"
+                    <Memo(Avatar)
+                      size="xl"
                       style={
                         Object {
                           "background": "rgb(240, 240, 241)",
                         }
                       }
-                      tabIndex={0}
-                    />
-                  </Memo(Avatar)>
-                </button>
+                      tabIndex={-1}
+                      url="/api/v4/users/2/image?_=1620680333191"
+                    >
+                      <img
+                        alt="user profile image"
+                        className="Avatar Avatar-xl"
+                        loading="lazy"
+                        onError={[Function]}
+                        src="/api/v4/users/2/image?_=1620680333191"
+                        style={
+                          Object {
+                            "background": "rgb(240, 240, 241)",
+                          }
+                        }
+                        tabIndex={-1}
+                      />
+                    </Memo(Avatar)>
+                  </button>
+                </RoundButton>
               </OverlayTrigger>
             </OverlayTrigger>
           </SimpleTooltip>
@@ -1994,7 +2074,6 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
           "background": "rgb(240, 240, 241)",
         }
       }
-      tabIndex={0}
       userId="3"
     >
       <OverlayTrigger
@@ -2003,6 +2082,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
         overlay={
           <Memo(Connect(injectIntl(ProfilePopover)))
             className="user-profile-popover"
+            hide={[Function]}
             src="/api/v4/users/3/image?_=0"
             userId="3"
           />
@@ -2016,6 +2096,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
           overlay={
             <OverlayWrapper
               className="user-profile-popover"
+              hide={[Function]}
               intl={
                 Object {
                   "defaultFormats": Object {},
@@ -2149,39 +2230,48 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                   ]
                 }
               >
-                <button
+                <RoundButton
                   className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
-                  tabIndex={-1}
                 >
-                  <Memo(Avatar)
-                    size="xl"
-                    style={
-                      Object {
-                        "background": "rgb(240, 240, 241)",
-                      }
-                    }
-                    tabIndex={0}
-                    url="/api/v4/users/3/image?_=1620680333191"
+                  <button
+                    className="RoundButton-dvlhqG gHOQXq style--none"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
                   >
-                    <img
-                      alt="user profile image"
-                      className="Avatar Avatar-xl"
-                      onError={[Function]}
-                      src="/api/v4/users/3/image?_=1620680333191"
+                    <Memo(Avatar)
+                      size="xl"
                       style={
                         Object {
                           "background": "rgb(240, 240, 241)",
                         }
                       }
-                      tabIndex={0}
-                    />
-                  </Memo(Avatar)>
-                </button>
+                      tabIndex={-1}
+                      url="/api/v4/users/3/image?_=1620680333191"
+                    >
+                      <img
+                        alt="user profile image"
+                        className="Avatar Avatar-xl"
+                        loading="lazy"
+                        onError={[Function]}
+                        src="/api/v4/users/3/image?_=1620680333191"
+                        style={
+                          Object {
+                            "background": "rgb(240, 240, 241)",
+                          }
+                        }
+                        tabIndex={-1}
+                      />
+                    </Memo(Avatar)>
+                  </button>
+                </RoundButton>
               </OverlayTrigger>
             </OverlayTrigger>
           </SimpleTooltip>

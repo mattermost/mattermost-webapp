@@ -2,18 +2,15 @@
 // See LICENSE.txt for license information.
 
 import React, {ReactNode} from 'react';
+import {IntlShape, injectIntl, FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import classNames from 'classnames';
-import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 
 import StatusIcon from '@mattermost/compass-components/components/status-icon';
 import Text from '@mattermost/compass-components/components/text';
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 import {TUserStatus} from '@mattermost/compass-components/shared';
 
-import {PreferenceType} from '@mattermost/types/preferences';
-import {PulsatingDot} from '@mattermost/components';
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {CustomStatusDuration, UserCustomStatus, UserProfile, UserStatus} from '@mattermost/types/users';
 
 import * as GlobalActions from 'actions/global_actions';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
@@ -38,12 +35,17 @@ import {t} from 'utils/i18n';
 import {getCurrentDateTimeForTimezone, getCurrentMomentForTimezone} from 'utils/timezone';
 import {localizeMessage} from 'utils/utils';
 
+import {CustomStatusDuration, UserCustomStatus, UserProfile, UserStatus} from '@mattermost/types/users';
+import {PulsatingDot} from '@mattermost/components';
+import {PreferenceType} from '@mattermost/types/preferences';
+
 import './status_dropdown.scss';
 
 type Props = {
+    intl: IntlShape;
     status?: string;
     userId: string;
-    profilePicture: string;
+    profilePicture?: string;
     autoResetPref?: string;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
@@ -69,7 +71,7 @@ type State = {
     isStatusSet: boolean;
 };
 
-export default class StatusDropdown extends React.PureComponent<Props, State> {
+export class StatusDropdown extends React.PureComponent<Props, State> {
     dndTimes = [
         {id: 'thirty_minutes', label: t('status_dropdown.dnd_sub_menu_item.thirty_minutes'), labelDefault: '30 mins'},
         {id: 'one_hour', label: t('status_dropdown.dnd_sub_menu_item.one_hour'), labelDefault: '1 hour'},
@@ -182,6 +184,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
             <Avatar
                 size={size}
                 url={this.props.profilePicture}
+                tabIndex={undefined}
             />
         );
     }
@@ -338,6 +341,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
     }
 
     render = (): JSX.Element => {
+        const {intl} = this.props;
         const needsConfirm = this.isUserOutOfOffice() && this.props.autoResetPref === '';
         const {status, customStatus, isCustomStatusExpired, currentUser} = this.props;
         const isStatusSet = customStatus && (customStatus.text.length > 0 || customStatus.emoji.length > 0) && !isCustomStatusExpired;
@@ -375,12 +379,14 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                                 <FormattedDate
                                     value={tomorrow}
                                     weekday='short'
+                                    timeZone={this.props.timezone}
                                 />
                                 {', '}
                                 <FormattedTime
                                     value={tomorrow}
                                     timeStyle='short'
                                     hour12={!this.props.isMilitaryTime}
+                                    timeZone={this.props.timezone}
                                 />
                             </span>
                         </>
@@ -398,6 +404,45 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
 
         const customStatusComponent = this.renderCustomStatus(isStatusSet);
 
+        let menuAriaLabeltext;
+        switch (this.props.status) {
+        case UserStatuses.AWAY:
+            menuAriaLabeltext = intl.formatMessage({
+                id: 'status_dropdown.profile_button_label.away',
+                defaultMessage: 'Current status: Away. Select to open profile and status menu.',
+            });
+            break;
+        case UserStatuses.DND:
+            menuAriaLabeltext = intl.formatMessage({
+                id: 'status_dropdown.profile_button_label.dnd',
+                defaultMessage: 'Current status: Do not disturb. Select to open profile and status menu.',
+            });
+            break;
+        case UserStatuses.OFFLINE:
+            menuAriaLabeltext = intl.formatMessage({
+                id: 'status_dropdown.profile_button_label.offline',
+                defaultMessage: 'Current status: Offline. Select to open profile and status menu.',
+            });
+            break;
+        case UserStatuses.ONLINE:
+            menuAriaLabeltext = intl.formatMessage({
+                id: 'status_dropdown.profile_button_label.online',
+                defaultMessage: 'Current status: Online. Select to open profile and status menu.',
+            });
+            break;
+        case UserStatuses.OUT_OF_OFFICE:
+            menuAriaLabeltext = intl.formatMessage({
+                id: 'status_dropdown.profile_button_label.ooo',
+                defaultMessage: 'Current status: Out of office. Select to open profile and status menu.',
+            });
+            break;
+        default:
+            menuAriaLabeltext = intl.formatMessage({
+                id: 'status_dropdown.profile_button_label',
+                defaultMessage: 'Select to open profile and status menu.',
+            });
+        }
+
         return (
             <MenuWrapper
                 onToggle={this.onToggle}
@@ -406,7 +451,12 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                     active: this.props.isStatusDropdownOpen || isStatusSet,
                 })}
             >
-                <div className='status-wrapper'>
+                <button
+                    className='status-wrapper style--none'
+                    aria-label={menuAriaLabeltext}
+                    aria-expanded={this.props.isStatusDropdownOpen}
+                    aria-controls='statusDropdownMenu'
+                >
                     <CustomStatusEmoji
                         showTooltip={true}
                         tooltipDirection={'bottom'}
@@ -414,16 +464,15 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                         onClick={this.handleCustomStatusEmojiClick as () => void}
                     />
                     {this.renderProfilePicture('sm')}
-                    <button
-                        className='status style--none'
-                        aria-label={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
+                    <div
+                        className='status'
                     >
                         <StatusIcon
                             size={'sm'}
                             status={(this.props.status || 'offline') as TUserStatus}
                         />
-                    </button>
-                </div>
+                    </div>
+                </button>
                 <Menu
                     ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
                     id={'statusDropdownMenu'}
@@ -521,7 +570,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                             modalId={ModalIdentifiers.USER_SETTINGS}
                             dialogType={UserSettingsModal}
                             dialogProps={{isContentProductSettings: false}}
-                            text={localizeMessage('navbar_dropdown.accountSettings', 'Profile')}
+                            text={localizeMessage('navbar_dropdown.profileSettings', 'Profile')}
                             icon={(
                                 <Icon
                                     size={16}
@@ -557,3 +606,4 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
         );
     }
 }
+export default injectIntl(StatusDropdown);

@@ -5,32 +5,46 @@
 }
 
 .admin-console {
+    overflow: auto;
     height: 100%;
-    padding-left: 220px;
     color: #333;
+    grid-area: center;
     -webkit-overflow-scrolling: touch;
+
+    > div {
+        width: 100%;
+        height: 100%;
+    }
 
     .wrapper--fixed {
         display: flex;
-        height: calc(100vh - #{$backstage-bar-height});
+        height: 100%;
         flex-direction: column;
 
         // Fix for Safari on iOS MM-24361
         @supports (-webkit-touch-callout: none) {
             height: -webkit-fill-available;
         }
-
-        .announcement-bar--fixed & {
-            height: calc(100vh - #{$announcement-bar-height} - #{$backstage-bar-height});
-        }
     }
 
     .admin-console__wrapper {
-        overflow: auto;
+        position: relative;
         height: 100%;
+        min-height: 100%;
+        max-height: 100%;
         -webkit-flex: 1 1 auto;
         flex: 1 1 auto;
         padding: 20px;
+        margin-right: 5px;
+        scrollbar-color: var(--center-channel-color-32) #fff0;
+        scrollbar-width: thin;
+
+        > .wrapper--admin {
+            display: flex;
+            overflow: auto;
+            height: 100%;
+            flex-direction: column;
+        }
     }
 
     .admin-console__content {
@@ -165,12 +179,15 @@
 
     &.admin {
         overflow: auto;
+        height: 100%;
         min-height: 600px;
         padding: 0 40px 20px;
         background-color: #f1f1f1;
     }
 
     .form-horizontal {
+        height: 100%;
+
         .control-label {
             padding-right: 0;
             font-weight: 600;
@@ -487,7 +504,6 @@
         }
 
         .reset-defaults-btn {
-            position: absolute;
             right: 0;
             padding-right: 10px;
             padding-left: 10px;
@@ -532,6 +548,12 @@
         font-size: 12px;
         font-weight: 400;
     }
+
+    .logs-banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
 }
 
 .job-table__table {
@@ -551,15 +573,12 @@
 }
 
 .admin-sidebar {
-    position: fixed;
     z-index: 10;
-    top: $backstage-bar-height;
-    left: 0;
     display: flex;
     width: 220px;
-    height: calc(100% - #{$announcement-bar-height});
     flex-direction: column;
     background: #111;
+    grid-area: lhs;
 
     .filter-container {
         position: relative;
@@ -1030,11 +1049,34 @@
 }
 
 .admin-console .admin-console__content.admin-logs-content {
+    display: flex;
     max-width: none;
+    height: 100%;
+    flex-direction: column;
 
     // We keep the banner the same width and only expand the content box.
     .banner {
         max-width: 920px;
+    }
+
+    > .btn {
+        width: fit-content;
+    }
+
+    .LogTable {
+        height: 100%;
+
+        .DataGrid {
+            display: flex;
+            height: 100%;
+            flex-direction: column;
+
+            .DataGrid_rows {
+                overflow: auto;
+                height: 100%;
+                min-height: 100% !important;
+            }
+        }
     }
 }
 

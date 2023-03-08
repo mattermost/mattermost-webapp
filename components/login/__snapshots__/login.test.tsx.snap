@@ -46,6 +46,12 @@ exports[`components/login/Login should match snapshot with base login 1`] = `
     <div
       className="login-body-action"
     >
+      <AlternateLink
+        alternateLinkLabel="Don't have an account?"
+        alternateLinkPath="/access_problem"
+        className="login-body-alternate-link"
+        onClick={[Function]}
+      />
       <div
         className="login-body-card"
       >
@@ -82,6 +88,15 @@ exports[`components/login/Login should match snapshot with base login 1`] = `
               onChange={[Function]}
               value=""
             />
+            <div
+              className="login-body-card-form-link"
+            >
+              <Link
+                to="/reset_password"
+              >
+                Forgot your password?
+              </Link>
+            </div>
             <SaveButton
               btnClass="btn-primary"
               defaultMessage="Log in"

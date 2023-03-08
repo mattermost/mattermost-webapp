@@ -1,17 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {General, Permissions} from 'mattermost-redux/constants';
+
+import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+
+import {sortChannelsByDisplayName, getDirectChannelName} from 'mattermost-redux/utils/channel_utils';
+
+import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
+
 import {Channel} from '@mattermost/types/channels';
 import {GlobalState} from '@mattermost/types/store';
 
-import {General, Permissions} from 'mattermost-redux/constants';
-import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-
 import mergeObjects from '../../../test/merge_objects';
 import TestHelper from '../../..//test/test_helper';
-
-import {sortChannelsByDisplayName, getDirectChannelName} from 'mattermost-redux/utils/channel_utils';
-import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 
 import * as Selectors from './channels';
 
@@ -2364,7 +2366,7 @@ describe('Selectors.Channels.getUnreadStatus', () => {
         const unreadMeta = Selectors.basicUnreadMeta(unreadStatus);
 
         expect(unreadMeta.isUnread).toBe(true); // channelA and channelB are unread, but only channelB is counted because of its mark_unread
-        expect(unreadStatus).toBe(myMemberA.mention_count + myMemberB.mention_count);
+        expect(unreadStatus).toBe(myMemberB.mention_count); // channelA and channelB are unread, but only channelB is counted because of its mark_unread
     });
 
     test('should count mentions from DM channels', () => {
@@ -2708,7 +2710,6 @@ describe('Selectors.Channels.getUnreadStatus', () => {
                 },
                 general: {
                     config: {
-                        FeatureFlagCollapsedThreads: 'true',
                         CollapsedThreads: 'always_on',
                     },
                 },
@@ -2756,7 +2757,7 @@ describe('Selectors.Channels.getUnreadStatus', () => {
         expect(teamUnreadStatus[1].get('team2')).toBe(2);
     });
 
-    test('should only have mention count of muted channel and not have its unread status', () => {
+    test('should not have mention count of muted channel and have its unread status', () => {
         const myMemberA = {mention_count: 0, msg_count: 5, notify_props: {mark_unread: 'mention'}};
         const myMemberB = {mention_count: 0, msg_count: 5, notify_props: {mark_unread: 'mention'}};
         const myMemberC = {mention_count: 3, msg_count: 5, notify_props: {mark_unread: 'mention'}};
@@ -2809,10 +2810,10 @@ describe('Selectors.Channels.getUnreadStatus', () => {
         const teamUnreadStatus = Selectors.getTeamsUnreadStatuses(state);
 
         expect(teamUnreadStatus[0].has('team1')).toBe(false);
-        expect(teamUnreadStatus[0].has('team2')).toBe(true);
+        expect(teamUnreadStatus[0].has('team2')).toBe(false);
 
         expect(teamUnreadStatus[1].get('team1')).toBe(undefined);
-        expect(teamUnreadStatus[1].get('team2')).toBe(3);
+        expect(teamUnreadStatus[1].get('team2')).toBe(undefined);
     });
 });
 
@@ -3201,6 +3202,62 @@ describe('Selectors.Channels.getUnreadChannelIds', () => {
         expect(Selectors.getUnreadChannelIds(testState, channel5)).toEqual([
             channel1.id,
             channel3.id,
+        ]);
+    });
+});
+
+describe('Selectors.Channels.getRecentProfilesFromDMs', () => {
+    it('should return profiles from DMs in descending order of last viewed at time', () => {
+        const currentUser = TestHelper.fakeUserWithId();
+        const user1 = TestHelper.fakeUserWithId();
+        const user2 = TestHelper.fakeUserWithId();
+        const user3 = TestHelper.fakeUserWithId();
+        const user4 = TestHelper.fakeUserWithId();
+
+        const profiles = {
+            [currentUser.id]: currentUser,
+            [user1.id]: user1,
+            [user2.id]: user2,
+            [user3.id]: user3,
+            [user4.id]: user4,
+        };
+
+        const channel1 = TestHelper.fakeDmChannel(currentUser.id, user1.id);
+        const channel2 = TestHelper.fakeDmChannel(currentUser.id, user2.id);
+        const channel3 = TestHelper.fakeGmChannel(currentUser.username, user3.username, user4.username);
+        const channels = {
+            [channel1.id]: channel1,
+            [channel2.id]: channel2,
+            [channel3.id]: channel3,
+        };
+        const myMembers = {
+            [channel1.id]: {channel_id: channel1.id, last_viewed_at: 1664984782988},
+            [channel3.id]: {channel_id: channel3.id, last_viewed_at: 1664984782992},
+            [channel2.id]: {channel_id: channel2.id, last_viewed_at: 1664984782998},
+        };
+        const testState = deepFreezeAndThrowOnMutation({
+            entities: {
+                preferences: {
+                    myPreferences: {},
+                },
+                general: {
+                    config: {},
+                },
+                users: {
+                    currentUserId: currentUser.id,
+                    profiles,
+                },
+                teams: {},
+                channels: {
+                    channels,
+                    myMembers,
+                },
+            },
+        });
+        expect(Selectors.getRecentProfilesFromDMs(testState).map((user) => user.username)).toEqual([
+            user2.username,
+            ...[user3.username, user4.username].sort(),
+            user1.username,
         ]);
     });
 });

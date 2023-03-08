@@ -1,18 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
 import {FormattedMessage, useIntl} from 'react-intl';
 import moment, {Moment} from 'moment-timezone';
+import {useRouteMatch} from 'react-router-dom';
 
 import {setCustomStatus, unsetCustomStatus, removeRecentCustomStatus} from 'mattermost-redux/actions/users';
 import {setCustomStatusInitialisationState} from 'mattermost-redux/actions/preferences';
 import {Preferences} from 'mattermost-redux/constants';
-import {UserCustomStatus, CustomStatusDuration} from '@mattermost/types/users';
-import {Emoji} from '@mattermost/types/emojis';
 
 import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
+import {closeModal} from 'actions/views/modals';
 import GenericModal from 'components/generic_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
@@ -22,13 +23,16 @@ import {makeGetCustomStatus, getRecentCustomStatuses, showStatusDropdownPulsatin
 import {getCurrentUserTimezone} from 'selectors/general';
 import {GlobalState} from 'types/store';
 import {getCurrentMomentForTimezone} from 'utils/timezone';
-import {Constants} from 'utils/constants';
+import {A11yCustomEventTypes, A11yFocusEventDetail, Constants, ModalIdentifiers} from 'utils/constants';
 import {t} from 'utils/i18n';
-import {localizeMessage} from 'utils/utils';
+import {isKeyPressed, localizeMessage} from 'utils/utils';
 
 import CustomStatusSuggestion from 'components/custom_status/custom_status_suggestion';
 import ExpiryMenu from 'components/custom_status/expiry_menu';
 import DateTimeInput, {getRoundedTime} from 'components/custom_status/date_time_input';
+
+import {Emoji} from '@mattermost/types/emojis';
+import {UserCustomStatus, CustomStatusDuration} from '@mattermost/types/users';
 
 import 'components/category_modal.scss';
 import './custom_status.scss';
@@ -101,6 +105,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const customStatusExpired = useSelector((state: GlobalState) => isCustomStatusExpired(state, currentCustomStatus));
     const recentCustomStatuses = useSelector(getRecentCustomStatuses);
     const customStatusControlRef = useRef<HTMLDivElement>(null);
+    const emojiButtonRef = useRef<HTMLButtonElement>(null);
     const {formatMessage} = useIntl();
     const isCurrentCustomStatusSet = !customStatusExpired && (currentCustomStatus?.text || currentCustomStatus?.emoji);
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
@@ -111,6 +116,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const isStatusSet = Boolean(emoji || text);
     const firstTimeModalOpened = useSelector(showStatusDropdownPulsatingDot);
     const timezone = useSelector(getCurrentUserTimezone);
+    const inCustomEmojiPath = useRouteMatch('/:team/emoji');
 
     const currentTime = getCurrentMomentForTimezone(timezone);
     let initialCustomExpiryTime: Moment = getRoundedTime(currentTime);
@@ -118,6 +124,21 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         initialCustomExpiryTime = moment(currentCustomStatus.expires_at);
     }
     const [customExpiryTime, setCustomExpiryTime] = useState<Moment>(initialCustomExpiryTime);
+    const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
+
+    const handleKeyDown = useCallback((event: KeyboardEvent) => {
+        if (isKeyPressed(event, Constants.KeyCodes.ESCAPE) && !isDatePickerOpen) {
+            props.onExited();
+        }
+    }, [isDatePickerOpen, props.onExited]);
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [handleKeyDown]);
 
     const handleCustomStatusInitializationState = () => {
         if (firstTimeModalOpened) {
@@ -142,6 +163,12 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         loadCustomEmojisForRecentStatuses();
         handleStatusExpired();
     }, []);
+
+    useEffect(() => {
+        if (inCustomEmojiPath) {
+            dispatch(closeModal(ModalIdentifiers.CUSTOM_STATUS));
+        }
+    }, [inCustomEmojiPath]);
 
     const handleSetStatus = () => {
         const expiresAt = calculateExpiryTime();
@@ -182,12 +209,47 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
 
     const getCustomStatusControlRef = () => customStatusControlRef.current;
 
-    const handleEmojiClose = () => setShowEmojiPicker(false);
+    const handleEmojiClose = () => {
+        setShowEmojiPicker(false);
+        if (emojiButtonRef.current) {
+            document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+                A11yCustomEventTypes.FOCUS, {
+                    detail: {
+                        target: emojiButtonRef.current as HTMLElement,
+                        keyboardOnly: true,
+                    },
+                },
+            ));
+        }
+    };
+
+    const handleEmojiExited = () => {
+        if (emojiButtonRef.current) {
+            document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+                A11yCustomEventTypes.FOCUS, {
+                    detail: {
+                        target: emojiButtonRef.current as HTMLElement,
+                        keyboardOnly: true,
+                    },
+                },
+            ));
+        }
+    };
 
     const handleEmojiClick = (selectedEmoji: Emoji) => {
         setShowEmojiPicker(false);
         const emojiName = ('short_name' in selectedEmoji) ? selectedEmoji.short_name : selectedEmoji.name;
         setEmoji(emojiName);
+        if (emojiButtonRef.current) {
+            document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+                A11yCustomEventTypes.FOCUS, {
+                    detail: {
+                        target: emojiButtonRef.current as HTMLElement,
+                        keyboardOnly: true,
+                    },
+                },
+            ));
+        }
     };
 
     const toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
@@ -333,6 +395,8 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
             handleCancel={handleClearStatus}
             confirmButtonClassName='btn btn-primary'
             ariaLabel={localizeMessage('custom_status.set_status', 'Set a status')}
+            keyboardEscape={false}
+            tabIndex={-1}
         >
             <div className='StatusModal__body'>
                 <div className='StatusModal__input'>
@@ -350,11 +414,13 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                                 leftOffset={3}
                                 topOffset={3}
                                 defaultHorizontalPosition='right'
+                                onExited={handleEmojiExited}
                             />
                         )}
                         <button
                             type='button'
                             onClick={toggleEmojiPicker}
+                            ref={emojiButtonRef}
                             className={classNames('emoji-picker__container', 'StatusModal__emoji-button', {
                                 'StatusModal__emoji-button--active': showEmojiPicker,
                             })}
@@ -368,26 +434,28 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         maxLength={CUSTOM_STATUS_TEXT_CHARACTER_LIMIT}
                         clearableWithoutValue={Boolean(isStatusSet)}
                         onClear={clearHandle}
-                        className='form-control'
+                        className='emoji-quick-input form-control'
                         clearClassName='StatusModal__clear-container'
                         tooltipPosition='top'
                         onChange={handleTextChange}
                         placeholder={formatMessage({id: 'custom_status.set_status', defaultMessage: 'Set a status'})}
+                        autoFocus={true}
                     />
                 </div>
+                {isStatusSet && (
+                    <ExpiryMenu
+                        duration={duration}
+                        expiryTime={showSuggestions ? currentCustomStatus?.expires_at : undefined}
+                        handleDurationChange={setDuration}
+                    />
+                )}
                 {showSuggestions && suggestion}
                 {showDateAndTimeField && (
                     <DateTimeInput
                         time={customExpiryTime}
                         handleChange={setCustomExpiryTime}
                         timezone={timezone}
-                    />
-                )}
-                {isStatusSet && (
-                    <ExpiryMenu
-                        duration={duration}
-                        expiryTime={showSuggestions ? currentCustomStatus?.expires_at : undefined}
-                        handleDurationChange={setDuration}
+                        setIsDatePickerOpen={setIsDatePickerOpen}
                     />
                 )}
             </div>

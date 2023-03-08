@@ -20,7 +20,7 @@ export type Actions = {
 }
 
 interface Props {
-    location?: typeof Locations.CENTER | typeof Locations.RHS_ROOT | typeof Locations.RHS_COMMENT | typeof Locations.SEARCH;
+    location?: keyof typeof Locations;
     postId: string;
     isFlagged: boolean;
     actions: Actions;

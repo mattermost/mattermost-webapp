@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
@@ -63,11 +64,12 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
         ) : null;
 
     return (
-        <div
+        <button
             className='statusSuggestion__row cursor--pointer'
             onMouseEnter={showClearButton}
             onMouseLeave={hideClearButton}
             onClick={() => handleSuggestionClick(status)}
+            tabIndex={0}
         >
             <div className='statusSuggestion__icon'>
                 <RenderEmoji
@@ -93,7 +95,7 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
                 </span>
             )}
             {show && clearButton}
-        </div>
+        </button>
     );
 };
 

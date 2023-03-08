@@ -9,9 +9,9 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 import {PreferenceType} from '@mattermost/types/preferences';
 import {GlobalState} from '@mattermost/types/store';
 import {Channel} from '@mattermost/types/channels';
-import {getCurrentChannelId, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, getRedirectChannelNameForTeam, makeGetGmChannelMemberCount} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getUserIdsInChannels, getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import SidebarGroupChannel from './sidebar_group_channel';
 
@@ -19,29 +19,23 @@ type OwnProps = {
     channel: Channel;
 }
 
-function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const currentUser = getCurrentUser(state);
-    const currentTeam = getCurrentTeam(state);
-    const redirectChannel = getRedirectChannelNameForTeam(state, currentTeam.id);
-    const currentChannelId = getCurrentChannelId(state);
-    const active = ownProps.channel.id === currentChannelId;
+function makeMapStateToProps() {
+    const getMemberCount = makeGetGmChannelMemberCount();
 
-    const memberIds = getUserIdsInChannels(state);
+    return (state: GlobalState, ownProps: OwnProps) => {
+        const currentUserId = getCurrentUserId(state);
+        const currentTeam = getCurrentTeam(state);
+        const redirectChannel = getRedirectChannelNameForTeam(state, currentTeam.id);
+        const currentChannelId = getCurrentChannelId(state);
+        const membersCount = getMemberCount(state, ownProps.channel);
+        const active = ownProps.channel.id === currentChannelId;
 
-    let membersCount = 0;
-    if (memberIds && memberIds[ownProps.channel.id]) {
-        const groupMemberIds: Set<string> = memberIds[ownProps.channel.id] as unknown as Set<string>;
-        membersCount = groupMemberIds.size;
-        if (groupMemberIds.has(currentUser.id)) {
-            membersCount--;
-        }
-    }
-
-    return {
-        currentUserId: currentUser.id,
-        redirectChannel,
-        active,
-        membersCount,
+        return {
+            currentUserId,
+            redirectChannel,
+            active,
+            membersCount,
+        };
     };
 }
 
@@ -59,4 +53,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SidebarGroupChannel);
+export default connect(makeMapStateToProps, mapDispatchToProps)(SidebarGroupChannel);

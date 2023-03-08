@@ -4,15 +4,8 @@
 import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
-import {FetchPaginatedThreadOptions} from '@mattermost/types/client4';
-import {ChannelUnread} from '@mattermost/types/channels';
-import {GlobalState} from '@mattermost/types/store';
-import {Post, PostList} from '@mattermost/types/posts';
-import {Reaction} from '@mattermost/types/reactions';
-import {UserProfile} from '@mattermost/types/users';
-
 import {Client4, DEFAULT_LIMIT_AFTER, DEFAULT_LIMIT_BEFORE} from 'mattermost-redux/client';
-import {General, Preferences, Posts} from '../constants';
+
 import {PostTypes, ChannelTypes, FileTypes, IntegrationTypes} from 'mattermost-redux/action_types';
 
 import {getCurrentChannelId, getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
@@ -25,6 +18,14 @@ import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 import {ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {getUnreadScrollPositionPreference, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
+import {General, Preferences, Posts} from '../constants';
+import {UserProfile} from '@mattermost/types/users';
+import {Reaction} from '@mattermost/types/reactions';
+import {Post, PostList, PostAcknowledgement} from '@mattermost/types/posts';
+import {GlobalState} from '@mattermost/types/store';
+import {ChannelUnread} from '@mattermost/types/channels';
+import {FetchPaginatedThreadOptions} from '@mattermost/types/client4';
 
 import {getProfilesByIds, getProfilesByUsernames, getStatusesByIds} from './users';
 import {
@@ -191,7 +192,8 @@ export function createPost(post: Post, files: any[] = []) {
 
         // We are retrying a pending post that had files
         if (newPost.file_ids && !files.length) {
-            files = newPost.file_ids.map((id) => state.entities.files.files[id]); // eslint-disable-line
+            // eslint-disable-next-line no-param-reassign
+            files = newPost.file_ids.map((id) => state.entities.files.files[id]);
         }
 
         if (files.length) {
@@ -452,6 +454,7 @@ function getUnreadPostData(unreadChan: ChannelUnread, state: GlobalState) {
         mentionCount: unreadChan.mention_count,
         msgCountRoot: unreadChan.msg_count_root,
         mentionCountRoot: unreadChan.mention_count_root,
+        urgentMentionCount: unreadChan.urgent_mention_count,
         lastViewedAt: unreadChan.last_viewed_at,
         deltaMsgs: delta,
         deltaMsgsRoot: deltaRoot,
@@ -1056,17 +1059,27 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|PostList[
     postsArray.forEach((post) => {
         const userId = post.user_id;
 
-        if (post.metadata && post.metadata.embeds) {
-            post.metadata.embeds.forEach((embed: any) => {
-                if (embed.type === 'permalink' && embed.data) {
-                    if (embed.data.post?.user_id && !profiles[embed.data.post.user_id] && embed.data.post.user_id !== currentUserId) {
-                        userIdsToLoad.add(embed.data.post.user_id);
+        if (post.metadata) {
+            if (post.metadata.embeds) {
+                post.metadata.embeds.forEach((embed: any) => {
+                    if (embed.type === 'permalink' && embed.data) {
+                        if (embed.data.post?.user_id && !profiles[embed.data.post.user_id] && embed.data.post.user_id !== currentUserId) {
+                            userIdsToLoad.add(embed.data.post.user_id);
+                        }
+                        if (embed.data.post?.user_id && !statuses[embed.data.post.user_id]) {
+                            statusesToLoad.add(embed.data.post.user_id);
+                        }
                     }
-                    if (embed.data.post?.user_id && !statuses[embed.data.post.user_id]) {
-                        statusesToLoad.add(embed.data.post.user_id);
+                });
+            }
+
+            if (post.metadata.acknowledgements) {
+                post.metadata.acknowledgements.forEach((ack: any) => {
+                    if (ack.acknowledged_at > 0) {
+                        userIdsToLoad.add(ack.user_id);
                     }
-                }
-            });
+                });
+            }
         }
 
         if (!statuses[userId]) {
@@ -1120,6 +1133,14 @@ export function getPostsByIds(ids: string[]) {
 
         return {data: {posts}};
     };
+}
+
+export function getPostEditHistory(postId: string) {
+    return bindClientFunc({
+        clientFunc: Client4.getPostEditHistory,
+        onSuccess: PostTypes.RECEIVED_POST_HISTORY,
+        params: [postId],
+    });
 }
 
 export function getNeededAtMentionedUsernames(state: GlobalState, posts: Post[]): Set<string> {
@@ -1218,6 +1239,19 @@ export function unflagPost(postId: string) {
         Client4.trackEvent('action', 'action_posts_unflag');
 
         return deletePreferences(currentUserId, [preference])(dispatch, getState);
+    };
+}
+
+export function addPostReminder(userId: string, postId: string, timestamp: number) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        try {
+            await Client4.addPostReminder(userId, postId, timestamp);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+        return {data: true};
     };
 }
 
@@ -1331,5 +1365,54 @@ export function resetReloadPostsInChannel() {
             dispatch(selectChannel(currentChannelId));
         }
         return {data: true};
+    };
+}
+
+export function acknowledgePost(postId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const userId = getCurrentUserId(getState());
+
+        let data;
+        try {
+            data = await Client4.acknowledgePost(postId, userId);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch({
+            type: PostTypes.CREATE_ACK_POST_SUCCESS,
+            data,
+        });
+
+        return {data};
+    };
+}
+
+export function unacknowledgePost(postId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const userId = getCurrentUserId(getState());
+
+        try {
+            await Client4.unacknowledgePost(postId, userId);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        const data = {
+            post_id: postId,
+            user_id: userId,
+            acknowledged_at: 0,
+        } as PostAcknowledgement;
+
+        dispatch({
+            type: PostTypes.DELETE_ACK_POST_SUCCESS,
+            data,
+        });
+
+        return {data};
     };
 }

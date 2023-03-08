@@ -12,8 +12,9 @@ import {Emoji, SystemEmoji} from '@mattermost/types/emojis';
 import {AppEvents, Constants, ModalIdentifiers, StoragePrefixes} from 'utils/constants';
 import {
     formatGithubCodePaste,
-    formatMarkdownTableMessage,
+    formatMarkdownMessage,
     getTable,
+    hasHtmlLink,
     isGitHubCodeBlock,
 } from 'utils/paste';
 import {postMessageOnKeyPress, splitMessageBasedOnCaretPosition} from 'utils/post_utils';
@@ -40,6 +41,7 @@ export type Actions = {
     unsetEditingPost: () => void;
     openModal: (input: ModalData<DialogProps>) => void;
     scrollPostListToBottom: () => void;
+    getPostEditHistory: (postId: string) => void;
 }
 
 export type Props = {
@@ -64,6 +66,8 @@ export type Props = {
         title?: string;
         isRHS?: boolean;
     };
+    isRHSOpened: boolean;
+    isEditHistoryShowing: boolean;
     actions: Actions;
 };
 
@@ -157,9 +161,9 @@ const EditPost = ({editingPost, actions, canEditPost, config, channelId, draft, 
             return;
         }
 
+        const hasLinks = hasHtmlLink(clipboardData);
         const table = getTable(clipboardData);
-
-        if (!table) {
+        if (!table && !hasLinks) {
             return;
         }
 
@@ -168,12 +172,12 @@ const EditPost = ({editingPost, actions, canEditPost, config, channelId, draft, 
         let message = editText;
         let newCaretPosition = selectionRange.start;
 
-        if (isGitHubCodeBlock(table.className)) {
+        if (table && isGitHubCodeBlock(table.className)) {
             const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart: (target as any).selectionStart, selectionEnd: (target as any).selectionEnd, message, clipboardData});
             message = formattedMessage;
             newCaretPosition = selectionRange.start + formattedCodeBlock.length;
-        } else if (table) {
-            message = formatMarkdownTableMessage(table, editText.trim(), newCaretPosition);
+        } else {
+            message = formatMarkdownMessage(clipboardData, editText.trim(), newCaretPosition);
             newCaretPosition = message.length - (editText.length - newCaretPosition);
         }
 
@@ -260,6 +264,9 @@ const EditPost = ({editingPost, actions, canEditPost, config, channelId, draft, 
         }
 
         await actions.editPost(updatedPost as Post);
+        if (rest.isRHSOpened && rest.isEditHistoryShowing) {
+            actions.getPostEditHistory(editingPost.postId || '');
+        }
 
         handleAutomatedRefocusAndExit();
     };

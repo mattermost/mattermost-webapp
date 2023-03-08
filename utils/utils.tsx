@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable max-lines */
 
 import React, {LinkHTMLAttributes} from 'react';
@@ -9,7 +10,11 @@ import cssVars from 'css-vars-ponyfill';
 
 import moment from 'moment';
 
-import Constants, {FileTypes, ValidationErrors} from 'utils/constants';
+import type {Locale} from 'date-fns';
+
+import {getName} from 'country-list';
+
+import Constants, {FileTypes, ValidationErrors, A11yCustomEventTypes, A11yFocusEventDetail} from 'utils/constants';
 
 import {
     getChannel as getChannelAction,
@@ -20,17 +25,16 @@ import {
 import {getPost as getPostAction} from 'mattermost-redux/actions/posts';
 import {getTeamByName as getTeamByNameAction} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
-import {Posts, Preferences} from 'mattermost-redux/constants';
+import {Posts, Preferences, General} from 'mattermost-redux/constants';
 import {
     getChannel,
     getChannelsNameMapInTeam,
     getMyChannelMemberships,
     getRedirectChannelNameForTeam,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getBool, getTeammateNameDisplaySetting, Theme, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getCurrentUserId, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {blendColors, changeOpacity} from 'mattermost-redux/utils/theme_utils';
 import {displayUsername, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {
@@ -45,8 +49,9 @@ import {
 
 import {addUserToTeam} from 'actions/team_actions';
 import {searchForTerm} from 'actions/post_actions';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import * as UserAgent from 'utils/user_agent';
+import {isDesktopApp} from 'utils/user_agent';
 import bing from 'sounds/bing.mp3';
 import crackle from 'sounds/crackle.mp3';
 import down from 'sounds/down.mp3';
@@ -68,9 +73,12 @@ import {Channel} from '@mattermost/types/channels';
 import {ClientConfig} from '@mattermost/types/config';
 
 import {GlobalState} from '@mattermost/types/store';
-import {TextboxElement} from '../components/textbox';
 
 import {focusPost} from 'components/permalink_view/actions';
+
+import {TextboxElement} from '../components/textbox';
+
+import {Address} from '@mattermost/types/cloud';
 
 import {joinPrivateChannelPrompt} from './channel_utils';
 
@@ -442,6 +450,7 @@ export function applyTheme(theme: Theme) {
         changeCss('.app__body .input-group-addon', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('@media(min-width: 768px){.app__body .post-list__table .post-list__content .dropdown-menu a:hover, .dropdown-menu > li > button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .MenuWrapper .MenuItem > button:hover, .app__body .Menu .MenuItem > button:hover, .app__body .MenuWrapper .MenuItem > button:focus, .app__body .MenuWrapper .SubMenuItem > div:focus, .app__body .MenuWrapper .MenuItem > a:hover, .MenuItem > div:hover, .SubMenuItemContainer:not(.hasDivider):hover, .app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
+        changeCss('.app__body .MenuWrapper .MenuItem > button:hover, .app__body .Menu .MenuItem > button:hover, .app__body .MenuWrapper .MenuItem > button:focus, .app__body .MenuWrapper .SubMenuItem > div:focus, .app__body .MenuWrapper .MenuItem > a:hover, .app__body .MenuWrapper .MenuItem > div:hover, .app__body .MenuWrapper .SubMenuItemContainer:not(.hasDivider):hover, .app__body .MenuWrapper .SubMenuItemContainer:not(.hasDivider):focus, .app__body .MenuWrapper .SubMenuItemContainer:focus, .app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .attachment .attachment__content, .app__body .attachment-actions button', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.16));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.5));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.03));
@@ -484,41 +493,6 @@ export function applyTheme(theme: Theme) {
         changeCss('.app__body .emoji-picker .nav-tabs li a', 'fill:' + theme.centerChannelColor);
         changeCss('.app__body .post .post-collapse__show-more-button', `border-color:${changeOpacity(theme.centerChannelColor, 0.1)}`);
         changeCss('.app__body .post .post-collapse__show-more-line', `background-color:${changeOpacity(theme.centerChannelColor, 0.1)}`);
-
-        if (theme.centerChannelBg) {
-            const hoveredPostBg = blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.04);
-            const hoveredPostBgLight = blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.04);
-
-            // Fade out effect for collapsed posts that are being hovered over
-            changeCss(
-                '@media(min-width: 768px){.app__body .post-list__table .post:hover .post-collapse__gradient, ' +
-                '.app__body .sidebar-right__body .post:hover .post-collapse__gradient, ' +
-                '.app__body .ThreadPane .post:hover .post-collapse__gradient ',
-                `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)}, ${hoveredPostBg})`,
-            );
-            changeCss(
-                '@media(min-width: 768px){.app__body .post-list__table .post:hover .post-collapse__show-more, ' +
-                '.app__body .sidebar-right__body .post:hover .post-collapse__show-more, ' +
-                '.app__body .ThreadPane .post:hover .post-collapse__show-more',
-                `background:${hoveredPostBg}`,
-            );
-            changeCss(
-                '@media(max-width: 768px){.app__body .post-list__table .post.current--user:hover .post-collapse__show-more',
-                `background:${hoveredPostBgLight}`,
-            );
-            changeCss(
-                '.app__body .post-list__table .post.post--hovered .post-collapse__gradient, ' +
-                '.app__body .sidebar-right__body .post.post--hovered .post-collapse__gradient, ' +
-                '.app__body .ThreadPane .post.post--hovered .post-collapse__gradient',
-                `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)}, ${hoveredPostBg})`,
-            );
-            changeCss(
-                '.app__body .post-list__table .post.post--hovered .post-collapse__show-more, ' +
-                '.app__body .sidebar-right__body .post.post--hovered .post-collapse__show-more, ' +
-                '.app__body .ThreadPane .post.post--hovered .post-collapse__show-more',
-                `background:${hoveredPostBg}`,
-            );
-        }
     }
 
     if (theme.newMessageSeparator) {
@@ -544,7 +518,6 @@ export function applyTheme(theme: Theme) {
         changeCss('.app__body .post .post-collapse__show-more', `color:${theme.linkColor}`);
         changeCss('.app__body .post .post-attachment-collapse__show-more', `color:${theme.linkColor}`);
         changeCss('.app__body .post .post-collapse__show-more-button:hover', `background-color:${theme.linkColor}`);
-        changeCss('.app__body .post-message .group-mention-link', `color:${theme.linkColor}`);
     }
 
     if (theme.buttonBg) {
@@ -567,16 +540,14 @@ export function applyTheme(theme: Theme) {
     }
 
     if (theme.mentionHighlightBg) {
-        changeCss('.app__body .mention--highlight, .app__body .search-highlight', 'background:' + theme.mentionHighlightBg);
+        changeCss('.app__body .search-highlight', 'background:' + theme.mentionHighlightBg);
         changeCss('.app__body .post.post--comment .post__body.mention-comment', 'border-color:' + theme.mentionHighlightBg);
         changeCss('.app__body .post.post--highlight', 'background:' + changeOpacity(theme.mentionHighlightBg, 0.5));
-        changeCss('.app__body .post.post--highlight .post-collapse__gradient', 'background:' + changeOpacity(theme.mentionHighlightBg, 0.5));
-        changeCss('.app__body .post.post--highlight .post-collapse__show-more', 'background:' + changeOpacity(theme.mentionHighlightBg, 0.5));
     }
 
     if (theme.mentionHighlightLink) {
-        changeCss('.app__body .mention--highlight .mention-link, .app__body .mention--highlight, .app__body .search-highlight', 'color:' + theme.mentionHighlightLink);
-        changeCss('.app__body .mention--highlight .mention-link > a, .app__body .mention--highlight > a, .app__body .search-highlight > a', 'color: inherit');
+        changeCss('.app__body .search-highlight', 'color:' + theme.mentionHighlightLink);
+        changeCss('.app__body .search-highlight > a', 'color: inherit');
     }
 
     if (!theme.codeTheme) {
@@ -1315,6 +1286,17 @@ export function isUriDrop(dataTransfer: DataTransfer) {
     return false; // we don't care about others, they handle as we want it
 }
 
+export function isTextTransfer(dataTransfer: DataTransfer) {
+    return ['text/plain', 'text/unicode', 'Text'].some((type) => dataTransfer.types.includes(type));
+}
+
+export function isTextDroppableEvent(e: Event) {
+    return (e instanceof DragEvent) &&
+           (e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLInputElement) &&
+           e.dataTransfer !== null &&
+           isTextTransfer(e.dataTransfer);
+}
+
 export function clearFileInput(elm: HTMLInputElement) {
     // clear file input for all modern browsers
     try {
@@ -1563,12 +1545,12 @@ export async function handleFormattedTextClick(e: React.MouseEvent, currentRelat
             if (match && match.type === 'permalink' && isTeamSameWithCurrentTeam(state, match.teamName) && isReply && crtEnabled) {
                 focusPost(match.postId ?? '', linkAttribute.value, user.id, {skipRedirectReplyPermalink: true})(store.dispatch, store.getState);
             } else {
-                browserHistory.push(linkAttribute.value);
+                getHistory().push(linkAttribute.value);
             }
         }
     } else if (channelMentionAttribute) {
         e.preventDefault();
-        browserHistory.push(currentRelativeTeamUrl + '/channels/' + channelMentionAttribute.value);
+        getHistory().push(currentRelativeTeamUrl + '/channels/' + channelMentionAttribute.value);
     }
 }
 
@@ -1657,14 +1639,6 @@ export function setCSRFFromCookie() {
             }
         }
     }
-}
-
-/**
- * Returns true if in dev mode, false otherwise.
- */
-export function isDevMode(state = store.getState()) {
-    const config = getConfig(state);
-    return config.EnableDeveloper === 'true';
 }
 
 /**
@@ -1827,4 +1801,103 @@ export function numberToFixedDynamic(num: number, places: number): string {
         return str;
     }
     return str.slice(0, indexToExclude);
+}
+
+const TrackFlowRoles: Record<string, string> = {
+    fa: Constants.FIRST_ADMIN_ROLE,
+    sa: General.SYSTEM_ADMIN_ROLE,
+    su: General.SYSTEM_USER_ROLE,
+};
+
+export function getTrackFlowRole() {
+    const state = store.getState();
+    let trackFlowRole = 'su';
+
+    if (isFirstAdmin(state)) {
+        trackFlowRole = 'fa';
+    } else if (isSystemAdmin(getCurrentUser(state).roles)) {
+        trackFlowRole = 'sa';
+    }
+
+    return trackFlowRole;
+}
+
+export function getRoleForTrackFlow() {
+    const startedByRole = TrackFlowRoles[getTrackFlowRole()];
+
+    return {started_by_role: startedByRole};
+}
+
+export function getRoleFromTrackFlow() {
+    const params = new URLSearchParams(window.location.search);
+    const sbr = params.get('sbr') ?? '';
+    const startedByRole = TrackFlowRoles[sbr] ?? '';
+
+    return {started_by_role: startedByRole};
+}
+
+export function getDatePickerLocalesForDateFns(locale: string, loadedLocales: Record<string, Locale>) {
+    if (locale && locale !== 'en' && !loadedLocales[locale]) {
+        try {
+            /* eslint-disable global-require */
+            loadedLocales[locale] = require(`date-fns/locale/${locale}/index.js`);
+            /* eslint-disable global-require */
+        } catch (e) {
+            console.log(e); // eslint-disable-line no-console
+        }
+    }
+
+    return loadedLocales;
+}
+
+export function getMediumFromTrackFlow() {
+    const params = new URLSearchParams(window.location.search);
+    const source = params.get('md') ?? '';
+
+    return {source};
+}
+
+const TrackFlowSources: Record<string, string> = {
+    wd: 'webapp-desktop',
+    wm: 'webapp-mobile',
+    d: 'desktop-app',
+};
+
+function getTrackFlowSource() {
+    if (isMobile()) {
+        return TrackFlowSources.wm;
+    } else if (isDesktopApp()) {
+        return TrackFlowSources.d;
+    }
+    return TrackFlowSources.wd;
+}
+
+export function getSourceForTrackFlow() {
+    return {source: getTrackFlowSource()};
+}
+
+export function a11yFocus(element: HTMLElement | null | undefined, keyboardOnly = true) {
+    document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+        A11yCustomEventTypes.FOCUS, {
+            detail: {
+                target: element,
+                keyboardOnly,
+            },
+        },
+    ));
+}
+
+export function getBlankAddressWithCountry(country?: string): Address {
+    let c = '';
+    if (country) {
+        c = getName(country) || '';
+    }
+    return {
+        city: '',
+        country: c || '',
+        line1: '',
+        line2: '',
+        postal_code: '',
+        state: '',
+    };
 }

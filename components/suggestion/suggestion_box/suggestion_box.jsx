@@ -7,7 +7,7 @@ import React from 'react';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import QuickInput from 'components/quick_input';
-import Constants from 'utils/constants';
+import Constants, {A11yCustomEventTypes} from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
 
@@ -629,6 +629,19 @@ export default class SuggestionBox extends React.PureComponent {
         }
     }
 
+    focusInputOnEscape = () => {
+        if (this.inputRef.current) {
+            document.dispatchEvent(new CustomEvent(
+                A11yCustomEventTypes.FOCUS, {
+                    detail: {
+                        target: this.inputRef.current,
+                        keyboardOnly: true,
+                    },
+                },
+            ));
+        }
+    }
+
     handleReceivedSuggestions = (suggestions) => {
         let newComponents = [];
         const newPretext = [];
@@ -828,30 +841,28 @@ export default class SuggestionBox extends React.PureComponent {
                     onKeyDown={this.handleKeyDown}
                     onSelect={this.handleSelect}
                 />
-                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
-                    <div style={{width: this.state.width}}>
-                        <SuggestionListComponent
-                            ariaLiveRef={this.suggestionReadOut}
-                            open={this.state.focused || this.props.forceSuggestionsWhenBlur}
-                            pretext={this.pretext}
-                            position={this.getListPosition(listPosition)}
-                            renderDividers={renderDividers}
-                            renderNoResults={renderNoResults}
-                            onCompleteWord={this.handleCompleteWord}
-                            preventClose={this.preventSuggestionListClose}
-                            onItemHover={this.setSelection}
-                            cleared={this.state.cleared}
-                            matchedPretext={this.state.matchedPretext}
-                            items={this.state.items}
-                            terms={this.state.terms}
-                            suggestionBoxAlgn={this.state.suggestionBoxAlgn}
-                            selection={this.state.selection}
-                            components={this.state.components}
-                            inputRef={this.inputRef}
-                            onLoseVisibility={this.blur}
-                        />
-                    </div>
-                }
+                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' && (
+                    <SuggestionListComponent
+                        ariaLiveRef={this.suggestionReadOut}
+                        open={this.state.focused || this.props.forceSuggestionsWhenBlur}
+                        pretext={this.pretext}
+                        position={this.getListPosition(listPosition)}
+                        renderDividers={renderDividers}
+                        renderNoResults={renderNoResults}
+                        onCompleteWord={this.handleCompleteWord}
+                        preventClose={this.preventSuggestionListClose}
+                        onItemHover={this.setSelection}
+                        cleared={this.state.cleared}
+                        matchedPretext={this.state.matchedPretext}
+                        items={this.state.items}
+                        terms={this.state.terms}
+                        suggestionBoxAlgn={this.state.suggestionBoxAlgn}
+                        selection={this.state.selection}
+                        components={this.state.components}
+                        inputRef={this.inputRef}
+                        onLoseVisibility={this.blur}
+                    />
+                )}
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'date' &&
                     <SuggestionDateComponent
                         items={this.state.items}
@@ -859,6 +870,8 @@ export default class SuggestionBox extends React.PureComponent {
                         components={this.state.components}
                         matchedPretext={this.state.matchedPretext}
                         onCompleteWord={this.handleCompleteWord}
+                        preventClose={this.preventSuggestionListClose}
+                        handleEscape={this.focusInputOnEscape}
                     />
                 }
             </div>

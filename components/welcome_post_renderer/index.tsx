@@ -34,7 +34,7 @@ export default function WelcomePostRenderer(props: {post: Post}) {
                 message: command,
                 uploadsInProgress: [],
                 fileInfos: [],
-            };
+            } as unknown as PostDraft;
             dispatch(submitCommand(currentChannelId, '', draft));
         };
     };

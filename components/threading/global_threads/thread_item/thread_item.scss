@@ -29,6 +29,24 @@
         }
     }
 
+    &__author {
+        @include clearfix;
+
+        overflow: hidden;
+        max-width: 100%;
+        text-align: left;
+        text-overflow: ellipsis;
+        -moz-user-select: all; /* Firefox all */
+        white-space: nowrap;
+    }
+
+    &__tags {
+        display: flex;
+        max-width: 100%;
+        align-items: center;
+        gap: 4px;
+    }
+
     &.is-selected {
         background: rgba(var(--button-bg-rgb), 0.04);
 
@@ -96,37 +114,11 @@
         font-family: 'Open Sans', sans-serif;
         font-size: 14px;
         font-weight: 600;
-        grid-template-columns: min-content 1fr min-content;
+        gap: 10px;
+        grid-template-columns: minmax(0, min-content) minmax(0, auto) min-content;
+        justify-items: start;
         line-height: 20px;
         white-space: nowrap;
-    }
-
-    .Badge {
-        min-width: 0;
-        max-width: 30rem;
-        margin: 0 10px;
-
-        &__hidden {
-            visibility: hidden;
-        }
-    }
-
-    .Badge__box {
-        overflow: hidden;
-        padding: 0 4px;
-        background: rgba(var(--center-channel-color-rgb), 0.08);
-        color: rgba(var(--center-channel-color-rgb), 1);
-        font-size: 10px;
-        font-weight: 600;
-        line-height: 16px;
-        text-overflow: ellipsis;
-        text-transform: uppercase;
-
-        &:hover,
-        &:focus {
-            background: rgba(var(--center-channel-color-rgb), 0.16);
-            cursor: pointer;
-        }
     }
 
     div.preview {
@@ -141,6 +133,7 @@
         color: rgba(var(--center-channel-color-rgb), 0.64);
         font-size: 12px;
         font-weight: normal;
+        grid-column: 3/4;
         line-height: 20px;
     }
 

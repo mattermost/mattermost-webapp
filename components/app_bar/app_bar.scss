@@ -1,18 +1,8 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 $app-bar-icon-size: 24px;
 $app-bar-width: 48px;
-$channel-view-padding: 63px;
-
-.app-bar-enabled .sidebar--right {
-    @media screen and (min-width: 769px) {
-        right: $app-bar-width;
-    }
-}
-
-.channel-view-inner.app-bar-enabled {
-    @media screen and (min-width: 769px) {
-        padding-right: $channel-view-padding;
-    }
-}
 
 .app-bar {
     // Do not show App Bar if on mobile
@@ -20,19 +10,26 @@ $channel-view-padding: 63px;
         display: none;
     }
 
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
+    position: relative;
     width: $app-bar-width;
     padding-top: 16px;
-    border-left: solid 1px rgba(var(--center-channel-color-rgb), 0.12);
-    background-color: rgba(var(--center-channel-color-rgb), 0.04);
+    background-color: var(--center-channel-bg);
     -ms-overflow-style: none;
     overflow-x: hidden;
     overflow-y: scroll;
     scrollbar-width: none;
     text-align: center;
+
+    &::before {
+        position: absolute;
+        top: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-left: solid 1px rgba(var(--center-channel-color-rgb), 0.12);
+        background-color: rgba(var(--center-channel-color-rgb), 0.04);
+        content: '';
+    }
 
     .app-bar__icon {
         position: relative;
@@ -57,7 +54,8 @@ $channel-view-padding: 63px;
             }
 
             .app-bar__icon-inner,
-            span {
+            span:not(.pulsating_dot) {
+                // if we want to show a tourtip/pulsating dot in any of the app bar icons, these styles must be ommitted when span.pulsating_dot
                 box-shadow: 0 0 0 2px var(--sidebar-text-active-border);
 
                 &:hover {
@@ -67,7 +65,7 @@ $channel-view-padding: 63px;
         }
 
         .app-bar__icon-inner,
-        span {
+        span:not(.pulsating_dot) {
             display: block;
             overflow: hidden;
             width: $app-bar-icon-size;
@@ -81,11 +79,13 @@ $channel-view-padding: 63px;
             }
 
             img {
+                width: $app-bar-icon-size;
+                height: $app-bar-icon-size;
                 border-radius: 50%;
             }
         }
 
-        span {
+        span:not(.pulsating_dot) {
             padding: 2px;
             background-color: white;
             fill: var(--button-bg);

@@ -1,22 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {useDispatch} from 'react-redux';
+
 import {UserProfile} from '@mattermost/types/users';
-import {Constants} from 'utils/constants';
-import * as Utils from 'utils/utils';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
+
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
+import {ActionResult} from 'mattermost-redux/types/actions';
+
+import {Constants, ModalIdentifiers} from 'utils/constants';
+import * as Utils from 'utils/utils';
+
+import {ModalData} from 'types/actions';
+
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import {Channel, ChannelMembership} from '@mattermost/types/channels';
-import {ActionResult} from 'mattermost-redux/types/actions';
+import LeaveChannelModal from 'components/leave_channel_modal';
 
-const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
+const ROWS_FROM_BOTTOM_TO_OPEN_UP = 2;
 
 interface Props {
     channel: Channel;
@@ -35,6 +43,7 @@ interface Props {
         updateChannelMemberSchemeRoles: (channelId: string, userId: string, isSchemeUser: boolean, isSchemeAdmin: boolean) => Promise<ActionResult>;
         removeChannelMember: (channelId: string, userId: string) => Promise<ActionResult>;
         getChannelMember: (channelId: string, userId: string) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
     };
 }
 
@@ -52,24 +61,39 @@ export default function ChannelMembersDropdown({
     guestLabel,
     actions,
 }: Props) {
-    const [removing, setRemoving] = React.useState(false);
-    const [serverError, setServerError] = React.useState<string | null>(null);
+    const [removing, setRemoving] = useState(false);
+    const [serverError, setServerError] = useState<string | null>(null);
+    const dispatch = useDispatch();
 
     const handleRemoveFromChannel = async () => {
         if (removing) {
             return;
         }
 
-        setRemoving(true);
-        const {error} = await actions.removeChannelMember(channel.id, user.id);
+        if (user.id === currentUserId) {
+            setRemoving(true);
+            dispatch(actions.openModal({
+                modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL,
+                dialogType: LeaveChannelModal,
+                dialogProps: {
+                    channel,
+                    callback: () => {
+                        actions.getChannelStats(channel.id);
+                        setRemoving(false);
+                    },
+                },
+            }));
+        } else {
+            setRemoving(true);
+            const {error} = await actions.removeChannelMember(channel.id, user.id);
+            setRemoving(false);
+            if (error) {
+                setServerError(error.message);
+                return;
+            }
 
-        setRemoving(false);
-        if (error) {
-            setServerError(error.message);
-            return;
+            actions.getChannelStats(channel.id);
         }
-
-        actions.getChannelStats(channel.id);
     };
 
     const handleMakeChannelAdmin = () => {
@@ -131,10 +155,6 @@ export default function ChannelMembersDropdown({
     const isDefaultChannel = channel.name === Constants.DEFAULT_CHANNEL;
     const currentRole = renderRole(isChannelAdmin, isGuest);
 
-    if (user.id === currentUserId) {
-        return null;
-    }
-
     if (user.remote_id) {
         const sharedTooltip = (
             <Tooltip id='sharedTooltip'>
@@ -167,14 +187,17 @@ export default function ChannelMembersDropdown({
     const canMakeUserChannelMember = canChangeMemberRoles && isChannelAdmin;
     const canMakeUserChannelAdmin = canChangeMemberRoles && isMember;
     const canRemoveUserFromChannel = canRemoveMember && (!channel.group_constrained || user.is_bot) && (!isDefaultChannel || isGuest);
+    const removeFromChannelText = user.id === currentUserId ? Utils.localizeMessage('channel_header.leave', 'Leave Channel') : Utils.localizeMessage('channel_members_dropdown.remove_from_channel', 'Remove from Channel');
+    const removeFromChannelTestId = user.id === currentUserId ? 'leaveChannel' : 'removeFromChannel';
 
     if (canMakeUserChannelMember || canMakeUserChannelAdmin || canRemoveUserFromChannel) {
         const removeMenu = (
             <Menu.ItemAction
-                data-testid='removeFromChannel'
+                data-testid={removeFromChannelTestId}
                 show={canRemoveUserFromChannel}
                 onClick={handleRemoveFromChannel}
-                text={Utils.localizeMessage('channel_members_dropdown.remove_from_channel', 'Remove from Channel')}
+                text={removeFromChannelText}
+                isDangerous={true}
             />
         );
         const makeAdminMenu = (
@@ -232,7 +255,4 @@ export default function ChannelMembersDropdown({
             {currentRole}
         </div>
     );
-
-    return <div/>;
 }
-

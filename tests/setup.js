@@ -1,13 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import Adapter from 'enzyme-adapter-react-16';
+import Adapter from 'enzyme-adapter-react-17-updated';
 import {configure} from 'enzyme';
 
 import '@testing-library/jest-dom';
 
 import './redux-persist_mock';
 import './react-intl_mock';
+import './react-router-dom_mock';
 import './react-tippy_mock';
 
 global.performance = {};
@@ -37,6 +38,12 @@ Object.defineProperty(document, 'execCommand', {
 });
 
 document.documentElement.style.fontSize = '12px';
+
+// https://mui.com/material-ui/guides/styled-engine/
+jest.mock('@mui/styled-engine', () => {
+    const styledEngineSc = require('@mui/styled-engine-sc');
+    return styledEngineSc;
+});
 
 // isDependencyWarning returns true when the given console.warn message is coming from a dependency using deprecated
 // React lifecycle methods.

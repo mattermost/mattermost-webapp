@@ -44,7 +44,6 @@ describe('components/actions_menu/ActionsMenu returning empty ("")', () => {
             showTutorialTip: false,
             appsEnabled: false,
             isSysAdmin: true,
-            userId: 'user_id_1',
         };
 
         const wrapper = shallow(

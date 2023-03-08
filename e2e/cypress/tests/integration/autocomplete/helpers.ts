@@ -4,22 +4,6 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getAdminAccount} from '../../support/env';
 
-export {
-    createPrivateChannel,
-    createPublicChannel,
-    createSearchData,
-    enableElasticSearch,
-    getTestUsers,
-    getPostTextboxInput,
-    getQuickChannelSwitcherInput,
-    searchAndVerifyChannel,
-    searchAndVerifyUser,
-    searchForChannel,
-    startAtMention,
-    verifySuggestionAtChannelSwitcher,
-    verifySuggestionAtPostTextbox,
-};
-
 export type SimpleUser = Pick<Cypress.UserProfile, 'username' | 'first_name' | 'last_name' | 'nickname' | 'password' | 'email'>;
 
 function createPrivateChannel(teamId: string, userToAdd: Cypress.UserProfile = null) {
@@ -298,3 +282,19 @@ function withPrefix(name: string, prefix: string) {
 function createEmail(name: string, prefix: string) {
     return `${prefix}${name}@sample.mattermost.com`;
 }
+
+export {
+    createPrivateChannel,
+    createPublicChannel,
+    createSearchData,
+    enableElasticSearch,
+    getTestUsers,
+    getPostTextboxInput,
+    getQuickChannelSwitcherInput,
+    searchAndVerifyChannel,
+    searchAndVerifyUser,
+    searchForChannel,
+    startAtMention,
+    verifySuggestionAtChannelSwitcher,
+    verifySuggestionAtPostTextbox,
+};

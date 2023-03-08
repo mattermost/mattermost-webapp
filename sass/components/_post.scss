@@ -172,6 +172,7 @@
         position: absolute;
         bottom: 30px;
         left: 50%;
+        width: 100px;
         margin-left: -50px;
         opacity: 0.3;
     }
@@ -191,26 +192,6 @@
 
     .inactive {
         display: none;
-    }
-
-    .post-list__loading {
-        padding: 1em 0;
-        font-size: 0.9em;
-        font-style: italic;
-        opacity: 0.5;
-        text-align: center;
-
-        i {
-            margin-right: 2px;
-        }
-
-        &.post-list__loading-search {
-            cursor: pointer;
-
-            &:hover {
-                text-decoration: underline;
-            }
-        }
     }
 
     .post-list-holder-by-time {
@@ -399,6 +380,9 @@
         padding: 13px 0 12px 16px;
         cursor: auto;
         resize: none;
+        scrollbar-color: var(--center-channel-color-32) #fff0;
+        scrollbar-width: thin;
+        transition: height 150ms ease-in-out;
 
         &:not(.custom-textarea--emoji-picker) {
             padding-right: 40px;
@@ -494,8 +478,9 @@
         display: block;
         overflow: hidden;
         height: 20px;
-        margin-bottom: 5px;
-        font-size: 0.95em;
+        margin: 2px 0;
+        font-size: 10px;
+        line-height: 16px;
         opacity: 0.7;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -651,6 +636,7 @@
     .post-list__content {
         overflow: hidden;
         height: 100%;
+        margin-right: 5px;
 
         .dropdown-menu {
             &.bottom {
@@ -799,10 +785,6 @@
         .post__body {
             background: transparent !important;
         }
-
-        .search-item-snippet {
-            overflow: visible;
-        }
     }
 
     &.post--hide-controls {
@@ -815,8 +797,6 @@
 
     &.post--thread {
         &.same--user {
-            padding: 0 0.5em 0 1em;
-
             .post__header,
             .post-preview__header {
                 margin-bottom: 0;
@@ -881,7 +861,8 @@
             width: 16px;
             padding-top: 1px;
 
-            img {
+            img,
+            button {
                 display: none;
             }
         }
@@ -1126,6 +1107,10 @@
 
     .post__header--info {
         padding: 0;
+
+        .col {
+            gap: 4px;
+        }
     }
 
     &.post--root {
@@ -1340,6 +1325,7 @@
             flex: 0 auto;
             margin-right: 8px;
             font-weight: 600;
+            gap: 8px;
             text-overflow: ellipsis;
 
             &.permalink--username {
@@ -1358,7 +1344,7 @@
 
             .colon {
                 display: none;
-                margin-left: 2px;
+                margin-left: -6px;
                 font-weight: 900;
             }
         }
@@ -1500,6 +1486,12 @@
         width: 100%;
         padding: 0 0 0.2em;
         word-wrap: break-word;
+
+        &-reactions-acks {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
 
         &.post--ephemeral {
             padding-right: 20px !important;
@@ -2013,25 +2005,6 @@
     }
 }
 
-.Badge {
-    .badge-autocomplete {
-        display: inline;
-        padding: 0 5px;
-        margin: 0 4px;
-    }
-
-    .badge-popoverlist {
-        display: inline;
-        margin: 0 4px;
-    }
-
-    .badge-admin {
-        display: inline;
-        margin: 0 4px;
-        background: rgba(61, 60, 64, 0.15);
-    }
-}
-
 .permalink-text {
     overflow: hidden;
 }
@@ -2056,22 +2029,14 @@
     width: 100%;
     pointer-events: none;
 
-    .post-collapse__gradient,
-    .post-attachment-collapse__gradient {
-        position: relative;
-        background: linear-gradient(rgba(var(--center-channel-bg-rgb), 0), var(--center-channel-bg));
-    }
-
     .post-collapse__show-more,
     .post-attachment-collapse__show-more {
-        background: var(--center-channel-bg);
         pointer-events: auto;
     }
 }
 
 .post-collapse__show-more {
     padding-bottom: 10px;
-    background: v(center-channel-bg);
 }
 
 .post-collapse__show-more,
@@ -2133,8 +2098,8 @@
 .post-message--collapsed {
     .post-message__text-container {
         // If this max-height is changed, the MAX_POST_HEIGHT constant in
-        // components/post/post_message_view/post_message_view.jsx must
-        // be changed to match it
+        // components/post_view/show_more/show_more.tsx must by changed
+        // to match it
         max-height: 600px;
 
         .all-emoji {
@@ -2157,9 +2122,11 @@
         }
     }
 
-    .post-collapse__gradient,
-    .post-attachment-collapse__gradient {
-        height: 90px;
+    &.post-message--overflow {
+        .post-message__text-container {
+            -webkit-mask-image: linear-gradient(black calc(100% - 126px), transparent calc(100% - 36px));
+            mask-image: linear-gradient(black calc(100% - 126px), transparent calc(100% - 36px));
+        }
     }
 
     .post-collapse__show-more {
@@ -2177,15 +2144,18 @@
         position: relative;
         padding-top: 10px;
     }
-
-    .post-collapse__gradient,
-    .post-attachment-collapse__gradient {
-        height: 0;
-    }
 }
 
 .post-message__text {
     text-align: left;
+}
+
+.view-history__text {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 16px;
+    opacity: 0.56;
 }
 
 .post-message__text > ul,
@@ -2209,16 +2179,12 @@
 }
 
 .post-row__padding {
-    &.bottom > div:not(.post) {
-        padding-bottom: 1em;
-    }
-
     &.top > div:not(.post) {
-        padding-top: 1em;
+        padding-top: 0;
     }
 
     &.top .post {
-        padding-top: 22px; // this is based off of 8px padding for post + 1em
+        padding-top: 16px; // this is based off of 8px padding for post + 1em
         &.same--root.same--user {
             padding-top: 1em;
         }
@@ -2233,8 +2199,166 @@
     }
 }
 
+.edit-post-history__container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 4px;
+
+    &:not(.edit-post-history__container__background):hover {
+        background-color: rgba(var(--center-channel-color-rgb), 0.08);
+        cursor: pointer;
+    }
+
+    .edit-post-history__content_container {
+        margin-left: 26px;
+
+        .post__content {
+            padding-left: 0;
+        }
+    }
+
+    .edit-post-history__title__container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        .edit-post-history__date__badge__container {
+            display: flex;
+            align-items: center;
+        }
+
+        .edit-post-history__date {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+        }
+    }
+
+    .post {
+        width: 100%;
+        padding: 0;
+
+        &:not(.post--editing):not(.post--editing):hover {
+            background-color: initial;
+        }
+    }
+
+    .edit-post-history__icon__button {
+        height: fit-content;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+
+        &:hover {
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+            cursor: pointer;
+        }
+
+        &.restore-icon:hover {
+            background-color: rgba(var(--center-channel-color-rgb), 0.08);
+            color: rgba(var(--center-channel-color-rgb), 0.72);
+        }
+    }
+}
+
+#restorePostModal {
+    .modal-body {
+        max-height: calc(100vh - 128px - 61px - 88px);
+
+        .GenericModal__header {
+            padding-top: 0;
+        }
+    }
+
+    .modal-content {
+        padding-top: 44px;
+    }
+
+    .modal-footer {
+        padding-top: 28px;
+        text-align: center;
+    }
+
+    .GenericModal__button {
+        margin: 0 4px;
+
+        &.cancel-button {
+            background-color: rgba(var(--button-bg-rgb), 0.08);
+            border-radius: 4px;
+        }
+    }
+}
+
+.edit-post-history__restore__modal__header {
+    text-align: center;
+
+    span {
+        font-size: 22px;
+    }
+}
+
+.edit-post-history__restore__modal__content {
+    padding: 16px;
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    border-radius: 4px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
+    color: var(--center-channel-color);
+
+    .edit-post-history__header {
+        margin-top: 0;
+        margin-bottom: 4px;
+    }
+
+    .post-message__text-container {
+        overflow: hidden;
+    }
+
+    #showMoreButton {
+        padding: 0;
+        border: none;
+        background: none;
+        font-size: 12px;
+    }
+}
+
+.edit-post-history__container__background {
+    background-color: rgba(var(--button-bg-rgb), 0.04);
+
+    &:hover {
+        background-color: rgba(var(--button-bg-rgb), 0.08);
+        cursor: pointer;
+    }
+}
+
+.edit-post-history__header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 8px;
+
+    .edit-post-history__header__username {
+        margin-left: 8px;
+        font-weight: 600;
+        text-overflow: ellipsis;
+    }
+}
+
+.edit-post-history__current__indicator {
+    display: flex;
+    width: fit-content;
+    padding: 1px 5px 2px;
+    margin-left: 8px;
+    background-color: var(--sidebar-text-active-border);
+    border-radius: 4px;
+    color: var(--sidebar-text-active-color);
+    font-size: 12px;
+    font-weight: 600;
+}
+
 .post-list__dynamic {
-    overflow-x: hidden;
+    scrollbar-color: var(--center-channel-color-32) #fff0;
+    scrollbar-width: thin;
 
     .emoji-picker--active & {
         pointer-events: none;
@@ -2254,39 +2378,68 @@
     animation-name: postHighlight;
 }
 
-// Handle fade out effect for permalink highlightning
-.app__body .post-list__table .post:not(.current--user).post--highlight .post-collapse__gradient,
-.app__body .post-list__table .post.post--compact.post--highlight .post-collapse__gradient {
-    background: linear-gradient(rgba(var(--mention-highlight-bg-mixed-rgb), 0.5), rgba(var(--mention-highlight-bg-mixed-rgb), 0.5));
-}
-
-.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__gradient {
-    background: linear-gradient(rgba(var(--center-channel-bg-rgb), 0), rgba(var(--mention-highlight-bg-mixed-rgb), 1));
-}
-
-.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__show-more {
-    background: rgba(var(--mention-highlight-bg-mixed-rgb), 1);
-}
-
-.app__body .post-list__table .post.current--user.post--highlight:hover .post-collapse__gradient,
-.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-collapse__gradient {
-    background: linear-gradient(rgba(var(--mention-highlight-bg-mixed-rgb), 0.5), rgba(var(--mention-highlight-bg-mixed-rgb), 1));
-}
-
 .post--pinned-or-flagged {
     background-color: rgb(var(--pinned-highlight-bg-mixed-rgb));
 
     .post-collapse {
-        .post-collapse__gradient,
-        .post-attachment-collapse__gradient {
-            position: relative;
-            background: linear-gradient(transparent, rgb(var(--pinned-highlight-bg-mixed-rgb)));
-        }
-
         .post-collapse__show-more,
         .post-attachment-collapse__show-more {
-            background: rgb(var(--pinned-highlight-bg-mixed-rgb));
             pointer-events: auto;
+        }
+    }
+}
+
+.post__header-set-custom-status {
+    display: none;
+}
+
+.post.current--user {
+    &.other--root,
+    &.post--root,
+    &.post--comment {
+        .post__header-set-custom-status {
+            display: revert;
+            padding: 0 6px;
+            margin-left: 8px;
+            background: rgba(var(--center-channel-color-rgb), 0.08);
+            border-radius: 4px;
+
+            &-icon > svg {
+                width: 12px;
+                height: 12px;
+                margin-right: 4px;
+                background: inherit;
+                fill: rgba(var(--center-channel-color-rgb), 0.56);
+                vertical-align: middle;
+            }
+
+            &-text {
+                color: rgba(var(--center-channel-color-rgb), 0.56);
+                font-size: 12px;
+                font-weight: normal;
+            }
+
+            &:hover {
+                &-icon > svg {
+                    fill: rgba(var(--center-channel-color-rgb), 0.72);
+                }
+
+                &-text {
+                    color: rgba(var(--center-channel-color-rgb), 0.72);
+                }
+            }
+
+            &:active {
+                background: rgba(var(--button-bg-rgb), 0.08);
+
+                &-icon > svg {
+                    fill: var(--button-bg);
+                }
+
+                &-text {
+                    color: var(--button-bg);
+                }
+            }
         }
     }
 }

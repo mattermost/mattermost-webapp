@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {ToYearlyNudgeBannerDismissable} from 'components/admin_console/billing/billing_subscriptions/to_yearly_nudge_banner';
+
 import {ClientLicense, ClientConfig, WarnMetricStatus} from '@mattermost/types/config';
 import withGetCloudSubscription from '../common/hocs/cloud/with_get_cloud_subscription';
 
@@ -17,7 +19,8 @@ import CloudTrialEndAnnouncementBar from './cloud_trial_ended_announcement_bar';
 import AutoStartTrialModal from './show_start_trial_modal/show_start_trial_modal';
 import CloudDelinquencyAnnouncementBar from './cloud_delinquency';
 import ShowThreeDaysLeftTrialModal from './show_tree_days_left_trial_modal/show_three_days_left_trial_modal';
-import LegacyMattermostCloudBar from './legacy_mattermost_cloud_bar';
+import NotifyAdminDowngradeDelinquencyBar from './notify_admin_downgrade_delinquency_bar';
+import OverageUsersBanner from './overage_users_banner';
 
 type Props = {
     license?: ClientLicense;
@@ -67,7 +70,8 @@ class AnnouncementBarController extends React.PureComponent<Props> {
         let cloudTrialAnnouncementBar = null;
         let cloudTrialEndAnnouncementBar = null;
         let cloudDelinquencyAnnouncementBar = null;
-        let legacyMattermostCloudBar = null;
+        let notifyAdminDowngradeDelinquencyBar = null;
+        let toYearlyNudgeBannerDismissable = null;
         if (this.props.license?.Cloud === 'true') {
             paymentAnnouncementBar = (
                 <PaymentAnnouncementBar/>
@@ -81,8 +85,16 @@ class AnnouncementBarController extends React.PureComponent<Props> {
             cloudDelinquencyAnnouncementBar = (
                 <CloudDelinquencyAnnouncementBar/>
             );
-            legacyMattermostCloudBar = (
-                <LegacyMattermostCloudBar/>
+            notifyAdminDowngradeDelinquencyBar = (
+                <NotifyAdminDowngradeDelinquencyBar/>
+            );
+            toYearlyNudgeBannerDismissable = (<ToYearlyNudgeBannerDismissable/>);
+        }
+
+        let autoStartTrialModal = null;
+        if (this.props.userIsAdmin) {
+            autoStartTrialModal = (
+                <AutoStartTrialModal/>
             );
         }
 
@@ -94,8 +106,10 @@ class AnnouncementBarController extends React.PureComponent<Props> {
                 {cloudTrialAnnouncementBar}
                 {cloudTrialEndAnnouncementBar}
                 {cloudDelinquencyAnnouncementBar}
-                {legacyMattermostCloudBar}
-                <AutoStartTrialModal/>
+                {notifyAdminDowngradeDelinquencyBar}
+                {toYearlyNudgeBannerDismissable}
+                {this.props.license?.Cloud !== 'true' && <OverageUsersBanner/>}
+                {autoStartTrialModal}
                 <ShowThreeDaysLeftTrialModal/>
                 <VersionBar/>
                 <ConfigurationAnnouncementBar

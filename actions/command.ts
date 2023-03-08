@@ -24,22 +24,23 @@ import {isUrlSafe, getSiteURL} from 'utils/url';
 import {localizeMessage, getUserIdFromChannelName, localizeAndFormatMessage} from 'utils/utils';
 import * as UserAgent from 'utils/user_agent';
 import {Constants, ModalIdentifiers} from 'utils/constants';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import UserSettingsModal from 'components/user_settings/modal';
 import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser/app_command_parser';
 import {intlShim} from 'components/suggestion/command_provider/app_command_parser/app_command_parser_dependencies';
-import LeavePrivateChannelModal from 'components/leave_private_channel_modal';
+import LeaveChannelModal from 'components/leave_channel_modal';
 import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
 import {GlobalState} from 'types/store';
 
 import {t} from 'utils/i18n';
 import MarketplaceModal from 'components/plugin_marketplace';
-
+import WorkTemplateModal from 'components/work_templates';
 import {haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 import {isMarketplaceEnabled} from 'mattermost-redux/selectors/entities/general';
+import {areWorkTemplatesEnabled} from 'selectors/work_template';
 
 import {doAppSubmit, openAppsModal, postEphemeralCallResponseForCommandArgs} from './apps';
 import {trackEvent} from './telemetry_actions';
@@ -93,7 +94,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
             }
             const channel = getCurrentChannel(state) || {};
             if (channel.type === Constants.PRIVATE_CHANNEL) {
-                dispatch(openModal({modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL, dialogType: LeavePrivateChannelModal, dialogProps: {channel}}));
+                dispatch(openModal({modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL, dialogType: LeaveChannelModal, dialogProps: {channel}}));
                 return {data: true};
             }
             if (
@@ -113,7 +114,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                 const currentTeamId = getCurrentTeamId(state);
                 const redirectChannel = getRedirectChannelNameForTeam(state, currentTeamId);
                 const teamUrl = getCurrentRelativeTeamUrl(state);
-                browserHistory.push(`${teamUrl}/channels/${redirectChannel}`);
+                getHistory().push(`${teamUrl}/channels/${redirectChannel}`);
 
                 dispatch(savePreferences(currentUserId, [{category, name, user_id: currentUserId, value: 'false'}]));
                 if (isFavoriteChannel(state, channel.id)) {
@@ -140,6 +141,15 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
 
             dispatch(openModal({modalId: ModalIdentifiers.PLUGIN_MARKETPLACE, dialogType: MarketplaceModal}));
             return {data: true};
+        case '/templates': {
+            const workTemplateEnabled = areWorkTemplatesEnabled(state);
+            if (!workTemplateEnabled) {
+                return {error: {message: localizeMessage('templates_command.disabled', 'Templates are disabled. Please contact your System Administrator for details.')}};
+            }
+
+            dispatch(openModal({modalId: ModalIdentifiers.WORK_TEMPLATE, dialogType: WorkTemplateModal}));
+            return {data: true};
+        }
         case '/collapse':
         case '/expand':
             dispatch(PostActions.resetEmbedVisibility());
@@ -216,9 +226,9 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
 
         if (hasGotoLocation) {
             if (data.goto_location.startsWith('/')) {
-                browserHistory.push(data.goto_location);
+                getHistory().push(data.goto_location);
             } else if (data.goto_location.startsWith(getSiteURL())) {
-                browserHistory.push(data.goto_location.substr(getSiteURL().length));
+                getHistory().push(data.goto_location.substr(getSiteURL().length));
             } else {
                 window.open(data.goto_location);
             }

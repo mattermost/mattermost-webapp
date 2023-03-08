@@ -18,7 +18,7 @@ import Tooltip from 'components/tooltip';
 import SpinnerButton from 'components/spinner_button';
 import FormError from 'components/form_error';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {AcceptedProfileImageTypes, Constants, ValidationErrors} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
@@ -296,7 +296,7 @@ export default class AddBot extends React.PureComponent<Props, State> {
             }
 
             if (data) {
-                browserHistory.push(`/${this.props.team.name}/integrations/bots`);
+                getHistory().push(`/${this.props.team.name}/integrations/bots`);
                 return;
             }
         } else {
@@ -349,7 +349,7 @@ export default class AddBot extends React.PureComponent<Props, State> {
 
                 // On error just skip the confirmation because we have a bot without a token.
                 if (!tokenResult || tokenResult.error) {
-                    browserHistory.push(`/${this.props.team.name}/integrations/bots`);
+                    getHistory().push(`/${this.props.team.name}/integrations/bots`);
                     return;
                 }
 
@@ -361,7 +361,7 @@ export default class AddBot extends React.PureComponent<Props, State> {
             }
 
             if (data) {
-                browserHistory.push(`/${this.props.team.name}/integrations/confirm?type=bots&id=${data.user_id}&token=${token}`);
+                getHistory().push(`/${this.props.team.name}/integrations/confirm?type=bots&id=${data.user_id}&token=${token}`);
                 return;
             }
         }

@@ -19,8 +19,8 @@ exports[`components/custom_status/expiry_menu should match snapshot 1`] = `
           className="MenuWrapper statusExpiry__menu"
           onClick={[Function]}
         >
-          <span
-            className="expiry-wrapper expiry-selector"
+          <button
+            className="style--none expiry-wrapper expiry-selector"
           >
             <FormattedMessage
               defaultMessage="Clear after"
@@ -42,7 +42,7 @@ exports[`components/custom_status/expiry_menu should match snapshot 1`] = `
                 className="fa fa-angle-down"
               />
             </span>
-          </span>
+          </button>
           <MenuWrapperAnimation
             show={false}
           >
@@ -98,8 +98,8 @@ exports[`components/custom_status/expiry_menu should match snapshot with differe
           className="MenuWrapper statusExpiry__menu"
           onClick={[Function]}
         >
-          <span
-            className="expiry-wrapper expiry-selector"
+          <button
+            className="style--none expiry-wrapper expiry-selector"
           >
             <FormattedMessage
               defaultMessage="Clear after"
@@ -121,7 +121,7 @@ exports[`components/custom_status/expiry_menu should match snapshot with differe
                 className="fa fa-angle-down"
               />
             </span>
-          </span>
+          </button>
           <MenuWrapperAnimation
             show={false}
           >

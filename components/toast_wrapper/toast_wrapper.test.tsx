@@ -10,7 +10,7 @@ import {DATE_LINE} from 'mattermost-redux/utils/post_list';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {PostListRowListIds} from 'utils/constants';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import ToastWrapper, {Props, ToastWrapperClass} from './toast_wrapper';
 
@@ -539,9 +539,8 @@ describe('components/ToastWrapper', () => {
             expect(wrapper.state('showMessageHistoryToast')).toBe(true);
 
             const instance = wrapper.instance() as ToastWrapperClass;
-            browserHistory.replace = jest.fn();
             instance.scrollToLatestMessages();
-            expect(browserHistory.replace).toHaveBeenCalledWith('/team');
+            expect(getHistory().replace).toHaveBeenCalledWith('/team');
         });
 
         test('Replace browser history when not at latest posts and in permalink view with call to scrollToNewMessage', () => {
@@ -555,9 +554,8 @@ describe('components/ToastWrapper', () => {
             expect(wrapper.state('showMessageHistoryToast')).toBe(true);
 
             const instance = wrapper.instance() as ToastWrapperClass;
-            browserHistory.replace = jest.fn();
             instance.scrollToNewMessage();
-            expect(browserHistory.replace).toHaveBeenCalledWith('/team');
+            expect(getHistory().replace).toHaveBeenCalledWith('/team');
         });
     });
 

@@ -1,13 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-
 import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
 
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+
+import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
 import mockStore from 'tests/test_store';
+import {ConsolePages} from '../utils/constants';
 
 jest.mock('actions/team_actions', () => ({
     addUsersToTeam: () => ({ // since we are using addUsersToTeamGracefully, this call will always succeed
@@ -35,19 +36,29 @@ jest.mock('mattermost-redux/actions/channels', () => ({
 jest.mock('mattermost-redux/actions/teams', () => ({
     getTeamMembersByIds: () => ({type: 'MOCK_RECEIVED_ME'}),
     sendEmailInvitesToTeamGracefully: (team: string, emails: string[]) => {
-        // Poor attempt to mock rate limiting.
-        if (emails.length > 21) {
+        if (team === 'incorrect-default-smtp') {
+            return ({type: 'MOCK_RECEIVED_ME', data: emails.map((email) => ({email, error: {message: 'SMTP is not configured in System Console.', id: 'api.team.invite_members.unable_to_send_email_with_defaults.app_error'}}))});
+        } else if (emails.length > 21) { // Poor attempt to mock rate limiting.
             return ({type: 'MOCK_RECEIVED_ME', data: emails.map((email) => ({email, error: {message: 'Invite emails rate limit exceeded.'}}))});
+        } else if (team === 'error') {
+            return ({type: 'MOCK_RECEIVED_ME', data: emails.map((email) => ({email, error: {message: 'Unable to add the user to the team.'}}))});
         }
-        return ({type: 'MOCK_RECEIVED_ME', data: emails.map((email) => ({email, error: team === 'correct' ? undefined : {message: 'Unable to add the user to the team.'}}))});
+
+        // team === 'correct' i.e no error
+        return ({type: 'MOCK_RECEIVED_ME', data: emails.map((email) => ({email, error: undefined}))});
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     sendEmailGuestInvitesToChannelsGracefully: (teamId: string, _channelIds: string[], emails: string[], _message: string) => {
-        // Poor attempt to mock rate limiting.
-        if (emails.length > 21) {
+        if (teamId === 'incorrect-default-smtp') {
+            return ({type: 'MOCK_RECEIVED_ME', data: emails.map((email) => ({email, error: {message: 'SMTP is not configured in System Console.', id: 'api.team.invite_members.unable_to_send_email_with_defaults.app_error'}}))});
+        } else if (emails.length > 21) { // Poor attempt to mock rate limiting.
             return ({type: 'MOCK_RECEIVED_ME', data: emails.map((email) => ({email, error: {message: 'Invite emails rate limit exceeded.'}}))});
+        } else if (teamId === 'error') {
+            return ({type: 'MOCK_RECEIVED_ME', data: emails.map((email) => ({email, error: {message: 'Unable to add the guest to the channels.'}}))});
         }
-        return ({type: 'MOCK_RECEIVED_ME', data: emails.map((email) => ({email, error: teamId === 'correct' ? undefined : {message: 'Unable to add the guest to the channels.'}}))});
+
+        // teamId === 'correct' i.e no error
+        return ({type: 'MOCK_RECEIVED_ME', data: emails.map((email) => ({email, error: undefined}))});
     },
 }));
 
@@ -101,7 +112,11 @@ describe('actions/invite_actions', () => {
             },
             users: {
                 currentUserId: 'user1',
-                profiles: {},
+                profiles: {
+                    user1: {
+                        roles: 'system_admin',
+                    },
+                },
             },
         },
     });
@@ -263,6 +278,25 @@ describe('actions/invite_actions', () => {
             expect(response).toEqual({
                 data: {
                     notSent: expectedNotSent,
+                    sent: [],
+                },
+            });
+        });
+
+        it('should generate a failure for smtp config', async () => {
+            const emails = ['email-one@email-one.com'];
+            const response = await sendMembersInvites('incorrect-default-smtp', [], emails)(store.dispatch as DispatchFunc, store.getState as GetStateFunc);
+            expect(response).toEqual({
+                data: {
+                    notSent: [
+                        {
+                            email: 'email-one@email-one.com',
+                            reason: {
+                                id: 'admin.environment.smtp.smtpFailure',
+                                message: 'SMTP is not configured in System Console. Can be configured <a>here</a>.',
+                            },
+                            path: ConsolePages.SMTP,
+                        }],
                     sent: [],
                 },
             });
@@ -533,6 +567,25 @@ describe('actions/invite_actions', () => {
             expect(response).toEqual({
                 data: {
                     notSent: expectedNotSent,
+                    sent: [],
+                },
+            });
+        });
+
+        it('should generate a failure for smtp config', async () => {
+            const emails = ['email-one@email-one.com'];
+            const response = await sendGuestsInvites('incorrect-default-smtp', [{id: 'error'}] as Channel[], [], emails, 'message')(store.dispatch as DispatchFunc, store.getState as GetStateFunc);
+            expect(response).toEqual({
+                data: {
+                    notSent: [
+                        {
+                            email: 'email-one@email-one.com',
+                            reason: {
+                                id: 'admin.environment.smtp.smtpFailure',
+                                message: 'SMTP is not configured in System Console. Can be configured <a>here</a>.',
+                            },
+                            path: ConsolePages.SMTP,
+                        }],
                     sent: [],
                 },
             });

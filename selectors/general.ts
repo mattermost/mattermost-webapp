@@ -50,3 +50,13 @@ export const getCurrentUserTimezone = createSelector(
         return timezone;
     },
 );
+
+export function getConnectionId(state: GlobalState) {
+    return state.websocket.connectionId;
+}
+
+export function isDevModeEnabled(state: GlobalState) {
+    const config = getConfig(state);
+    const EnableDeveloper = config && config.EnableDeveloper ? config.EnableDeveloper === 'true' : false;
+    return EnableDeveloper;
+}

@@ -5,10 +5,14 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {Team} from '@mattermost/types/teams';
+import {SelfHostedSignupProgress} from '@mattermost/types/cloud';
 import {AdminConfig, ExperimentalSettings} from '@mattermost/types/config';
+
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
 import AdminDefinition from 'components/admin_console/admin_definition';
 import {TestHelper} from 'utils/test_helper';
+import * as Utils from 'utils/utils';
 
 import AdminConsole from './admin_console';
 import type {Props} from './admin_console';
@@ -36,6 +40,9 @@ describe('components/AdminConsole', () => {
                 limitsLoaded: false,
             },
             errors: {},
+            selfHostedSignup: {
+                progress: SelfHostedSignupProgress.START,
+            },
         },
         buildEnterpriseReady: true,
         match: {
@@ -52,6 +59,7 @@ describe('components/AdminConsole', () => {
         showNavigationPrompt: false,
         isCurrentUserSystemAdmin: false,
         currentUserHasAnAdminRole: false,
+        currentTheme: {} as Theme,
         actions: {
             getConfig: jest.fn(),
             getEnvironmentConfig: jest.fn(),
@@ -60,10 +68,15 @@ describe('components/AdminConsole', () => {
             cancelNavigation: jest.fn(),
             loadRolesIfNeeded: jest.fn(),
             editRole: jest.fn(),
-            selectChannel: jest.fn(),
+            selectLhsItem: jest.fn(),
             selectTeam: jest.fn(),
         },
     };
+
+    beforeEach(() => {
+        jest.spyOn(Utils, 'applyTheme').mockImplementation(() => {});
+        jest.spyOn(Utils, 'resetTheme').mockImplementation(() => {});
+    });
 
     test('should redirect to town-square when not system admin', () => {
         const props = {

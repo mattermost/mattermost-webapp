@@ -187,14 +187,6 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
         this.props.actions.selectPostCard(post);
     }
 
-    private handleCardClickPost = (post: Post) => {
-        if (!post) {
-            return;
-        }
-
-        this.props.actions.selectPostCard(post);
-    }
-
     public render(): JSX.Element {
         if (this.props.postIds == null || this.props.selected == null || !this.props.channel) {
             return (
@@ -225,7 +217,6 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
                                     key={this.props.selected.id}
                                     channel={this.props.channel}
                                     onCardClick={this.handleCardClick}
-                                    onCardClickPost={this.handleCardClickPost}
                                     postIds={this.props.postIds}
                                     selected={this.props.selected}
                                     useRelativeTimestamp={this.props.useRelativeTimestamp || false}
