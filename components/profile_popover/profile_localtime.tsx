@@ -50,7 +50,7 @@ const returnTimeDiff = (
     );
 };
 
-const ProfileTimezone = (
+export const ProfileTimezone = (
     {
         currentUserTimezone,
         profileUserTimezone,
@@ -96,8 +96,4 @@ const ProfileTimezone = (
 
         </div>
     );
-};
-
-export {
-    ProfileTimezone,
 };
