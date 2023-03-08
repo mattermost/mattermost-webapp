@@ -35,7 +35,6 @@ export default function ExternalLink(props: Props) {
     let href = props.href;
     let queryParams = {};
     if (href?.includes('mattermost.com')) {
-        // encode this stuff so it's not so transparent to the user?
         const existingURLSearchParams = new URL(href).searchParams;
         const existingQueryParamsObj = Object.fromEntries(existingURLSearchParams.entries());
         queryParams = {
