@@ -16,18 +16,21 @@ import {closeModal, openModal} from 'actions/views/modals';
 
 import DeliquencyModalController from './delinquency_modal_controller';
 
-function mapStateToProps(state: GlobalState) {
+function makeMapStateToProps() {
     const getCategory = makeGetCategory();
-    const license = getLicense(state);
-    const isCloud = license.Cloud === 'true';
-    const subscription = state.entities.cloud?.subscription;
-    const userIsAdmin = isCurrentUserSystemAdmin(state);
 
-    return {
-        isCloud,
-        subscription,
-        userIsAdmin,
-        delinquencyModalPreferencesConfirmed: getCategory(state, Preferences.DELINQUENCY_MODAL_CONFIRMED),
+    return function mapStateToProps(state: GlobalState) {
+        const license = getLicense(state);
+        const isCloud = license.Cloud === 'true';
+        const subscription = state.entities.cloud?.subscription;
+        const userIsAdmin = isCurrentUserSystemAdmin(state);
+
+        return {
+            isCloud,
+            subscription,
+            userIsAdmin,
+            delinquencyModalPreferencesConfirmed: getCategory(state, Preferences.DELINQUENCY_MODAL_CONFIRMED),
+        };
     };
 }
 
@@ -41,4 +44,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeliquencyModalController);
+export default connect(makeMapStateToProps, mapDispatchToProps)(DeliquencyModalController);
