@@ -46,7 +46,7 @@ describe('components/external_link', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    it('should attach parameters if telemetry is enabled', () => {
+    it('should attach parameters', () => {
         const state = {
             ...initialState,
             entities: {

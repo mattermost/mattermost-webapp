@@ -19,7 +19,7 @@ type ExternalLinkQueryParams = {
 }
 
 type Props = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
-    href?: string;
+    href: string;
     target?: string;
     rel?: string;
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
