@@ -84,13 +84,16 @@ export default function AppBar() {
         return x;
     });
 
-    if (canOpenMarketplace) {
-        items.push(<AppBarMarketplace key={'app_bar_marketplace'}/>);
-    }
-
     return (
         <div className={'app-bar'}>
-            {items}
+            <div className={'app-bar__top'}>
+                {items}
+            </div>
+            {canOpenMarketplace && (
+                <div className='app-bar__bottom'>
+                    <AppBarMarketplace/>
+                </div>
+            )}
         </div>
     );
 }

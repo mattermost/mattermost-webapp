@@ -37,24 +37,22 @@ const AppBarMarketplace = () => {
             delayShow={Constants.OVERLAY_TIME_DELAY}
             placement='left'
             overlay={(
-                <Tooltip id='tooltip-marketplace'>
+                <Tooltip id='tooltip-app-bar-marketplace'>
                     <span>{label}</span>
                 </Tooltip>
             )}
         >
-            <div
-                id='app_bar_marketplace'
+            <button
+                key='app_bar_marketplace'
+                className='app_bar__marketplace_button'
                 aria-label={label}
-                className={'app-bar__icon app-bar__icon--bottom'}
                 onClick={handleOpenMarketplace}
             >
-                <div className='app-bar__old-icon app-bar__icon-inner app-bar__icon-inner--centered'>
-                    <Icon
-                        size={16}
-                        glyph={'view-grid-plus-outline'}
-                    />
-                </div>
-            </div>
+                <Icon
+                    size={16}
+                    glyph={'view-grid-plus-outline'}
+                />
+            </button>
         </OverlayTrigger>
     );
 };
