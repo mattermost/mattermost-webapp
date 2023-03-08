@@ -18,6 +18,7 @@ import * as Utils from 'utils/utils';
 import ProfilePicture from 'components/profile_picture';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 type Props = {
     user: UserProfile;
@@ -143,6 +144,15 @@ export default class UserListRowWithError extends React.PureComponent<Props, Sta
                                 <Link to={'/admin_console/user_management/user/' + this.props.user.id}>
                                     {Utils.displayEntireNameForUser(this.props.user)}
                                 </Link>
+                                <CustomStatusEmoji
+                                    userID={this.props.user.id}
+                                    showTooltip={true}
+                                    emojiSize={16}
+                                    emojiStyle={{
+                                        marginLeft: '8px',
+                                    }}
+                                />
+
                                 {this.props.user.is_bot && <BotTag/>}
                             </div>
                             <div

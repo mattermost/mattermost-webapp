@@ -15,6 +15,7 @@ exports[`ProductNoticesModal Match snapshot for single notice 1`] = `
   handleConfirm={[Function]}
   handleEnterKeyPress={[Function]}
   id="genericModal"
+  keyboardEscape={true}
   modalHeaderText={
     <span>
       title
@@ -66,6 +67,7 @@ exports[`ProductNoticesModal Match snapshot for user notice 1`] = `
   handleConfirm={[Function]}
   handleEnterKeyPress={[Function]}
   id="genericModal"
+  keyboardEscape={true}
   modalHeaderText={
     <span>
       title
@@ -138,6 +140,7 @@ exports[`ProductNoticesModal Should match snapshot for system admin notice 1`] =
   handleConfirm={[Function]}
   handleEnterKeyPress={[Function]}
   id="genericModal"
+  keyboardEscape={true}
   modalHeaderText={
     <span>
       for sysadmin

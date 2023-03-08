@@ -7,7 +7,7 @@ import type {ValueOf} from '@mattermost/types/utilities';
 import {CloudTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Product, Subscription, CloudCustomer, Invoice, Limits, SelfHostedSignupProgress, LicenseExpandReducer} from '@mattermost/types/cloud';
+import {Product, Subscription, CloudCustomer, Invoice, Limits, SelfHostedSignupProgress, LicenseSelfServeStatusReducer} from '@mattermost/types/cloud';
 
 export function subscription(state: Subscription | null = null, action: GenericAction) {
     switch (action.type) {
@@ -29,21 +29,21 @@ function customer(state: CloudCustomer | null = null, action: GenericAction) {
     }
 }
 
-export function subscriptionStats(state: LicenseExpandReducer | null = null, action: GenericAction): LicenseExpandReducer | null {
+export function subscriptionStats(state: LicenseSelfServeStatusReducer | null = null, action: GenericAction): LicenseSelfServeStatusReducer | null {
     switch (action.type) {
-    case CloudTypes.CLOUD_EXPAND_STATS_REQUEST: {
+    case CloudTypes.LICENSE_SELF_SERVE_STATS_REQUEST: {
         return {
             getRequestState: 'LOADING',
             ...action.data,
         };
     }
-    case CloudTypes.RECEIVED_CLOUD_EXPAND_STATS: {
+    case CloudTypes.RECEIVED_LICENSE_SELF_SERVE_STATS: {
         return {
             getRequestState: 'OK',
             is_expandable: action.data,
         };
     }
-    case CloudTypes.CLOUD_EXPAND_STATS_FAILED: {
+    case CloudTypes.LICENSE_SELF_SERVE_STATS_FAILED: {
         return {
             getRequestState: 'ERROR',
             is_expandable: false,

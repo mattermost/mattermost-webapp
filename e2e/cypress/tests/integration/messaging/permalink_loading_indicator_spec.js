@@ -51,7 +51,7 @@ describe('Messaging', () => {
             cy.clickPostDotMenu(permalinkPostId);
 
             // # Click on "Copy Link"
-            cy.uiClickCopyLink(permalink);
+            cy.uiClickCopyLink(permalink, permalinkPostId);
 
             // # Click on test public channel
             cy.get('#sidebarItem_' + testPublicChannel.name).click({force: true});

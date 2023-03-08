@@ -92,7 +92,7 @@ const ExpiryMenu: React.FC<Props> = (props: Props) => {
                 <MenuWrapper
                     className={'statusExpiry__menu'}
                 >
-                    <span className='expiry-wrapper expiry-selector'>
+                    <button className='style--none expiry-wrapper expiry-selector'>
                         <FormattedMessage
                             id='custom_status.expiry_dropdown.clear_after'
                             defaultMessage='Clear after'
@@ -114,7 +114,7 @@ const ExpiryMenu: React.FC<Props> = (props: Props) => {
                                 aria-hidden='true'
                             />
                         </span>
-                    </span>
+                    </button>
                     <Menu
                         ariaLabel={formatMessage({id: 'custom_status.expiry_dropdown.clear_after', defaultMessage: 'Clear after'})}
                         id='statusExpiryMenu'
