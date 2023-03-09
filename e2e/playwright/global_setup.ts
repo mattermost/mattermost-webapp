@@ -12,32 +12,28 @@ import {
     getOnPremServerConfig,
     makeClient,
 } from './support/server';
-import {defaultTeam} from './support/utils';
-import testConfig, {TestConfig} from './test.config';
+import {defaultTeam} from './support/util';
+import testConfig from './test.config';
 import {AdminConfig} from '@mattermost/types/config';
 
-const productsAsPlugin = ['com.mattermost.calls', 'playbooks'];
-
 async function globalSetup() {
-    let adminClient: Client | null;
+    let adminClient: Client;
     let adminUser: UserProfile | null;
     ({adminClient, adminUser} = await getAdminClient());
 
-    if (!adminClient) {
+    if (!adminUser) {
         const {client: firstClient} = await makeClient();
         const defaultAdmin = getDefaultAdminUser();
-        await firstClient?.createUser(defaultAdmin, '', '');
+        await firstClient.createUser(defaultAdmin, '', '');
 
         ({client: adminClient, user: adminUser} = await makeClient(defaultAdmin));
     }
 
-    if (adminClient) {
-        await sysadminSetup(adminClient, adminUser);
-    } else {
-        throw new Error(
-            "Failed to setup admin: Check that you're able to access the server using the same admin credential."
-        );
-    }
+    await sysadminSetup(adminClient, adminUser);
+
+    return function () {
+        // placeholder for teardown setup
+    };
 }
 
 async function sysadminSetup(client: Client, user: UserProfile | null) {
@@ -88,7 +84,7 @@ async function sysadminSetup(client: Client, user: UserProfile | null) {
     await printPluginDetails(client);
 
     // Ensure server deployment type is as expected
-    await ensureServerDeployment(client, testConfig);
+    await ensureServerDeployment(client);
 }
 
 async function printLicenseInfo(client: Client) {
@@ -122,11 +118,21 @@ async function printClientInfo(client: Client) {
   - TelemetryId                 = ${config.TelemetryId}`);
 }
 
+function getProductsAsPlugin() {
+    const productsAsPlugin = ['com.mattermost.calls', 'playbooks'];
+
+    if (!testConfig.boardsProductEnabled) {
+        productsAsPlugin.push('focalboard');
+    }
+
+    return productsAsPlugin;
+}
+
 async function ensurePluginsLoaded(client: Client) {
     const pluginStatus = await client.getPluginStatuses();
     const plugins = await client.getPlugins();
 
-    productsAsPlugin.forEach(async (pluginId) => {
+    getProductsAsPlugin().forEach(async (pluginId) => {
         const isInstalled = pluginStatus.some((plugin) => plugin.plugin_id === pluginId);
         if (!isInstalled) {
             // eslint-disable-next-line no-console
@@ -185,7 +191,7 @@ async function printPluginDetails(client: Client) {
     console.log('');
 }
 
-async function ensureServerDeployment(client: Client, testConfig: TestConfig) {
+async function ensureServerDeployment(client: Client) {
     if (testConfig.haClusterEnabled) {
         const {haClusterNodeCount, haClusterName} = testConfig;
 

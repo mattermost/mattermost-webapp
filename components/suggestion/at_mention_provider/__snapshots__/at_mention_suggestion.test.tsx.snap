@@ -91,6 +91,7 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
       >
         @user2
       </span>
+      a b (c)
       <Component
         emojiSize={15}
         emojiStyle={
@@ -103,7 +104,6 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
       >
         <div />
       </Component>
-      a b (c)
     </span>
   </div>
 </AtMentionSuggestion>
@@ -201,6 +201,15 @@ exports[`at mention suggestion Should not display nick name of the signed in use
       >
         @user
       </span>
+      a b
+      <FormattedMessage
+        defaultMessage="(you)"
+        id="suggestion.user.isCurrent"
+      >
+        <span>
+          (you)
+        </span>
+      </FormattedMessage>
       <Component
         emojiSize={15}
         emojiStyle={
@@ -213,15 +222,6 @@ exports[`at mention suggestion Should not display nick name of the signed in use
       >
         <div />
       </Component>
-      a b
-      <FormattedMessage
-        defaultMessage="(you)"
-        id="suggestion.user.isCurrent"
-      >
-        <span>
-          (you)
-        </span>
-      </FormattedMessage>
     </span>
   </div>
 </AtMentionSuggestion>

@@ -23,6 +23,8 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
 
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+
 import {ChannelMember} from './channel_members_rhs';
 
 const Avatar = styled.div`
@@ -150,7 +152,7 @@ const Member = ({className, channel, member, index, totalUsers, editing, actions
                             isBot={member.user.is_bot}
                             userId={member.user.id}
                             username={member.displayName}
-                            src={profileSrc}
+                            src={Client4.getProfilePictureUrl(member.user.id, member.user.last_picture_update)}
                         />
                     </Avatar>
                     <UserInfo>
@@ -158,8 +160,17 @@ const Member = ({className, channel, member, index, totalUsers, editing, actions
                             {member.displayName}
                             {isGuest(member.user.roles) && <GuestTag/>}
                         </DisplayName>
-                        {member.displayName === member.user.username ? null : <Username>{'@'}{member.user.username}</Username>
+                        {
+                            member.displayName === member.user.username ? null : <Username>{'@'}{member.user.username}</Username>
                         }
+                        <CustomStatusEmoji
+                            userID={member.user.id}
+                            showTooltip={true}
+                            emojiSize={16}
+                            emojiStyle={{
+                                marginLeft: '8px',
+                            }}
+                        />
                     </UserInfo>
                 </span>
             </OverlayTrigger>

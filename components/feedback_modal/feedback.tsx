@@ -24,6 +24,7 @@ type Props = {
 } & WrappedComponentProps
 
 function FeedbackModal(props: Props) {
+    const maxFreeFormTextLength = 500;
     const optionOther = props.intl.formatMessage({id: 'feedback.other', defaultMessage: 'Other'});
     const feedbackModalOptions: string[] = [
         ...props.feedbackOptions,
@@ -63,6 +64,7 @@ function FeedbackModal(props: Props) {
             confirmButtonText={props.submitText}
             cancelButtonText={props.intl.formatMessage({id: 'feedback.cancelButton.text', defaultMessage: 'Cancel'})}
             modalHeaderText={props.title}
+            autoCloseOnConfirmButton={false}
         >
             <RadioButtonGroup
                 id='FeedbackModalRadioGroup'
@@ -78,15 +80,22 @@ function FeedbackModal(props: Props) {
                 onChange={(e) => setReason(e.target.value)}
             />
             {reason === optionOther &&
-                <textarea
-                    data-testid={'FeedbackModal__TextInput'}
-                    className='FeedbackModal__FreeFormText'
-                    placeholder={props.freeformTextPlaceholder}
-                    rows={3}
-                    onChange={(e) => {
-                        setComments(e.target.value);
-                    }}
-                />
+                <>
+                    <textarea
+                        data-testid={'FeedbackModal__TextInput'}
+                        className='FeedbackModal__FreeFormText'
+                        placeholder={props.freeformTextPlaceholder}
+                        rows={3}
+                        value={comments}
+                        onChange={(e) => {
+                            setComments(e.target.value);
+                        }}
+                        maxLength={maxFreeFormTextLength}
+                    />
+                    <span className='FeedbackModal__FreeFormTextLimit'>
+                        {comments.length + '/' + maxFreeFormTextLength}
+                    </span>
+                </>
             }
         </GenericModal>
     );
