@@ -3,67 +3,76 @@
 
 import React from 'react';
 
-import DayPicker from 'react-day-picker';
+import {DayPicker} from 'react-day-picker';
 
-import MomentLocaleUtils from 'react-day-picker/moment';
+import type {Locale} from 'date-fns';
 
 import Suggestion from '../suggestion.jsx';
 
-import 'react-day-picker/lib/style.css';
+import * as Utils from 'utils/utils';
+import Constants from 'utils/constants';
 
-import 'moment';
-
-const loadedLocales: Record<string, moment.Locale> = {};
-
-type Props = {
-    locale: string;
-}
+import 'react-day-picker/dist/style.css';
 
 export default class SearchDateSuggestion extends Suggestion {
+    private loadedLocales: Record<string, Locale> = {};
+
+    state = {
+        datePickerFocused: false,
+    };
+
     handleDayClick = (day: Date) => {
         const dayString = day.toISOString().split('T')[0];
         this.props.onClick(dayString, this.props.matchedPretext);
     }
 
-    componentDidMount() {
-        //the naming scheme of momentjs packages are all lowercases
-        const locale = this.props.locale.toLowerCase();
-
-        // Momentjs use en as defualt, no need to import en
-        if (locale && locale !== 'en' && !loadedLocales[locale]) {
-            /* eslint-disable global-require */
-            loadedLocales[locale] = require(`moment/locale/${locale}`);
-            /* eslint-disable global-require */
+    handleKeyDown = (e: KeyboardEvent) => {
+        if (Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) && document.activeElement?.id === 'searchBox') {
+            this.setState({datePickerFocused: true});
+        } else if (Utils.isKeyPressed(e, Constants.KeyCodes.ESCAPE)) {
+            this.props.handleEscape();
         }
+    };
+
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleKeyDown);
     }
 
-    componentDidUpdate(prevProps: Props) {
-        const locale = this.props.locale.toLowerCase();
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown);
+    }
 
-        if (locale && locale !== 'en' && locale !== prevProps.locale && !loadedLocales[locale]) {
-            /* eslint-disable global-require */
-            loadedLocales[locale] = require(`moment/locale/${locale}`);
-            /* eslint-disable global-require */
-        }
+    iconLeft = () => {
+        return (
+            <i className='icon icon-chevron-left'/>
+        );
+    }
+
+    iconRight = () => {
+        return (
+            <i className='icon icon-chevron-right'/>
+        );
     }
 
     render() {
-        let modifiers;
-        if (this.props.currentDate) {
-            modifiers = {
-                today: this.props.currentDate,
-            };
-        }
+        const locale: string = this.props.locale;
 
-        const locale = this.props.locale.toLowerCase();
+        this.loadedLocales = Utils.getDatePickerLocalesForDateFns(locale, this.loadedLocales);
 
         return (
             <DayPicker
                 onDayClick={this.handleDayClick}
                 showOutsideDays={true}
-                modifiers={modifiers}
-                localeUtils={MomentLocaleUtils}
-                locale={locale}
+                mode={'single'}
+                locale={this.loadedLocales[locale]}
+                initialFocus={this.state.datePickerFocused}
+                onMonthChange={this.props.preventClose}
+                id='searchDatePicker'
+                selected={this.props.currentDate}
+                components={{
+                    IconRight: this.iconRight,
+                    IconLeft: this.iconLeft,
+                }}
             />
         );
     }

@@ -97,141 +97,144 @@ function removePostAndCloseRHS(post: ExtendedPost) {
     };
 }
 
-function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    let post;
-    if (ownProps.post) {
-        post = ownProps.post;
-    } else if (ownProps.postId) {
-        post = getPost(state, ownProps.postId);
-    }
-    if (!post) {
-        return null;
-    }
-    let parentPost;
-    let parentPostUser;
-
-    if (post.root_id) {
-        parentPost = getPost(state, post.root_id);
-        parentPostUser = parentPost ? getUser(state, parentPost.user_id) : null;
-    }
-
+function makeMapStateToProps() {
     const isPostCommentMention = makeIsPostCommentMention();
-    const config = getConfig(state);
-    const enableEmojiPicker = config.EnableEmojiPicker === 'true';
-    const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
-    const teamId = ownProps.teamId || getCurrentTeamId(state);
-    const channel = state.entities.channels.channels[post.channel_id];
-    const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
     const getReplyCount = makeGetCommentCountForPost();
 
-    const user = getUser(state, post.user_id);
-    const isBot = Boolean(user && user.is_bot);
-    const highlightedPostId = getHighlightedPostId(state);
-    const showActionsMenuPulsatingDot = showActionsDropdownPulsatingDot(state);
-    const tourTipsEnabled = onboardingTourTipsEnabled(state);
-    const selectedCard = getSelectedPostCard(state);
+    return function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+        let post;
+        if (ownProps.post) {
+            post = ownProps.post;
+        } else if (ownProps.postId) {
+            post = getPost(state, ownProps.postId);
+        }
+        if (!post) {
+            return null;
+        }
+        let parentPost;
+        let parentPostUser;
 
-    let emojis: Emoji[] = [];
-    const oneClickReactionsEnabled = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.ONE_CLICK_REACTIONS_ENABLED, Preferences.ONE_CLICK_REACTIONS_ENABLED_DEFAULT) === 'true';
-    if (oneClickReactionsEnabled) {
-        emojis = getOneClickReactionEmojis(state);
-    }
+        if (post.root_id) {
+            parentPost = getPost(state, post.root_id);
+            parentPostUser = parentPost ? getUser(state, parentPost.user_id) : null;
+        }
 
-    let previousPost = null;
-    if (ownProps.previousPostId) {
-        previousPost = getPost(state, ownProps.previousPostId);
-    }
+        const config = getConfig(state);
+        const enableEmojiPicker = config.EnableEmojiPicker === 'true';
+        const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
+        const teamId = ownProps.teamId || getCurrentTeamId(state);
+        const channel = state.entities.channels.channels[post.channel_id];
+        const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
 
-    let previousPostIsComment = false;
+        const user = getUser(state, post.user_id);
+        const isBot = Boolean(user && user.is_bot);
+        const highlightedPostId = getHighlightedPostId(state);
+        const showActionsMenuPulsatingDot = showActionsDropdownPulsatingDot(state);
+        const tourTipsEnabled = onboardingTourTipsEnabled(state);
+        const selectedCard = getSelectedPostCard(state);
 
-    if (previousPost && !post.props.priority) {
-        previousPostIsComment = Boolean(previousPost.root_id);
-    }
+        let emojis: Emoji[] = [];
+        const oneClickReactionsEnabled = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.ONE_CLICK_REACTIONS_ENABLED, Preferences.ONE_CLICK_REACTIONS_ENABLED_DEFAULT) === 'true';
+        if (oneClickReactionsEnabled) {
+            emojis = getOneClickReactionEmojis(state);
+        }
 
-    const currentTeam = getCurrentTeam(state);
-    let teamName = currentTeam.name;
-    let teamDisplayName = '';
+        let previousPost = null;
+        if (ownProps.previousPostId) {
+            previousPost = getPost(state, ownProps.previousPostId);
+        }
 
-    const memberships = getTeamMemberships(state);
-    const isDMorGM = channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL;
-    const rhsState = getRhsState(state);
-    if (
-        rhsState !== RHSStates.PIN && // Not show in pinned posts since they are all for the same channel
-        !isDMorGM && // Not show for DM or GMs since they don't belong to a team
-        memberships && Object.values(memberships).length > 1 // Not show if the user only belongs to one team
-    ) {
-        const team = getTeam(state, channel.team_id);
-        teamDisplayName = team?.display_name;
-        teamName = team?.name || currentTeam.name;
-    }
+        let previousPostIsComment = false;
 
-    const canReply = isDMorGM || (channel.team_id === currentTeam.id);
-    const directTeammate = getDirectTeammate(state, channel.id);
+        if (previousPost && !post.props.priority) {
+            previousPostIsComment = Boolean(previousPost.root_id);
+        }
 
-    const previewCollapsed = get(
-        state,
-        Preferences.CATEGORY_DISPLAY_SETTINGS,
-        Preferences.COLLAPSE_DISPLAY,
-        Preferences.COLLAPSE_DISPLAY_DEFAULT,
-    );
+        const currentTeam = getCurrentTeam(state);
+        let teamName = currentTeam.name;
+        let teamDisplayName = '';
 
-    const previewEnabled = getBool(
-        state,
-        Preferences.CATEGORY_DISPLAY_SETTINGS,
-        Preferences.LINK_PREVIEW_DISPLAY,
-        Preferences.LINK_PREVIEW_DISPLAY_DEFAULT === 'true',
-    );
+        const memberships = getTeamMemberships(state);
+        const isDMorGM = channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL;
+        const rhsState = getRhsState(state);
+        if (
+            rhsState !== RHSStates.PIN && // Not show in pinned posts since they are all for the same channel
+            !isDMorGM && // Not show for DM or GMs since they don't belong to a team
+            memberships && Object.values(memberships).length > 1 // Not show if the user only belongs to one team
+        ) {
+            const team = getTeam(state, channel.team_id);
+            teamDisplayName = team?.display_name;
+            teamName = team?.name || currentTeam.name;
+        }
 
-    return {
-        enableEmojiPicker,
-        enablePostUsernameOverride,
-        isEmbedVisible: isEmbedVisible(state, post.id),
-        isReadOnly: false,
-        teamId,
-        currentUserId: getCurrentUserId(state),
-        isFirstReply: previousPost ? isFirstReply(post, previousPost) : false,
-        hasReplies: getReplyCount(state, post) > 0,
-        replyCount: getReplyCount(state, post),
-        canReply,
-        pluginPostTypes: state.plugins.postTypes,
-        channelIsArchived: isArchivedChannel(channel),
-        isConsecutivePost: isConsecutivePost(state, ownProps),
-        previousPostIsComment,
-        isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) !== null,
-        compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
-        colorizeUsernames: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLORIZE_USERNAMES, Preferences.COLORIZE_USERNAMES_DEFAULT) === 'true',
-        shouldShowActionsMenu: shouldShowActionsMenu(state, post),
-        showActionsMenuPulsatingDot,
-        tourTipsEnabled,
-        shortcutReactToLastPostEmittedFrom,
-        isBot,
-        collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
-        shouldHighlight: ownProps.shouldHighlight || highlightedPostId === post.id,
-        oneClickReactionsEnabled,
-        recentEmojis: emojis,
-        center: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_CENTERED,
-        isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
-        isExpanded: state.views.rhs.isSidebarExpanded,
-        isPostBeingEdited: ownProps.location === Locations.CENTER ? !getIsPostBeingEditedInRHS(state, post.id) && getIsPostBeingEdited(state, post.id) : getIsPostBeingEditedInRHS(state, post.id),
-        isMobileView: getIsMobileView(state),
-        previewCollapsed,
-        previewEnabled,
-        post,
-        channelName: channel.display_name,
-        channelType: channel.type,
-        teamDisplayName,
-        displayName: getDisplayNameByUser(state, directTeammate),
-        teamName,
-        isFlaggedPosts: rhsState === RHSStates.FLAG,
-        isPinnedPosts: rhsState === RHSStates.PIN,
-        clickToReply: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CLICK_TO_REPLY, Preferences.CLICK_TO_REPLY_DEFAULT) === 'true',
-        isCommentMention: isPostCommentMention(state, post.id),
-        parentPost,
-        parentPostUser,
-        isPostAcknowledgementsEnabled: isPostAcknowledgementsEnabled(state),
-        isPostPriorityEnabled: isPostPriorityEnabled(state),
-        isCardOpen: selectedCard && selectedCard.id === post.id,
-        shouldShowDotMenu: shouldShowDotMenu(state, post, channel),
+        const canReply = isDMorGM || (channel.team_id === currentTeam.id);
+        const directTeammate = getDirectTeammate(state, channel.id);
+
+        const previewCollapsed = get(
+            state,
+            Preferences.CATEGORY_DISPLAY_SETTINGS,
+            Preferences.COLLAPSE_DISPLAY,
+            Preferences.COLLAPSE_DISPLAY_DEFAULT,
+        );
+
+        const previewEnabled = getBool(
+            state,
+            Preferences.CATEGORY_DISPLAY_SETTINGS,
+            Preferences.LINK_PREVIEW_DISPLAY,
+            Preferences.LINK_PREVIEW_DISPLAY_DEFAULT === 'true',
+        );
+
+        return {
+            enableEmojiPicker,
+            enablePostUsernameOverride,
+            isEmbedVisible: isEmbedVisible(state, post.id),
+            isReadOnly: false,
+            teamId,
+            currentUserId: getCurrentUserId(state),
+            isFirstReply: previousPost ? isFirstReply(post, previousPost) : false,
+            hasReplies: getReplyCount(state, post) > 0,
+            replyCount: getReplyCount(state, post),
+            canReply,
+            pluginPostTypes: state.plugins.postTypes,
+            channelIsArchived: isArchivedChannel(channel),
+            isConsecutivePost: isConsecutivePost(state, ownProps),
+            previousPostIsComment,
+            isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) !== null,
+            compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
+            colorizeUsernames: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLORIZE_USERNAMES, Preferences.COLORIZE_USERNAMES_DEFAULT) === 'true',
+            shouldShowActionsMenu: shouldShowActionsMenu(state, post),
+            showActionsMenuPulsatingDot,
+            tourTipsEnabled,
+            shortcutReactToLastPostEmittedFrom,
+            isBot,
+            collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
+            shouldHighlight: ownProps.shouldHighlight || highlightedPostId === post.id,
+            oneClickReactionsEnabled,
+            recentEmojis: emojis,
+            center: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_CENTERED,
+            isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
+            isExpanded: state.views.rhs.isSidebarExpanded,
+            isPostBeingEdited: ownProps.location === Locations.CENTER ? !getIsPostBeingEditedInRHS(state, post.id) && getIsPostBeingEdited(state, post.id) : getIsPostBeingEditedInRHS(state, post.id),
+            isMobileView: getIsMobileView(state),
+            previewCollapsed,
+            previewEnabled,
+            post,
+            channelName: channel.display_name,
+            channelType: channel.type,
+            teamDisplayName,
+            displayName: getDisplayNameByUser(state, directTeammate),
+            teamName,
+            isFlaggedPosts: rhsState === RHSStates.FLAG,
+            isPinnedPosts: rhsState === RHSStates.PIN,
+            clickToReply: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CLICK_TO_REPLY, Preferences.CLICK_TO_REPLY_DEFAULT) === 'true',
+            isCommentMention: isPostCommentMention(state, post.id),
+            parentPost,
+            parentPostUser,
+            isPostAcknowledgementsEnabled: isPostAcknowledgementsEnabled(state),
+            isPostPriorityEnabled: isPostPriorityEnabled(state),
+            isCardOpen: selectedCard && selectedCard.id === post.id,
+            shouldShowDotMenu: shouldShowDotMenu(state, post, channel),
+        };
     };
 }
 
@@ -251,7 +254,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
     };
 }
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+const connector = connect(makeMapStateToProps, mapDispatchToProps);
 
 export type PropsFromRedux = ConnectedProps<typeof connector>
 

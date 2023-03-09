@@ -90,12 +90,14 @@ export function PostReminderSubmenu(props: Props) {
                         <FormattedDate
                             value={tomorrow}
                             weekday='short'
+                            timeZone={props.timezone}
                         />
                         {', '}
                         <FormattedTime
                             value={tomorrow}
                             timeStyle='short'
                             hour12={!props.isMilitaryTime}
+                            timeZone={props.timezone}
                         />
                     </span>
                 );

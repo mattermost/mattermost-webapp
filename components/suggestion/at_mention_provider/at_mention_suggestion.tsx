@@ -186,9 +186,9 @@ class AtMentionSuggestion extends Suggestion {
                         {'@' + itemname}
                     </span>
                     {item.is_bot && <BotTag/>}
-                    {customStatus}
                     {description}
                     {youElement}
+                    {customStatus}
                     {sharedIcon}
                     {isGuest(item.roles) && <GuestTag/>}
                 </span>

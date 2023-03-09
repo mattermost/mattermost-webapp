@@ -22,7 +22,7 @@ import {
     NotifyAdminRequest,
     Subscription,
     ValidBusinessEmail,
-    LicenseExpandStatus,
+    LicenseSelfServeStatus,
     CreateSubscriptionRequest,
     Feedback,
     WorkspaceDeletionRequest,
@@ -3905,9 +3905,9 @@ export default class Client4 {
         );
     }
 
-    getLicenseExpandStatus = () => {
-        return this.doFetch<LicenseExpandStatus>(
-            `${this.getCloudRoute()}/subscription/expand`, {method: 'get'},
+    getLicenseSelfServeStatus = () => {
+        return this.doFetch<LicenseSelfServeStatus>(
+            `${this.getCloudRoute()}/subscription/self-serve-status`, {method: 'get'},
         );
     }
 
