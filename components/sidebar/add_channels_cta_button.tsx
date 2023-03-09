@@ -52,7 +52,7 @@ const AddChannelsCtaButton = (): JSX.Element | null => {
         buttonClass += ' SidebarChannelNavigator__addChannelsCtaLhsButton--untouched';
     }
 
-    if (!currentTeamId) {
+    if ((!canCreateChannel && !canJoinPublicChannel) || !currentTeamId) {
         return null;
     }
 
@@ -122,10 +122,6 @@ const AddChannelsCtaButton = (): JSX.Element | null => {
         }
     };
 
-    if (!canCreateChannel && !canJoinPublicChannel) {
-        return null;
-    }
-
     return (
         <MenuWrapper
             className='AddChannelsCtaDropdown'
@@ -135,7 +131,7 @@ const AddChannelsCtaButton = (): JSX.Element | null => {
             <button
                 className={buttonClass}
                 id={'addChannelsCta'}
-                aria-label={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Cta Dropdown'})}
+                aria-label={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channels Dropdown'})}
             >
                 <li
                     aria-label={intl.formatMessage({id: 'sidebar_left.sidebar_channel_navigator.addChannelsCta', defaultMessage: 'Add channels'})}
@@ -148,7 +144,7 @@ const AddChannelsCtaButton = (): JSX.Element | null => {
             </button>
             <Menu
                 id='AddChannelCtaDropdown'
-                ariaLabel={intl.formatMessage({id: 'sidebar_left.add_channel_cta_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Cta Dropdown'})}
+                ariaLabel={intl.formatMessage({id: 'sidebar_left.add_channel_cta_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channels Dropdown'})}
             >
                 {renderDropdownItems()}
             </Menu>

@@ -756,8 +756,9 @@ $sidebarOpacityAnimationDuration: 0.15s;
 
     #AddChannelCtaDropdown {
         position: fixed;
+
         ul {
-            width: 232px !important;
+            min-width: 232px !important;
         }
     }
 
