@@ -23,6 +23,9 @@ import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useCanSelfHostedExpand from 'components/common/hooks/useCanSelfHostedExpand';
 import {getExpandSeatsLink} from 'selectors/cloud';
 
+const DAYS_UNTIL_EXPIRY_WARNING_DISPLAY_THRESHOLD = 30;
+const DAYS_UNTIL_EXPIRY_DANGER_DISPLAY_THRESHOLD = 5;
+
 export interface EnterpriseEditionProps {
     openEELicenseModal: () => void;
     upgradedFromTE: boolean;
@@ -207,6 +210,7 @@ const renderLicenseValues = (activeUsers: number, seatsPurchased: number, expira
             </div>
         );
     } else if (legend === 'EXPIRES:') {
+        expirationDays = 5;
         return (
             <div
                 className='item-element'
@@ -214,11 +218,11 @@ const renderLicenseValues = (activeUsers: number, seatsPurchased: number, expira
             >
                 <span className='legend'>{legend}</span>
                 <span className='value'>{value}</span>
-                {(expirationDays <= 30) &&
+                {(expirationDays <= DAYS_UNTIL_EXPIRY_WARNING_DISPLAY_THRESHOLD) &&
                 <span
                     className={classNames('expiration-days', {
-                        'expiration-days-warning': expirationDays > 10,
-                        'expiration-days-danger': expirationDays <= 10,
+                        'expiration-days-warning': expirationDays <= DAYS_UNTIL_EXPIRY_WARNING_DISPLAY_THRESHOLD,
+                        'expiration-days-danger': expirationDays <= DAYS_UNTIL_EXPIRY_DANGER_DISPLAY_THRESHOLD,
                     })}
                 >
                     {`Expires in ${expirationDays} day${expirationDays > 1 ? 's' : ''}`}
