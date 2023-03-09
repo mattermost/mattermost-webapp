@@ -8,7 +8,6 @@ import {NavLink} from 'react-router-dom';
 
 import {useDispatch} from 'react-redux';
 
-import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import IconMessage from 'components/purchase_modal/icon_message';
 import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_success_standard_svg';
 import {ConsolePages, ModalIdentifiers} from 'utils/constants';
@@ -59,25 +58,20 @@ export default function SelfHostedExpansionSuccessPage() {
     );
 
     return (
-        <FullScreenModal
-            show={true}
-            onClose={() => dispatch(closeModal(ModalIdentifiers.SUCCESS_MODAL))}
-        >
-            <div className='self_hosted_expansion_success'>
-                <IconMessage
-                    className={'selfHostedExpansionModal__success'}
-                    formattedTitle={titleText}
-                    formattedSubtitle={formattedSubtitleText}
-                    testId='selfHostedExpansionSuccess'
-                    icon={icon}
-                    formattedButtonText={formattedButtonText}
-                    buttonHandler={() => dispatch(closeModal(ModalIdentifiers.SUCCESS_MODAL))}
-                />
-                <div className='background-svg'>
-                    <BackgroundSvg/>
-                </div>
+        <div className='self_hosted_expansion_success'>
+            <IconMessage
+                className={'selfHostedExpansionModal__success'}
+                formattedTitle={titleText}
+                formattedSubtitle={formattedSubtitleText}
+                testId='selfHostedExpansionSuccess'
+                icon={icon}
+                formattedButtonText={formattedButtonText}
+                buttonHandler={() => dispatch(closeModal(ModalIdentifiers.SUCCESS_MODAL))}
+            />
+            <div className='background-svg'>
+                <BackgroundSvg/>
             </div>
-        </FullScreenModal>
+        </div>
     );
 }
 

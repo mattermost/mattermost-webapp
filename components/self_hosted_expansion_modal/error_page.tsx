@@ -4,20 +4,16 @@
 import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 
-import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed_svg';
 import IconMessage from 'components/purchase_modal/icon_message';
-import {closeModal} from 'actions/views/modals';
-import {ModalIdentifiers} from 'utils/constants';
 
 import './error_page.scss';
 
 export default function SelfHostedExpansionErrorPage() {
-    const dispatch = useDispatch();
     const contactSupportLink = useSelector(getCloudContactUsLink)(InquiryType.Technical);
 
     const formattedTitle = (
@@ -56,24 +52,19 @@ export default function SelfHostedExpansionErrorPage() {
     );
 
     return (
-        <FullScreenModal
-            show={true}
-            onClose={() => dispatch(closeModal(ModalIdentifiers.SUCCESS_MODAL))}
-        >
-            <div className='self_hosted_expansion_failed'>
-                <IconMessage
-                    formattedTitle={formattedTitle}
-                    formattedSubtitle={formattedSubtitle}
-                    icon={icon}
-                    error={true}
-                    formattedButtonText={formattedButtonText}
-                    buttonHandler={() => {
-                        //TODO: Open self hosted expansion modal
-                    }}
-                    formattedTertiaryButonText={tertiaryButtonText}
-                    tertiaryButtonHandler={() => window.open(contactSupportLink, '_blank', 'noreferrer')}
-                />
-            </div>
-        </FullScreenModal>
+        <div className='self_hosted_expansion_failed'>
+            <IconMessage
+                formattedTitle={formattedTitle}
+                formattedSubtitle={formattedSubtitle}
+                icon={icon}
+                error={true}
+                formattedButtonText={formattedButtonText}
+                buttonHandler={() => {
+                    //TODO: Open self hosted expansion modal
+                }}
+                formattedTertiaryButonText={tertiaryButtonText}
+                tertiaryButtonHandler={() => window.open(contactSupportLink, '_blank', 'noreferrer')}
+            />
+        </div>
     );
 }
