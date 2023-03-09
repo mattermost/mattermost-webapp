@@ -148,7 +148,6 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
         case 3:
             // set to next day 8 in the morning
             endTime = currentDate.startOf('day').add(32, 'hours');
-            console.log(endTime)
             break;
         }
 
