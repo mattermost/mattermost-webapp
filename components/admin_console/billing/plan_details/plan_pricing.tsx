@@ -9,6 +9,7 @@ import {BillingSchemes, CloudProducts, CloudLinks, RecurringIntervals} from 'uti
 import {Product} from '@mattermost/types/cloud';
 
 import './plan_pricing.scss';
+import ExternalLink from 'components/external_link';
 
 interface Props {
     product: Product;
@@ -41,9 +42,8 @@ const PlanPricing = ({
                         id='admin.billing.subscription.planDetails.perUserPerMonth'
                         defaultMessage='/user/month. '
                     />) }
-                <a
-                    target='_blank'
-                    rel='noopener noreferrer'
+                <ExternalLink
+                    location='plan_pricing'
                     href={CloudLinks.BILLING_DOCS}
                     onClick={() => trackEvent('cloud_admin', 'click_how_billing_works', {screen: 'payment'})}
                 >
@@ -51,7 +51,7 @@ const PlanPricing = ({
                         id='admin.billing.subscription.planDetails.howBillingWorks'
                         defaultMessage='See how billing works'
                     />
-                </a>
+                </ExternalLink>
             </div>
         </div>
     );

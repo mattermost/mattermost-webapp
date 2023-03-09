@@ -77,6 +77,9 @@ describe('FileAttachment', () => {
                 general: {
                     config: {},
                 },
+                users: {
+                    currentUserId: 'currentUserId',
+                },
             },
         } as GlobalState;
         renderWithIntlAndStore(<FileAttachment {...baseProps}/>, reduxState);

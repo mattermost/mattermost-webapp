@@ -11,6 +11,7 @@ import Tooltip from 'components/tooltip';
 import AttachmentIcon from 'components/widgets/icons/attachment_icon';
 import {trimFilename} from 'utils/file_utils';
 import {localizeMessage} from 'utils/utils';
+import ExternalLink from 'components/external_link';
 
 type Props = {
 
@@ -91,15 +92,14 @@ export default class FilenameOverlay extends React.PureComponent<Props> {
                             </Tooltip>
                         }
                     >
-                        <a
+                        <ExternalLink
                             href={getFileDownloadUrl(fileInfo.id)}
                             aria-label={localizeMessage('view_image_popover.download', 'Download').toLowerCase()}
                             download={fileName}
-                            target='_blank'
-                            rel='noopener noreferrer'
+                            location='filename_overlay'
                         >
                             {children || trimmedFilename}
-                        </a>
+                        </ExternalLink>
                     </OverlayTrigger>
                 </div>
             );
