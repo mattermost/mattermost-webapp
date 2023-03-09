@@ -9,7 +9,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 import {BillingSchemes} from 'utils/constants';
 
-export default function useCanSelfHostedExpand(): boolean {
+export default function useCanSelfHostedExpand() {
     // NOTE: This is a basic implementation to get things up and running, more details to come later.
     const [expansionAvailable, setCwsAvailability] = useState(false);
     const config = useSelector(getConfig);
@@ -28,6 +28,5 @@ export default function useCanSelfHostedExpand(): boolean {
                 setCwsAvailability(false);
             });
     }, []);
-
     return !isSalesServeOnly && expansionAvailable;
 }

@@ -17,8 +17,9 @@ import {DeepPartial} from '@mattermost/types/utilities';
 import {GlobalState} from '@mattermost/types/store';
 import mockStore from 'tests/test_store';
 
-import EnterpriseEditionLeftPanel, {EnterpriseEditionProps} from './enterprise_edition_left_panel';
 import * as useCanSelfHostedExpand from 'components/common/hooks/useCanSelfHostedExpand';
+
+import EnterpriseEditionLeftPanel, {EnterpriseEditionProps} from './enterprise_edition_left_panel';
 
 describe('components/admin_console/license_settings/enterprise_edition/enterprise_edition_left_panel', () => {
     const license = {
@@ -194,7 +195,7 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
     test('should display add seats button when there are more than 60 days until expiry and self hosted expansion is available', async () => {
         license.ExpiresAt = moment().add(61, 'days').valueOf().toString();
         const store = await mockStore(initialState);
-        jest.spyOn(useCanSelfHostedExpand, 'default').mockImplementation(() => true);;
+        jest.spyOn(useCanSelfHostedExpand, 'default').mockImplementation(() => true);
         renderWithIntl(
             <Provider store={store}>
                 <EnterpriseEditionLeftPanel
