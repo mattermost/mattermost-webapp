@@ -31,7 +31,7 @@ type Props = {
 export default function ResultModal(props: Props) {
     const dispatch = useDispatch();
 
-    const openContactSupport = useOpenCloudZendeskSupportForm('Delete workspace', '');
+    const [openContactSupport] = useOpenCloudZendeskSupportForm('Delete workspace', '');
 
     const isResultModalOpen = useSelector((state: GlobalState) =>
         isModalOpen(state, props.identifier),

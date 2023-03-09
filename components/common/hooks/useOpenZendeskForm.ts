@@ -4,17 +4,21 @@
 import {useSelector} from 'react-redux';
 
 import {getCloudCustomer} from 'mattermost-redux/selectors/entities/cloud';
-import {getSelfHostedSupportLink, goToCloudSupportForm, goToSelfHostedSupportForm} from 'utils/contact_support_sales';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCloudSupportLink, getSelfHostedSupportLink, goToCloudSupportForm, goToSelfHostedSupportForm} from 'utils/contact_support_sales';
 
-export function useOpenCloudZendeskSupportForm(subject: string, description: string) {
+export function useOpenCloudZendeskSupportForm(subject: string, description: string): [() => void, string] {
     const customer = useSelector(getCloudCustomer);
     const customerEmail = customer?.email || '';
 
-    return () => goToCloudSupportForm(customerEmail, subject, description, window.location.host);
+    const url = getCloudSupportLink(customerEmail, subject, description, window.location.host);
+
+    return [() => goToCloudSupportForm(customerEmail, subject, description, window.location.host), url];
 }
 
 export function useOpenSelfHostedZendeskSupportForm(subject: string): [() => void, string] {
-    const customerEmail = '';
+    const currentUser = useSelector(getCurrentUser);
+    const customerEmail = currentUser.email || '';
 
     const url = getSelfHostedSupportLink(customerEmail, subject);
 
