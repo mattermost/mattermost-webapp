@@ -1782,9 +1782,9 @@ export default class Client4 {
         );
     };
 
-    getChannelStats = (channelId: string) => {
+    getChannelStats = (channelId: string, excludeFilesCount: boolean = false) => {
         return this.doFetch<ChannelStats>(
-            `${this.getChannelRoute(channelId)}/stats`,
+            `${this.getChannelRoute(channelId)}/stats?exclude_files_count=${excludeFilesCount}`,
             {method: 'get'},
         );
     };
