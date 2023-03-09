@@ -18,6 +18,7 @@ import {GlobalState} from '@mattermost/types/store';
 import mockStore from 'tests/test_store';
 
 import EnterpriseEditionLeftPanel, {EnterpriseEditionProps} from './enterprise_edition_left_panel';
+import * as useCanSelfHostedExpand from 'components/common/hooks/useCanSelfHostedExpand';
 
 describe('components/admin_console/license_settings/enterprise_edition/enterprise_edition_left_panel', () => {
     const license = {
@@ -162,8 +163,8 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
         expect(screen.getByText('ACTIVE USERS:')).toHaveClass('legend--over-seats-purchased');
     });
 
-    test('should add warning class to days expired indicator when there are more than 10 days until expiry', async () => {
-        license.ExpiresAt = moment().add(30, 'days').valueOf().toString();
+    test('should add warning class to days expired indicator when there are more than 5 days until expiry', async () => {
+        license.ExpiresAt = moment().add(6, 'days').valueOf().toString();
         const store = await mockStore(initialState);
         renderWithIntl(
             <Provider store={store}>
@@ -173,11 +174,11 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
             </Provider>,
         );
 
-        expect(screen.getByText('Expires in 30 days')).toHaveClass('expiration-days-warning');
+        expect(screen.getByText('Expires in 6 days')).toHaveClass('expiration-days-warning');
     });
 
-    test('should add danger class to days expired indicator when there are at least 10 days until expiry', async () => {
-        license.ExpiresAt = moment().add(10, 'days').valueOf().toString();
+    test('should add danger class to days expired indicator when there are at least 5 days until expiry', async () => {
+        license.ExpiresAt = moment().add(5, 'days').valueOf().toString();
         const store = await mockStore(initialState);
         renderWithIntl(
             <Provider store={store}>
@@ -187,6 +188,21 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
             </Provider>,
         );
 
-        expect(screen.getByText('Expires in 10 days')).toHaveClass('expiration-days-danger');
+        expect(screen.getByText('Expires in 5 days')).toHaveClass('expiration-days-danger');
+    });
+
+    test('should display add seats button when there are more than 60 days until expiry and self hosted expansion is available', async () => {
+        license.ExpiresAt = moment().add(61, 'days').valueOf().toString();
+        const store = await mockStore(initialState);
+        jest.spyOn(useCanSelfHostedExpand, 'default').mockImplementation(() => true);;
+        renderWithIntl(
+            <Provider store={store}>
+                <EnterpriseEditionLeftPanel
+                    {...props}
+                />
+            </Provider>,
+        );
+
+        expect(screen.getByText('+ Add seats')).toBeVisible();
     });
 });
