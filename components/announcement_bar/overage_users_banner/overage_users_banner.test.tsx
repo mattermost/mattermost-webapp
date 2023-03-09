@@ -251,7 +251,7 @@ describe('components/overage_users_banner', () => {
         expect(windowSpy).toBeCalledTimes(1);
 
         // only the email is encoded and other params are empty. See logic for useOpenSalesLink hook
-        const salesLinkWithEncodedParams = 'https://mattermost.com/contact-sales?qk=&qp=&qw=&qx=dGVzdEBtYXR0ZXJtb3N0LmNvbQ==';
+        const salesLinkWithEncodedParams = 'https://mattermost.com/contact-sales/?qk=&qp=&qw=&qx=dGVzdEBtYXR0ZXJtb3N0LmNvbQ==&utm_source=mattermost&utm_medium=in-product';
         expect(windowSpy).toBeCalledWith(salesLinkWithEncodedParams, '_blank');
         expect(trackEvent).toBeCalledTimes(1);
         expect(trackEvent).toBeCalledWith('insights', 'click_true_up_warning', {
@@ -373,7 +373,7 @@ describe('components/overage_users_banner', () => {
         expect(windowSpy).toBeCalledTimes(1);
 
         // only the email is encoded and other params are empty. See logic for useOpenSalesLink hook
-        const salesLinkWithEncodedParams = 'https://mattermost.com/contact-sales?qk=&qp=&qw=&qx=dGVzdEBtYXR0ZXJtb3N0LmNvbQ==';
+        const salesLinkWithEncodedParams = 'https://mattermost.com/contact-sales/?qk=&qp=&qw=&qx=dGVzdEBtYXR0ZXJtb3N0LmNvbQ==&utm_source=mattermost&utm_medium=in-product';
         expect(windowSpy).toBeCalledWith(salesLinkWithEncodedParams, '_blank');
         expect(trackEvent).toBeCalledTimes(1);
         expect(trackEvent).toBeCalledWith('insights', 'click_true_up_error', {
