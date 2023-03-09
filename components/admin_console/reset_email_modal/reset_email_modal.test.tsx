@@ -5,11 +5,10 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {shallow} from 'enzyme';
 
-import {UserProfile} from '@mattermost/types/users';
-import {ActionResult} from 'mattermost-redux/types/actions';
-
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import {TestHelper} from 'utils/test_helper';
+
+import {UserProfile} from '@mattermost/types/users';
 
 import ResetEmailModal from './reset_email_modal';
 
@@ -21,32 +20,33 @@ describe('components/admin_console/reset_email_modal/reset_email_modal.tsx', () 
     });
 
     const baseProps = {
-        // eslint-disable-next-line @typescript-eslint/ban-types
-        actions: {patchUser: jest.fn<ActionResult, Array<{}>>(() => ({data: ''}))},
+        actions: {patchUser: jest.fn(() => ({data: ''}))},
         user,
+        currentUserId: 'random_user_id',
         show: true,
         onModalSubmit: emptyFunction,
         onModalDismissed: emptyFunction,
     };
 
-    test('should match snapshot', () => {
-        const wrapper = shallow(
-            <ResetEmailModal {...baseProps}/>,
-        );
+    test('should match snapshot when not the current user', () => {
+        const wrapper = shallow(<ResetEmailModal {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot when there is no user', () => {
         const props = {...baseProps, user: undefined};
-        const wrapper = shallow(
-            <ResetEmailModal {...props}/>,
-        );
+        const wrapper = shallow(<ResetEmailModal {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when the current user', () => {
+        const props = {...baseProps, currentUserId: user.id};
+        const wrapper = shallow(<ResetEmailModal {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should not update email since the email is empty', () => {
-        // eslint-disable-next-line @typescript-eslint/ban-types
-        const patchUser = jest.fn<ActionResult, Array<{}>>(() => ({data: ''}));
+        const patchUser = jest.fn(() => ({data: ''}));
         const props = {...baseProps, actions: {patchUser}};
         const wrapper = mountWithIntl(<ResetEmailModal {...props}/>);
 
@@ -58,17 +58,16 @@ describe('components/admin_console/reset_email_modal/reset_email_modal.tsx', () 
             <FormattedMessage
                 id='user.settings.general.validEmail'
                 defaultMessage='Please enter a valid email address.'
-            />);
+            />,
+        );
     });
 
     test('should not update email since the email is invalid', () => {
-        // eslint-disable-next-line @typescript-eslint/ban-types
-        const patchUser = jest.fn<ActionResult, Array<{}>>(() => ({data: ''}));
-        const email = 'arvinnow';
+        const patchUser = jest.fn(() => ({data: ''}));
         const props = {...baseProps, actions: {patchUser}};
         const wrapper = mountWithIntl(<ResetEmailModal {...props}/>);
 
-        (wrapper.find('input[type=\'email\']').first().instance() as unknown as HTMLInputElement).value = email;
+        (wrapper.find('input[type=\'email\']').first().instance() as unknown as HTMLInputElement).value = 'invalid-email';
         wrapper.find('button[type=\'submit\']').first().simulate('click', {preventDefault: jest.fn()});
 
         expect(patchUser.mock.calls.length).toBe(0);
@@ -76,17 +75,46 @@ describe('components/admin_console/reset_email_modal/reset_email_modal.tsx', () 
             <FormattedMessage
                 id='user.settings.general.validEmail'
                 defaultMessage='Please enter a valid email address.'
-            />);
+            />,
+        );
     });
 
-    test('should update email since the email is valid', () => {
-        // eslint-disable-next-line @typescript-eslint/ban-types
-        const patchUser = jest.fn<ActionResult, Array<{}>>(() => ({data: ''}));
-        const email = 'arvin.darmawan@gmail.com';
+    test('should require password when updating email of the current user', () => {
+        const patchUser = jest.fn(() => ({data: ''}));
+        const props = {...baseProps, actions: {patchUser}, currentUserId: user.id};
+        const wrapper = mountWithIntl(<ResetEmailModal {...props}/>);
+
+        (wrapper.find('input[type=\'email\']').first().instance() as unknown as HTMLInputElement).value = 'currentUser@test.com';
+        wrapper.find('button[type=\'submit\']').first().simulate('click', {preventDefault: jest.fn()});
+
+        expect(patchUser.mock.calls.length).toBe(0);
+        expect(wrapper.state('error')).toStrictEqual(
+            <FormattedMessage
+                id='admin.reset_email.missing_current_password'
+                defaultMessage='Please enter your current password.'
+            />,
+        );
+    });
+
+    test('should update email since the email is valid of the another user', () => {
+        const patchUser = jest.fn(() => ({data: ''}));
         const props = {...baseProps, actions: {patchUser}};
         const wrapper = mountWithIntl(<ResetEmailModal {...props}/>);
 
-        (wrapper.find('input[type=\'email\']').first().instance() as unknown as HTMLInputElement).value = email;
+        (wrapper.find('input[type=\'email\']').first().instance() as unknown as HTMLInputElement).value = 'user@test.com';
+        wrapper.find('button[type=\'submit\']').first().simulate('click', {preventDefault: jest.fn()});
+
+        expect(patchUser.mock.calls.length).toBe(1);
+        expect(wrapper.state('error')).toBeNull();
+    });
+
+    test('should update email since the email is valid of the current user', () => {
+        const patchUser = jest.fn(() => ({data: ''}));
+        const props = {...baseProps, actions: {patchUser}, currentUserId: user.id};
+        const wrapper = mountWithIntl(<ResetEmailModal {...props}/>);
+
+        (wrapper.find('input[type=\'email\']').first().instance() as unknown as HTMLInputElement).value = 'currentUser@test.com';
+        (wrapper.find('input[type=\'password\']').first().instance() as unknown as HTMLInputElement).value = 'password';
         wrapper.find('button[type=\'submit\']').first().simulate('click', {preventDefault: jest.fn()});
 
         expect(patchUser.mock.calls.length).toBe(1);

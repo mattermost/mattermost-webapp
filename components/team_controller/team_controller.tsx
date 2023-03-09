@@ -43,7 +43,7 @@ function TeamController(props: Props) {
     const history = useHistory();
     const {team: teamNameParam} = useParams<Props['match']['params']>();
 
-    const [initialChannelsLoaded, setInitialChannelsLoaded] = useState(props.graphQLEnabled);
+    const [initialChannelsLoaded, setInitialChannelsLoaded] = useState(false);
 
     const [team, setTeam] = useState<Team | null>(getTeamFromTeamList(props.teamsList, teamNameParam));
 

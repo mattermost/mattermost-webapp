@@ -21,6 +21,7 @@ import {
     getCloudProducts as selectCloudProducts,
 } from 'mattermost-redux/selectors/entities/cloud';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {Feedback} from '@mattermost/types/cloud';
 import useGetUsage from 'components/common/hooks/useGetUsage';
@@ -56,7 +57,7 @@ type ContentProps = {
 
 function Content(props: ContentProps) {
     const {formatMessage, formatNumber} = useIntl();
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<DispatchFunc>();
     const usage = useGetUsage();
     const [limits] = useGetLimits();
     const openPricingModalBackAction = useOpenPricingModal();
@@ -155,16 +156,7 @@ function Content(props: ContentProps) {
 
         const result = await dispatch(subscribeCloudSubscription(starterProduct.id, undefined, 0, downgradeFeedback));
 
-        if (typeof result === 'boolean' && result) {
-            dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
-            dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
-            dispatch(
-                openModal({
-                    modalId: ModalIdentifiers.SUCCESS_MODAL,
-                    dialogType: SuccessModal,
-                }),
-            );
-        } else {
+        if (result.error) {
             dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
             dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
             dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
@@ -180,6 +172,15 @@ function Content(props: ContentProps) {
             );
             return;
         }
+
+        dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
+        dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
+        dispatch(
+            openModal({
+                modalId: ModalIdentifiers.SUCCESS_MODAL,
+                dialogType: SuccessModal,
+            }),
+        );
 
         props.onHide();
     };

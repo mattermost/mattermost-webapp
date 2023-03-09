@@ -3130,7 +3130,6 @@
   "create_team.team_url.unavailable": "Adres alınmış ya da kullanılamıyor. Lütfen başka bir adres deneyin.",
   "create_team.team_url.webAddress": "Yeni takımınızın web adresini seçin:",
   "custom_emoji.header": "Özel emoji",
-  "custom_status.expiry.date_picker.title": "Tarih",
   "custom_status.expiry.time_picker.title": "Saat",
   "custom_status.expiry.until": "Şu zamana kadar",
   "custom_status.expiry_dropdown.choose_date_and_time": "Tarih ve saat seçin",
