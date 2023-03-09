@@ -4,9 +4,10 @@
 import React from 'react';
 import {fireEvent, screen} from '@testing-library/react';
 
-import {Channel, ChannelStats} from '@mattermost/types/channels';
 import {renderWithIntl} from 'tests/react_testing_utils';
 import Constants from 'utils/constants';
+
+import {Channel, ChannelStats} from '@mattermost/types/channels';
 
 import Menu from './menu';
 
@@ -20,6 +21,7 @@ describe('channel_info_rhs/menu', () => {
             showChannelFiles: jest.fn(),
             showPinnedPosts: jest.fn(),
             showChannelMembers: jest.fn(),
+            getChannelStats: jest.fn(),
         },
     };
 
@@ -29,6 +31,7 @@ describe('channel_info_rhs/menu', () => {
             showChannelFiles: jest.fn(),
             showPinnedPosts: jest.fn(),
             showChannelMembers: jest.fn(),
+            getChannelStats: jest.fn(),
         };
     });
 

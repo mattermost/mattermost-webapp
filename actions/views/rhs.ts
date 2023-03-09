@@ -32,7 +32,7 @@ import {RhsState} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
 import {getPostsByIds, getPost as fetchPost} from 'mattermost-redux/actions/posts';
 
-import {getChannel, getChannelStats} from 'mattermost-redux/actions/channels';
+import {getChannel} from 'mattermost-redux/actions/channels';
 
 import {Post} from '@mattermost/types/posts';
 
@@ -438,7 +438,6 @@ export function showChannelInfo(channelId: string) {
             channelId,
             state: RHSStates.CHANNEL_INFO,
         });
-        dispatch(getChannelStats(channelId));
         return {data: true};
     };
 }

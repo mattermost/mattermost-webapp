@@ -3,8 +3,9 @@
 
 import React from 'react';
 
-import {Channel, ChannelStats} from '@mattermost/types/channels';
 import {renderWithIntl} from 'tests/react_testing_utils';
+
+import {Channel, ChannelStats} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
 import {Team} from '@mattermost/types/teams';
 
@@ -40,6 +41,7 @@ describe('channel_info_rhs', () => {
             showChannelFiles: jest.fn(),
             showPinnedPosts: jest.fn(),
             showChannelMembers: jest.fn(),
+            getChannelStats: jest.fn(),
         },
     };
     let props = {...OriginalProps};
