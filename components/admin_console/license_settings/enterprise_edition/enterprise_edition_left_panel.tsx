@@ -210,7 +210,6 @@ const renderLicenseValues = (activeUsers: number, seatsPurchased: number, expira
             </div>
         );
     } else if (legend === 'EXPIRES:') {
-        expirationDays = 5;
         return (
             <div
                 className='item-element'
