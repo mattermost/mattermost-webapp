@@ -3059,7 +3059,6 @@
   "create_team.team_url.unavailable": "Esta dirección URL ya está en uso ó no está disponible. Por favor, pruebe con otra.",
   "create_team.team_url.webAddress": "Escoge la dirección web para tu nuevo equipo:",
   "custom_emoji.header": "Emoticonos Personalizados",
-  "custom_status.expiry.date_picker.title": "Fecha",
   "custom_status.expiry.time_picker.title": "Hora",
   "custom_status.expiry.until": "Hasta",
   "custom_status.expiry_dropdown.choose_date_and_time": "Elija la fecha y la hora",

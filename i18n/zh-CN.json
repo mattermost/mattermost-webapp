@@ -2844,7 +2844,6 @@
   "create_team.team_url.unavailable": "此网址不可用。请重新尝试。",
   "create_team.team_url.webAddress": "选择您的新团队网址：",
   "custom_emoji.header": "自定义表情",
-  "custom_status.expiry.date_picker.title": "日期",
   "custom_status.expiry.time_picker.title": "时间",
   "custom_status.expiry.until": "至",
   "custom_status.expiry_dropdown.choose_date_and_time": "选择日期和时间",

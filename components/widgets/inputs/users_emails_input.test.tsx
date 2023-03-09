@@ -42,6 +42,7 @@ describe('components/widgets/inputs/UsersEmailsInput', () => {
                 components={
                   Object {
                     "IndicatorsContainer": [Function],
+                    "Input": [Function],
                     "MultiValueRemove": [Function],
                     "NoOptionsMessage": [Function],
                   }
