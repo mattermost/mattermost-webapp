@@ -14,6 +14,7 @@ import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_lin
 import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
 import PurchaseModal from 'components/purchase_modal';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
+import ExternalLink from 'components/external_link';
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES, AboutLinks, LicenseLinks, LicenseSkus} from 'utils/constants';
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
@@ -29,7 +30,6 @@ import {AnalyticsRow} from '@mattermost/types/admin';
 import {CloudCustomer} from '@mattermost/types/cloud';
 
 import './feature_discovery.scss';
-import ExternalLink from 'components/external_link';
 
 type Props = {
     featureName: string;
@@ -100,12 +100,13 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
     }
 
     contactSalesFunc = () => {
-        const {customer} = this.props;
+        const {customer, isCloud} = this.props;
         const customerEmail = customer?.email || '';
         const firstName = customer?.contact_first_name || '';
         const lastName = customer?.contact_last_name || '';
         const companyName = customer?.name || '';
-        goToMattermostContactSalesForm(firstName, lastName, companyName, customerEmail);
+        const utmMedium = isCloud ? 'in-product-cloud' : 'in-product';
+        goToMattermostContactSalesForm(firstName, lastName, companyName, customerEmail, 'mattermost', utmMedium);
     }
 
     renderPostTrialCta = () => {

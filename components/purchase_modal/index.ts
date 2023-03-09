@@ -45,7 +45,7 @@ function mapStateToProps(state: GlobalState) {
     const firstName = customer?.contact_first_name || '';
     const lastName = customer?.contact_last_name || '';
     const companyName = customer?.name || '';
-    const contactSalesLink = getCloudContactSalesLink(firstName, lastName, companyName, customerEmail);
+    const contactSalesLink = getCloudContactSalesLink(firstName, lastName, companyName, customerEmail, 'mattermost', 'in-product-cloud');
     const contactSupportLink = getCloudSupportLink(customerEmail, 'Cloud purchase', '', window.location.host);
 
     return {

@@ -84,18 +84,18 @@ const encodeString = (s: string) => {
     return Buffer.from(s).toString('base64');
 };
 
-export const buildMMURL = (baseURL: string, firstName: string, lastName: string, companyName: string, businessEmail: string) => {
-    const mmURL = `${baseURL}?qk=${encodeString(firstName)}&qp=${encodeString(lastName)}&qw=${encodeString(companyName)}&qx=${encodeString(businessEmail)}`;
+export const buildMMURL = (baseURL: string, firstName: string, lastName: string, companyName: string, businessEmail: string, source: string, medium: string) => {
+    const mmURL = `${baseURL}?qk=${encodeString(firstName)}&qp=${encodeString(lastName)}&qw=${encodeString(companyName)}&qx=${encodeString(businessEmail)}&utm_source=${source}&utm_medium=${medium}`;
     return mmURL;
 };
 
-export const goToMattermostContactSalesForm = (firstName: string, lastName: string, companyName: string, businessEmail: string) => {
-    const url = buildMMURL(LicenseLinks.CONTACT_SALES, firstName, lastName, companyName, businessEmail);
+export const goToMattermostContactSalesForm = (firstName: string, lastName: string, companyName: string, businessEmail: string, source: string, medium: string) => {
+    const url = buildMMURL(LicenseLinks.CONTACT_SALES, firstName, lastName, companyName, businessEmail, source, medium);
     window.open(url, '_blank');
 };
 
-export const getCloudContactSalesLink = (firstName: string, lastName: string, companyName: string, businessEmail: string) => {
-    const url = buildMMURL(LicenseLinks.CONTACT_SALES, firstName, lastName, companyName, businessEmail);
+export const getCloudContactSalesLink = (firstName: string, lastName: string, companyName: string, businessEmail: string, source: string, medium: string) => {
+    const url = buildMMURL(LicenseLinks.CONTACT_SALES, firstName, lastName, companyName, businessEmail, source, medium);
     return url;
 };
 

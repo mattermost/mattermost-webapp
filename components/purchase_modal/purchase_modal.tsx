@@ -482,7 +482,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     const firstName = customer?.contact_first_name || '';
                     const lastName = customer?.contact_last_name || '';
                     const companyName = customer?.name || '';
-                    goToMattermostContactSalesForm(firstName, lastName, companyName, customerEmail);
+                    goToMattermostContactSalesForm(firstName, lastName, companyName, customerEmail, 'mattermost', 'in-product-cloud');
                 },
             },
         });
