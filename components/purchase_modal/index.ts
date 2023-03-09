@@ -46,7 +46,7 @@ function mapStateToProps(state: GlobalState) {
     const lastName = customer?.contact_last_name || '';
     const companyName = customer?.name || '';
     const contactSalesLink = getCloudContactSalesLink(firstName, lastName, companyName, customerEmail);
-    const contactSupportLink = getCloudSupportLink(customerEmail, 'Cloud purchase', window.location.host);
+    const contactSupportLink = getCloudSupportLink(customerEmail, 'Cloud purchase', '', window.location.host);
 
     return {
         show: isModalOpen(state, ModalIdentifiers.CLOUD_PURCHASE),
