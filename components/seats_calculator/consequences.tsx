@@ -43,14 +43,15 @@ export default function Consequences(props: Props) {
             id={'self_hosted_signup.signup_consequences'}
             values={{
                 a: (chunks: React.ReactNode) => (
-                    <a
+                    <ExternalLink
                         onClick={telemetryHandler}
                         href={
                             props.isCloud ? CloudLinks.BILLING_DOCS : HostedCustomerLinks.BILLING_DOCS
                         }
+                        location='seats_calculator_consequences'
                     >
                         {chunks}
-                    </a>
+                    </ExternalLink>
                 ),
             }}
         />

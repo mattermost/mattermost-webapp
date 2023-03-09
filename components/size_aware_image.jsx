@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable mattermost/use-external-link */
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
@@ -280,19 +282,20 @@ export default class SizeAwareImage extends React.PureComponent {
                 overlay={downloadTooltip}
                 rootClose={true}
             >
-                <ExternalLink
+                <a
+                    target='_blank'
+                    rel='noopener noreferrer'
                     href={this.isInternalImage ? fileURL : src}
                     className='style--none size-aware-image__download'
                     download={true}
                     role={this.isInternalImage ? 'button' : undefined}
                     aria-label={localizeMessage('single_image_view.download_tooltip', 'Download')}
-                    location='size_aware_image'
                 >
                     <DownloadOutlineIcon
                         className={'style--none'}
                         size={20}
                     />
-                </ExternalLink>
+                </a>
             </OverlayTrigger>
         );
 
