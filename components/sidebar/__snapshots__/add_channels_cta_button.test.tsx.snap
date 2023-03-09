@@ -8,7 +8,7 @@ exports[`components/new_channel_modal should match snapshot 1`] = `
   open={false}
 >
   <button
-    aria-label="Add Channel Cta Dropdown"
+    aria-label="Add Channels Dropdown"
     className="SidebarChannelNavigator__addChannelsCtaLhsButton SidebarChannelNavigator__addChannelsCtaLhsButton--untouched"
     id="addChannelsCta"
   >
@@ -24,21 +24,21 @@ exports[`components/new_channel_modal should match snapshot 1`] = `
     </li>
   </button>
   <Menu
-    ariaLabel="Add Channel Cta Dropdown"
+    ariaLabel="Add Channels Dropdown"
     id="AddChannelCtaDropdown"
   >
     <MenuGroup>
-      <MenuItemAction
-        id="showMoreChannels"
-        onClick={[Function]}
-        show={true}
-        text="Browse Channels"
-      />
       <MenuItemAction
         id="showNewChannel"
         onClick={[Function]}
         show={true}
         text="Create New Channel"
+      />
+      <MenuItemAction
+        id="showMoreChannels"
+        onClick={[Function]}
+        show={true}
+        text="Browse Channels"
       />
     </MenuGroup>
   </Menu>
