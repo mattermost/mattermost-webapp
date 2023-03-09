@@ -69,11 +69,12 @@ export const goToCloudSupportForm = (email: string, subject: string, description
     window.open(url, '_blank');
 };
 
-export const getCloudSupportLink = (email: string, subject: string, workspaceURL: string) => {
+export const getCloudSupportLink = (email: string, subject: string, description: string, workspaceURL: string) => {
     const form = ZendeskSupportForm.CLOUD_SUPPORT_FORM;
     let url = buildZendeskSupportForm(form, [
         {id: ZendeskFormFieldIDs.EMAIL, val: email},
         {id: ZendeskFormFieldIDs.SUBJECT, val: subject},
+        {id: ZendeskFormFieldIDs.DESCRIPTION, val: description},
     ]);
     url = url.concat(`&tf_${ZendeskFormFieldIDs.CLOUD_WORKSPACE_URL}=${workspaceURL}`);
     return url;

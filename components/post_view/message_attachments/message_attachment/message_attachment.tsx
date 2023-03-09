@@ -29,6 +29,7 @@ import ActionMenu from '../action_menu';
 import {trackEvent} from 'actions/telemetry_actions';
 import FilePreviewModal from '../../../file_preview_modal';
 import {ModalData} from 'types/actions';
+import ExternalLink from 'components/external_link';
 
 type Props = {
 
@@ -387,14 +388,13 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
         }
         if (attachment.author_link && isUrlSafe(attachment.author_link)) {
             author = [(
-                <a
+                <ExternalLink
                     href={attachment.author_link}
-                    target='_blank'
-                    rel='noopener noreferrer'
                     key={'attachment__author-name'}
+                    location='message_attachment'
                 >
                     {author}
-                </a>
+                </ExternalLink>
             )];
         }
 
@@ -403,14 +403,13 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
             if (attachment.title_link && isUrlSafe(attachment.title_link)) {
                 title = (
                     <h1 className='attachment__title'>
-                        <a
+                        <ExternalLink
                             className='attachment__title-link'
                             href={attachment.title_link}
-                            target='_blank'
-                            rel='noopener noreferrer'
+                            location='message_attachment'
                         >
                             {attachment.title}
-                        </a>
+                        </ExternalLink>
                     </h1>
                 );
             } else {

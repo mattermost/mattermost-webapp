@@ -11,6 +11,7 @@ import PrivateCloudSvg from 'components/common/svg_images_components/private_clo
 import CloudTrialSvg from 'components/common/svg_images_components/cloud_trial_svg';
 import {TelemetryProps} from 'components/common/hooks/useOpenPricingModal';
 import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
+import ExternalLink from 'components/external_link';
 
 type Props = {
     isFreeTrial: boolean;
@@ -29,15 +30,14 @@ const ContactSalesCard = (props: Props) => {
     let description;
 
     const pricingLink = (
-        <a
+        <ExternalLink
+            location='contact_sales_card'
             href={CloudLinks.PRICING}
             rel='noopener noreferrer'
-            target='_blank'
-            className='PrivateCloudCard__pricingLink'
             onClick={() => trackEvent('cloud_admin', 'click_pricing_link')}
         >
             {CloudLinks.PRICING}
-        </a>
+        </ExternalLink>
     );
 
     const isCloudLegacyPlan = subscriptionPlan === CloudProducts.LEGACY;
@@ -141,10 +141,9 @@ const ContactSalesCard = (props: Props) => {
                     {description}
                 </div>
                 {(isFreeTrial || subscriptionPlan === CloudProducts.ENTERPRISE || isCloudLegacyPlan) &&
-                    <a
+                    <ExternalLink
+                        location='contact_sales_card'
                         href={contactSalesLink}
-                        rel='noopener noreferrer'
-                        target='_blank'
                         className='PrivateCloudCard__actionButton'
                         onClick={() => trackEvent('cloud_admin', 'click_contact_sales')}
                     >
@@ -153,7 +152,7 @@ const ContactSalesCard = (props: Props) => {
                             defaultMessage='Contact Sales'
                         />
 
-                    </a>
+                    </ExternalLink>
                 }
                 {(!isFreeTrial && subscriptionPlan !== CloudProducts.ENTERPRISE && subscriptionPlan !== CloudProducts.LEGACY) &&
                     <button

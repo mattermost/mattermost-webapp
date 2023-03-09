@@ -8,6 +8,8 @@ import {recycleDatabaseConnection} from 'actions/admin_actions.jsx';
 import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
 
+import ExternalLink from 'components/external_link';
+
 import AdminSettings from './admin_settings';
 import BooleanSetting from './boolean_setting';
 import RequestButton from './request_button/request_button';
@@ -280,13 +282,12 @@ export default class DatabaseSettings extends AdminSettings {
                             defaultMessage='Minimum number of characters in a hashtag. This must be greater than or equal to 2. MySQL databases must be configured to support searching strings shorter than three characters, <link>see documentation</link>.'
                             values={{
                                 link: (msg) => (
-                                    <a
+                                    <ExternalLink
+                                        location='database_settings'
                                         href='https://dev.mysql.com/doc/refman/8.0/en/fulltext-fine-tuning.html'
-                                        target='_blank'
-                                        rel='noreferrer'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                             }}
                         />
@@ -330,13 +331,12 @@ export default class DatabaseSettings extends AdminSettings {
                             defaultMessage='Disables the use of the database to perform searches. Should only be used when other <link>search engines</link> are configured.'
                             values={{
                                 link: (msg) => (
-                                    <a
+                                    <ExternalLink
+                                        location='database_settings'
                                         href='https://mattermost.com/pl/default-search-engine'
-                                        target='_blank'
-                                        rel='noreferrer'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                             }}
                         />

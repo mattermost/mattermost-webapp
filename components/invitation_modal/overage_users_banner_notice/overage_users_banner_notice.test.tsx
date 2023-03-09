@@ -31,6 +31,9 @@ jest.mock('mattermost-redux/actions/preferences', () => ({
 
 jest.mock('actions/telemetry_actions', () => ({
     trackEvent: jest.fn(),
+
+    // Disable any additional query parameteres from being added in the event of a link-out
+    isTelemetryEnabled: jest.fn().mockReturnValue(false),
 }));
 
 const seatsPurchased = 40;
@@ -219,8 +222,12 @@ describe('components/invitation_modal/overage_users_banner_notice', () => {
         });
 
         fireEvent.click(screen.getByText(contactSalesTextLink));
-        expect(screen.getByRole('link')).toHaveAttribute('href', LicenseLinks.CONTACT_SALES);
-        expect(trackEvent).toBeCalledTimes(1);
+        expect(screen.getByRole('link')).toHaveAttribute(
+            'href',
+            LicenseLinks.CONTACT_SALES +
+                '?utm_source=mattermost&utm_medium=in-product&utm_content=&uid=current_user&sid=',
+        );
+        expect(trackEvent).toBeCalledTimes(2);
         expect(trackEvent).toBeCalledWith('insights', 'click_true_up_warning', {
             cta: 'Contact Sales',
             banner: 'invite modal',
@@ -321,8 +328,12 @@ describe('components/invitation_modal/overage_users_banner_notice', () => {
         });
 
         fireEvent.click(screen.getByText(contactSalesTextLink));
-        expect(screen.getByRole('link')).toHaveAttribute('href', LicenseLinks.CONTACT_SALES);
-        expect(trackEvent).toBeCalledTimes(1);
+        expect(screen.getByRole('link')).toHaveAttribute(
+            'href',
+            LicenseLinks.CONTACT_SALES +
+                '?utm_source=mattermost&utm_medium=in-product&utm_content=&uid=current_user&sid=',
+        );
+        expect(trackEvent).toBeCalledTimes(2);
         expect(trackEvent).toBeCalledWith('insights', 'click_true_up_error', {
             cta: 'Contact Sales',
             banner: 'invite modal',
@@ -434,7 +445,7 @@ describe('components/invitation_modal/overage_users_banner_notice', () => {
 
         fireEvent.click(screen.getByText(expandSeatsTextLink));
         expect(screen.getByRole('link')).toHaveAttribute('href', `http://testing/subscribe/expand?licenseId=${licenseId}`);
-        expect(trackEvent).toBeCalledTimes(1);
+        expect(trackEvent).toBeCalledTimes(2);
         expect(trackEvent).toBeCalledWith('insights', 'click_true_up_warning', {
             cta: 'Self Serve',
             banner: 'invite modal',
@@ -465,7 +476,7 @@ describe('components/invitation_modal/overage_users_banner_notice', () => {
 
         fireEvent.click(screen.getByText(expandSeatsTextLink));
         expect(screen.getByRole('link')).toHaveAttribute('href', `http://testing/subscribe/expand?licenseId=${licenseId}`);
-        expect(trackEvent).toBeCalledTimes(1);
+        expect(trackEvent).toBeCalledTimes(2);
         expect(trackEvent).toBeCalledWith('insights', 'click_true_up_error', {
             cta: 'Self Serve',
             banner: 'invite modal',

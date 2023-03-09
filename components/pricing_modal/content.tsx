@@ -38,6 +38,7 @@ import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useOpenDowngradeModal from 'components/common/hooks/useOpenDowngradeModal';
 import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
 import {useOpenCloudZendeskSupportForm} from 'components/common/hooks/useOpenZendeskForm';
+import ExternalLink from 'components/external_link';
 
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
@@ -121,7 +122,7 @@ function Content(props: ContentProps) {
     const adminProfessionalTierText = currentSubscriptionIsMonthlyProfessional ? formatMessage({id: 'pricing_modal.btn.switch_to_annual', defaultMessage: 'Switch to annual billing'}) : formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
 
     const [openContactSales] = useOpenSalesLink();
-    const openContactSupport = useOpenCloudZendeskSupportForm('Workspace downgrade', '');
+    const [openContactSupport] = useOpenCloudZendeskSupportForm('Workspace downgrade', '');
     const openCloudPurchaseModal = useOpenCloudPurchaseModal({});
     const openCloudDelinquencyModal = useOpenCloudPurchaseModal({
         isDelinquencyModal: true,
@@ -314,7 +315,7 @@ function Content(props: ContentProps) {
                     <div className='alert-option-container'>
                         <div className='alert-option'>
                             <span>{formatMessage({id: 'pricing_modal.lookingToSelfHost', defaultMessage: 'Looking to self-host?'})}</span>
-                            <a
+                            <ExternalLink
                                 onClick={() =>
                                     trackEvent(
                                         TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
@@ -322,9 +323,8 @@ function Content(props: ContentProps) {
                                     )
                                 }
                                 href={CloudLinks.DEPLOYMENT_OPTIONS}
-                                rel='noopener noreferrer'
-                                target='_blank'
-                            >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a>
+                                location='pricing_modal_content'
+                            >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</ExternalLink>
                         </div>
                     </div>
                 </div>

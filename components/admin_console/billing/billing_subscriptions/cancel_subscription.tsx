@@ -6,10 +6,11 @@ import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {useOpenCloudZendeskSupportForm} from 'components/common/hooks/useOpenZendeskForm';
+import ExternalLink from 'components/external_link';
 
 const CancelSubscription = () => {
     const description = `I am requesting that workspace "${window.location.host}" be deleted`;
-    const openContactSupport = useOpenCloudZendeskSupportForm('Request workspace be deleted', description);
+    const [, contactSupportURL] = useOpenCloudZendeskSupportForm('Request workspace be deleted', description);
 
     return (
         <div className='cancelSubscriptionSection'>
@@ -26,20 +27,17 @@ const CancelSubscription = () => {
                         defaultMessage='At this time, deleting a workspace can only be done with the help of a customer support representative.'
                     />
                 </div>
-                <a
+                <ExternalLink
+                    location='cancel_subscription'
+                    href={contactSupportURL}
                     className='cancelSubscriptionSection__contactUs'
-                    onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                        event.preventDefault();
-                        trackEvent('cloud_admin', 'click_contact_us');
-                        openContactSupport();
-                    }
-                    }
+                    onClick={() => trackEvent('cloud_admin', 'click_contact_us')}
                 >
                     <FormattedMessage
                         id='admin.billing.subscription.cancelSubscriptionSection.contactUs'
                         defaultMessage='Contact Us'
                     />
-                </a>
+                </ExternalLink>
             </div>
         </div>
     );

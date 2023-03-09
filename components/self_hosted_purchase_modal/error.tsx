@@ -9,6 +9,7 @@ import PaymentFailedSvg from 'components/common/svg_images_components/payment_fa
 import AccessDeniedHappySvg from 'components/common/svg_images_components/access_denied_happy_svg';
 import IconMessage from 'components/purchase_modal/icon_message';
 import {useOpenSelfHostedZendeskSupportForm} from 'components/common/hooks/useOpenZendeskForm';
+import ExternalLink from 'components/external_link';
 
 interface Props {
     nextAction: () => void;
@@ -87,16 +88,15 @@ export default function ErrorPage(props: Props) {
                 formattedButtonText={formattedButtonText}
                 buttonHandler={props.nextAction}
                 formattedLinkText={
-                    <a
+                    <ExternalLink
                         href={contactSupportLink}
-                        target='_blank'
-                        rel='noopener noreferrer'
+                        location='self_hosted_purchase_modal_error'
                     >
                         <FormattedMessage
                             id='admin.billing.subscription.privateCloudCard.contactSupport'
                             defaultMessage='Contact Support'
                         />
-                    </a>
+                    </ExternalLink>
                 }
             />
         </div>

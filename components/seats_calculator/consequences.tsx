@@ -13,17 +13,7 @@ import {
 } from 'utils/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
-
-export function seeHowBillingWorks(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, cloud: boolean) {
-    e.preventDefault();
-    if (cloud) {
-        trackEvent(TELEMETRY_CATEGORIES.CLOUD_PURCHASING, 'click_see_how_billing_works');
-        window.open(CloudLinks.BILLING_DOCS, '_blank');
-    } else {
-        trackEvent(TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING, 'click_see_how_billing_works');
-        window.open(HostedCustomerLinks.BILLING_DOCS, '_blank');
-    }
-}
+import ExternalLink from 'components/external_link';
 
 type Props = {
     isCloud: boolean;
@@ -31,20 +21,41 @@ type Props = {
 }
 
 export default function Consequences(props: Props) {
+    let telemetryHandler = () => {};
+    if (props.isCloud) {
+        telemetryHandler = () =>
+            trackEvent(
+                TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                'click_see_how_billing_works',
+            );
+    } else {
+        telemetryHandler = () =>
+            trackEvent(
+                TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING,
+                'click_see_how_billing_works',
+            );
+    }
     let text = (
         <FormattedMessage
-            defaultMessage={'You will be billed today. Your license will be applied automatically. <a>See how billing works.</a>'}
+            defaultMessage={
+                'You will be billed today. Your license will be applied automatically. <a>See how billing works.</a>'
+            }
             id={'self_hosted_signup.signup_consequences'}
             values={{
                 a: (chunks: React.ReactNode) => (
-                    <a
-                        onClick={(e) => seeHowBillingWorks(e, props.isCloud)}
+                    <ExternalLink
+                        onClick={telemetryHandler}
+                        href={
+                            props.isCloud ? CloudLinks.BILLING_DOCS : HostedCustomerLinks.BILLING_DOCS
+                        }
+                        location='seats_calculator_consequences'
                     >
                         {chunks}
-                    </a>
+                    </ExternalLink>
                 ),
             }}
-        />);
+        />
+    );
 
     const licenseAgreement = (
         <FormattedMessage
@@ -56,13 +67,12 @@ export default function Consequences(props: Props) {
                 buttonContent: props.licenseAgreementBtnText.toLowerCase(),
                 legalText: LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT_TEXT,
                 linkAgreement: (legalText: React.ReactNode) => (
-                    <a
+                    <ExternalLink
                         href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
-                        target='_blank'
-                        rel='noreferrer'
+                        location='seats_calculator_consequences'
                     >
                         {legalText}
-                    </a>
+                    </ExternalLink>
                 ),
             }}
         />
@@ -75,11 +85,12 @@ export default function Consequences(props: Props) {
                 id={'cloud_signup.signup_consequences'}
                 values={{
                     a: (chunks: React.ReactNode) => (
-                        <a
-                            onClick={(e) => seeHowBillingWorks(e, props.isCloud)}
+                        <ExternalLink
+                            onClick={telemetryHandler}
+                            href={props.isCloud ? CloudLinks.BILLING_DOCS : HostedCustomerLinks.BILLING_DOCS}
                         >
                             {chunks}
-                        </a>
+                        </ExternalLink>
                     ),
                 }}
             />);
