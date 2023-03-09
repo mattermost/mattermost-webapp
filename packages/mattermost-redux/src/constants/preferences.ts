@@ -62,6 +62,7 @@ const Preferences = {
     NAME_DISABLE_CLIENT_PLUGINS: 'disable_client_plugins',
     NAME_DISABLE_TELEMETRY: 'disable_telemetry',
     NAME_DISABLE_TYPING_MESSAGES: 'disable_typing_messages',
+    NAME_DISABLE_REFETCHING_ON_BROWSER_FOCUS: 'disable_focus_refetching',
 
     UNREAD_SCROLL_POSITION: 'unread_scroll_position',
     UNREAD_SCROLL_POSITION_START_FROM_LEFT: 'start_from_left_off',

@@ -92,12 +92,14 @@ function TeamController(props: Props) {
                 props.markChannelAsReadOnFocus(props.currentChannelId);
             }
 
-            const currentTime = Date.now();
-            if ((currentTime - blurTime.current) > UNREAD_CHECK_TIME_MILLISECONDS && props.currentTeamId) {
-                if (props.graphQLEnabled) {
-                    props.fetchChannelsAndMembers(props.currentTeamId);
-                } else {
-                    props.fetchMyChannelsAndMembersREST(props.currentTeamId);
+            if (props.disableRefetchingOnBrowserFocus === false) {
+                const currentTime = Date.now();
+                if ((currentTime - blurTime.current) > UNREAD_CHECK_TIME_MILLISECONDS && props.currentTeamId) {
+                    if (props.graphQLEnabled) {
+                        props.fetchChannelsAndMembers(props.currentTeamId);
+                    } else {
+                        props.fetchMyChannelsAndMembersREST(props.currentTeamId);
+                    }
                 }
             }
         }

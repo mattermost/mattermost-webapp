@@ -9,7 +9,8 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {isGraphQLEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, isGraphQLEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {Preferences} from 'mattermost-redux/constants';
 
 import {GlobalState} from 'types/store';
 
@@ -36,6 +37,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const currentUser = getCurrentUser(state);
     const plugins = state.plugins.components.NeedsTeamComponent;
     const graphQLEnabled = isGraphQLEnabled(state);
+    const disableRefetchingOnBrowserFocus = getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_REFETCHING_ON_BROWSER_FOCUS);
 
     return {
         currentUser,
@@ -46,6 +48,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         selectedThreadId: getSelectedThreadIdInCurrentTeam(state),
         mfaRequired: checkIfMFARequired(currentUser, license, config, ownProps.match.url),
         graphQLEnabled,
+        disableRefetchingOnBrowserFocus,
     };
 }
 

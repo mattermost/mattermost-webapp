@@ -70,6 +70,9 @@ const PerformanceDebuggingSectionCollapsed = React.forwardRef<SettingItemMinComp
     if (props.disableTypingMessages) {
         settingsEnabled += 1;
     }
+    if (props.disableRefetchingOnBrowserFocus) {
+        settingsEnabled += 1;
+    }
 
     let description;
     if (settingsEnabled === 0) {
@@ -109,6 +112,7 @@ function PerformanceDebuggingSectionExpanded(props: Props) {
     const [disableClientPlugins, setDisableClientPlugins] = useState(props.disableClientPlugins);
     const [disableTelemetry, setDisableTelemetry] = useState(props.disableTelemetry);
     const [disableTypingMessages, setDisableTypingMessages] = useState(props.disableTypingMessages);
+    const [disableRefetchingOnBrowserFocus, setDisableRefetchingOnBrowserFocus] = useState(props.disableRefetchingOnBrowserFocus);
 
     const handleSubmit = useCallback(() => {
         const preferences = [];
@@ -137,6 +141,14 @@ function PerformanceDebuggingSectionExpanded(props: Props) {
                 value: disableTypingMessages.toString(),
             });
         }
+        if (disableRefetchingOnBrowserFocus !== props.disableRefetchingOnBrowserFocus) {
+            preferences.push({
+                user_id: props.currentUserId,
+                category: Preferences.CATEGORY_PERFORMANCE_DEBUGGING,
+                name: Preferences.NAME_DISABLE_REFETCHING_ON_BROWSER_FOCUS,
+                value: disableRefetchingOnBrowserFocus.toString(),
+            });
+        }
 
         if (preferences.length !== 0) {
             props.savePreferences(props.currentUserId, preferences);
@@ -150,6 +162,7 @@ function PerformanceDebuggingSectionExpanded(props: Props) {
         disableClientPlugins,
         disableTelemetry,
         disableTypingMessages,
+        disableRefetchingOnBrowserFocus,
     ]);
 
     return (
@@ -204,6 +217,21 @@ function PerformanceDebuggingSectionExpanded(props: Props) {
                             <FormattedMessage
                                 id='user.settings.advance.performance.disableTypingMessages'
                                 defaultMessage='Disable "User is typing..." messages'
+                            />
+                        </label>
+                    </div>
+                    <div className='checkbox'>
+                        <label>
+                            <input
+                                type='checkbox'
+                                checked={disableRefetchingOnBrowserFocus}
+                                onChange={(e) => {
+                                    setDisableRefetchingOnBrowserFocus(e.target.checked);
+                                }}
+                            />
+                            <FormattedMessage
+                                id='user.settings.advance.performance.disableRefetchingOnBrowserFocus'
+                                defaultMessage='Disable refetching of channels and channel members on browser focus'
                             />
                         </label>
                     </div>

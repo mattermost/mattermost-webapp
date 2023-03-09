@@ -21,6 +21,7 @@ function mapStateToProps(state: GlobalState) {
         disableClientPlugins: getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_CLIENT_PLUGINS),
         disableTelemetry: getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_TELEMETRY),
         disableTypingMessages: getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_TYPING_MESSAGES),
+        disableRefetchingOnBrowserFocus: getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_REFETCHING_ON_BROWSER_FOCUS),
         performanceDebuggingEnabled: isPerformanceDebuggingEnabled(state),
     };
 }
