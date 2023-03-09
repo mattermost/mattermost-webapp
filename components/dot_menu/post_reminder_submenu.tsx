@@ -84,7 +84,7 @@ export function PostReminderSubmenu(props: Props) {
 
             let trailing: React.ReactNode;
             if (id === 'tomorrow') {
-                const tomorrow = getCurrentMomentForTimezone(props.timezone).startOf('d').add(32, 'h').toDate();
+                const tomorrow = getCurrentMomentForTimezone(props.timezone).startOf('day').add(32, 'hours').toDate();
                 trailing = (
                     <span className={`postReminder-${id}_timestamp`}>
                         <FormattedDate

@@ -371,7 +371,7 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
             this.dndTimes.map(({id, label, labelDefault}, index) => {
                 let text: React.ReactNode = localizeMessage(label, labelDefault);
                 if (index === 3) {
-                    const tomorrow = getCurrentMomentForTimezone(this.props.timezone).startOf('d').add(32, 'h').toDate();
+                    const tomorrow = getCurrentMomentForTimezone(this.props.timezone).startOf('day').add(32, 'hours').toDate();
                     text = (
                         <>
                             {text}
