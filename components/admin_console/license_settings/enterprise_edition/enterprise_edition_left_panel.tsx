@@ -133,7 +133,7 @@ const EnterpriseEditionLeftPanel = ({
             <div className='licenseInformation'>
                 <div className='license-details-top'>
                     <span className='title'>{'License details'}</span>
-                    {(canExpand && expirationDays > 60) &&
+                    {canExpand &&
                         <button
                             className='add-seats-button btn btn-primary'
                             onClick={handleClickAddSeats}
