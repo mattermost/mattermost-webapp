@@ -19,6 +19,7 @@ import {useExpandOverageUsersCheck} from 'components/common/hooks/useExpandOvera
 import {LicenseLinks, StatTypes, Preferences} from 'utils/constants';
 
 import './overage_users_banner_notice.scss';
+import ExternalLink from 'components/external_link';
 
 type AdminHasDismissedArgs = {
     preferenceName: string;
@@ -98,15 +99,13 @@ const OverageUsersBannerNotice = () => {
                         };
 
                         return (
-                            <a
+                            <ExternalLink
                                 className='overage_users_banner__button'
                                 href={isExpandable ? expandableLink(license.Id) : LicenseLinks.CONTACT_SALES}
-                                target='_blank'
-                                rel='noreferrer'
                                 onClick={handleClick}
                             >
                                 {cta}
-                            </a>
+                            </ExternalLink>
                         );
                     },
                 }}

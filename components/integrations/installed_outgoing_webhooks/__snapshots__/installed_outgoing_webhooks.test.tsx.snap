@@ -253,26 +253,24 @@ exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot
       id="installed_outgoing_webhooks.help"
       values={
         Object {
-          "appDirectory": <a
+          "appDirectory": <ExternalLink
             href="https://mattermost.com/marketplace"
-            rel="noopener noreferrer"
-            target="_blank"
+            location="installed_outgoing_webhooks"
           >
             <Memo(MemoizedFormattedMessage)
               defaultMessage="App Directory"
               id="installed_outgoing_webhooks.help.appDirectory"
             />
-          </a>,
-          "buildYourOwn": <a
+          </ExternalLink>,
+          "buildYourOwn": <ExternalLink
             href="https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/"
-            rel="noopener noreferrer"
-            target="_blank"
+            location="installed_outgoing_webhooks"
           >
             <Memo(MemoizedFormattedMessage)
               defaultMessage="Build your own"
               id="installed_outgoing_webhooks.help.buildYourOwn"
             />
-          </a>,
+          </ExternalLink>,
         }
       }
     />

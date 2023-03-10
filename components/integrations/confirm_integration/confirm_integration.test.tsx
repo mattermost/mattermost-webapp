@@ -7,7 +7,7 @@ import {Router} from 'react-router-dom';
 
 import {getHistory} from 'utils/browser_history';
 import {TestHelper} from 'utils/test_helper';
-import {renderWithIntl} from 'tests/react_testing_utils';
+import {renderWithIntlAndStore} from 'tests/react_testing_utils';
 
 import ConfirmIntegration from 'components/integrations/confirm_integration/confirm_integration';
 
@@ -19,6 +19,20 @@ describe('components/integrations/ConfirmIntegration', () => {
     const id = 'r5tpgt4iepf45jt768jz84djic';
     const token = 'jb6oyqh95irpbx8fo9zmndkp1r';
     const getSearchString = (type: string, identifier = id) => `?type=${type}&id=${identifier}`;
+
+    const initialState = {
+        entities: {
+            general: {
+                config: {},
+                license: {
+                    Cloud: 'false',
+                },
+            },
+            users: {
+                currentUserId: 'currentUserId',
+            },
+        },
+    };
 
     const location = {
         search: '',
@@ -62,10 +76,11 @@ describe('components/integrations/ConfirmIntegration', () => {
 
     test('should match callback URLs of OAuth Apps', () => {
         props.location.search = getSearchString('oauth2-apps');
-        const {container} = renderWithIntl(
+        const {container} = renderWithIntlAndStore(
             <Router history={getHistory()}>
                 <ConfirmIntegration {...props}/>
             </Router>,
+            initialState,
         );
 
         expect(container.querySelector('.word-break--all')).toHaveTextContent('URL(s): https://someCallback, https://anotherCallback');

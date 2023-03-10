@@ -126,7 +126,7 @@ export default class Client extends Client4 {
         if (force) {
             formData.append('force', 'true');
         }
-        formData.append('license', fileData, path.basename(filePath));
+        formData.append('plugin', fileData, path.basename(filePath));
         const options = this.getFormDataOptions(formData);
 
         return this.doFetch<PluginManifest>(this.getPluginsRoute(), options);

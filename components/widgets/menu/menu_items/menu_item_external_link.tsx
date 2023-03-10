@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import ExternalLink from 'components/external_link';
+
 import menuItem from './menu_item';
 
 type Props = {
@@ -11,16 +13,15 @@ type Props = {
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 export const MenuItemExternalLinkImpl: React.FC<Props> = ({url, text, onClick}: Props) => (
-    <a
-        target='_blank'
-        rel='noopener noreferrer'
+    <ExternalLink
         href={url}
         onClick={onClick}
+        location='menu_item_external_link'
     >
         <span className='MenuItem__primary-text'>
             {text}
         </span>
-    </a>
+    </ExternalLink>
 );
 
 const MenuItemExternalLink = menuItem(MenuItemExternalLinkImpl);
