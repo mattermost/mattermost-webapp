@@ -14,8 +14,6 @@ export default class ChannelsPage {
     readonly globalHeader;
     readonly header;
     readonly appBar;
-    readonly callsWidget;
-    readonly callsToast;
     readonly sidebarRight;
 
     constructor(page: Page) {
@@ -24,8 +22,6 @@ export default class ChannelsPage {
         this.globalHeader = new components.GlobalHeader(page.locator('#global-header'));
         this.header = new components.ChannelsHeader(page.locator('.channel-header'));
         this.appBar = new components.ChannelsAppBar(page.locator('.app-bar'));
-        this.callsWidget = new components.CallsWidget(page.locator('#calls-widget'));
-        this.callsToast = new components.ChannelsCallsToast(page.locator('#calls-channel-toast'));
         this.sidebarRight = new components.ChannelsSidebarRight(page.locator('#sidebar-right'));
     }
 
@@ -104,26 +100,6 @@ export default class ChannelsPage {
             },
             {timeout}
         );
-    }
-
-    async startCallFromHeader() {
-        await this.header.startCallButton.waitFor({state: 'visible'});
-        await this.header.startCallButton.click();
-    }
-
-    async joinCallFromToast() {
-        await this.callsToast.message.waitFor({state: 'visible'});
-        await this.callsToast.message.getByText('Join Call').click();
-    }
-
-    async joinCallFromHeader() {
-        await this.header.joinCallButton.waitFor({state: 'visible'});
-        await this.header.joinCallButton.click();
-    }
-
-    async leaveCallFromWidget() {
-        await this.callsWidget.leaveButton.waitFor({state: 'visible'});
-        await this.callsWidget.leaveButton.click();
     }
 }
 

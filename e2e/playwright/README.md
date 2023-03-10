@@ -39,13 +39,6 @@ docker run -it --rm -v "$(pwd):/mattermost-webapp/" --ipc=host mcr.microsoft.com
 
 ```
 export PW_BASE_URL=http://host.docker.internal:8065
-
-# Note: Calls requires https to successfully work except when running local development with "http://localhost:8065".
-# With that, inside the Playwright docker image, base URL should be accessible via "https://host.docker.internal"
-# export PW_BASE_URL=https://host.docker.internal
-# Use "mkcert" (https://github.com/FiloSottile/mkcert) to generate locally-trusted dev cert.
-
-# Change directory
 cd mattermost-webapp/e2e/playwright
 
 # Install npm packages. Use "npm ci" to match the automated environment
