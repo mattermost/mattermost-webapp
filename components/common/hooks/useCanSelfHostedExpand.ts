@@ -11,7 +11,7 @@ import {BillingSchemes} from 'utils/constants';
 
 export default function useCanSelfHostedExpand() {
     // NOTE: This is a basic implementation to get things up and running, more details to come later.
-    const [expansionAvailable, setCwsAvailability] = useState(false);
+    const [expansionAvailable, setExpansionAvailable] = useState(false);
     const config = useSelector(getConfig);
     const isEnterpriseReady = config.BuildEnterpriseReady === 'true';
     const isSalesServeOnly = useSelector(getSubscriptionProduct)?.billing_scheme === BillingSchemes.SALES_SERVE;
@@ -20,13 +20,14 @@ export default function useCanSelfHostedExpand() {
         if (!isEnterpriseReady) {
             return;
         }
-        Client4.getAvailabilitySelfHostedExpansion().
-            then(() => {
-                setCwsAvailability(true);
+        Client4.getLicenseSelfServeStatus().
+            then((res) => {
+                setExpansionAvailable(res.is_expandable ?? false);
             }).
             catch(() => {
-                setCwsAvailability(false);
+                setExpansionAvailable(false);
             });
-    }, []);
+    }, [isEnterpriseReady]);
+
     return !isSalesServeOnly && expansionAvailable;
 }
