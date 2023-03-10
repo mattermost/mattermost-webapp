@@ -6,6 +6,8 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import {useMeasurePunchouts} from '@mattermost/components';
 
+import {useGetTourtipRedraw} from '../hooks';
+
 import OnboardingWorkTemplateTourTip from './worktemplate_explore_tour_tip';
 import {useShowTourTip} from './useShowTourTip';
 
@@ -13,8 +15,8 @@ export const BoardsTourTip = (): JSX.Element | null => {
     const {formatMessage} = useIntl();
 
     const {playbooksCount, boardsCount, showBoardsTour} = useShowTourTip();
-    const overlayPunchOut = useMeasurePunchouts(['sidebar-right'], []);
-
+    const {redraw} = useGetTourtipRedraw('sidebar-right');
+    const overlayPunchOut = useMeasurePunchouts(['sidebar-right'], [redraw]);
     if (!showBoardsTour) {
         return null;
     }
@@ -60,6 +62,7 @@ export const BoardsTourTip = (): JSX.Element | null => {
             singleTip={playbooksCount === 0}
             placement='left-start'
             showOptOut={false}
+            interactivePunchOut={true}
         />
     );
 };

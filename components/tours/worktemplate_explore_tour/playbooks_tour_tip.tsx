@@ -6,13 +6,16 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import {useMeasurePunchouts} from '@mattermost/components';
 
+import {useGetTourtipRedraw} from '../hooks';
+
 import {useShowTourTip} from './useShowTourTip';
 import OnboardingWorkTemplateTourTip from './worktemplate_explore_tour_tip';
 
 export const PlaybooksTourTip = (): JSX.Element | null => {
     const {formatMessage} = useIntl();
     const {playbooksCount, boardsCount, showPlaybooksTour} = useShowTourTip();
-    const overlayPunchOut = useMeasurePunchouts(['sidebar-right'], []);
+    const {redraw} = useGetTourtipRedraw('sidebar-right');
+    const overlayPunchOut = useMeasurePunchouts(['sidebar-right'], [redraw]);
 
     if (!showPlaybooksTour) {
         return null;
@@ -59,6 +62,7 @@ export const PlaybooksTourTip = (): JSX.Element | null => {
             overlayPunchOut={overlayPunchOut}
             placement='left-start'
             showOptOut={false}
+            interactivePunchOut={true}
         />
     );
 };

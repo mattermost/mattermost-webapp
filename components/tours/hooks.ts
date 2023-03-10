@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {useCallback} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -216,4 +216,34 @@ export const useHandleNavigationAndExtraActions = (tourCategory: string) => {
         lastStepActions(lastStep);
         nextStepActions(step);
     }, [nextStepActions, lastStepActions]);
+};
+
+export const useGetTourtipRedraw = (elementId: string) => {
+    const [redraw, setRedraw] = useState(false);
+    const [width, setWidth] = useState(0);
+
+    useEffect(() => {
+        const element = document.getElementById(elementId);
+        if (!element) {
+            return undefined;
+        }
+        const observer = new ResizeObserver(() => {
+            setWidth(element.offsetWidth);
+        });
+        observer.observe(element);
+
+        return () => {
+            observer.unobserve(element);
+        };
+    }, [elementId]);
+
+    const redrawToortip = () => {
+        setRedraw(!redraw);
+    };
+
+    useEffect(() => {
+        redrawToortip();
+    }, [width]);
+
+    return {redraw};
 };

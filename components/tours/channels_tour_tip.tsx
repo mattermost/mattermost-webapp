@@ -26,6 +26,7 @@ export type ChannelsTourTipProps = {
     hideBackdrop?: boolean;
     tippyBlueStyle?: boolean;
     showOptOut?: boolean;
+    interactivePunchOut?: boolean;
 }
 
 export const ChannelsTourTip = ({
@@ -43,6 +44,7 @@ export const ChannelsTourTip = ({
     hideBackdrop = false,
     tippyBlueStyle = false,
     showOptOut = true,
+    interactivePunchOut = false,
 }: ChannelsTourTipProps) => {
     const {
         show,
@@ -124,6 +126,7 @@ export const ChannelsTourTip = ({
             hideBackdrop={hideBackdrop}
             tippyBlueStyle={tippyBlueStyle}
             showOptOut={showOptOut}
+            interactivePunchOut={interactivePunchOut}
         />
     );
 };
