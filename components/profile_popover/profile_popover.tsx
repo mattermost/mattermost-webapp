@@ -8,13 +8,13 @@ import classNames from 'classnames';
 import {AccountOutlineIcon, AccountPlusOutlineIcon, CloseIcon, EmoticonHappyOutlineIcon, PhoneInTalkIcon, SendIcon} from '@mattermost/compass-icons/components';
 
 import Pluggable from 'plugins/pluggable';
-import CallButton from 'plugins/call_button';
 
 import {displayUsername, isGuest, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {Client4} from 'mattermost-redux/client';
 
 import * as GlobalActions from 'actions/global_actions';
 
+import {Channel} from '@mattermost/types/channels';
 import {ModalData} from 'types/actions';
 
 import {getHistory} from 'utils/browser_history';
@@ -37,6 +37,7 @@ import CustomStatusText from 'components/custom_status/custom_status_text';
 import ExpiryTime from 'components/custom_status/expiry_time';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
+import ProfilePopoverCallButton from 'components/profile_popover_call_button';
 
 import {ServerError} from '@mattermost/types/errors';
 import {UserCustomStatus, UserProfile, UserTimezone, CustomStatusDuration} from '@mattermost/types/users';
@@ -180,7 +181,7 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
     isCurrentUserInCall?: boolean;
     isCallsDefaultEnabledOnAllChannels?: boolean;
     isCallsCanBeDisabledOnSpecificChannels?: boolean;
-    dMChannelId?: string;
+    dMChannel?: Channel | null;
     isAnyModalOpen: boolean;
 }
 type ProfilePopoverState = {
@@ -244,8 +245,8 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 channelId,
             );
         }
-        if (this.props.isCallsEnabled && this.props.dMChannelId) {
-            this.getCallsChannelState(this.props.dMChannelId).then((data) => {
+        if (this.props.isCallsEnabled && this.props.dMChannel) {
+            this.getCallsChannelState(this.props.dMChannel.id).then((data) => {
                 this.setState({callsDMChannelState: data});
             });
         }
@@ -725,7 +726,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         );
 
         const renderCallButton = () => {
-            const {isCallsEnabled, isCallsDefaultEnabledOnAllChannels, isCallsCanBeDisabledOnSpecificChannels} = this.props;
+            const {isCallsEnabled, isCallsDefaultEnabledOnAllChannels, isCallsCanBeDisabledOnSpecificChannels, dMChannel} = this.props;
             if (
                 !isCallsEnabled ||
                 this.state.callsDMChannelState?.enabled === false ||
@@ -773,7 +774,11 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             }
 
             return (
-                <CallButton customButton={callButton}/>
+                <ProfilePopoverCallButton
+                    dmChannel={dMChannel}
+                    userId={this.props.userId}
+                    customButton={callButton}
+                />
             );
         };
 

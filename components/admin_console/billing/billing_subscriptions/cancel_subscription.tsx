@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
+import ExternalLink from 'components/external_link';
 
 type Props = {
     cancelAccountLink: any;
@@ -30,10 +31,9 @@ const CancelSubscription = (props: Props) => {
                         defaultMessage='At this time, deleting a workspace can only be done with the help of a customer support representative.'
                     />
                 </div>
-                <a
+                <ExternalLink
+                    location='cancel_subscription'
                     href={cancelAccountLink}
-                    rel='noopener noreferrer'
-                    target='_blank'
                     className='cancelSubscriptionSection__contactUs'
                     onClick={() => trackEvent('cloud_admin', 'click_contact_us')}
                 >
@@ -41,7 +41,7 @@ const CancelSubscription = (props: Props) => {
                         id='admin.billing.subscription.cancelSubscriptionSection.contactUs'
                         defaultMessage='Contact Us'
                     />
-                </a>
+                </ExternalLink>
             </div>
         </div>
     );

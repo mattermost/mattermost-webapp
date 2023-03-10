@@ -12,12 +12,13 @@ import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 import {
     TELEMETRY_CATEGORIES,
 } from 'utils/constants';
+import ExternalLink from 'components/external_link';
 
 export default function ContactSalesLink() {
     const contactSupportLink = useSelector(getCloudContactUsLink)(InquiryType.Technical);
     const intl = useIntl();
     return (
-        <a
+        <ExternalLink
             className='footer-text'
             onClick={() => {
                 trackEvent(
@@ -26,10 +27,9 @@ export default function ContactSalesLink() {
                 );
             }}
             href={contactSupportLink}
-            target='_blank'
-            rel='noopener noreferrer'
+            location='contact_sales_link'
         >
             {intl.formatMessage({id: 'self_hosted_signup.contact_sales', defaultMessage: 'Contact Sales'})}
-        </a>
+        </ExternalLink>
     );
 }

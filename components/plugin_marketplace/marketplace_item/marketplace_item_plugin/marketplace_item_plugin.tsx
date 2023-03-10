@@ -19,6 +19,7 @@ import ConfirmModal from 'components/confirm_modal';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 import {localizeMessage} from 'utils/utils';
+import ExternalLink from 'components/external_link';
 
 type UpdateVersionProps = {
     version: string;
@@ -36,13 +37,12 @@ export const UpdateVersion = ({version, releaseNotesUrl}: UpdateVersionProps): J
     }
 
     return (
-        <a
-            target='_blank'
-            rel='noopener noreferrer'
+        <ExternalLink
+            location='marketplace_item_plugin'
             href={releaseNotesUrl}
         >
             {version}
-        </a>
+        </ExternalLink>
     );
 };
 

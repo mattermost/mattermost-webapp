@@ -6,6 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {ClientConfig} from '@mattermost/types/config';
+import ExternalLink from 'components/external_link';
 
 type Props = {
     config: Partial<ClientConfig> | undefined;
@@ -49,61 +50,57 @@ export default class NotLoggedIn extends React.PureComponent<Props> {
 
         if (this.props.config.AboutLink) {
             content.push(
-                <a
+                <ExternalLink
                     key='about_link'
                     id='about_link'
                     className='footer-link'
-                    target='_blank'
-                    rel='noopener noreferrer'
+                    location='header_footer_template'
                     href={this.props.config.AboutLink}
                 >
                     <FormattedMessage id='web.footer.about'/>
-                </a>,
+                </ExternalLink>,
             );
         }
 
         if (this.props.config.PrivacyPolicyLink) {
             content.push(
-                <a
+                <ExternalLink
                     key='privacy_link'
                     id='privacy_link'
                     className='footer-link'
-                    target='_blank'
-                    rel='noopener noreferrer'
+                    location='header_footer_template'
                     href={this.props.config.PrivacyPolicyLink}
                 >
                     <FormattedMessage id='web.footer.privacy'/>
-                </a>,
+                </ExternalLink>,
             );
         }
 
         if (this.props.config.TermsOfServiceLink) {
             content.push(
-                <a
+                <ExternalLink
                     key='terms_link'
                     id='terms_link'
                     className='footer-link'
-                    target='_blank'
-                    rel='noopener noreferrer'
+                    location='header_footer_template'
                     href={this.props.config.TermsOfServiceLink}
                 >
                     <FormattedMessage id='web.footer.terms'/>
-                </a>,
+                </ExternalLink>,
             );
         }
 
         if (this.props.config.HelpLink) {
             content.push(
-                <a
+                <ExternalLink
                     key='help_link'
                     id='help_link'
                     className='footer-link'
-                    target='_blank'
-                    rel='noopener noreferrer'
+                    location='header_footer_template'
                     href={this.props.config.HelpLink}
                 >
                     <FormattedMessage id='web.footer.help'/>
-                </a>,
+                </ExternalLink>,
             );
         }
 
