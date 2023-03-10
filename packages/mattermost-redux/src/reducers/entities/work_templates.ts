@@ -57,9 +57,22 @@ function playbookTemplates(state: [] = [], action: GenericAction) {
     }
 }
 
+function linkedProducts(state: Record<string, number> = {}, action: GenericAction) {
+    switch (action.type) {
+    case WorkTemplatesType.EXECUTE_SUCCESS: {
+        return {
+            ...action.data,
+        };
+    }
+    default:
+        return state;
+    }
+}
+
 export default (combineReducers({
     categories,
     templatesInCategory,
     playbookTemplates,
+    linkedProducts,
 }));
 

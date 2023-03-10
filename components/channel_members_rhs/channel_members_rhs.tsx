@@ -18,6 +18,8 @@ import {ProfilesInChannelSortBy} from 'mattermost-redux/actions/users';
 
 import AlertBanner from 'components/alert_banner';
 
+import ExternalLink from 'components/external_link';
+
 import ActionBar from './action_bar';
 import Header from './header';
 import MemberList from './member_list';
@@ -253,13 +255,12 @@ export default function ChannelMembersRHS({
                             defaultMessage: 'In this channel, you can only remove guests. Only <link>channel admins</link> can manage other members.',
                         }, {
                             link: (msg: React.ReactNode) => (
-                                <a
+                                <ExternalLink
                                     href='https://docs.mattermost.com/welcome/about-user-roles.html#channel-admin'
-                                    target='_blank'
-                                    rel='noreferrer'
+                                    location='channel_members_rhs'
                                 >
                                     {msg}
-                                </a>
+                                </ExternalLink>
                             ),
                         })}
                     />

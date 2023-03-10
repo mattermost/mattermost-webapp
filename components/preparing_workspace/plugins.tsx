@@ -14,6 +14,7 @@ import CelebrateSVG from 'components/common/svg_images_components/celebrate_svg'
 import JiraSVG from 'components/common/svg_images_components/jira_svg';
 import ZoomSVG from 'components/common/svg_images_components/zoom_svg';
 import TodoSVG from 'components/common/svg_images_components/todo_svg';
+import ExternalLink from 'components/external_link';
 
 import {Animations, mapAnimationReasonToClass, Form, PreparingWorkspacePageProps} from './steps';
 
@@ -142,13 +143,12 @@ const Plugins = (props: Props) => {
                                 values={{
                                     a: (chunks: React.ReactNode | React.ReactNodeArray) => (
                                         <strong>
-                                            <a
+                                            <ExternalLink
                                                 href='https://mattermost.com/marketplace/'
-                                                target='_blank'
-                                                rel='noreferrer'
+                                                location='preparing_workspace_plugins'
                                             >
                                                 {chunks}
-                                            </a>
+                                            </ExternalLink>
                                         </strong>
                                     ),
                                 }}

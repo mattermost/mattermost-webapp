@@ -13,6 +13,7 @@ export enum ButtonCustomiserClasses {
     active = 'active',
     special = 'special',
     secondary = 'secondary',
+    green = 'green',
 }
 
 type PlanBriefing = {
@@ -26,8 +27,8 @@ type PlanAddonsInfo = {
 }
 
 type ButtonDetails = {
-    action: () => void;
-    text: string;
+    action: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    text: ReactNode;
     disabled?: boolean;
     customClass?: ButtonCustomiserClasses;
 }

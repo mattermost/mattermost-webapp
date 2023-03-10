@@ -317,3 +317,20 @@ Cypress.Commands.add('apiSaveDraftsTourTipPreference', (userId, value) => {
 
     return cy.apiSaveUserPreference([preference], userId);
 });
+
+Cypress.Commands.add('apiBoardsWelcomePageViewed', (userId) => {
+    const preferences = [{
+        user_id: userId,
+        category: 'boards',
+        name: 'welcomePageViewed',
+        value: '1',
+    },
+    {
+        user_id: userId,
+        category: 'boards',
+        name: 'version72MessageCanceled',
+        value: 'true',
+    }];
+
+    return cy.apiSaveUserPreference(preferences, userId);
+});

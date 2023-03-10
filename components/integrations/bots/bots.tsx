@@ -17,6 +17,8 @@ import Constants from 'utils/constants';
 import BackstageList from 'components/backstage/components/backstage_list';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
+import ExternalLink from 'components/external_link';
+
 import Bot, {matchesFilter} from './bot';
 
 type Props = {
@@ -249,16 +251,15 @@ export default class Bots extends React.PureComponent<Props, State> {
                             defaultMessage='Use {botAccounts} to integrate with Mattermost through plugins or the API. Bot accounts are available to everyone on your server. '
                             values={{
                                 botAccounts: (
-                                    <a
-                                        target='_blank'
-                                        rel='noopener noreferrer'
+                                    <ExternalLink
                                         href='https://mattermost.com/pl/default-bot-accounts'
+                                        location='bots'
                                     >
                                         <FormattedMessage
                                             id='bots.manage.bot_accounts'
                                             defaultMessage='Bot Accounts'
                                         />
-                                    </a>
+                                    </ExternalLink>
                                 ),
                             }}
                         />

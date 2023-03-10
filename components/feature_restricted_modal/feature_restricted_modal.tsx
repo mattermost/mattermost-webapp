@@ -27,6 +27,7 @@ import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import {ModalIdentifiers, AboutLinks, LicenseLinks} from 'utils/constants';
 
 import './feature_restricted_modal.scss';
+import ExternalLink from 'components/external_link';
 
 type FeatureRestrictedModalProps = {
     titleAdminPreTrial: string;
@@ -169,22 +170,20 @@ const FeatureRestrictedModal = ({
                                     <strong>{msg}</strong>
                                 ),
                                 linkEvaluation: (msg: React.ReactNode) => (
-                                    <a
+                                    <ExternalLink
                                         href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
-                                        target='_blank'
-                                        rel='noreferrer'
+                                        location='feature_restricted_modal'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                                 linkPrivacy: (msg: React.ReactNode) => (
-                                    <a
+                                    <ExternalLink
                                         href={AboutLinks.PRIVACY_POLICY}
-                                        target='_blank'
-                                        rel='noreferrer'
+                                        location='feature_restricted_modal'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                             }}
                         />

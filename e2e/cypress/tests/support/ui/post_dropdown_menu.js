@@ -3,14 +3,14 @@
 
 import {stubClipboard} from '../../utils';
 
-Cypress.Commands.add('uiClickCopyLink', (permalink) => {
+Cypress.Commands.add('uiClickCopyLink', (permalink, postId) => {
     stubClipboard().as('clipboard');
 
     // * Verify initial state
     cy.get('@clipboard').its('contents').should('eq', '');
 
     // # Click on "Copy Link"
-    cy.get('.dropdown-menu').should('be.visible').within(() => {
+    cy.get(`#CENTER_dropdown_${postId}`).should('be.visible').within(() => {
         cy.findByText('Copy Link').scrollIntoView().should('be.visible').click();
 
         // * Verify if it's called with correct link value

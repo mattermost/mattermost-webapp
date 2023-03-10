@@ -11,10 +11,11 @@ import Menu from 'components/widgets/menu/menu';
 import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
 
 import * as Utils from 'utils/utils';
-import {InsightsScopes, LicenseSkus, PaidFeatures} from 'utils/constants';
+import {InsightsScopes, LicenseSkus, MattermostFeatures} from 'utils/constants';
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 
 import {useLicenseChecks} from '../hooks';
+import ExternalLink from 'components/external_link';
 
 type Props = {
     filterType: string;
@@ -100,7 +101,7 @@ const InsightsTitle = (props: Props) => {
                     sibling={(isStarterFree || isFreeTrial) && (
                         <RestrictedIndicator
                             blocked={isStarterFree}
-                            feature={PaidFeatures.TEAM_INSIGHTS}
+                            feature={MattermostFeatures.TEAM_INSIGHTS}
                             minimumPlanRequiredForFeature={LicenseSkus.Professional}
                             tooltipMessage={formatMessage({
                                 id: 'insights.accessModal.cloudFreeTrial',
@@ -117,17 +118,16 @@ const InsightsTitle = (props: Props) => {
                             {
                                 trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
                                 teamInsights: (
-                                    <a
+                                    <ExternalLink
+                                        location='insights_title'
                                         onClick={openTeamInsightsDoc}
                                         href={'https://docs.mattermost.com/welcome/insights.html#team-insights'}
-                                        rel='noopener noreferrer'
-                                        target='_blank'
                                     >
                                         <FormattedMessage
                                             id='insights.accessModal.teamDocsLink'
                                             defaultMessage='Team Insights'
                                         />
-                                    </a>
+                                    </ExternalLink>
                                 ),
                             },
                             )}
@@ -143,43 +143,40 @@ const InsightsTitle = (props: Props) => {
                                     },
                                     {
                                         insightsDoc: (
-                                            <a
+                                            <ExternalLink
                                                 onClick={openInsightsDoc}
+                                                location='insights_title'
                                                 href={'https://docs.mattermost.com/welcome/insights.html'}
-                                                rel='noopener noreferrer'
-                                                target='_blank'
                                             >
                                                 <FormattedMessage
                                                     id='insights.accessModal.docsLink'
                                                     defaultMessage='Insights'
                                                 />
-                                            </a>
+                                            </ExternalLink>
                                         ),
                                         teamInsights: (
-                                            <a
+                                            <ExternalLink
                                                 onClick={openTeamInsightsDoc}
+                                                location='insights_title'
                                                 href={'https://docs.mattermost.com/welcome/insights.html#team-insights'}
-                                                rel='noopener noreferrer'
-                                                target='_blank'
                                             >
                                                 <FormattedMessage
                                                     id='insights.accessModal.teamDocsLink'
                                                     defaultMessage='Team Insights'
                                                 />
-                                            </a>
+                                            </ExternalLink>
                                         ),
                                         contactSales: (
-                                            <a
+                                            <ExternalLink
                                                 onClick={openContactSales}
                                                 href={'https://mattermost.com/contact-sales/'}
-                                                rel='noopener noreferrer'
-                                                target='_blank'
+                                                location='insights_title'
                                             >
                                                 <FormattedMessage
                                                     id='insights.accessModal.contactSales'
                                                     defaultMessage='contact our Sales team'
                                                 />
-                                            </a>
+                                            </ExternalLink>
                                         ),
                                     },
                                 )}
@@ -195,43 +192,40 @@ const InsightsTitle = (props: Props) => {
                                     },
                                     {
                                         insightsDoc: (
-                                            <a
+                                            <ExternalLink
                                                 onClick={openInsightsDoc}
                                                 href={'https://docs.mattermost.com/welcome/insights.html'}
-                                                rel='noopener noreferrer'
-                                                target='_blank'
+                                                location='insights_title'
                                             >
                                                 <FormattedMessage
                                                     id='insights.accessModal.docsLink'
                                                     defaultMessage='Insights'
                                                 />
-                                            </a>
+                                            </ExternalLink>
                                         ),
                                         teamInsights: (
-                                            <a
+                                            <ExternalLink
                                                 onClick={openTeamInsightsDoc}
                                                 href={'https://docs.mattermost.com/welcome/insights.html#team-insights'}
-                                                rel='noopener noreferrer'
-                                                target='_blank'
+                                                location='insights_title'
                                             >
                                                 <FormattedMessage
                                                     id='insights.accessModal.teamDocsLink'
                                                     defaultMessage='Team Insights'
                                                 />
-                                            </a>
+                                            </ExternalLink>
                                         ),
                                         contactSales: (
-                                            <a
+                                            <ExternalLink
                                                 onClick={openContactSales}
                                                 href={'https://mattermost.com/contact-sales/'}
-                                                rel='noopener noreferrer'
-                                                target='_blank'
+                                                location='insights_title'
                                             >
                                                 <FormattedMessage
                                                     id='insights.accessModal.contactSales'
                                                     defaultMessage='contact our Sales team'
                                                 />
-                                            </a>
+                                            </ExternalLink>
                                         ),
                                     },
                                 )

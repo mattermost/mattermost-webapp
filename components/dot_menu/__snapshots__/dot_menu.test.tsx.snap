@@ -1,1075 +1,592 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
-<MenuWrapper
-  animationComponent={[Function]}
-  className="dropdown-menu__dotmenu"
-  onToggle={[Function]}
->
-  <OverlayTrigger
-    className="hidden-xs"
-    defaultOverlayShown={false}
-    delayShow={500}
-    overlay={
-      <Tooltip
-        className="hidden-xs"
-        id="dotmenu-icon-tooltip"
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <button
+        aria-controls="CENTER_dropdown_post_id_1"
+        aria-expanded="false"
+        aria-haspopup="true"
+        aria-label="Actions"
+        class="post-menu__item"
+        data-testid="PostDotMenu-Button-post_id_1"
+        id="CENTER_button_post_id_1"
       >
-        <Memo(MemoizedFormattedMessage)
-          defaultMessage="More"
-          id="post_info.dot_menu.tooltip.more_actions"
-        />
-      </Tooltip>
-    }
-    placement="top"
-    rootClose={true}
-    trigger={
-      Array [
-        "hover",
-        "focus",
-      ]
-    }
-  >
+        <svg
+          fill="currentColor"
+          height="16"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z"
+          />
+        </svg>
+      </button>
+    </div>
+  </body>,
+  "container": <div>
     <button
+      aria-controls="CENTER_dropdown_post_id_1"
       aria-expanded="false"
-      aria-label="actions"
-      className="post-menu__item"
+      aria-haspopup="true"
+      aria-label="Actions"
+      class="post-menu__item"
+      data-testid="PostDotMenu-Button-post_id_1"
       id="CENTER_button_post_id_1"
-      type="button"
     >
-      <DotsHorizontalIcon
-        className="icon icon--small"
-      />
+      <svg
+        fill="currentColor"
+        height="16"
+        version="1.1"
+        viewBox="0 0 24 24"
+        width="16"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z"
+        />
+      </svg>
     </button>
-  </OverlayTrigger>
-  <Menu
-    ariaLabel="Post extra options"
-    className="Menu__content dropdown-menu"
-    id="CENTER_dropdown_post_id_1"
-    openLeft={true}
-    openUp={false}
-  >
-    <MenuItemAction
-      className="MenuItem"
-      icon={
-        <span
-          className="icon-reply-outline MenuItem__compass-icon"
-        />
-      }
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="R"
-        />
-      }
-      show={true}
-      text="Reply"
-    />
-    <MenuItemAction
-      className="MenuItem"
-      icon={
-        <span
-          className="icon-arrow-right-bold-outline MenuItem__compass-icon"
-        />
-      }
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="Shift + F"
-        />
-      }
-      show={true}
-      text={
-        <span
-          className="title-with-new-badge"
-        >
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Forward"
-            id="forward_post_button.label"
-          />
-        </span>
-      }
-    />
-    <Connect(ChannelPermissionGate)
-      channelId=""
-      permissions={
-        Array [
-          "add_reaction",
-        ]
-      }
-      teamId="team_id_1"
-    >
-      <MenuItemAction
-        icon={
-          <span
-            className="icon-emoticon-plus-outline MenuItem__compass-icon"
-          />
-        }
-        onClick={[Function]}
-        show={false}
-        text="Add Reaction"
-      />
-    </Connect(ChannelPermissionGate)>
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-message-check-outline MenuItem__compass-icon"
-        />
-      }
-      id="follow_post_thread_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="F"
-        />
-      }
-      show={false}
-      text="Follow message"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-mark-as-unread MenuItem__compass-icon"
-        />
-      }
-      id="unread_post_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="U"
-        />
-      }
-      show={true}
-      text="Mark as Unread"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-bookmark-outline MenuItem__compass-icon"
-        />
-      }
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="S"
-        />
-      }
-      show={true}
-      text="Save"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-pin MenuItem__compass-icon"
-        />
-      }
-      id="unpin_post_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="P"
-        />
-      }
-      show={false}
-      text="Unpin"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-pin-outline MenuItem__compass-icon"
-        />
-      }
-      id="pin_post_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="P"
-        />
-      }
-      show={true}
-      text="Pin"
-    />
-    <li
-      className="MenuItem__divider"
-      id="divider_post_post_id_1_edit"
-      role="menuitem"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-link-variant MenuItem__compass-icon"
-        />
-      }
-      id="permalink_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="K"
-        />
-      }
-      show={true}
-      text="Copy Link"
-    />
-    <li
-      className="MenuItem__divider"
-      id="divider_post_post_id_1_edit"
-      role="menuitem"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-pencil-outline MenuItem__compass-icon"
-        />
-      }
-      id="edit_post_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="E"
-        />
-      }
-      show={true}
-      text="Edit"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-content-copy MenuItem__compass-icon"
-        />
-      }
-      id="copy_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="C"
-        />
-      }
-      show={true}
-      text="Copy Text"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-trash-can-outline MenuItem__compass-icon-dangerous"
-        />
-      }
-      id="delete_post_post_id_1"
-      isDangerous={true}
-      onClick={[Function]}
-      rightDecorator={
-        <span
-          className="MenuItem__opacity"
-        >
-          delete
-        </span>
-      }
-      show={true}
-      text="Delete"
-    />
-  </Menu>
-</MenuWrapper>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
 `;
 
 exports[`components/dot_menu/DotMenu should match snapshot, hide "New" badge on forward post 1`] = `
-<MenuWrapper
-  animationComponent={[Function]}
-  className="dropdown-menu__dotmenu"
-  onToggle={[Function]}
->
-  <OverlayTrigger
-    className="hidden-xs"
-    defaultOverlayShown={false}
-    delayShow={500}
-    overlay={
-      <Tooltip
-        className="hidden-xs"
-        id="dotmenu-icon-tooltip"
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <button
+        aria-controls="CENTER_dropdown_post_id_1"
+        aria-expanded="false"
+        aria-haspopup="true"
+        aria-label="Actions"
+        class="post-menu__item"
+        data-testid="PostDotMenu-Button-post_id_1"
+        id="CENTER_button_post_id_1"
       >
-        <Memo(MemoizedFormattedMessage)
-          defaultMessage="More"
-          id="post_info.dot_menu.tooltip.more_actions"
-        />
-      </Tooltip>
-    }
-    placement="top"
-    rootClose={true}
-    trigger={
-      Array [
-        "hover",
-        "focus",
-      ]
-    }
-  >
+        <svg
+          fill="currentColor"
+          height="16"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z"
+          />
+        </svg>
+      </button>
+    </div>
+  </body>,
+  "container": <div>
     <button
+      aria-controls="CENTER_dropdown_post_id_1"
       aria-expanded="false"
-      aria-label="actions"
-      className="post-menu__item"
+      aria-haspopup="true"
+      aria-label="Actions"
+      class="post-menu__item"
+      data-testid="PostDotMenu-Button-post_id_1"
       id="CENTER_button_post_id_1"
-      type="button"
     >
-      <DotsHorizontalIcon
-        className="icon icon--small"
-      />
+      <svg
+        fill="currentColor"
+        height="16"
+        version="1.1"
+        viewBox="0 0 24 24"
+        width="16"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z"
+        />
+      </svg>
     </button>
-  </OverlayTrigger>
-  <Menu
-    ariaLabel="Post extra options"
-    className="Menu__content dropdown-menu"
-    id="CENTER_dropdown_post_id_1"
-    openLeft={true}
-    openUp={false}
-  >
-    <MenuItemAction
-      className="MenuItem"
-      icon={
-        <span
-          className="icon-reply-outline MenuItem__compass-icon"
-        />
-      }
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="R"
-        />
-      }
-      show={true}
-      text="Reply"
-    />
-    <MenuItemAction
-      className="MenuItem"
-      icon={
-        <span
-          className="icon-arrow-right-bold-outline MenuItem__compass-icon"
-        />
-      }
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="Shift + F"
-        />
-      }
-      show={true}
-      text={
-        <span
-          className="title-with-new-badge"
-        >
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Forward"
-            id="forward_post_button.label"
-          />
-        </span>
-      }
-    />
-    <Connect(ChannelPermissionGate)
-      channelId=""
-      permissions={
-        Array [
-          "add_reaction",
-        ]
-      }
-      teamId="team_id_1"
-    >
-      <MenuItemAction
-        icon={
-          <span
-            className="icon-emoticon-plus-outline MenuItem__compass-icon"
-          />
-        }
-        onClick={[Function]}
-        show={false}
-        text="Add Reaction"
-      />
-    </Connect(ChannelPermissionGate)>
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-message-check-outline MenuItem__compass-icon"
-        />
-      }
-      id="follow_post_thread_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="F"
-        />
-      }
-      show={false}
-      text="Follow message"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-mark-as-unread MenuItem__compass-icon"
-        />
-      }
-      id="unread_post_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="U"
-        />
-      }
-      show={true}
-      text="Mark as Unread"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-bookmark-outline MenuItem__compass-icon"
-        />
-      }
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="S"
-        />
-      }
-      show={true}
-      text="Save"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-pin MenuItem__compass-icon"
-        />
-      }
-      id="unpin_post_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="P"
-        />
-      }
-      show={false}
-      text="Unpin"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-pin-outline MenuItem__compass-icon"
-        />
-      }
-      id="pin_post_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="P"
-        />
-      }
-      show={true}
-      text="Pin"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-link-variant MenuItem__compass-icon"
-        />
-      }
-      id="permalink_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="K"
-        />
-      }
-      show={true}
-      text="Copy Link"
-    />
-    <li
-      className="MenuItem__divider"
-      id="divider_post_post_id_1_edit"
-      role="menuitem"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-pencil-outline MenuItem__compass-icon"
-        />
-      }
-      id="edit_post_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="E"
-        />
-      }
-      show={false}
-      text="Edit"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-content-copy MenuItem__compass-icon"
-        />
-      }
-      id="copy_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="C"
-        />
-      }
-      show={true}
-      text="Copy Text"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-trash-can-outline MenuItem__compass-icon-dangerous"
-        />
-      }
-      id="delete_post_post_id_1"
-      isDangerous={true}
-      onClick={[Function]}
-      rightDecorator={
-        <span
-          className="MenuItem__opacity"
-        >
-          delete
-        </span>
-      }
-      show={false}
-      text="Delete"
-    />
-  </Menu>
-</MenuWrapper>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
 `;
 
 exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
-<MenuWrapper
-  animationComponent={[Function]}
-  className="dropdown-menu__dotmenu"
-  onToggle={[Function]}
+<Menu
+  menu={
+    Object {
+      "aria-label": "Post extra options",
+      "closeMenuManually": false,
+      "id": "CENTER_dropdown_post_id_1",
+      "onKeyDown": [Function],
+      "onToggle": [Function],
+      "width": "264px",
+    }
+  }
+  menuButton={
+    Object {
+      "aria-label": "Actions",
+      "children": <DotsHorizontalIcon
+        size={16}
+      />,
+      "class": "post-menu__item",
+      "dateTestId": "PostDotMenu-Button-post_id_1",
+      "id": "CENTER_button_post_id_1",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "PostDotMenu-ButtonTooltip-post_id_1",
+      "text": "More",
+    }
+  }
 >
-  <OverlayTrigger
-    className="hidden-xs"
-    defaultOverlayShown={false}
-    delayShow={500}
-    overlay={
-      <Tooltip
-        className="hidden-xs"
-        id="dotmenu-icon-tooltip"
+  <MenuItem
+    data-testid="reply_to_post_post_id_1"
+    id="reply_to_post_post_id_1"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Reply"
+        id="post_info.reply"
+      />
+    }
+    leadingElement={
+      <ReplyOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+    trailingElements={
+      <ShortcutKey
+        shortcutKey="R"
+      />
+    }
+  />
+  <MenuItem
+    data-testid="forward_post_post_id_1"
+    id="forward_post_post_id_1"
+    isLabelsRowLayout={true}
+    labels={
+      <span
+        className="dot-menu__item-new-badge"
       >
         <Memo(MemoizedFormattedMessage)
-          defaultMessage="More"
-          id="post_info.dot_menu.tooltip.more_actions"
+          defaultMessage="Forward"
+          id="forward_post_button.label"
         />
-      </Tooltip>
+      </span>
     }
-    placement="top"
-    rootClose={true}
-    trigger={
+    leadingElement={
+      <ArrowRightBoldOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+    trailingElements={
+      <ShortcutKey
+        shortcutKey="Shift + F"
+      />
+    }
+  />
+  <Connect(ChannelPermissionGate)
+    channelId=""
+    permissions={
       Array [
-        "hover",
-        "focus",
+        "add_reaction",
       ]
     }
-  >
-    <button
-      aria-expanded="false"
-      aria-label="actions"
-      className="post-menu__item"
-      id="CENTER_button_post_id_1"
-      type="button"
-    >
-      <DotsHorizontalIcon
-        className="icon icon--small"
+    teamId="team_id_1"
+  />
+  <MenuItem
+    data-testid="follow_post_thread_post_id_1"
+    id="follow_post_thread_post_id_1"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Follow message"
+        id="threading.threadMenu.followMessage"
       />
-    </button>
-  </OverlayTrigger>
-  <Menu
-    ariaLabel="Post extra options"
-    className="Menu__content dropdown-menu"
-    id="CENTER_dropdown_post_id_1"
-    openLeft={true}
-    openUp={false}
-  >
-    <MenuItemAction
-      className="MenuItem"
-      icon={
-        <span
-          className="icon-reply-outline MenuItem__compass-icon"
-        />
-      }
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="R"
-        />
-      }
-      show={true}
-      text="Reply"
-    />
-    <MenuItemAction
-      className="MenuItem"
-      icon={
-        <span
-          className="icon-arrow-right-bold-outline MenuItem__compass-icon"
-        />
-      }
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="Shift + F"
-        />
-      }
-      show={true}
-      text={
-        <span
-          className="title-with-new-badge"
-        >
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Forward"
-            id="forward_post_button.label"
-          />
-        </span>
-      }
-    />
-    <Connect(ChannelPermissionGate)
-      channelId=""
-      permissions={
-        Array [
-          "add_reaction",
-        ]
-      }
-      teamId="team_id_1"
-    >
-      <MenuItemAction
-        icon={
-          <span
-            className="icon-emoticon-plus-outline MenuItem__compass-icon"
-          />
-        }
-        onClick={[Function]}
-        show={false}
-        text="Add Reaction"
+    }
+    leadingElement={
+      <MessageCheckOutlineIcon
+        size={18}
       />
-    </Connect(ChannelPermissionGate)>
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-message-check-outline MenuItem__compass-icon"
-        />
+    }
+    onClick={[Function]}
+    trailingElements={
+      <ShortcutKey
+        shortcutKey="F"
+      />
+    }
+  />
+  <MenuItem
+    data-testid="unread_post_post_id_1"
+    id="unread_post_post_id_1"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Mark as Unread"
+        id="post_info.unread"
+      />
+    }
+    leadingElement={
+      <MarkAsUnreadIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+    trailingElements={
+      <ShortcutKey
+        shortcutKey="U"
+      />
+    }
+  />
+  <PostReminderSubmenu
+    isMilitaryTime={false}
+    post={
+      Object {
+        "channel_id": "",
+        "create_at": 0,
+        "delete_at": 0,
+        "edit_at": 0,
+        "hashtags": "",
+        "id": "post_id_1",
+        "is_pinned": false,
+        "message": "post message",
+        "metadata": Object {
+          "embeds": Array [],
+          "emojis": Array [],
+          "files": Array [],
+          "images": Object {},
+          "reactions": Array [],
+        },
+        "original_id": "",
+        "pending_post_id": "",
+        "props": Object {},
+        "reply_count": 0,
+        "root_id": "",
+        "type": "",
+        "update_at": 0,
+        "user_id": "user_id",
       }
-      id="follow_post_thread_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="F"
-        />
-      }
-      show={false}
-      text="Follow message"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-mark-as-unread MenuItem__compass-icon"
-        />
-      }
-      id="unread_post_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="U"
-        />
-      }
-      show={true}
-      text="Mark as Unread"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-bookmark-outline MenuItem__compass-icon"
-        />
-      }
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="S"
-        />
-      }
-      show={true}
-      text="Save"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-pin MenuItem__compass-icon"
-        />
-      }
-      id="unpin_post_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="P"
-        />
-      }
-      show={false}
-      text="Unpin"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-pin-outline MenuItem__compass-icon"
-        />
-      }
-      id="pin_post_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="P"
-        />
-      }
-      show={true}
-      text="Pin"
-    />
-    <li
-      className="MenuItem__divider"
-      id="divider_post_post_id_1_edit"
-      role="menuitem"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-link-variant MenuItem__compass-icon"
-        />
-      }
-      id="permalink_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="K"
-        />
-      }
-      show={true}
-      text="Copy Link"
-    />
-    <li
-      className="MenuItem__divider"
-      id="divider_post_post_id_1_edit"
-      role="menuitem"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-pencil-outline MenuItem__compass-icon"
-        />
-      }
-      id="edit_post_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="E"
-        />
-      }
-      show={true}
-      text="Edit"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-content-copy MenuItem__compass-icon"
-        />
-      }
-      id="copy_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="C"
-        />
-      }
-      show={true}
-      text="Copy Text"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-trash-can-outline MenuItem__compass-icon-dangerous"
-        />
-      }
-      id="delete_post_post_id_1"
-      isDangerous={true}
-      onClick={[Function]}
-      rightDecorator={
-        <span
-          className="MenuItem__opacity"
-        >
-          delete
-        </span>
-      }
-      show={false}
-      text="Delete"
-    />
-  </Menu>
-</MenuWrapper>
+    }
+    userId="user_id_1"
+  />
+  <MenuItem
+    data-testid="save_post_post_id_1"
+    id="save_post_post_id_1"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Save"
+        id="rhs_root.mobile.flag"
+      />
+    }
+    leadingElement={
+      <BookmarkOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+    trailingElements={
+      <ShortcutKey
+        shortcutKey="S"
+      />
+    }
+  />
+  <MenuItem
+    data-testid="pin_post_post_id_1"
+    id="pin_post_post_id_1"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Pin"
+        id="post_info.pin"
+      />
+    }
+    leadingElement={
+      <PinOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+    trailingElements={
+      <ShortcutKey
+        shortcutKey="P"
+      />
+    }
+  />
+  <MenuItemSeparator />
+  <MenuItem
+    data-testid="permalink_post_id_1"
+    id="permalink_post_id_1"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Copy Link"
+        id="post_info.permalink"
+      />
+    }
+    leadingElement={
+      <LinkVariantIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+    trailingElements={
+      <ShortcutKey
+        shortcutKey="K"
+      />
+    }
+  />
+  <MenuItemSeparator />
+  <MenuItem
+    data-testid="edit_post_post_id_1"
+    id="edit_post_post_id_1"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Edit"
+        id="post_info.edit"
+      />
+    }
+    leadingElement={
+      <PencilOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+    trailingElements={
+      <ShortcutKey
+        shortcutKey="E"
+      />
+    }
+  />
+  <MenuItem
+    data-testid="copy_post_id_1"
+    id="copy_post_id_1"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Copy Text"
+        id="post_info.copy"
+      />
+    }
+    leadingElement={
+      <ContentCopyIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+    trailingElements={
+      <ShortcutKey
+        shortcutKey="C"
+      />
+    }
+  />
+</Menu>
 `;
 
 exports[`components/dot_menu/DotMenu should match snapshot, show "New" badge on forward post 1`] = `
-<MenuWrapper
-  animationComponent={[Function]}
-  className="dropdown-menu__dotmenu"
-  onToggle={[Function]}
->
-  <OverlayTrigger
-    className="hidden-xs"
-    defaultOverlayShown={false}
-    delayShow={500}
-    overlay={
-      <Tooltip
-        className="hidden-xs"
-        id="dotmenu-icon-tooltip"
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <button
+        aria-controls="CENTER_dropdown_post_id_1"
+        aria-expanded="false"
+        aria-haspopup="true"
+        aria-label="Actions"
+        class="post-menu__item"
+        data-testid="PostDotMenu-Button-post_id_1"
+        id="CENTER_button_post_id_1"
       >
-        <Memo(MemoizedFormattedMessage)
-          defaultMessage="More"
-          id="post_info.dot_menu.tooltip.more_actions"
-        />
-      </Tooltip>
-    }
-    placement="top"
-    rootClose={true}
-    trigger={
-      Array [
-        "hover",
-        "focus",
-      ]
-    }
-  >
+        <svg
+          fill="currentColor"
+          height="16"
+          version="1.1"
+          viewBox="0 0 24 24"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z"
+          />
+        </svg>
+      </button>
+    </div>
+  </body>,
+  "container": <div>
     <button
+      aria-controls="CENTER_dropdown_post_id_1"
       aria-expanded="false"
-      aria-label="actions"
-      className="post-menu__item"
+      aria-haspopup="true"
+      aria-label="Actions"
+      class="post-menu__item"
+      data-testid="PostDotMenu-Button-post_id_1"
       id="CENTER_button_post_id_1"
-      type="button"
     >
-      <DotsHorizontalIcon
-        className="icon icon--small"
-      />
+      <svg
+        fill="currentColor"
+        height="16"
+        version="1.1"
+        viewBox="0 0 24 24"
+        width="16"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z"
+        />
+      </svg>
     </button>
-  </OverlayTrigger>
-  <Menu
-    ariaLabel="Post extra options"
-    className="Menu__content dropdown-menu"
-    id="CENTER_dropdown_post_id_1"
-    openLeft={true}
-    openUp={false}
-  >
-    <MenuItemAction
-      className="MenuItem"
-      icon={
-        <span
-          className="icon-reply-outline MenuItem__compass-icon"
-        />
-      }
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="R"
-        />
-      }
-      show={true}
-      text="Reply"
-    />
-    <MenuItemAction
-      className="MenuItem"
-      icon={
-        <span
-          className="icon-arrow-right-bold-outline MenuItem__compass-icon"
-        />
-      }
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="Shift + F"
-        />
-      }
-      show={true}
-      text={
-        <span
-          className="title-with-new-badge"
-        >
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Forward"
-            id="forward_post_button.label"
-          />
-          <Memo(Tag)
-            text="NEW"
-            variant="success"
-          />
-        </span>
-      }
-    />
-    <Connect(ChannelPermissionGate)
-      channelId=""
-      permissions={
-        Array [
-          "add_reaction",
-        ]
-      }
-      teamId="team_id_1"
-    >
-      <MenuItemAction
-        icon={
-          <span
-            className="icon-emoticon-plus-outline MenuItem__compass-icon"
-          />
-        }
-        onClick={[Function]}
-        show={false}
-        text="Add Reaction"
-      />
-    </Connect(ChannelPermissionGate)>
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-message-check-outline MenuItem__compass-icon"
-        />
-      }
-      id="follow_post_thread_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="F"
-        />
-      }
-      show={false}
-      text="Follow message"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-mark-as-unread MenuItem__compass-icon"
-        />
-      }
-      id="unread_post_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="U"
-        />
-      }
-      show={true}
-      text="Mark as Unread"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-bookmark-outline MenuItem__compass-icon"
-        />
-      }
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="S"
-        />
-      }
-      show={true}
-      text="Save"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-pin MenuItem__compass-icon"
-        />
-      }
-      id="unpin_post_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="P"
-        />
-      }
-      show={false}
-      text="Unpin"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-pin-outline MenuItem__compass-icon"
-        />
-      }
-      id="pin_post_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="P"
-        />
-      }
-      show={true}
-      text="Pin"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-link-variant MenuItem__compass-icon"
-        />
-      }
-      id="permalink_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="K"
-        />
-      }
-      show={true}
-      text="Copy Link"
-    />
-    <li
-      className="MenuItem__divider"
-      id="divider_post_post_id_1_edit"
-      role="menuitem"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-pencil-outline MenuItem__compass-icon"
-        />
-      }
-      id="edit_post_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="E"
-        />
-      }
-      show={false}
-      text="Edit"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-content-copy MenuItem__compass-icon"
-        />
-      }
-      id="copy_post_id_1"
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="C"
-        />
-      }
-      show={true}
-      text="Copy Text"
-    />
-    <MenuItemAction
-      icon={
-        <span
-          className="icon-trash-can-outline MenuItem__compass-icon-dangerous"
-        />
-      }
-      id="delete_post_post_id_1"
-      isDangerous={true}
-      onClick={[Function]}
-      rightDecorator={
-        <span
-          className="MenuItem__opacity"
-        >
-          delete
-        </span>
-      }
-      show={false}
-      text="Delete"
-    />
-  </Menu>
-</MenuWrapper>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
 `;

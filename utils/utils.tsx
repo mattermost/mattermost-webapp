@@ -10,6 +10,10 @@ import cssVars from 'css-vars-ponyfill';
 
 import moment from 'moment';
 
+import type {Locale} from 'date-fns';
+
+import {getName} from 'country-list';
+
 import Constants, {FileTypes, ValidationErrors, A11yCustomEventTypes, A11yFocusEventDetail} from 'utils/constants';
 
 import {
@@ -47,6 +51,7 @@ import {addUserToTeam} from 'actions/team_actions';
 import {searchForTerm} from 'actions/post_actions';
 import {getHistory} from 'utils/browser_history';
 import * as UserAgent from 'utils/user_agent';
+import {isDesktopApp} from 'utils/user_agent';
 import bing from 'sounds/bing.mp3';
 import crackle from 'sounds/crackle.mp3';
 import down from 'sounds/down.mp3';
@@ -72,6 +77,8 @@ import {GlobalState} from '@mattermost/types/store';
 import {focusPost} from 'components/permalink_view/actions';
 
 import {TextboxElement} from '../components/textbox';
+
+import {Address} from '@mattermost/types/cloud';
 
 import {joinPrivateChannelPrompt} from './channel_utils';
 
@@ -1829,11 +1836,44 @@ export function getRoleFromTrackFlow() {
     return {started_by_role: startedByRole};
 }
 
+export function getDatePickerLocalesForDateFns(locale: string, loadedLocales: Record<string, Locale>) {
+    if (locale && locale !== 'en' && !loadedLocales[locale]) {
+        try {
+            /* eslint-disable global-require */
+            loadedLocales[locale] = require(`date-fns/locale/${locale}/index.js`);
+            /* eslint-disable global-require */
+        } catch (e) {
+            console.log(e); // eslint-disable-line no-console
+        }
+    }
+
+    return loadedLocales;
+}
+
 export function getMediumFromTrackFlow() {
     const params = new URLSearchParams(window.location.search);
     const source = params.get('md') ?? '';
 
     return {source};
+}
+
+const TrackFlowSources: Record<string, string> = {
+    wd: 'webapp-desktop',
+    wm: 'webapp-mobile',
+    d: 'desktop-app',
+};
+
+function getTrackFlowSource() {
+    if (isMobile()) {
+        return TrackFlowSources.wm;
+    } else if (isDesktopApp()) {
+        return TrackFlowSources.d;
+    }
+    return TrackFlowSources.wd;
+}
+
+export function getSourceForTrackFlow() {
+    return {source: getTrackFlowSource()};
 }
 
 export function a11yFocus(element: HTMLElement | null | undefined, keyboardOnly = true) {
@@ -1845,4 +1885,19 @@ export function a11yFocus(element: HTMLElement | null | undefined, keyboardOnly 
             },
         },
     ));
+}
+
+export function getBlankAddressWithCountry(country?: string): Address {
+    let c = '';
+    if (country) {
+        c = getName(country) || '';
+    }
+    return {
+        city: '',
+        country: c || '',
+        line1: '',
+        line2: '',
+        postal_code: '',
+        state: '',
+    };
 }

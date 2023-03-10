@@ -12,7 +12,15 @@ import {Elements} from '@stripe/react-stripe-js';
 
 import {isEmpty} from 'lodash';
 
-import {localizeMessage, getNextBillingDate} from 'utils/utils';
+import ComplianceScreenFailedSvg from 'components/common/svg_images_components/access_denied_happy_svg';
+
+import AddressForm from 'components/payment_form/address_form';
+
+import {t} from 'utils/i18n';
+import {Address, CloudCustomer, Product, Invoice, areShippingDetailsValid, Feedback} from '@mattermost/types/cloud';
+import {ActionResult} from 'mattermost-redux/types/actions';
+
+import {localizeMessage, getNextBillingDate, getBlankAddressWithCountry} from 'utils/utils';
 
 import BillingHistoryModal from 'components/admin_console/billing/billing_history_modal';
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
@@ -37,21 +45,22 @@ import BackgroundSvg from 'components/common/svg_images_components/background_sv
 import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import PricingModal from 'components/pricing_modal';
 import PlanLabel from 'components/common/plan_label';
-import Consequences from 'components/self_hosted_purchase_modal/consequences';
-import SeatsCalculator, {errorInvalidNumber, Seats} from 'components/self_hosted_purchase_modal/seats_calculator';
+import Consequences from 'components/seats_calculator/consequences';
+import SeatsCalculator, {errorInvalidNumber, Seats} from 'components/seats_calculator';
 import SwitchToYearlyPlanConfirmModal from 'components/switch_to_yearly_plan_confirm_modal';
 
 import {ModalData} from 'types/actions';
 
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
-import {CloudCustomer, Product, Invoice} from '@mattermost/types/cloud';
-
 import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
 
 import {Team} from '@mattermost/types/teams';
+import ExternalLink from 'components/external_link';
 
 import PaymentForm from '../payment_form/payment_form';
+
+import IconMessage from './icon_message';
 
 import ProcessPaymentSetup from './process_payment_setup';
 
@@ -112,6 +121,8 @@ type Props = {
     invoices?: Invoice[];
     isCloudDelinquencyGreaterThan90Days: boolean;
     usersCount: number;
+    isComplianceBlocked: boolean;
+    contactSupportLink: string;
 
     // callerCTA is information about the cta that opened this modal. This helps us provide a telemetry path
     // showing information about how the modal was opened all the way to more CTAs within the modal itself
@@ -127,8 +138,10 @@ type Props = {
         ) => Promise<boolean | null>;
         subscribeCloudSubscription: (
             productId: string,
+            shippingAddress: Address,
             seats?: number,
-        ) => Promise<boolean | null>;
+            downgradeFeedback?: Feedback,
+        ) => Promise<ActionResult>;
         getClientConfig: () => void;
         getCloudSubscription: () => void;
         getInvoices: () => void;
@@ -138,7 +151,9 @@ type Props = {
 type State = {
     paymentInfoIsValid: boolean;
     billingDetails: BillingDetails | null;
+    shippingAddress: Address | null;
     cardInputComplete: boolean;
+    billingSameAsShipping: boolean;
     processing: boolean;
     editPaymentInfo: boolean;
     currentProduct: Product | null | undefined;
@@ -148,6 +163,7 @@ type State = {
     selectedProductPrice: string | null;
     usersCount: number;
     seats: Seats;
+    isSwitchingToAnnual: boolean;
 }
 
 /**
@@ -345,6 +361,8 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         this.state = {
             paymentInfoIsValid: false,
             billingDetails: null,
+            billingSameAsShipping: true,
+            shippingAddress: null,
             cardInputComplete: false,
             processing: false,
             editPaymentInfo: isEmpty(
@@ -370,6 +388,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                 quantity: this.props.usersCount.toString(),
                 error: this.props.usersCount.toString() === '0' ? errorInvalidNumber : null,
             },
+            isSwitchingToAnnual: false,
         };
     }
 
@@ -405,11 +424,23 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     onPaymentInput = (billing: BillingDetails) => {
-        this.setState({
-            paymentInfoIsValid:
-                areBillingDetailsValid(billing) && this.state.cardInputComplete,
-        });
-        this.setState({billingDetails: billing});
+        this.setState({billingDetails: billing}, this.isFormComplete);
+    }
+
+    isFormComplete = () => {
+        let paymentInfoIsValid = areBillingDetailsValid(this.state.billingDetails) && this.state.cardInputComplete;
+        if (!this.state.billingSameAsShipping) {
+            paymentInfoIsValid = paymentInfoIsValid && areShippingDetailsValid(this.state.shippingAddress);
+        }
+        this.setState({paymentInfoIsValid});
+    }
+
+    handleShippingSameAsBillingChange(value: boolean) {
+        this.setState({billingSameAsShipping: value}, this.isFormComplete);
+    }
+
+    onShippingInput = (address: Address) => {
+        this.setState({shippingAddress: {...this.state.shippingAddress, ...address}}, this.isFormComplete);
     }
 
     handleCardInputChange = (event: StripeCardElementChangeEvent) => {
@@ -435,7 +466,10 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             modalId: ModalIdentifiers.CONFIRM_SWITCH_TO_YEARLY,
             dialogType: SwitchToYearlyPlanConfirmModal,
             dialogProps: {
-                confirmSwitchToYearlyFunc: () => this.handleSubmitClick(this.props.callerCTA + '> purchase_modal > confirm_switch_to_annual_modal > confirm_click'),
+                confirmSwitchToYearlyFunc: () => {
+                    this.handleSubmitClick(this.props.callerCTA + '> purchase_modal > confirm_switch_to_annual_modal > confirm_click');
+                    this.setState({isSwitchingToAnnual: true});
+                },
                 contactSalesFunc: () => {
                     trackEvent(
                         TELEMETRY_CATEGORIES.CLOUD_ADMIN,
@@ -478,7 +512,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
 
     contactSalesLink = (text: ReactNode) => {
         return (
-            <a
+            <ExternalLink
                 className='footer-text'
                 onClick={() => {
                     trackEvent(
@@ -487,17 +521,16 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     );
                 }}
                 href={this.props.contactSalesLink}
-                target='_blank'
-                rel='noopener noreferrer'
+                location='purchase_modal'
             >
                 {text}
-            </a>
+            </ExternalLink>
         );
     }
 
     learnMoreLink = () => {
         return (
-            <a
+            <ExternalLink
                 className='footer-text'
                 onClick={() => {
                     trackEvent(
@@ -506,14 +539,13 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     );
                 }}
                 href={CloudLinks.PRORATED_PAYMENT}
-                target='_blank'
-                rel='noopener noreferrer'
+                location='purchase_modal'
             >
                 <FormattedMessage
                     defaultMessage={'Learn more'}
                     id={'admin.billing.subscription.LearnMore'}
                 />
-            </a>
+            </ExternalLink>
         );
     }
 
@@ -602,6 +634,21 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         }
 
         return productName;
+    }
+
+    getShippingAddressForProcessing = (): Address => {
+        if (this.state.billingSameAsShipping) {
+            return {
+                line1: this.state.billingDetails?.address || '',
+                line2: this.state.billingDetails?.address2 || '',
+                city: this.state.billingDetails?.city || '',
+                state: this.state.billingDetails?.state || '',
+                postal_code: this.state.billingDetails?.postalCode || '',
+                country: this.state.billingDetails?.country || '',
+            };
+        }
+
+        return this.state.shippingAddress as Address;
     }
 
     handleViewBreakdownClick = () => {
@@ -805,15 +852,112 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             </PaymentDetails>
                         </div>
                     )}
+                    <div className='shipping-address-section'>
+                        <input
+                            id='address-same-than-billing-address'
+                            className='Form-checkbox-input'
+                            name='terms'
+                            type='checkbox'
+                            checked={this.state.billingSameAsShipping}
+                            onChange={() =>
+                                this.handleShippingSameAsBillingChange(
+                                    !this.state.billingSameAsShipping,
+                                )
+                            }
+                        />
+                        <span className='Form-checkbox-label'>
+                            <button
+                                onClick={() =>
+                                    this.handleShippingSameAsBillingChange(
+                                        !this.state.billingSameAsShipping,
+                                    )
+                                }
+                                type='button'
+                                className='no-style'
+                            >
+                                <span className='billing_address_btn_text'>
+                                    {this.props.intl.formatMessage({
+                                        id: 'admin.billing.subscription.complianceScreenShippingSameAsBilling',
+                                        defaultMessage:
+                                            'My shipping address is the same as my billing address',
+                                    })}
+                                </span>
+                            </button>
+                        </span>
+                    </div>
+                    {!this.state.billingSameAsShipping && (
+                        <AddressForm
+                            onAddressChange={this.onShippingInput}
+                            onBlur={() => {}}
+                            title={{
+                                id: 'payment_form.shipping_address',
+                                defaultMessage: 'Shipping Address',
+                            }}
+                            formId={'shippingAddress'}
+
+                            // Setup the initial country based on their billing country, or USA.
+                            address={
+                                this.state.shippingAddress ||
+                                getBlankAddressWithCountry(
+                                    this.state.billingDetails?.country || 'US',
+                                )
+                            }
+                        />
+                    )}
                 </div>
-                <div className='RHS'>
-                    {this.purchaseScreenCard()}
-                </div>
+                <div className='RHS'>{this.purchaseScreenCard()}</div>
             </div>
         );
     }
 
     render() {
+        if (this.props.isComplianceBlocked) {
+            return (
+                <RootPortal>
+                    <FullScreenModal
+                        show={Boolean(this.props.show)}
+                        onClose={() => {
+                            trackEvent(
+                                TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                                'click_close_purchasing_screen',
+                            );
+                            this.props.actions.getCloudSubscription();
+                            this.props.actions.closeModal();
+                        }}
+                        ref={this.modal}
+                        ariaLabelledBy='purchase_modal_title'
+                    >
+                        <div className='PurchaseModal'>
+                            <IconMessage
+                                title={t(
+                                    'admin.billing.subscription.complianceScreenFailed.title',
+                                )}
+                                subtitle={t(
+                                    'admin.billing.subscription.complianceScreenFailed.subtitle',
+                                )}
+                                icon={
+                                    <ComplianceScreenFailedSvg
+                                        width={321}
+                                        height={246}
+                                    />
+                                }
+                                buttonText={t(
+                                    'admin.billing.subscription.complianceScreenFailed.button',
+                                )}
+                                buttonHandler={() =>
+                                    this.props.actions.closeModal()
+                                }
+                                linkText={t(
+                                    'admin.billing.subscription.privateCloudCard.contactSupport',
+                                )}
+                                linkURL={this.props.contactSupportLink}
+                                className={'failed'}
+                            />
+                        </div>
+                    </FullScreenModal>
+                </RootPortal>
+            );
+        }
         if (!stripePromise) {
             stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
         }
@@ -843,12 +987,19 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                 <div>
                                     <ProcessPaymentSetup
                                         stripe={stripePromise}
-                                        billingDetails={this.state.billingDetails}
+                                        billingDetails={
+                                            this.state.billingDetails
+                                        }
+                                        shippingAddress={
+                                            this.getShippingAddressForProcessing()
+                                        }
                                         addPaymentMethod={
-                                            this.props.actions.completeStripeAddPaymentMethod
+                                            this.props.actions.
+                                                completeStripeAddPaymentMethod
                                         }
                                         subscribeCloudSubscription={
-                                            this.props.actions.subscribeCloudSubscription
+                                            this.props.actions.
+                                                subscribeCloudSubscription
                                         }
                                         isDevMode={this.props.isDevMode}
                                         onClose={() => {
@@ -856,9 +1007,13 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                             this.props.actions.closeModal();
                                         }}
                                         onBack={() => {
-                                            this.setState({processing: false});
+                                            this.setState({
+                                                processing: false,
+                                            });
                                         }}
-                                        contactSupportLink={this.props.contactSalesLink}
+                                        contactSupportLink={
+                                            this.props.contactSalesLink
+                                        }
                                         currentTeam={this.props.currentTeam}
                                         onSuccess={() => {
                                             // Success only happens if all invoices have been paid.
@@ -872,8 +1027,10 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                         this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT}
                                         setIsUpgradeFromTrialToFalse={this.setIsUpgradeFromTrialToFalse}
                                         isUpgradeFromTrial={this.state.isUpgradeFromTrial}
+                                        isSwitchingToAnnual={this.state.isSwitchingToAnnual}
                                         telemetryProps={{
-                                            callerInfo: this.state.buttonClickedInfo,
+                                            callerInfo:
+                                                this.state.buttonClickedInfo,
                                         }}
                                         usersCount={parseInt(this.state.seats.quantity, 10)}
                                     />
