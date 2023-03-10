@@ -28,6 +28,7 @@ export type TestConfig = {
     headless: boolean;
     slowMo: number;
     workers: number;
+    testDir: string;
     // Visual tests
     snapshotEnabled: boolean;
     percyEnabled: boolean;
@@ -52,6 +53,7 @@ const config: TestConfig = {
     headless: parseBool(process.env.PW_HEADLESS, false),
     slowMo: parseNumber(process.env.PW_SLOWMO, 0),
     workers: parseNumber(process.env.PW_WORKERS, 1),
+    testDir: process.env.PW_TEST_DIR || 'tests',
     // Visual tests
     snapshotEnabled: parseBool(process.env.PW_SNAPSHOT_ENABLE, false),
     percyEnabled: parseBool(process.env.PW_PERCY_ENABLE, false),
