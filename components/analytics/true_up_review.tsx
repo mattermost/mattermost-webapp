@@ -31,6 +31,8 @@ import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/user
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {pageVisited} from 'actions/telemetry_actions';
 import {DocLinks, TELEMETRY_CATEGORIES} from 'utils/constants';
+
+import ExternalLink from 'components/external_link';
 import {getIsStarterLicense, getIsGovSku} from 'utils/license_utils';
 
 const TrueUpReview: React.FC = () => {
@@ -161,16 +163,15 @@ const TrueUpReview: React.FC = () => {
     );
 
     const trueUpDocsLink = (
-        <a
+        <ExternalLink
             href={DocLinks.TRUE_UP_REVIEW}
-            target='_blank'
-            rel='noreferrer'
+            location='true_up_review'
         >
             <FormattedMessage
                 id='admin.billing.trueUpReview.docsLinkCTA'
                 defaultMessage='Learn more about true-up.'
             />
-        </a>
+        </ExternalLink>
     );
 
     const reviewDetails = (

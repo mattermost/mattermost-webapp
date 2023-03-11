@@ -72,6 +72,9 @@ describe('components/admin_console/billing/billing_history', () => {
                     IsLicensed: 'true',
                     Cloud: 'true',
                 },
+                config: {
+                    DiagnosticsEnabled: 'false',
+                },
             },
             users: {
                 currentUserId: 'current_user_id',
@@ -155,6 +158,9 @@ describe('BillingHistory -- self-hosted', () => {
                     IsLicensed: 'true',
                     Cloud: 'false',
                 },
+                config: {
+                    DiagnosticsEnabled: 'false',
+                },
             },
             users: {
                 currentUserId: 'current_user_id',
@@ -168,7 +174,6 @@ describe('BillingHistory -- self-hosted', () => {
                     invoices: {
                         in_1KNb3DI67GP2qpb4ueaJYBt8: invoiceA,
                         in_1KIWNTI67GP2qpb4KjGj1KAy: invoiceB,
-
                     },
                     invoicesLoaded: true,
                 },

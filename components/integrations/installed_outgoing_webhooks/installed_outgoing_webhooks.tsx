@@ -16,6 +16,7 @@ import {Team} from '@mattermost/types/teams';
 import {OutgoingWebhook} from '@mattermost/types/integrations';
 import {IDMappedObjects} from '@mattermost/types/utilities';
 import {Channel} from '@mattermost/types/channels';
+import ExternalLink from 'components/external_link';
 
 export type Props = {
 
@@ -169,7 +170,11 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent<Props
                         defaultMessage='Add Outgoing Webhook'
                     />
                 }
-                addLink={'/' + this.props.team.name + '/integrations/outgoing_webhooks/add'}
+                addLink={
+                    '/' +
+                    this.props.team.name +
+                    '/integrations/outgoing_webhooks/add'
+                }
                 addButtonId='addOutgoingWebhook'
                 emptyText={
                     <FormattedMessage
@@ -189,33 +194,34 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent<Props
                         defaultMessage='Use outgoing webhooks to connect external tools to Mattermost. {buildYourOwn} or visit the {appDirectory} to find self-hosted, third-party apps and integrations.'
                         values={{
                             buildYourOwn: (
-                                <a
-                                    target='_blank'
-                                    rel='noopener noreferrer'
+                                <ExternalLink
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/'
+                                    location='installed_outgoing_webhooks'
                                 >
                                     <FormattedMessage
                                         id='installed_outgoing_webhooks.help.buildYourOwn'
                                         defaultMessage='Build your own'
                                     />
-                                </a>
+                                </ExternalLink>
                             ),
                             appDirectory: (
-                                <a
-                                    target='_blank'
-                                    rel='noopener noreferrer'
+                                <ExternalLink
                                     href='https://mattermost.com/marketplace'
+                                    location='installed_outgoing_webhooks'
                                 >
                                     <FormattedMessage
                                         id='installed_outgoing_webhooks.help.appDirectory'
                                         defaultMessage='App Directory'
                                     />
-                                </a>
+                                </ExternalLink>
                             ),
                         }}
                     />
                 }
-                searchPlaceholder={localizeMessage('installed_outgoing_webhooks.search', 'Search Outgoing Webhooks')}
+                searchPlaceholder={localizeMessage(
+                    'installed_outgoing_webhooks.search',
+                    'Search Outgoing Webhooks',
+                )}
                 loading={this.state.loading}
             >
                 {(filter: string) => {

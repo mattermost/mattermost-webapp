@@ -10,6 +10,8 @@ import {JobTypes, exportFormats} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import {getSiteURL} from 'utils/url';
 
+import ExternalLink from 'components/external_link';
+
 import AdminSettings from './admin_settings';
 import BooleanSetting from './boolean_setting';
 import DropdownSetting from './dropdown_setting.jsx';
@@ -245,13 +247,12 @@ export default class MessageExportSettings extends AdminSettings {
                             defaultMessage='When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See <link>the documentation</link> to learn more.'
                             values={{
                                 link: (msg) => (
-                                    <a
+                                    <ExternalLink
                                         href='https://docs.mattermost.com/comply/compliance-export.html'
-                                        target='_blank'
-                                        rel='noreferrer'
+                                        location='message_export_settings'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                             }}
                         />

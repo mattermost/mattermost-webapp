@@ -9,6 +9,7 @@ import TrialBenefitsModalStepMore from 'components/trial_benefits_modal/trial_be
 
 import './learn_more_trial_modal_step.scss';
 import {AboutLinks, LicenseLinks} from 'utils/constants';
+import ExternalLink from 'components/external_link';
 
 export type LearnMoreTrialModalStepProps = {
     id: string;
@@ -65,22 +66,20 @@ const LearnMoreTrialModalStep = (
                         defaultMessage='By clicking “Start trial”, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
                         values={{
                             linkEvaluation: (msg: React.ReactNode) => (
-                                <a
+                                <ExternalLink
                                     href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
-                                    target='_blank'
-                                    rel='noreferrer'
+                                    location='learn_more_trial_modal_step'
                                 >
                                     {msg}
-                                </a>
+                                </ExternalLink>
                             ),
                             linkPrivacy: (msg: React.ReactNode) => (
-                                <a
+                                <ExternalLink
                                     href={AboutLinks.PRIVACY_POLICY}
-                                    target='_blank'
-                                    rel='noreferrer'
+                                    location='learn_more_trial_modal_step'
                                 >
                                     {msg}
-                                </a>
+                                </ExternalLink>
                             ),
                         }}
                     />

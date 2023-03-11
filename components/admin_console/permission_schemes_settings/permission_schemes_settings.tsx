@@ -21,6 +21,8 @@ import {Scheme, SchemeScope, SchemesState} from '@mattermost/types/schemes';
 
 import {LicenseSkus} from 'utils/constants';
 
+import ExternalLink from 'components/external_link';
+
 import PermissionsSchemeSummary from './permissions_scheme_summary';
 
 const PAGE_SIZE = 30;
@@ -101,16 +103,15 @@ export default class PermissionSchemesSettings extends React.PureComponent<Props
         }
 
         const docLink = (
-            <a
+            <ExternalLink
                 href='https://docs.mattermost.com/administration/config-settings.html#jobs'
-                rel='noopener noreferrer'
-                target='_blank'
+                location='permission_scheme_settings'
             >
                 <FormattedMessage
                     id='admin.permissions.documentationLinkText'
                     defaultMessage='documentation'
                 />
-            </a>
+            </ExternalLink>
         );
 
         if (this.props.jobsAreEnabled && !this.props.clusterIsEnabled) {
@@ -167,13 +168,12 @@ export default class PermissionSchemesSettings extends React.PureComponent<Props
                     subtitleDefault='Use when specific teams need permission exceptions to the <link>System Scheme</link>'
                     subtitleValues={{
                         link: (msg: React.ReactNode) => (
-                            <a
+                            <ExternalLink
                                 href='https://docs.mattermost.com/onboard/advanced-permissions.html'
-                                target='_blank'
-                                rel='noreferrer'
+                                location='permission_scheme_settings'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                     }}
                     url='/admin_console/user_management/permissions/team_override_scheme'
@@ -237,13 +237,12 @@ export default class PermissionSchemesSettings extends React.PureComponent<Props
                                         defaultMessage='Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our <link>documentation</link>.'
                                         values={{
                                             link: (msg: React.ReactNode) => (
-                                                <a
+                                                <ExternalLink
                                                     href='https://docs.mattermost.com/onboard/advanced-permissions.html'
-                                                    target='_blank'
-                                                    rel='noreferrer'
+                                                    location='permission_scheme_settings'
                                                 >
                                                     {msg}
-                                                </a>
+                                                </ExternalLink>
                                             ),
                                         }}
                                     />
@@ -259,13 +258,12 @@ export default class PermissionSchemesSettings extends React.PureComponent<Props
                             subtitleDefault='Set the default permissions inherited by all teams unless a <link>Team Override Scheme</link> is applied.'
                             subtitleValues={{
                                 link: (msg: React.ReactNode) => (
-                                    <a
+                                    <ExternalLink
                                         href='https://docs.mattermost.com/onboard/advanced-permissions.html'
-                                        target='_blank'
-                                        rel='noreferrer'
+                                        location='permission_scheme_settings'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                             }}
                             url='/admin_console/user_management/permissions/system_scheme'
