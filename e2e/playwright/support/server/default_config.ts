@@ -94,6 +94,7 @@ const defaultServerConfig: AdminConfig = {
         TrustedProxyIPHeader: [],
         ReadTimeout: 300,
         WriteTimeout: 300,
+        InteractiveDialogTriggerTimeout: 5000,
         IdleTimeout: 60,
         MaximumLoginAttempts: 10,
         GoroutineHealthThreshold: -1,

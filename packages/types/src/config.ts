@@ -278,6 +278,7 @@ export type ServiceSettings = {
     TrustedProxyIPHeader: string[];
     ReadTimeout: number;
     WriteTimeout: number;
+    InteractiveDialogTriggerTimeout: number;
     IdleTimeout: number;
     MaximumLoginAttempts: number;
     GoroutineHealthThreshold: number;
