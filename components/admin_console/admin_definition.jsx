@@ -5926,7 +5926,7 @@ const AdminDefinition = {
                         help_text_markdown: false,
                         placeholder: t("admin.service.InteractiveDialogTriggerTimeout.example"),
                         placeholder_default: 'E.g.: "5000"',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                 ],
             },
