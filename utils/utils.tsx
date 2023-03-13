@@ -90,6 +90,10 @@ const CLICKABLE_ELEMENTS = [
     'audio',
     'video',
 ];
+const MS_PER_SECOND = 1000;
+const MS_PER_MINUTE = 60 * MS_PER_SECOND;
+const MS_PER_HOUR = 60 * MS_PER_MINUTE;
+const MS_PER_DAY = 24 * MS_PER_HOUR;
 
 export function isMac() {
     return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
@@ -256,13 +260,18 @@ export function getTimestamp(): number {
 }
 
 export function getRemainingDaysFromFutureTimestamp(timestamp?: number): number {
-    const MS_PER_DAY = 24 * 60 * 60 * 1000;
     const futureDate = new Date(timestamp as number);
     const utcFuture = Date.UTC(futureDate.getFullYear(), futureDate.getMonth(), futureDate.getDate());
     const today = new Date();
     const utcToday = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
 
     return Math.floor((utcFuture - utcToday) / MS_PER_DAY);
+}
+
+export function isPastDateWithinDaysFromToday(timestamp: number, days: number): boolean {
+    const today = new Date().getTime();
+    const daysSince = Math.round((today - timestamp) / MS_PER_DAY);
+    return daysSince <= days;
 }
 
 export function getLocaleDateFromUTC(timestamp: number, format = 'YYYY/MM/DD HH:mm:ss', userTimezone = '') {
