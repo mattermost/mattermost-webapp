@@ -24,6 +24,7 @@ import PageBody from './page_body';
 import SingleColumnLayout from './single_column_layout';
 
 import './plugins.scss';
+import PageLine from './page_line';
 
 type Props = PreparingWorkspacePageProps & {
     options: Form['plugins'];
@@ -53,24 +54,26 @@ const Plugins = (props: Props) => {
         >
             <div className={className}>
                 <SingleColumnLayout>
+                    <PageLine
+                        style={{
+                            height: '50vh',
+                            position: 'absolute',
+                            transform: 'translateY(-100%)',
+                            top: '-20px',
+                        }}
+                        noLeft={true}
+                    />
                     {props.previous}
                     <Title>
                         <FormattedMessage
                             id={'onboarding_wizard.plugins.title'}
-                            defaultMessage='Welcome to Mattermost!'
+                            defaultMessage='What tools do you use?'
                         />
-                        <div className='subtitle'>
-                            <CelebrateSVG/>
-                            <FormattedMessage
-                                id={'onboarding_wizard.plugins.subtitle'}
-                                defaultMessage='(almost there!)'
-                            />
-                        </div>
                     </Title>
                     <Description>
                         <FormattedMessage
                             id={'onboarding_wizard.plugins.description'}
-                            defaultMessage={'Mattermost is better when integrated with the tools your team uses for collaboration. Popular tools are below, select the ones your team uses and we\'ll add them to your workspace. Additional set up may be needed later.'}
+                            defaultMessage={'Choose the tools you work with, and we\'ll add them to your workspace. Additional set up may be needed later.'}
                         />
                     </Description>
                     <PageBody>
@@ -175,6 +178,9 @@ const Plugins = (props: Props) => {
                             />
                         </button>
                     </div>
+                    <PageLine
+                        noLeft={true}
+                    />
                 </SingleColumnLayout>
             </div>
         </CSSTransition>

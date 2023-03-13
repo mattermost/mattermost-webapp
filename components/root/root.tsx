@@ -12,7 +12,7 @@ import {rudderAnalytics, RudderTelemetryHandler} from 'mattermost-redux/client/r
 import {General} from 'mattermost-redux/constants';
 import {Theme, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUser, isCurrentUserSystemAdmin, checkIsFirstAdmin} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, isCurrentUserSystemAdmin, checkIsFirstAdmin, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {setUrl} from 'mattermost-redux/actions/general';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 
@@ -93,6 +93,7 @@ import {applyLuxonDefaults} from './effects';
 
 import RootProvider from './root_provider';
 import RootRedirect from './root_redirect';
+import { getMyTeams } from 'mattermost-redux/selectors/entities/teams';
 
 const CreateTeam = makeAsyncComponent('CreateTeam', LazyCreateTeam);
 const ErrorPage = makeAsyncComponent('ErrorPage', LazyErrorPage);
@@ -358,17 +359,17 @@ export default class Root extends React.PureComponent<Props, State> {
             return;
         }
 
-        const useCaseOnboarding = getUseCaseOnboarding(storeState);
-        if (!useCaseOnboarding) {
+        const myTeams = getMyTeams(storeState);
+        if (myTeams.length > 0) {
             GlobalActions.redirectUserToDefaultTeam();
             return;
         }
 
-        const firstAdminSetupComplete = await this.props.actions.getFirstAdminSetupComplete();
-        if (firstAdminSetupComplete?.data) {
-            GlobalActions.redirectUserToDefaultTeam();
-            return;
-        }
+        // const firstAdminSetupComplete = await this.props.actions.getFirstAdminSetupComplete();
+        // if (firstAdminSetupComplete?.data) {
+        //     GlobalActions.redirectUserToDefaultTeam();
+        //     return;
+        // }
 
         const profilesResult = await this.props.actions.getProfiles(0, General.PROFILE_CHUNK_SIZE, {roles: General.SYSTEM_ADMIN_ROLE});
         if (profilesResult.error) {
