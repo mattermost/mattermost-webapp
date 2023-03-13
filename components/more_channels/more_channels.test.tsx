@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import MoreChannels, {Props} from 'components/more_channels/more_channels';
-import SearchableChannelList from 'components/searchable_channel_list.jsx';
+import SearchableChannelList from 'components/more_channels/searchable_channel_list.jsx';
 
 import {getHistory} from 'utils/browser_history';
 import {TestHelper} from 'utils/test_helper';
@@ -59,7 +59,16 @@ describe('components/MoreChannels', () => {
     };
 
     const baseProps: Props = {
-        channels: [TestHelper.getChannelMock({})],
+        channels: [
+            TestHelper.getChannelMock({
+                id: 'channel-1',
+                name: 'channel-1',
+            }),
+            TestHelper.getChannelMock({
+                id: 'channel-2',
+                name: 'channel-2',
+            }),
+        ],
         archivedChannels: [TestHelper.getChannelMock({
             id: 'channel_id_2',
             team_id: 'channel_team_2',
@@ -73,6 +82,14 @@ describe('components/MoreChannels', () => {
         teamName: 'team_name',
         channelsRequestStarted: false,
         canShowArchivedChannels: true,
+        myChannelMemberships: {
+            'channel-2': TestHelper.getChannelMembershipMock({
+                channel_id: 'channel-2',
+                user_id: 'user-1',
+            }),
+        },
+        allChannelStats: {},
+        shouldHideJoinedChannels: false,
         actions: {
             getChannels: jest.fn(),
             getArchivedChannels: jest.fn(),
@@ -80,6 +97,9 @@ describe('components/MoreChannels', () => {
             searchMoreChannels: jest.fn(channelActions.searchMoreChannels),
             openModal: jest.fn(),
             closeModal: jest.fn(),
+            getChannelStats: jest.fn(),
+            setGlobalItem: jest.fn(),
+            closeRightHandSide: jest.fn(),
         },
     };
 
@@ -90,7 +110,6 @@ describe('components/MoreChannels', () => {
 
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.state('searchedChannels')).toEqual([]);
-        expect(wrapper.state('show')).toEqual(true);
         expect(wrapper.state('shouldShowArchivedChannels')).toEqual(false);
         expect(wrapper.state('search')).toEqual(false);
         expect(wrapper.state('serverError')).toBeNull();
@@ -99,16 +118,6 @@ describe('components/MoreChannels', () => {
         // on componentDidMount
         expect(wrapper.instance().props.actions.getChannels).toHaveBeenCalledTimes(1);
         expect(wrapper.instance().props.actions.getChannels).toHaveBeenCalledWith(wrapper.instance().props.teamId, 0, 100);
-    });
-
-    test('should match state on handleHide', () => {
-        const wrapper = shallow<MoreChannels>(
-            <MoreChannels {...baseProps}/>,
-        );
-        wrapper.setState({show: true});
-
-        wrapper.instance().handleHide();
-        expect(wrapper.state('show')).toEqual(false);
     });
 
     test('should call closeModal on handleExit', () => {
@@ -151,7 +160,7 @@ describe('components/MoreChannels', () => {
             <MoreChannels {...baseProps}/>,
         );
 
-        wrapper.setState({search: true, searching: true});
+        wrapper.setState({loading: false, search: true, searching: true});
         const searchList = wrapper.find(SearchableChannelList);
         expect(searchList.props().loading).toEqual(true);
     });
@@ -210,7 +219,6 @@ describe('components/MoreChannels', () => {
         process.nextTick(() => {
             expect(getHistory().push).toHaveBeenCalledTimes(1);
             expect(callback).toHaveBeenCalledTimes(1);
-            expect(wrapper.state('show')).toEqual(false);
             done();
         });
     });
@@ -248,7 +256,7 @@ describe('components/MoreChannels', () => {
 
         jest.runOnlyPendingTimers();
         expect(wrapper.instance().props.actions.searchMoreChannels).toHaveBeenCalledTimes(1);
-        expect(wrapper.instance().props.actions.searchMoreChannels).toHaveBeenCalledWith('fail', false);
+        expect(wrapper.instance().props.actions.searchMoreChannels).toHaveBeenCalledWith('fail', false, false);
         process.nextTick(() => {
             expect(wrapper.state('search')).toEqual(true);
             expect(wrapper.state('searching')).toEqual(false);
@@ -275,7 +283,7 @@ describe('components/MoreChannels', () => {
 
         jest.runOnlyPendingTimers();
         expect(wrapper.instance().props.actions.searchMoreChannels).toHaveBeenCalledTimes(1);
-        expect(wrapper.instance().props.actions.searchMoreChannels).toHaveBeenCalledWith('channel', false);
+        expect(wrapper.instance().props.actions.searchMoreChannels).toHaveBeenCalledWith('channel', false, false);
         process.nextTick(() => {
             expect(wrapper.state('search')).toEqual(true);
             expect(wrapper.state('searching')).toEqual(false);
@@ -302,12 +310,24 @@ describe('components/MoreChannels', () => {
 
         jest.runOnlyPendingTimers();
         expect(wrapper.instance().props.actions.searchMoreChannels).toHaveBeenCalledTimes(1);
-        expect(wrapper.instance().props.actions.searchMoreChannels).toHaveBeenCalledWith('channel', true);
+        expect(wrapper.instance().props.actions.searchMoreChannels).toHaveBeenCalledWith('channel', true, false);
         process.nextTick(() => {
             expect(wrapper.state('search')).toEqual(true);
             expect(wrapper.state('searching')).toEqual(false);
             expect(wrapper.state('searchedChannels')).toEqual([searchResults.data[1]]);
             done();
         });
+    });
+
+    test('should hide joined channels from channels props when shouldHideJoinedChannels prop is true', () => {
+        const props = {
+            ...baseProps,
+            shouldHideJoinedChannels: true,
+        };
+        const wrapper = shallow<MoreChannels>(
+            <MoreChannels {...props}/>,
+        );
+
+        expect(wrapper.instance().activeChannels).not.toContain(baseProps.channels[1]);
     });
 });

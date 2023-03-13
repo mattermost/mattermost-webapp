@@ -10,17 +10,15 @@ import {isPostEphemeral} from 'mattermost-redux/utils/post_utils';
 
 import {Locations} from 'utils/constants';
 import {isSystemMessage, fromAutoResponder} from 'utils/post_utils';
-import {isMobile} from 'utils/utils';
-
-import {Post} from '@mattermost/types/posts';
-import {Emoji} from '@mattermost/types/emojis';
-
 import ActionsMenu from 'components/actions_menu';
 import DotMenu from 'components/dot_menu';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostReaction from 'components/post_view/post_reaction';
 import CommentIcon from 'components/common/comment_icon';
+
+import {Emoji} from '@mattermost/types/emojis';
+import {Post} from '@mattermost/types/posts';
 
 type Props = {
     post: Post;
@@ -37,6 +35,7 @@ type Props = {
     collapsedThreadsEnabled?: boolean;
     shouldShowActionsMenu?: boolean;
     showActionsMenuPulsatingDot?: boolean;
+    tourTipsEnabled: boolean;
     oneClickReactionsEnabled?: boolean;
     recentEmojis: Emoji[];
     isExpanded?: boolean;
@@ -82,6 +81,7 @@ const PostOptions = (props: Props): JSX.Element => {
         post,
         oneClickReactionsEnabled,
         showActionsMenuPulsatingDot,
+        tourTipsEnabled,
         isMobileView,
     } = props;
 
@@ -102,7 +102,7 @@ const PostOptions = (props: Props): JSX.Element => {
     };
 
     const handleActionsMenuOpened = (open: boolean) => {
-        if (showActionsMenuPulsatingDot) {
+        if (tourTipsEnabled && showActionsMenuPulsatingDot) {
             setShowActionTip(true);
             return;
         }
@@ -130,8 +130,9 @@ const PostOptions = (props: Props): JSX.Element => {
 
     const isPostDeleted = post && post.state === Posts.POST_DELETED;
     const hoverLocal = props.hover || showEmojiPicker || showDotMenu || showActionsMenu || showActionTip;
-    const showCommentIcon = isFromAutoResponder ||
-    (!systemMessage && (isMobile || hoverLocal || (!post.root_id && Boolean(props.hasReplies)) || props.isFirstReply || props.canReply) && props.location === Locations.CENTER);
+    const showCommentIcon = isFromAutoResponder || (!systemMessage && (isMobileView ||
+            hoverLocal || (!post.root_id && Boolean(props.hasReplies)) ||
+            props.isFirstReply) && props.location === Locations.CENTER);
     const commentIconExtraClass = isMobileView ? '' : 'pull-right';
 
     let commentIcon;
@@ -146,7 +147,7 @@ const PostOptions = (props: Props): JSX.Element => {
         );
     }
 
-    const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !systemMessage && !channelIsArchived && oneClickReactionsEnabled && props.enableEmojiPicker && hoverLocal);
+    const showRecentlyUsedReactions = (!isMobileView && !isReadOnly && !isEphemeral && !post.failed && !systemMessage && !channelIsArchived && oneClickReactionsEnabled && props.enableEmojiPicker && hoverLocal);
 
     let showRecentReactions: ReactNode;
     if (showRecentlyUsedReactions) {
@@ -189,15 +190,15 @@ const PostOptions = (props: Props): JSX.Element => {
     }
 
     // Action menus
-    const showActionsMenuIcon = props.shouldShowActionsMenu && (isMobile || hoverLocal);
+    const showActionsMenuIcon = props.shouldShowActionsMenu && (isMobileView || hoverLocal);
     const actionsMenu = showActionsMenuIcon && (
         <ActionsMenu
             post={post}
             location={props.location}
             handleDropdownOpened={handleActionsMenuOpened}
             isMenuOpen={showActionsMenu}
-            showPulsatingDot={showActionsMenuPulsatingDot}
-            showTutorialTip={showActionTip}
+            showPulsatingDot={tourTipsEnabled && showActionsMenuPulsatingDot}
+            showTutorialTip={tourTipsEnabled && showActionTip}
             handleOpenTip={handleActionsMenuTipOpened}
             handleNextTip={handleActionsMenuGotItClick}
             handleDismissTip={handleTipDismissed}

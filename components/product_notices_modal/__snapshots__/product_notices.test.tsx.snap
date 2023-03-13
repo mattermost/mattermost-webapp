@@ -15,6 +15,7 @@ exports[`ProductNoticesModal Match snapshot for single notice 1`] = `
   handleConfirm={[Function]}
   handleEnterKeyPress={[Function]}
   id="genericModal"
+  keyboardEscape={true}
   modalHeaderText={
     <span>
       title
@@ -66,6 +67,7 @@ exports[`ProductNoticesModal Match snapshot for user notice 1`] = `
   handleConfirm={[Function]}
   handleEnterKeyPress={[Function]}
   id="genericModal"
+  keyboardEscape={true}
   modalHeaderText={
     <span>
       title
@@ -81,16 +83,15 @@ exports[`ProductNoticesModal Match snapshot for user notice 1`] = `
       message="descr"
     />
   </span>
-  <a
+  <ExternalLink
     className="GenericModal__button actionButton"
     href="http://download.com/path"
     id="actionButton"
+    location="product_notices_modal"
     onClick={[Function]}
-    rel="noopener noreferrer"
-    target="_blank"
   >
     Download
-  </a>
+  </ExternalLink>
   <div
     className="productNotices__imageDiv"
   />
@@ -138,6 +139,7 @@ exports[`ProductNoticesModal Should match snapshot for system admin notice 1`] =
   handleConfirm={[Function]}
   handleEnterKeyPress={[Function]}
   id="genericModal"
+  keyboardEscape={true}
   modalHeaderText={
     <span>
       for sysadmin
@@ -153,16 +155,15 @@ exports[`ProductNoticesModal Should match snapshot for system admin notice 1`] =
       message="your eyes only! [test](https://test.com)"
     />
   </span>
-  <a
+  <ExternalLink
     className="GenericModal__button actionButton"
     href="http://download.com/path"
     id="actionButton"
+    location="product_notices_modal"
     onClick={[Function]}
-    rel="noopener noreferrer"
-    target="_blank"
   >
     Download
-  </a>
+  </ExternalLink>
   <div
     className="productNotices__imageDiv"
   >

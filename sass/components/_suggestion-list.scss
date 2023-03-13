@@ -211,6 +211,7 @@
             white-space: nowrap;
 
             .suggestion-list__desc {
+                margin-left: 8px;
                 color: rgba(var(--center-channel-color-rgb), 0.56);
             }
         }
@@ -223,6 +224,7 @@
         align-items: center;
 
         .suggestion-list__main {
+            width: unset;
             max-width: 70%;
         }
 

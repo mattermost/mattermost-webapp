@@ -29,6 +29,7 @@ export type PostType = 'system_add_remove' |
 'system_combined_user_activity' |
 'system_fake_parent_deleted' |
 'system_generic' |
+'reminder' |
 '';
 
 export type PostEmbedType = 'image' | 'link' | 'message_attachment' | 'opengraph' | 'permalink';
@@ -144,6 +145,7 @@ export type PostsState = {
     openGraph: RelationOneToOne<Post, Record<string, OpenGraphMetadata>>;
     pendingPostIds: string[];
     selectedPostId: string;
+    postEditHistory: Post[];
     currentFocusedPostId: string;
     messagesHistory: MessageHistory;
     expandedURLs: Record<string, string>;

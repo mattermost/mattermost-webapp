@@ -15,6 +15,7 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {makeAsyncComponent} from 'components/async_load';
 import useGetTotalUsersNoBots from 'components/common/hooks/useGetTotalUsersNoBots';
+import ExternalLink from 'components/external_link';
 
 import {AboutLinks, LicenseLinks, ModalIdentifiers} from 'utils/constants';
 
@@ -137,22 +138,20 @@ function StartTrialModal(props: Props): JSX.Element | null {
                             defaultMessage='By clicking “Start free 30-day trial”, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
                             values={{
                                 linkEvaluation: (msg: React.ReactNode) => (
-                                    <a
+                                    <ExternalLink
                                         href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
-                                        target='_blank'
-                                        rel='noreferrer'
+                                        location='start_trial_modal'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                                 linkPrivacy: (msg: React.ReactNode) => (
-                                    <a
+                                    <ExternalLink
                                         href={AboutLinks.PRIVACY_POLICY}
-                                        target='_blank'
-                                        rel='noreferrer'
+                                        location='start_trial_modal'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                             }}
                         />

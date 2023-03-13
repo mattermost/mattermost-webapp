@@ -8,12 +8,6 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 import {StripeCardElementChangeEvent} from '@stripe/stripe-js';
 
-import {
-    SelfHostedSignupProgress,
-    SelfHostedSignupCustomerResponse,
-} from '@mattermost/types/hosted_customer';
-import {UserProfile} from '@mattermost/types/users';
-import {ValueOf} from '@mattermost/types/utilities';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
@@ -54,13 +48,21 @@ import useLoadStripe from 'components/common/hooks/useLoadStripe';
 import useControlSelfHostedPurchaseModal from 'components/common/hooks/useControlSelfHostedPurchaseModal';
 import useFetchStandardAnalytics from 'components/common/hooks/useFetchStandardAnalytics';
 
-import StripeProvider from './stripe_provider';
-import SelfHostedCard from './self_hosted_card';
-import SuccessPage from './success_page';
+import {ValueOf} from '@mattermost/types/utilities';
+import {UserProfile} from '@mattermost/types/users';
+import {
+    SelfHostedSignupProgress,
+    SelfHostedSignupCustomerResponse,
+} from '@mattermost/types/hosted_customer';
+
+import {Seats, errorInvalidNumber} from '../seats_calculator';
+
 import ContactSalesLink from './contact_sales_link';
 import Submitting, {convertProgressToBar} from './submitting';
 import ErrorPage from './error';
-import {Seats, errorInvalidNumber} from './seats_calculator';
+import SuccessPage from './success_page';
+import SelfHostedCard from './self_hosted_card';
+import StripeProvider from './stripe_provider';
 import Terms from './terms';
 import useNoEscape from './useNoEscape';
 

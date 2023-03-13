@@ -136,7 +136,12 @@ export type AppContextProps = {
     [name: string]: string;
 };
 
-export type AppExpandLevel = string;
+export type AppExpandLevel = ''
+| 'none'
+| 'summary'
+| '+summary'
+| 'all'
+| '+all';
 
 export type AppExpand = {
     app?: AppExpandLevel;
@@ -149,6 +154,7 @@ export type AppExpand = {
     root_post?: AppExpandLevel;
     team?: AppExpandLevel;
     user?: AppExpandLevel;
+    locale?: AppExpandLevel;
 };
 
 export type AppForm = {

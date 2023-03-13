@@ -2,22 +2,36 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import classNames from 'classnames';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+import classNames from 'classnames';
+
+import {
+    ArrowRightBoldOutlineIcon,
+    BookmarkIcon,
+    BookmarkOutlineIcon,
+    ContentCopyIcon,
+    DotsHorizontalIcon,
+    EmoticonPlusOutlineIcon,
+    LinkVariantIcon,
+    MarkAsUnreadIcon,
+    MessageCheckOutlineIcon,
+    MessageMinusOutlineIcon,
+    PencilOutlineIcon,
+    PinIcon,
+    PinOutlineIcon,
+    ReplyOutlineIcon,
+    TrashCanOutlineIcon,
+} from '@mattermost/compass-icons/components';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {Locations, ModalIdentifiers, Constants, TELEMETRY_LABELS, Preferences} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
-import OverlayTrigger from 'components/overlay_trigger';
-import Tooltip from 'components/tooltip';
 import DelayedAction from 'utils/delayed_action';
 import * as PostUtils from 'utils/post_utils';
+import * as Menu from 'components/menu';
 import * as Utils from 'utils/utils';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-import Menu from 'components/widgets/menu/menu';
-import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
 
@@ -27,19 +41,19 @@ import ForwardPostModal from '../forward_post_modal';
 import Tag from '../widgets/tag/tag';
 
 import {ChangeEvent, trackDotMenuEvent} from './utils';
+
 import './dot_menu.scss';
+import {PostReminderSubmenu} from './post_reminder_submenu';
 
 type ShortcutKeyProps = {
     shortcutKey: string;
 };
 
 const ShortcutKey = ({shortcutKey: shortcut}: ShortcutKeyProps) => (
-    <span className={'MenuItem__opacity MenuItem__right-decorator'}>
+    <span>
         {shortcut}
     </span>
 );
-
-const MENU_BOTTOM_MARGIN = 80;
 
 type Props = {
     intl: IntlShape;
@@ -60,6 +74,8 @@ type Props = {
     teamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
     isMobileView: boolean;
     showForwardPostNewLabel: boolean;
+    timezone?: string;
+    isMilitaryTime: boolean;
 
     /**
      * Components for overriding provided by plugins
@@ -128,7 +144,7 @@ type Props = {
 }
 
 type State = {
-    openUp: boolean;
+    closeMenuManually: boolean;
     canEdit: boolean;
     canDelete: boolean;
 }
@@ -149,7 +165,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.editDisableAction = new DelayedAction(this.handleEditDisable);
 
         this.state = {
-            openUp: false,
+            closeMenuManually: false,
             canEdit: props.canEdit && !props.isReadOnly,
             canDelete: props.canDelete && !props.isReadOnly,
         };
@@ -188,18 +204,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.disableCanEditPostByTime();
     }
 
-    componentDidUpdate(prevProps: Props): void {
-        if (!prevProps.isMenuOpen && this.props.isMenuOpen) {
-            window.addEventListener('keydown', this.onShortcutKeyDown);
-        }
-
-        if (prevProps.isMenuOpen && !this.props.isMenuOpen) {
-            window.removeEventListener('keydown', this.onShortcutKeyDown);
-        }
-    }
-
     componentWillUnmount(): void {
-        window.removeEventListener('keydown', this.onShortcutKeyDown);
         this.editDisableAction.cancel();
     }
 
@@ -218,7 +223,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     // listen to clicks/taps on add reaction menu item and pass to parent handler
-    handleAddReactionMenuItemActivated = (e: React.MouseEvent): void => {
+    handleAddReactionMenuItemActivated = (e: ChangeEvent): void => {
         e.preventDefault();
 
         // to be safe, make sure the handler function has been defined
@@ -315,7 +320,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         } else {
             followingThread = !isFollowingThread;
         }
-
         if (followingThread) {
             trackDotMenuEvent(e, TELEMETRY_LABELS.FOLLOW);
         } else {
@@ -334,33 +338,11 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.props.handleCommentClick?.(e);
     }
 
-    tooltip = (
-        <Tooltip
-            id='dotmenu-icon-tooltip'
-            className='hidden-xs'
-        >
-            <FormattedMessage
-                id='post_info.dot_menu.tooltip.more_actions'
-                defaultMessage='More'
-            />
-        </Tooltip>
-    )
-
-    renderDivider = (suffix: string): React.ReactNode => {
-        return (
-            <li
-                id={`divider_post_${this.props.post.id}_${suffix}`}
-                className='MenuItem__divider'
-                role='menuitem'
-            />
-        );
-    }
-
-    isKeyboardEvent = (e: KeyboardEvent): any => {
+    isKeyboardEvent = (e: React.KeyboardEvent): any => {
         return (e).getModifierState !== undefined;
     }
 
-    onShortcutKeyDown = (e: KeyboardEvent): void => {
+    onShortcutKeyDown = (e: React.KeyboardEvent): void => {
         e.preventDefault();
         if (!this.isKeyboardEvent(e)) {
             return;
@@ -371,88 +353,73 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         switch (true) {
         case Utils.isKeyPressed(e, Constants.KeyCodes.R):
             this.handleCommentClick(e);
-            this.props.handleDropdownOpened(false);
+            this.handleDropdownOpened(false);
             break;
 
-        // edit post
+            // edit post
         case Utils.isKeyPressed(e, Constants.KeyCodes.E):
             this.handleEditMenuItemActivated(e);
-            this.props.handleDropdownOpened(false);
+            this.handleDropdownOpened(false);
             break;
 
-        // follow thread
+            // follow thread
         case Utils.isKeyPressed(e, Constants.KeyCodes.F) && !isShiftKeyPressed:
             this.handleSetThreadFollow(e);
-            this.props.handleDropdownOpened(false);
+            this.handleDropdownOpened(false);
             break;
 
-        // forward post
+            // forward post
         case Utils.isKeyPressed(e, Constants.KeyCodes.F) && isShiftKeyPressed:
             this.handleForwardMenuItemActivated(e);
-            this.props.handleDropdownOpened(false);
+            this.handleDropdownOpened(false);
             break;
 
-        // copy link
+            // copy link
         case Utils.isKeyPressed(e, Constants.KeyCodes.K):
             this.copyLink(e);
-            this.props.handleDropdownOpened(false);
+            this.handleDropdownOpened(false);
             break;
 
-        // copy text
+            // copy text
         case Utils.isKeyPressed(e, Constants.KeyCodes.C):
             this.copyText(e);
-            this.props.handleDropdownOpened(false);
+            this.handleDropdownOpened(false);
             break;
 
-        // delete post
+            // delete post
         case Utils.isKeyPressed(e, Constants.KeyCodes.DELETE):
             this.handleDeleteMenuItemActivated(e);
-            this.props.handleDropdownOpened(false);
+            this.handleDropdownOpened(false);
             break;
 
-        // pin / unpin
+            // pin / unpin
         case Utils.isKeyPressed(e, Constants.KeyCodes.P):
             this.handlePinMenuItemActivated(e);
-            this.props.handleDropdownOpened(false);
+            this.handleDropdownOpened(false);
             break;
 
-        // save / unsave
+            // save / unsave
         case Utils.isKeyPressed(e, Constants.KeyCodes.S):
             this.handleFlagMenuItemActivated(e);
-            this.props.handleDropdownOpened(false);
+            this.handleDropdownOpened(false);
             break;
 
-        // mark as unread
+            // mark as unread
         case Utils.isKeyPressed(e, Constants.KeyCodes.U):
             this.handleMarkPostAsUnread(e);
-            this.props.handleDropdownOpened(false);
+            this.handleDropdownOpened(false);
             break;
         }
     }
 
     handleDropdownOpened = (open: boolean) => {
         this.props.handleDropdownOpened?.(open);
+        this.setState({closeMenuManually: true});
+    }
 
-        if (!open) {
-            return;
-        }
-
-        const buttonRect = this.buttonRef.current?.getBoundingClientRect();
-        let y;
-        if (typeof buttonRect?.y === 'undefined') {
-            y = typeof buttonRect?.top == 'undefined' ? 0 : buttonRect?.top;
-        } else {
-            y = buttonRect?.y;
-        }
-        const windowHeight = window.innerHeight;
-
-        const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
-        const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
-        const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
-
-        this.setState({
-            openUp: (spaceOnTop > spaceOnBottom),
-        });
+    handleMenuToggle = (open: boolean) => {
+        this.props.handleDropdownOpened?.(open);
+        this.setState({closeMenuManually: false});
     }
 
     render(): JSX.Element {
@@ -461,7 +428,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         const isMobile = this.props.isMobileView;
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const deleteShortcutText = (
-            <span className='MenuItem__opacity'>
+            <span>
                 {'delete'}
             </span>
         );
@@ -469,7 +436,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.canPostBeForwarded = !(isSystemMessage);
 
         const forwardPostItemText = (
-            <span className={'title-with-new-badge'}>
+            <span className={'dot-menu__item-new-badge'}>
                 <FormattedMessage
                     id='forward_post_button.label'
                     defaultMessage='Forward'
@@ -486,156 +453,256 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             </span>
         );
 
+        const unFollowThreadLabel = (
+            <FormattedMessage
+                id='threading.threadMenu.unfollow'
+                defaultMessage='Unfollow thread'
+            />);
+
+        const unFollowMessageLabel = (
+            <FormattedMessage
+                id='threading.threadMenu.unfollowMessage'
+                defaultMessage='Unfollow message'
+            />);
+
+        const followThreadLabel = (
+            <FormattedMessage
+                id='threading.threadMenu.follow'
+                defaultMessage='Follow thread'
+            />);
+
+        const followMessageLabel = (
+            <FormattedMessage
+                id='threading.threadMenu.followMessage'
+                defaultMessage='Follow message'
+            />);
+
+        const followPostLabel = () => {
+            if (isFollowingThread) {
+                return this.props.threadReplyCount ? unFollowThreadLabel : unFollowMessageLabel;
+            }
+            return this.props.threadReplyCount ? followThreadLabel : followMessageLabel;
+        };
+
+        const removeFlag = (
+            <FormattedMessage
+                id='rhs_root.mobile.unflag'
+                defaultMessage='Remove from Saved'
+            />
+        );
+
+        const saveFlag = (
+            <FormattedMessage
+                id='rhs_root.mobile.flag'
+                defaultMessage='Save'
+            />
+        );
+
+        const pinPost = (
+            <FormattedMessage
+                id='post_info.pin'
+                defaultMessage='Pin'
+            />
+        );
+        const unPinPost = (
+            <FormattedMessage
+                id='post_info.unpin'
+                defaultMessage='Unpin'
+            />
+        );
+
         return (
-            <MenuWrapper
-                open={this.props.isMenuOpen}
-                onToggle={this.handleDropdownOpened}
-                className={'dropdown-menu__dotmenu'}
+            <Menu.Container
+                menuButton={{
+                    id: `${this.props.location}_button_${this.props.post.id}`,
+                    dateTestId: `PostDotMenu-Button-${this.props.post.id}`,
+                    class: classNames('post-menu__item', {
+                        'post-menu__item--active': this.props.isMenuOpen,
+                    }),
+                    'aria-label': this.props.intl.formatMessage({id: 'post_info.dot_menu.tooltip.more_actions', defaultMessage: 'Actions'}),
+                    children: <DotsHorizontalIcon size={16}/>,
+                }}
+                menu={{
+                    id: `${this.props.location}_dropdown_${this.props.post.id}`,
+                    'aria-label': this.props.intl.formatMessage({id: 'post_info.menuAriaLabel', defaultMessage: 'Post extra options'}),
+                    onKeyDown: this.onShortcutKeyDown,
+                    width: '264px',
+                    onToggle: this.handleMenuToggle,
+                    closeMenuManually: this.state.closeMenuManually,
+                }}
+                menuButtonTooltip={{
+                    id: `PostDotMenu-ButtonTooltip-${this.props.post.id}`,
+                    text: this.props.intl.formatMessage({id: 'post_info.dot_menu.tooltip.more_actions', defaultMessage: 'More'}),
+                    class: 'hidden-xs',
+                }}
             >
-                <OverlayTrigger
-                    className='hidden-xs'
-                    delayShow={500}
-                    placement='top'
-                    overlay={this.tooltip}
-                    rootClose={true}
-                >
-                    <button
-                        ref={this.buttonRef}
-                        id={`${this.props.location}_button_${this.props.post.id}`}
-                        aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'Actions').toLowerCase()}
-                        className={classNames('post-menu__item', {
-                            'post-menu__item--active': this.props.isMenuOpen,
-                        })}
-                        type='button'
-                        aria-expanded='false'
-                    >
-                        <DotsHorizontalIcon className={'icon icon--small'}/>
-                    </button>
-                </OverlayTrigger>
-                <Menu
-                    className={'Menu__content dropdown-menu'}
-                    id={`${this.props.location}_dropdown_${this.props.post.id}`}
-                    openLeft={true}
-                    openUp={this.state.openUp}
-                    ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
-                >
-                    <Menu.ItemAction
-                        className={'MenuItem'}
-                        show={!isSystemMessage && this.props.location === Locations.CENTER}
-                        text={Utils.localizeMessage('post_info.reply', 'Reply')}
-                        icon={Utils.getMenuItemIcon('icon-reply-outline')}
-                        rightDecorator={<ShortcutKey shortcutKey='R'/>}
+                {!isSystemMessage && this.props.location === Locations.CENTER &&
+                    <Menu.Item
+                        id={`reply_to_post_${this.props.post.id}`}
+                        data-testid={`reply_to_post_${this.props.post.id}`}
+                        labels={
+                            <FormattedMessage
+                                id='post_info.reply'
+                                defaultMessage='Reply'
+                            />
+                        }
+                        leadingElement={<ReplyOutlineIcon size={18}/>}
+                        trailingElements={<ShortcutKey shortcutKey='R'/>}
                         onClick={this.handleCommentClick}
                     />
-                    <Menu.ItemAction
-                        className={'MenuItem'}
-                        show={this.canPostBeForwarded}
-                        text={forwardPostItemText}
-                        icon={Utils.getMenuItemIcon('icon-arrow-right-bold-outline')}
-                        rightDecorator={<ShortcutKey shortcutKey='Shift + F'/>}
+                }
+                {this.canPostBeForwarded &&
+                    <Menu.Item
+                        id={`forward_post_${this.props.post.id}`}
+                        data-testid={`forward_post_${this.props.post.id}`}
+                        labels={forwardPostItemText}
+                        isLabelsRowLayout={true}
+                        leadingElement={<ArrowRightBoldOutlineIcon size={18}/>}
+                        trailingElements={<ShortcutKey shortcutKey='Shift + F'/>}
                         onClick={this.handleForwardMenuItemActivated}
                     />
-                    <ChannelPermissionGate
-                        channelId={this.props.post.channel_id}
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.ADD_REACTION]}
-                    >
-                        <Menu.ItemAction
-                            show={isMobile && !isSystemMessage && !this.props.isReadOnly && this.props.enableEmojiPicker}
-                            text={Utils.localizeMessage('rhs_root.mobile.add_reaction', 'Add Reaction')}
-                            icon={Utils.getMenuItemIcon('icon-emoticon-plus-outline')}
+                }
+                <ChannelPermissionGate
+                    channelId={this.props.post.channel_id}
+                    teamId={this.props.teamId}
+                    permissions={[Permissions.ADD_REACTION]}
+                >
+                    {Boolean(isMobile && !isSystemMessage && !this.props.isReadOnly && this.props.enableEmojiPicker) &&
+                        <Menu.Item
+                            id={`post_reaction_${this.props.post.id}`}
+                            data-testid={`post_reaction_${this.props.post.id}`}
+                            labels={
+                                <FormattedMessage
+                                    id='rhs_root.mobile.add_reaction'
+                                    defaultMessage='Add Reaction'
+                                />
+                            }
+                            leadingElement={<EmoticonPlusOutlineIcon size={18}/>}
                             onClick={this.handleAddReactionMenuItemActivated}
                         />
-                    </ChannelPermissionGate>
-                    <Menu.ItemAction
+                    }
+                </ChannelPermissionGate>
+                {Boolean(
+                    !isSystemMessage &&
+                        this.props.isCollapsedThreadsEnabled &&
+                        (
+                            this.props.location === Locations.CENTER ||
+                            this.props.location === Locations.RHS_ROOT ||
+                            this.props.location === Locations.RHS_COMMENT
+                        ),
+                ) &&
+                    <Menu.Item
                         id={`follow_post_thread_${this.props.post.id}`}
-                        rightDecorator={<ShortcutKey shortcutKey='F'/>}
+                        data-testid={`follow_post_thread_${this.props.post.id}`}
+                        trailingElements={<ShortcutKey shortcutKey='F'/>}
+                        labels={followPostLabel()}
+                        leadingElement={isFollowingThread ? <MessageMinusOutlineIcon size={18}/> : <MessageCheckOutlineIcon size={18}/>}
                         onClick={this.handleSetThreadFollow}
-                        show={(
-                            !isSystemMessage &&
-                            this.props.isCollapsedThreadsEnabled &&
-                                (
-                                    this.props.location === Locations.CENTER ||
-                                    this.props.location === Locations.RHS_ROOT ||
-                                    this.props.location === Locations.RHS_COMMENT
-                                )
-                        )}
-                        {...isFollowingThread ? {
-                            icon: Utils.getMenuItemIcon('icon-message-minus-outline'),
-                            text: this.props.threadReplyCount ? Utils.localizeMessage('threading.threadMenu.unfollow', 'Unfollow thread') : Utils.localizeMessage('threading.threadMenu.unfollowMessage', 'Unfollow message'),
-                        } : {
-                            icon: Utils.getMenuItemIcon('icon-message-check-outline'),
-                            text: this.props.threadReplyCount ? Utils.localizeMessage('threading.threadMenu.follow', 'Follow thread') : Utils.localizeMessage('threading.threadMenu.followMessage', 'Follow message'),
-                        }}
                     />
-                    <Menu.ItemAction
+                }
+                {Boolean(!isSystemMessage && !this.props.channelIsArchived && this.props.location !== Locations.SEARCH) &&
+                    <Menu.Item
                         id={`unread_post_${this.props.post.id}`}
-                        show={!isSystemMessage && !this.props.channelIsArchived && this.props.location !== Locations.SEARCH}
-                        text={Utils.localizeMessage('post_info.unread', 'Mark as Unread')}
-                        icon={Utils.getMenuItemIcon('icon-mark-as-unread')}
-                        rightDecorator={<ShortcutKey shortcutKey='U'/>}
+                        data-testid={`unread_post_${this.props.post.id}`}
+                        labels={
+                            <FormattedMessage
+                                id='post_info.unread'
+                                defaultMessage='Mark as Unread'
+                            />
+                        }
+                        leadingElement={<MarkAsUnreadIcon size={18}/>}
+                        trailingElements={<ShortcutKey shortcutKey='U'/>}
                         onClick={this.handleMarkPostAsUnread}
                     />
-                    <Menu.ItemAction
-                        show={!isSystemMessage}
-                        text={this.props.isFlagged ? Utils.localizeMessage('rhs_root.mobile.unflag', 'Remove from Saved') : Utils.localizeMessage('rhs_root.mobile.flag', 'Save')}
-                        icon={this.props.isFlagged ? Utils.getMenuItemIcon('icon-bookmark') : Utils.getMenuItemIcon('icon-bookmark-outline')}
-                        rightDecorator={<ShortcutKey shortcutKey='S'/>}
+                }
+                {!isSystemMessage &&
+                    <PostReminderSubmenu
+                        userId={this.props.userId}
+                        post={this.props.post}
+                        isMilitaryTime={this.props.isMilitaryTime}
+                        timezone={this.props.timezone}
+                    />
+                }
+                {!isSystemMessage &&
+                    <Menu.Item
+                        id={`save_post_${this.props.post.id}`}
+                        data-testid={`save_post_${this.props.post.id}`}
+                        labels={this.props.isFlagged ? removeFlag : saveFlag}
+                        leadingElement={this.props.isFlagged ? <BookmarkIcon size={18}/> : <BookmarkOutlineIcon size={18}/>}
+                        trailingElements={<ShortcutKey shortcutKey='S'/>}
                         onClick={this.handleFlagMenuItemActivated}
                     />
-                    <Menu.ItemAction
-                        id={`unpin_post_${this.props.post.id}`}
-                        show={!isSystemMessage && !this.props.isReadOnly && this.props.post.is_pinned}
-                        text={Utils.localizeMessage('post_info.unpin', 'Unpin')}
-                        icon={Utils.getMenuItemIcon('icon-pin')}
-                        rightDecorator={<ShortcutKey shortcutKey='P'/>}
+                }
+                {Boolean(!isSystemMessage && !this.props.isReadOnly) &&
+                    <Menu.Item
+                        id={`${this.props.post.is_pinned ? 'unpin' : 'pin'}_post_${this.props.post.id}`}
+                        data-testid={`pin_post_${this.props.post.id}`}
+                        labels={this.props.post.is_pinned ? unPinPost : pinPost}
+                        leadingElement={this.props.post.is_pinned ? <PinIcon size={18}/> : <PinOutlineIcon size={18}/>}
+                        trailingElements={<ShortcutKey shortcutKey='P'/>}
                         onClick={this.handlePinMenuItemActivated}
                     />
-                    <Menu.ItemAction
-                        id={`pin_post_${this.props.post.id}`}
-                        show={!isSystemMessage && !this.props.isReadOnly && !this.props.post.is_pinned}
-                        text={Utils.localizeMessage('post_info.pin', 'Pin')}
-                        icon={Utils.getMenuItemIcon('icon-pin-outline')}
-                        rightDecorator={<ShortcutKey shortcutKey='P'/>}
-                        onClick={this.handlePinMenuItemActivated}
-                    />
-                    {!isSystemMessage && (this.state.canEdit || this.state.canDelete) && this.renderDivider('edit')}
-                    <Menu.ItemAction
+                }
+                {!isSystemMessage && (this.state.canEdit || this.state.canDelete) && <Menu.Separator/>}
+                {!isSystemMessage &&
+                    <Menu.Item
                         id={`permalink_${this.props.post.id}`}
-                        show={!isSystemMessage}
-                        text={Utils.localizeMessage('post_info.permalink', 'Copy Link')}
-                        icon={Utils.getMenuItemIcon('icon-link-variant')}
-                        rightDecorator={<ShortcutKey shortcutKey='K'/>}
+                        data-testid={`permalink_${this.props.post.id}`}
+                        labels={
+                            <FormattedMessage
+                                id='post_info.permalink'
+                                defaultMessage='Copy Link'
+                            />}
+                        leadingElement={<LinkVariantIcon size={18}/>}
+                        trailingElements={<ShortcutKey shortcutKey='K'/>}
                         onClick={this.copyLink}
                     />
-                    {!isSystemMessage && this.renderDivider('edit')}
-                    <Menu.ItemAction
+                }
+                {!isSystemMessage && <Menu.Separator/>}
+                {this.state.canEdit &&
+                    <Menu.Item
                         id={`edit_post_${this.props.post.id}`}
-                        show={this.state.canEdit}
-                        text={Utils.localizeMessage('post_info.edit', 'Edit')}
-                        icon={Utils.getMenuItemIcon('icon-pencil-outline')}
-                        rightDecorator={<ShortcutKey shortcutKey='E'/>}
+                        data-testid={`edit_post_${this.props.post.id}`}
+                        labels={
+                            <FormattedMessage
+                                id='post_info.edit'
+                                defaultMessage='Edit'
+                            />}
+                        leadingElement={<PencilOutlineIcon size={18}/>}
+                        trailingElements={<ShortcutKey shortcutKey='E'/>}
                         onClick={this.handleEditMenuItemActivated}
                     />
-                    <Menu.ItemAction
+                }
+                {!isSystemMessage &&
+                    <Menu.Item
                         id={`copy_${this.props.post.id}`}
-                        show={!isSystemMessage}
-                        text={Utils.localizeMessage('post_info.copy', 'Copy Text')}
-                        icon={Utils.getMenuItemIcon('icon-content-copy')}
-                        rightDecorator={<ShortcutKey shortcutKey='C'/>}
+                        data-testid={`copy_${this.props.post.id}`}
+                        labels={
+                            <FormattedMessage
+                                id='post_info.copy'
+                                defaultMessage='Copy Text'
+                            />}
+                        leadingElement={<ContentCopyIcon size={18}/>}
+                        trailingElements={<ShortcutKey shortcutKey='C'/>}
                         onClick={this.copyText}
                     />
-                    <Menu.ItemAction
+                }
+                {this.state.canDelete &&
+                    <Menu.Item
                         id={`delete_post_${this.props.post.id}`}
-                        show={this.state.canDelete}
-                        text={Utils.localizeMessage('post_info.del', 'Delete')}
-                        icon={Utils.getMenuItemIcon('icon-trash-can-outline', true)}
-                        rightDecorator={deleteShortcutText}
+                        data-testid={`delete_post_${this.props.post.id}`}
+                        leadingElement={<TrashCanOutlineIcon size={18}/>}
+                        trailingElements={deleteShortcutText}
+                        labels={
+                            <FormattedMessage
+                                id='post_info.del'
+                                defaultMessage='Delete'
+                            />}
                         onClick={this.handleDeleteMenuItemActivated}
-                        isDangerous={true}
+                        isDestructive={true}
                     />
-                </Menu>
-            </MenuWrapper>
+                }
+            </Menu.Container>
         );
     }
 }

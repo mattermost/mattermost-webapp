@@ -20,7 +20,7 @@ export type NotifyStatusValues = ValueOf<typeof NotifyStatus>;
 export const DefaultBtnText = {
     NotifyAdmin: 'Notify your admin',
     Notifying: 'Notifying...',
-    Notified: 'Notified!',
+    Notified: 'Admin notified!',
     AlreadyNotified: 'Already notified!',
     Failed: 'Try again later!',
 } as const;

@@ -44,6 +44,7 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
                 handleBindingClick: jest.fn(),
                 postEphemeralCallResponseForPost: jest.fn(),
                 setThreadFollow: jest.fn(),
+                addPostReminder: jest.fn(),
                 setGlobalItem: jest.fn(),
             },
             canEdit: false,
@@ -57,6 +58,7 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
             teamId: '',
             threadId: 'post_id_1',
             userId: 'user_id_1',
+            isMilitaryTime: false,
             showForwardPostNewLabel: false,
         };
 

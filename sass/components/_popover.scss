@@ -376,6 +376,15 @@
                 background-color: rgba(var(--center-channel-color-rgb), 0.24) !important;
                 border-radius: 4px;
             }
+
+            .rdp-months {
+                justify-content: center;
+
+                .rdp-caption,
+                .rdp-cell {
+                    padding: 0 10px;
+                }
+            }
         }
     }
 
