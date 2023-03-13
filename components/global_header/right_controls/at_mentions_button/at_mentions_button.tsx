@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
-import IconButton from '@mattermost/compass-components/components/icon-button';
+import {AtIcon} from '@mattermost/compass-icons/components';
 
 import {closeRightHandSide, showMentions} from 'actions/views/rhs';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -13,6 +13,8 @@ import {getRhsState} from 'selectors/rhs';
 import {GlobalState} from 'types/store';
 import Constants, {RHSStates} from 'utils/constants';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
+
+import {IconButton} from '@mattermost/compass-ui';
 
 const AtMentionsButton = (): JSX.Element => {
     const {formatMessage} = useIntl();
@@ -50,11 +52,10 @@ const AtMentionsButton = (): JSX.Element => {
             overlay={tooltip}
         >
             <IconButton
-                size={'sm'}
-                icon={'at'}
+                size={'small'}
+                IconComponent={AtIcon}
                 toggled={rhsState === RHSStates.MENTION}
                 onClick={mentionButtonClick}
-                inverted={true}
                 compact={true}
                 aria-expanded={rhsState === RHSStates.MENTION}
                 aria-controls='searchContainer' // Must be changed if the ID of the container changes

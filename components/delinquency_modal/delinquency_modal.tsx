@@ -9,7 +9,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
-import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import UpgradeSvg from 'components/common/svg_images_components/upgrade_svg';
 import {trackEvent} from 'actions/telemetry_actions';
@@ -19,6 +18,8 @@ import {GlobalState} from 'types/store';
 import {openModal, closeModal as closeModalAction} from 'actions/views/modals';
 
 import './delinquency_modal.scss';
+import {ThemeProvider, createPaletteFromLegacyTheme} from '@mattermost/compass-ui';
+
 import {FreemiumModal} from './freemium_modal';
 
 interface DelinquencyModalProps {
@@ -34,7 +35,8 @@ const DelinquencyModal = (props: DelinquencyModalProps) => {
     const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
     const {closeModal, onExited, planName, isAdminConsole} = props;
     const openPurchaseModal = useOpenCloudPurchaseModal({isDelinquencyModal: true});
-    const theme = useSelector(getTheme);
+    const legacyTheme = useSelector(getTheme);
+    const theme = createPaletteFromLegacyTheme(legacyTheme);
 
     const handleShowFremium = () => {
         trackEvent(TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'clicked_stay_on_freemium');
@@ -140,15 +142,18 @@ const DelinquencyModal = (props: DelinquencyModalProps) => {
                     />
                 </button>
             </Modal.Footer>
-        </Modal>);
+        </Modal>
+    );
 
     if (!isAdminConsole) {
         return ModalJSX;
     }
 
-    return (<CompassThemeProvider theme={theme}>
-        {ModalJSX}
-    </CompassThemeProvider>);
+    return (
+        <ThemeProvider theme={theme}>
+            {ModalJSX}
+        </ThemeProvider>
+    );
 };
 
 export default DelinquencyModal;

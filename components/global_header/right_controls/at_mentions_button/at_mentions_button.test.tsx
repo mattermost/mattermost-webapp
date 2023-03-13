@@ -4,9 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import IconButton from '@mattermost/compass-components/components/icon-button';
-
 import {GlobalState} from 'types/store';
+
+import {IconButton} from '@mattermost/compass-ui';
 
 import AtMentionsButton from './at_mentions_button';
 

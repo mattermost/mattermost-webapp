@@ -3,7 +3,9 @@
 
 import React from 'react';
 
-import {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
+import {IconGlyphTypes} from '@mattermost/compass-icons/IconGlyphs';
+
+import {GlobalState} from 'types/store';
 
 import {ProductScope} from '@mattermost/types/products';
 
@@ -15,8 +17,6 @@ import {IDMappedObjects} from '@mattermost/types/utilities';
 import {TopBoardResponse} from '@mattermost/types/insights';
 
 import {WebSocketClient} from '@mattermost/client';
-
-import {GlobalState} from 'types/store';
 
 export type PluginSiteStatsHandler = () => Promise<Record<string, PluginAnalyticsRow>>;
 
@@ -165,7 +165,7 @@ export type ProductComponent = {
     /**
      * A compass-icon glyph to display as the icon in the product switcher
      */
-    switcherIcon: TIconGlyph;
+    switcherIcon: IconGlyphTypes;
 
     /**
      * A string or React element to display in the product switcher

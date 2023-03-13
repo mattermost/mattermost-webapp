@@ -1,11 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import createPalette from '@mui/material/styles/createPalette';
+import {getContrastRatio} from '@mui/system';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import React from 'react';
+import {useSelector} from 'react-redux';
 
 import styled from 'styled-components';
 
 import {useCurrentProductId} from 'utils/products';
+
+import {createPaletteFromLegacyTheme, ThemeProvider} from '@mattermost/compass-ui';
 
 import CenterControls from './center_controls/center_controls';
 import LeftControls from './left_controls/left_controls';
@@ -38,17 +44,34 @@ const GlobalHeaderContainer = styled.header`
 const GlobalHeader = (): JSX.Element | null => {
     const isLoggedIn = useIsLoggedIn();
     const currentProductID = useCurrentProductId();
+    const legacyTheme = useSelector(getTheme);
 
     if (!isLoggedIn) {
         return null;
     }
 
+    const {palette} = createPaletteFromLegacyTheme(legacyTheme);
+    const isDarkTheme = getContrastRatio('#fff', legacyTheme.sidebarHeaderBg) > 7;
+
+    // very rudimentary check to determine the color for the buttons ... could be moved to the theme-creation helper
+    const theme = {
+        palette: {
+            ...palette,
+            ...(isDarkTheme && createPalette({
+                primary: {main: '#fff'},
+                text: {primary: '#fff'},
+            })),
+        },
+    };
+
     return (
-        <GlobalHeaderContainer id='global-header'>
-            <LeftControls/>
-            <CenterControls productId={currentProductID}/>
-            <RightControls productId={currentProductID}/>
-        </GlobalHeaderContainer>
+        <ThemeProvider theme={theme}>
+            <GlobalHeaderContainer id='global-header'>
+                <LeftControls/>
+                <CenterControls productId={currentProductID}/>
+                <RightControls productId={currentProductID}/>
+            </GlobalHeaderContainer>
+        </ThemeProvider>
     );
 };
 

@@ -3,10 +3,11 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import {FileSizes} from 'utils/file_utils';
 import {CloudProducts} from 'utils/constants';
+
+import {IconButton} from '@mattermost/compass-ui';
 
 import AddChannelDropdown from '../add_channel_dropdown';
 

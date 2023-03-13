@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
-import IconButton from '@mattermost/compass-components/components/icon-button';
+import {HelpCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -14,6 +14,8 @@ import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
+
+import {IconButton} from '@mattermost/compass-ui';
 
 import type {PropsFromRedux} from './index';
 
@@ -130,11 +132,9 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                     overlay={this.state.buttonActive ? <></> : tooltip}
                 >
                     <IconButton
-                        size={'sm'}
-                        icon={'help-circle-outline'}
-                        onClick={() => {}} // icon button currently requires onclick ... needs to revisit
-                        active={this.state.buttonActive}
-                        inverted={true}
+                        size={'small'}
+                        IconComponent={HelpCircleOutlineIcon}
+                        toggled={this.state.buttonActive}
                         compact={true}
                         aria-controls='AddChannelDropdown'
                         aria-expanded={this.state.buttonActive}

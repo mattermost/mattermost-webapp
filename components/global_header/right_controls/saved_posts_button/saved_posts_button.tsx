@@ -4,8 +4,7 @@
 import React from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
-
-import IconButton from '@mattermost/compass-components/components/icon-button';
+import {BookmarkOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {closeRightHandSide, showFlaggedPosts} from 'actions/views/rhs';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -13,6 +12,8 @@ import Tooltip from 'components/tooltip';
 import {getRhsState} from 'selectors/rhs';
 import {GlobalState} from 'types/store';
 import Constants, {RHSStates} from 'utils/constants';
+
+import {IconButton} from '@mattermost/compass-ui';
 
 const SavedPostsButton = (): JSX.Element | null => {
     const {formatMessage} = useIntl();
@@ -45,11 +46,10 @@ const SavedPostsButton = (): JSX.Element | null => {
             overlay={tooltip}
         >
             <IconButton
-                size={'sm'}
-                icon={'bookmark-outline'}
+                size={'small'}
+                IconComponent={BookmarkOutlineIcon}
                 toggled={rhsState === RHSStates.FLAG}
                 onClick={savedPostsButtonClick}
-                inverted={true}
                 compact={true}
                 aria-expanded={rhsState === RHSStates.FLAG}
                 aria-controls='searchContainer' // Must be changed if the ID of the container changes
