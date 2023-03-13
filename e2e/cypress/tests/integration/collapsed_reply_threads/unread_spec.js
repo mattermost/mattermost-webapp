@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @collapsed_reply_threads
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Collapsed Reply Threads', () => {
     let testTeam;
     let testUser;
@@ -54,19 +56,24 @@ describe('Collapsed Reply Threads', () => {
             message: 'Another interesting post,',
             channelId: testChannel.id,
         }).then(({id: rootId}) => {
-            // # Post a reply as other user
-            cy.postMessageAs({
-                sender: otherUser,
-                message: 'Reply!',
-                channelId: testChannel.id,
-                rootId,
+            // # Post multiple replies as other user so that the new messages line is pushed up
+            Cypress._.times(20, (i) => {
+                cy.postMessageAs({
+                    sender: otherUser,
+                    message: 'Reply ' + i,
+                    channelId: testChannel.id,
+                    rootId,
+                });
             });
 
             // # Click root post
             cy.get(`#post_${rootId}`).click();
 
+            // # Wait for RHS to open and scroll to position
+            cy.wait(TIMEOUTS.ONE_SEC);
+
             // * RHS should open and new messages line should be visible
-            cy.get('#rhsContainer').findByTestId('NotificationSeparator').should('exist');
+            cy.get('#rhsContainer').findByTestId('NotificationSeparator').should('be.visible');
 
             // # Close RHS
             cy.uiCloseRHS();

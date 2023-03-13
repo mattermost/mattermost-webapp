@@ -120,7 +120,7 @@ export default class LoggedIn extends React.PureComponent<Props> {
         // Prevent backspace from navigating back a page
         window.addEventListener('keydown', this.handleBackSpace);
 
-        if (this.isValidState()) {
+        if (this.isValidState() && !this.props.mfaRequired) {
             BrowserStore.signalLogin();
         }
     }

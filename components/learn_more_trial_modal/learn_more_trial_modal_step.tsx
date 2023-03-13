@@ -8,6 +8,8 @@ import {FormattedMessage} from 'react-intl';
 import TrialBenefitsModalStepMore from 'components/trial_benefits_modal/trial_benefits_modal_step_more';
 
 import './learn_more_trial_modal_step.scss';
+import {AboutLinks, LicenseLinks} from 'utils/constants';
+import ExternalLink from 'components/external_link';
 
 export type LearnMoreTrialModalStepProps = {
     id: string;
@@ -61,25 +63,23 @@ const LearnMoreTrialModalStep = (
                 <span>
                     <FormattedMessage
                         id='start_trial.modal.disclaimer'
-                        defaultMessage='By clicking “Start trial”, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
+                        defaultMessage='By clicking “Start trial”, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
                         values={{
                             linkEvaluation: (msg: React.ReactNode) => (
-                                <a
-                                    href='https://mattermost.com/software-evaluation-agreement'
-                                    target='_blank'
-                                    rel='noreferrer'
+                                <ExternalLink
+                                    href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
+                                    location='learn_more_trial_modal_step'
                                 >
                                     {msg}
-                                </a>
+                                </ExternalLink>
                             ),
                             linkPrivacy: (msg: React.ReactNode) => (
-                                <a
-                                    href='https://mattermost.com/privacy-policy/'
-                                    target='_blank'
-                                    rel='noreferrer'
+                                <ExternalLink
+                                    href={AboutLinks.PRIVACY_POLICY}
+                                    location='learn_more_trial_modal_step'
                                 >
                                     {msg}
-                                </a>
+                                </ExternalLink>
                             ),
                         }}
                     />

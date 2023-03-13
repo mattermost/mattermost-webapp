@@ -14,10 +14,11 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {closeModal} from 'actions/views/modals';
 import {validateBusinessEmail} from 'actions/cloud';
 
-import {ItemStatus, TELEMETRY_CATEGORIES, ModalIdentifiers} from 'utils/constants';
+import {ItemStatus, TELEMETRY_CATEGORIES, ModalIdentifiers, LicenseLinks, AboutLinks} from 'utils/constants';
 
 import GenericModal from 'components/generic_modal';
 import {CustomMessageInputType} from 'components/widgets/inputs/input/input';
+import ExternalLink from 'components/external_link';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
@@ -64,7 +65,6 @@ const RequestBusinessEmailModal = (
         validateEmail(email);
     }, []);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const validateEmail = useCallback(debounce(async (email: string) => {
         // no value set, no validation and clean the custom input label
         if (!email) {
@@ -129,7 +129,7 @@ const RequestBusinessEmailModal = (
             <div className='start-trial-email-disclaimer'>
                 <FormattedMessage
                     id='request_business_email.start_trial.modal.disclaimer'
-                    defaultMessage='By selecting <highlight>“Start trial”</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
+                    defaultMessage='By selecting <highlight>“Start trial”</highlight>, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
                     values={{
                         highlight: (msg: React.ReactNode) => (
                             <strong>
@@ -137,22 +137,20 @@ const RequestBusinessEmailModal = (
                             </strong>
                         ),
                         linkEvaluation: (msg: React.ReactNode) => (
-                            <a
-                                href='https://mattermost.com/software-evaluation-agreement'
-                                target='_blank'
-                                rel='noreferrer'
+                            <ExternalLink
+                                href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
+                                location='request_business_email_modal'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                         linkPrivacy: (msg: React.ReactNode) => (
-                            <a
-                                href='https://mattermost.com/privacy-policy/'
-                                target='_blank'
-                                rel='noreferrer'
+                            <ExternalLink
+                                href={AboutLinks.PRIVACY_POLICY}
+                                location='request_business_email_modal'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                     }}
                 />

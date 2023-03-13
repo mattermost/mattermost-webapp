@@ -284,16 +284,15 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
               id="add_outgoing_webhook.callbackUrls.help"
               values={
                 Object {
-                  "link": <a
+                  "link": <ExternalLink
                     href="https://docs.mattermost.com/configure/configuration-settings.html#session-lengths"
-                    rel="noopener noreferrer"
-                    target="_blank"
+                    location="abstract_outgoing_webhook"
                   >
                     <Memo(MemoizedFormattedMessage)
                       defaultMessage="trusted internal connection"
                       id="add_outgoing_webhook.callbackUrls.helpLinkText"
                     />
-                  </a>,
+                  </ExternalLink>,
                 }
               }
             />

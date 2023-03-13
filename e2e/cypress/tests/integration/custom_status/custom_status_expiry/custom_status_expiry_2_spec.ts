@@ -120,6 +120,6 @@ describe('MM-T4064 Status expiry visibility', () => {
         cy.get('#user-profile-popover').should('exist');
 
         // * Check if the profile popover contains custom status expiry time in the Status heading
-        cy.get('#user-profile-popover #user-popover-status .user-profile-popover__heading time').should('have.text', expiresAt.format(expiryTimeFormat));
+        cy.get('#user-profile-popover #user-popover-status .user-popover__subtitle time').should('have.text', expiresAt.format(expiryTimeFormat));
     });
 });

@@ -6,34 +6,27 @@ import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 
 import {NotifyAdminRequest} from '@mattermost/types/cloud';
-import {useGetNotifyAdmin, NotifyStatus, NotifyStatusValues} from 'components/common/hooks/useGetNotifyAdmin';
+import {NotifyStatus, NotifyStatusValues, useGetNotifyAdmin} from 'components/common/hooks/useGetNotifyAdmin';
 
 const Span = styled.span`
-font-family: 'Open Sans';
-font-size: 12px;
-font-style: normal;
-font-weight: 600;
-line-height: 16px;
+    font-family: 'Open Sans';
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 16px;
 `;
 
-const Button = styled.button`
-border: none;
-background: none;
-color: var(--denim-button-bg);
-text-decoration: none;
-display: inline;
+const Button = styled.button<{notified: boolean}>`
+    border: none;
+    background: none;
+    color: ${(props: any) => (props.notified ? 'var(--denim-status-online)' : 'var(--denim-button-bg)')};
+    text-decoration: none;
+    display: inline;
 `;
-
-export enum DafaultBtnText {
-    NotifyAdmin = 'Notify your admin',
-    Notifying = 'Notifying...',
-    Notified = 'Notified!',
-    AlreadyNotified = 'Already notified!',
-    Failed = 'Try again later!',
-}
 
 type HookProps = {
     ctaText?: React.ReactNode;
+    successText?: React.ReactNode;
     preTrial?: boolean;
 }
 
@@ -52,6 +45,7 @@ export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props:
         switch (status) {
         case NotifyStatus.Started:
         case NotifyStatus.Success:
+            return props.successText || formatMessage(btnFormaText(NotifyStatus.Success));
         case NotifyStatus.AlreadyComplete:
         case NotifyStatus.Failed:
             return formatMessage(btnFormaText(status));
@@ -94,6 +88,7 @@ function NotifyAdminCTA(props: Props) {
                         id='notify_admin_cta'
                         onClick={(e) => notify(e, props.callerInfo)}
                         disabled={status === NotifyStatus.AlreadyComplete}
+                        notified={status === NotifyStatus.Success}
                     >
                         {btnText}
                     </Button>
@@ -105,6 +100,7 @@ function NotifyAdminCTA(props: Props) {
                         id='notify_admin_cta'
                         onClick={(e) => notify(e, props.callerInfo)}
                         disabled={status === NotifyStatus.AlreadyComplete}
+                        notified={status === NotifyStatus.Success}
                     >
                         {btnText}
                     </Button>

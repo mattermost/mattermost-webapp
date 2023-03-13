@@ -11,7 +11,7 @@ import {t} from 'utils/i18n';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import {LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
-import {PaidFeatures, LicenseSkus} from 'utils/constants';
+import {MattermostFeatures, LicenseSkus} from 'utils/constants';
 
 interface Words {
     title: React.ReactNode;
@@ -54,13 +54,10 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
     let featureToNotifyOn = '';
     switch (highestLimit.id) {
     case LimitTypes.messageHistory:
-        featureToNotifyOn = PaidFeatures.UNLIMITED_MESSAGES;
+        featureToNotifyOn = MattermostFeatures.UNLIMITED_MESSAGES;
         break;
     case LimitTypes.fileStorage:
-        featureToNotifyOn = PaidFeatures.UNLIMITED_FILE_STORAGE;
-        break;
-    case LimitTypes.boardsCards:
-        featureToNotifyOn = PaidFeatures.UNLIMITED_BOARD_CARDS;
+        featureToNotifyOn = MattermostFeatures.UNLIMITED_FILE_STORAGE;
         break;
     default:
         break;
@@ -161,38 +158,6 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
                 values,
             ),
             status: asGBString(highestLimit.usage, intl.formatNumber),
-        };
-    }
-    case LimitTypes.boardsCards: {
-        let id = t('workspace_limits.menu_limit.warn.boards_cards');
-        let defaultMessage = 'You’re getting closer to the {limit} board card limit. <a>{callToAction}</a>';
-        values.limit = highestLimit.limit;
-        if (usageRatio >= limitThresholds.danger) {
-            id = t('workspace_limits.menu_limit.critical.boards_cards');
-            defaultMessage = 'You’re getting closer to the {limit} board card limit. <a>{callToAction}</a>';
-        }
-        if (usageRatio >= limitThresholds.reached) {
-            id = t('workspace_limits.menu_limit.reached.boards_cards');
-            defaultMessage = 'You’ve reached the {limit} board card limit. You can only access the most recent {limit} board cards. <a>{callToAction}</a>';
-        }
-        if (usageRatio >= limitThresholds.exceeded) {
-            id = t('workspace_limits.menu_limit.over.boards_cards');
-            defaultMessage = 'You’re over the {limit} board card limit. You can only access the most recent {limit} board cards. <a>{callToAction}</a>';
-        }
-
-        return {
-            title: intl.formatMessage({
-                id: 'workspace_limits.menu_limit.board_card',
-                defaultMessage: 'Board card limit',
-            }),
-            description: intl.formatMessage(
-                {
-                    id,
-                    defaultMessage,
-                },
-                values,
-            ),
-            status: highestLimit.usage,
         };
     }
     default:

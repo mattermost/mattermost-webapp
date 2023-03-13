@@ -3,10 +3,6 @@
 
 import {ProductScope} from './products';
 
-// This file's contents belong to the Apps Framework feature.
-// Apps Framework feature is experimental, and the contents of this file are
-// susceptible to breaking changes without pushing the major version of this package.
-
 export enum Permission {
     UserJoinedChannelNotification = 'user_joined_channel_notification',
     ActAsBot = 'act_as_bot',
@@ -140,7 +136,12 @@ export type AppContextProps = {
     [name: string]: string;
 };
 
-export type AppExpandLevel = string;
+export type AppExpandLevel = ''
+| 'none'
+| 'summary'
+| '+summary'
+| 'all'
+| '+all';
 
 export type AppExpand = {
     app?: AppExpandLevel;
@@ -153,6 +154,7 @@ export type AppExpand = {
     root_post?: AppExpandLevel;
     team?: AppExpandLevel;
     user?: AppExpandLevel;
+    locale?: AppExpandLevel;
 };
 
 export type AppForm = {

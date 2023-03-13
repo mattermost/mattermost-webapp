@@ -12,12 +12,13 @@ import {GlobalState} from '@mattermost/types/store';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 
-import {LicenseSkus} from 'utils/constants';
+import {AboutLinks, LicenseLinks, LicenseSkus} from 'utils/constants';
 
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 
 import completedImg from 'images/completed.svg';
+import ExternalLink from 'components/external_link';
 
 const CompletedWrapper = styled.div`
     display: flex;
@@ -209,13 +210,12 @@ const Completed = (props: Props): JSX.Element => {
                                 defaultMessage='Now that you’re all set up, <link>download our apps.</link>!'
                                 values={{
                                     link: (msg: React.ReactNode) => (
-                                        <a
-                                            href='https://mattermost.com/download'
-                                            target='_blank'
-                                            rel='noreferrer'
+                                        <ExternalLink
+                                            location='onboarding_tasklist_completed'
+                                            href='https://mattermost.com/download/#desktop'
                                         >
                                             {msg}
-                                        </a>
+                                        </ExternalLink>
                                     ),
                                 }}
                             />
@@ -225,25 +225,23 @@ const Completed = (props: Props): JSX.Element => {
                         <span>
                             <FormattedMessage
                                 id='onboardingTask.checklist.disclaimer'
-                                defaultMessage='By clicking “Start trial”, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
+                                defaultMessage='By clicking “Start trial”, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
                                 values={{
                                     linkEvaluation: (msg: React.ReactNode) => (
-                                        <a
-                                            href='https://mattermost.com/software-evaluation-agreement'
-                                            target='_blank'
-                                            rel='noreferrer'
+                                        <ExternalLink
+                                            href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
+                                            location='onboarding_tasklist_completed'
                                         >
                                             {msg}
-                                        </a>
+                                        </ExternalLink>
                                     ),
                                     linkPrivacy: (msg: React.ReactNode) => (
-                                        <a
-                                            href='https://mattermost.com/privacy-policy'
-                                            target='_blank'
-                                            rel='noreferrer'
+                                        <ExternalLink
+                                            href={AboutLinks.PRIVACY_POLICY}
+                                            location='onboarding_tasklist_completed'
                                         >
                                             {msg}
-                                        </a>
+                                        </ExternalLink>
                                     ),
                                 }}
                             />

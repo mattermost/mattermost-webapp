@@ -24,6 +24,7 @@ import SystemPermissionGate from 'components/permissions_gates/system_permission
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
+import ExternalLink from 'components/external_link';
 
 const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
 const TOTAL_USERS_TO_OPEN_UP = 5;
@@ -226,13 +227,12 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                                                 </a>
                                             ),
                                             linkDocumentation: (msg: React.ReactNode) => (
-                                                <a
+                                                <ExternalLink
                                                     href='https://mattermost.com/pl/default-bot-accounts'
-                                                    target='_blank'
-                                                    rel='noreferrer'
+                                                    location='system_users_dropdown'
                                                 >
                                                     {msg}
-                                                </a>
+                                                </ExternalLink>
                                             ),
                                         }}
                                     />
@@ -692,7 +692,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                             text={Utils.localizeMessage('admin.user_item.resetPwd', 'Reset Password')}
                         />
                         <Menu.ItemAction
-                            show={!user.auth_service && user.id !== currentUser.id}
+                            show={!user.auth_service}
                             onClick={this.handleResetEmail}
                             text={Utils.localizeMessage('admin.user_item.resetEmail', 'Update Email')}
                         />

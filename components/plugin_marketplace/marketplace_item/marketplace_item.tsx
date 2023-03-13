@@ -11,17 +11,18 @@ import Tooltip from 'components/tooltip';
 import PluginIcon from 'components/widgets/icons/plugin_icon';
 
 import {Constants} from 'utils/constants';
+import Tag from 'components/widgets/tag/tag';
+import ExternalLink from 'components/external_link';
 
 // Label renders a tag showing a name and a description in a tooltip.
 // If a URL is provided, clicking on the tag will open the URL in a new tab.
-export const Label = ({name, description, url, color}: MarketplaceLabel): JSX.Element => {
+export const Label = ({name, description, url}: MarketplaceLabel): JSX.Element => {
     const tag = (
-        <span
-            className='tag'
-            style={{backgroundColor: color || ''}}
-        >
-            {name.toUpperCase()}
-        </span>
+        <Tag
+            text={name}
+            uppercase={true}
+            size={'sm'}
+        />
     );
 
     let label;
@@ -45,15 +46,14 @@ export const Label = ({name, description, url, color}: MarketplaceLabel): JSX.El
 
     if (url) {
         return (
-            <a
+            <ExternalLink
                 aria-label={name.toLowerCase()}
-                className='style--none more-modal__row--link'
-                target='_blank'
-                rel='noopener noreferrer'
+                className='style--none more-modal__row--link marketplace__tag'
                 href={url}
+                location='marketplace_item'
             >
                 {label}
-            </a>
+            </ExternalLink>
         );
     }
 
@@ -77,6 +77,7 @@ export type MarketplaceItemProps = {
 
 export default class MarketplaceItem extends React.PureComponent <MarketplaceItemProps> {
     render(): JSX.Element {
+        const {labels = null} = this.props;
         let icon;
         if (this.props.iconSource) {
             icon = (
@@ -88,19 +89,14 @@ export default class MarketplaceItem extends React.PureComponent <MarketplaceIte
             icon = <PluginIcon className='icon__plugin icon__plugin--background'/>;
         }
 
-        let labels;
-        if (this.props.labels && this.props.labels.length !== 0) {
-            labels = this.props.labels.map((label) => (
-                <Label
-                    key={label.name}
-                    name={label.name}
-                    description={label.description}
-                    url={label.url}
-                    color={label.color}
-                />
-            ),
-            );
-        }
+        const labelComponents = labels?.map((label) => (
+            <Label
+                key={label.name}
+                name={label.name}
+                description={label.description}
+                url={label.url}
+            />
+        ));
 
         const pluginDetailsInner = (
             <>
@@ -111,7 +107,7 @@ export default class MarketplaceItem extends React.PureComponent <MarketplaceIte
 
         const description = (
             <p className={classNames('more-modal__description', {error_text: this.props.error})}>
-                {this.props.error ? this.props.error : this.props.description}
+                {this.props.error || this.props.description}
             </p>
         );
 
@@ -119,25 +115,23 @@ export default class MarketplaceItem extends React.PureComponent <MarketplaceIte
         if (this.props.homepageUrl) {
             pluginDetails = (
                 <>
-                    <a
+                    <ExternalLink
                         aria-label={this.props.name.toLowerCase()}
                         className='style--none more-modal__row--link'
-                        target='_blank'
-                        rel='noopener noreferrer'
                         href={this.props.homepageUrl}
+                        location='marketplace_item'
                     >
                         {pluginDetailsInner}
-                    </a>
-                    {labels}
-                    <a
+                    </ExternalLink>
+                    {labelComponents}
+                    <ExternalLink
                         aria-label="Plugin's website"
                         className='style--none more-modal__row--link'
-                        target='_blank'
-                        rel='noopener noreferrer'
                         href={this.props.homepageUrl}
+                        location='marketplace_item'
                     >
                         {description}
-                    </a>
+                    </ExternalLink>
                 </>
             );
         } else {
@@ -149,7 +143,7 @@ export default class MarketplaceItem extends React.PureComponent <MarketplaceIte
                     >
                         {pluginDetailsInner}
                     </span>
-                    {labels}
+                    {labelComponents}
                     <span
                         aria-label="Plugin\'s website"
                         className='style--none'
@@ -171,7 +165,6 @@ export default class MarketplaceItem extends React.PureComponent <MarketplaceIte
                     <div className='more-modal__details'>
                         {pluginDetails}
                         {this.props.updateDetails}
-
                     </div>
                     <div className='more-modal__actions'>
                         {this.props.button}

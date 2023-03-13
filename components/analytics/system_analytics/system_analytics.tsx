@@ -12,6 +12,7 @@ import Constants from 'utils/constants';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import {ActivatedUserCard} from 'components/analytics/activated_users_card';
+import TrueUpReview from 'components/analytics/true_up_review';
 
 import {GlobalState} from 'types/store';
 
@@ -26,6 +27,7 @@ import {
     formatPostDoughtnutData,
     synchronizeChartLabels,
 } from '../format';
+import ExternalLink from 'components/external_link';
 
 const StatTypes = Constants.StatTypes;
 
@@ -113,13 +115,12 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                             defaultMessage='To maximize performance, some statistics are disabled. You can <link>re-enable them in config.json</link>.'
                             values={{
                                 link: (msg: React.ReactNode) => (
-                                    <a
+                                    <ExternalLink
                                         href='https://docs.mattermost.com/administration/statistics.html'
-                                        target='_blank'
-                                        rel='noreferrer'
+                                        location='system_analytics'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                             }}
                         />
@@ -475,6 +476,7 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
                         {banner}
+                        <TrueUpReview/>
                         <div className='grid-statistics'>
                             {systemCards}
                             {dailyActiveUsers}

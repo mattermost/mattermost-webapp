@@ -16,10 +16,11 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {format} from 'utils/markdown';
 
-import {LicenseLinks, Preferences, Unique} from 'utils/constants';
+import {AboutLinks, LicenseLinks, Preferences, Unique} from 'utils/constants';
 
 import {GlobalState} from 'types/store';
 import store from 'stores/redux_store.jsx';
+import ExternalLink from 'components/external_link';
 
 interface TrialBannerProps {
     isDisabled: boolean;
@@ -47,9 +48,12 @@ export const EmbargoedEntityTrialError = () => {
             defaultMessage='We were unable to process the request due to limitations for embargoed countries. <link>Learn more in our documentation</link>, or reach out to legal@mattermost.com for questions around export limitations.'
             values={{
                 link: (text: string) => (
-                    <a href={LicenseLinks.EMBARGOED_COUNTRIES}>
+                    <ExternalLink
+                        location='trial_banner'
+                        href={LicenseLinks.EMBARGOED_COUNTRIES}
+                    >
                         {text}
-                    </a>
+                    </ExternalLink>
                 ),
             }}
         />
@@ -192,13 +196,12 @@ const TrialBanner = ({
                             defaultMessage='Trial license could not be retrieved. Visit <link>{trialInfoLink}</link> to request a license.'
                             values={{
                                 link: (msg: React.ReactNode) => (
-                                    <a
+                                    <ExternalLink
+                                        location='trial_banner'
                                         href={LicenseLinks.TRIAL_INFO_LINK}
-                                        target='_blank'
-                                        rel='noreferrer'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                                 trialInfoLink: LicenseLinks.TRIAL_INFO_LINK,
                             }}
@@ -224,26 +227,24 @@ const TrialBanner = ({
                 />
                 <FormattedMessage
                     id='admin.license.trial-request.accept-terms'
-                    defaultMessage='By clicking <strong>Start trial</strong>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
+                    defaultMessage='By clicking <strong>Start trial</strong>, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
                     values={{
                         strong: (msg: React.ReactNode) => <strong>{msg}</strong>,
                         linkEvaluation: (msg: React.ReactNode) => (
-                            <a
-                                href='https://mattermost.com/software-evaluation-agreement'
-                                target='_blank'
-                                rel='noreferrer'
+                            <ExternalLink
+                                href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
+                                location='trial_banner'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                         linkPrivacy: (msg: React.ReactNode) => (
-                            <a
-                                href='https://mattermost.com/privacy-policy/'
-                                target='_blank'
-                                rel='noreferrer'
+                            <ExternalLink
+                                href={AboutLinks.PRIVACY_POLICY}
+                                location='trial_banner'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                     }}
                 />
@@ -294,26 +295,24 @@ const TrialBanner = ({
                 <p className='upgrade-legal-terms'>
                     <FormattedMessage
                         id='admin.license.upgrade-and-trial-request.accept-terms-initial-part'
-                        defaultMessage='By selecting <strong>Upgrade Server And Start trial</strong>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails. '
+                        defaultMessage='By selecting <strong>Upgrade Server And Start trial</strong>, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails. '
                         values={{
                             strong: (msg: React.ReactNode) => <strong>{msg}</strong>,
                             linkEvaluation: (msg: React.ReactNode) => (
-                                <a
-                                    href='https://mattermost.com/software-evaluation-agreement/'
-                                    target='_blank'
-                                    rel='noreferrer'
+                                <ExternalLink
+                                    href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
+                                    location='trial_banner'
                                 >
                                     {msg}
-                                </a>
+                                </ExternalLink>
                             ),
                             linkPrivacy: (msg: React.ReactNode) => (
-                                <a
-                                    href='https://mattermost.com/privacy-policy/'
-                                    target='_blank'
-                                    rel='noreferrer'
+                                <ExternalLink
+                                    href={AboutLinks.PRIVACY_POLICY}
+                                    location='trial_banner'
                                 >
                                     {msg}
-                                </a>
+                                </ExternalLink>
                             ),
                         }}
                     />

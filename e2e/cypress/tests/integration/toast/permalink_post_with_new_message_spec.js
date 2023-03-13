@@ -54,13 +54,13 @@ describe('Toast', () => {
             const permalink = `${Cypress.config('baseUrl')}/${testTeam.name}/pl/${id}`;
 
             // * Check that the ... button is not visible in last post right side
-            cy.get(`#CENTER_button_${id}`).should('not.exist');
+            cy.get(`#CENTER_button_${id}`).should('not.be.visible');
 
             // # Click on ... button of last post
             cy.clickPostDotMenu(id);
 
             // * Click on "Copy Link" and verify the permalink in clipboard is same as we formed
-            cy.uiClickCopyLink(permalink);
+            cy.uiClickCopyLink(permalink, id);
 
             // # Post the permalink in the channel
             cy.postMessage(permalink);

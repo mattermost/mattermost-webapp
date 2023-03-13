@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable mattermost/use-external-link */
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
@@ -279,10 +281,10 @@ export default class SizeAwareImage extends React.PureComponent {
                 rootClose={true}
             >
                 <a
-                    href={this.isInternalImage ? fileURL : src}
-                    className='style--none size-aware-image__download'
                     target='_blank'
                     rel='noopener noreferrer'
+                    href={this.isInternalImage ? fileURL : src}
+                    className='style--none size-aware-image__download'
                     download={true}
                     role={this.isInternalImage ? 'button' : undefined}
                     aria-label={localizeMessage('single_image_view.download_tooltip', 'Download')}
@@ -429,7 +431,7 @@ export default class SizeAwareImage extends React.PureComponent {
                 {fallback}
                 <div
                     className='file-preview__button'
-                    style={{display: shouldShowImg ? 'inline' : 'none'}}
+                    style={{display: shouldShowImg ? 'inline-block' : 'none'}}
                 >
                     {this.renderImageWithContainerIfNeeded()}
                 </div>

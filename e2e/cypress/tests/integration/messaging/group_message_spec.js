@@ -242,7 +242,9 @@ describe('Group Message', () => {
             const channelName = loc.pathname.split('/').slice(-1)[0];
 
             // # Remove GM from the LHS
-            cy.uiGetChannelSidebarMenu(channelName).findByText('Close Conversation').click();
+            cy.uiGetChannelSidebarMenu(channelName).within(() => {
+                cy.findByText('Close Conversation').click();
+            });
 
             // # Open DM modal
             cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);

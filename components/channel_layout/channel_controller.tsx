@@ -2,11 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import classNames from 'classnames';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {RequestStatus} from 'mattermost-redux/constants';
 
 import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
 
@@ -19,18 +18,17 @@ import ProductNoticesModal from 'components/product_notices_modal';
 
 import Pluggable from 'plugins/pluggable';
 
-import {GlobalState} from 'types/store';
-
 import {Constants} from 'utils/constants';
 import {isInternetExplorer, isEdge} from 'utils/user_agent';
 
 const BODY_CLASS_FOR_CHANNEL = ['app__body', 'channel-view'];
 
-export default function ChannelController() {
-    const dispatch = useDispatch<DispatchFunc>();
+type Props = {
+    shouldRenderCenterChannel: boolean;
+}
 
-    const shouldRenderCenterChannel = useSelector((state: GlobalState) =>
-        state.requests.channels.getChannelsAndChannelMembers.status === RequestStatus.SUCCESS);
+export default function ChannelController(props: Props) {
+    const dispatch = useDispatch<DispatchFunc>();
 
     useEffect(() => {
         const isMsBrowser = isInternetExplorer() || isEdge();
@@ -62,7 +60,7 @@ export default function ChannelController() {
                 <FaviconTitleHandler/>
                 <ProductNoticesModal/>
                 <div className={classNames('container-fluid channel-view-inner')}>
-                    {shouldRenderCenterChannel ? <CenterChannel/> : <LoadingScreen centered={true}/>}
+                    {props.shouldRenderCenterChannel ? <CenterChannel/> : <LoadingScreen centered={true}/>}
                     <Pluggable pluggableName='Root'/>
                     <ResetStatusModal/>
                 </div>

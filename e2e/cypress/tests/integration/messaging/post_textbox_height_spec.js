@@ -28,15 +28,20 @@ describe('Messaging', () => {
             // # Click reply icon
             cy.clickPostCommentIcon(latestPostId);
 
-            // # Make sure that text box has initial height
-            getTextBox().should('have.css', 'height', '100px').invoke('height').as('originalHeight1');
+            cy.uiGetReplyTextBox().should('have.css', 'height', '100px').invoke('height').then((height) => {
+                // # Get the initial height of the textbox
+                // Setting alias based on reference to element seemed to be problematic with Cypress (regression)
+                // Quick hack to reference based on value
+                cy.wrap(height).as('originalHeight1');
+                cy.wrap(height).as('originalHeight2');
+            });
 
             // # Write a long text in text box
-            getTextBox().type('test{shift}{enter}{enter}{enter}{enter}{enter}{enter}{enter}test');
+            cy.uiGetReplyTextBox().type('test{shift}{enter}{enter}{enter}{enter}{enter}{enter}{enter}test');
 
             // # Check that input box is taller than before
             cy.get('@originalHeight1').then((originalHeight1) => {
-                getTextBox().invoke('height').should('be.gt', originalHeight1 * 2);
+                cy.uiGetReplyTextBox().invoke('height').should('be.gt', originalHeight1 * 2);
             });
 
             // # Get second latest post id
@@ -45,21 +50,14 @@ describe('Messaging', () => {
                 // # Click reply icon on the second latest post
                 cy.clickPostCommentIcon(secondLatestPostId);
 
-                // # Make sure that text box has initial height
-                getTextBox().should('have.css', 'height', '100px').invoke('height').as('originalHeight2');
-
                 // # Click again reply icon on the latest post
                 cy.clickPostCommentIcon(latestPostId);
 
                 // # Check that input box is taller again
                 cy.get('@originalHeight2').then((originalHeight2) => {
-                    getTextBox().invoke('height').should('be.gt', originalHeight2 * 2);
+                    cy.uiGetReplyTextBox().invoke('height').should('be.gt', originalHeight2 * 2);
                 });
             });
         });
     });
-
-    const getTextBox = () => {
-        return cy.uiGetReplyTextBox();
-    };
 });

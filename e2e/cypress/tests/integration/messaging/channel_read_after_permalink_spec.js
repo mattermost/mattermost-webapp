@@ -52,13 +52,13 @@ describe('Messaging', () => {
                 permalink = `${Cypress.config('baseUrl')}/${testTeam.name}/pl/${postId}`;
 
                 // # Check if ... button is visible in last post right side
-                cy.get(`#CENTER_button_${postId}`).should('not.exist');
+                cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
 
                 // # Click on ... button of last post
                 cy.clickPostDotMenu(postId);
 
                 // # Click on "Copy Link"
-                cy.uiClickCopyLink(permalink);
+                cy.uiClickCopyLink(permalink, postId);
 
                 // # Post the message on the channel
                 postMessageOnChannel(testChannel, otherUser, permalink);

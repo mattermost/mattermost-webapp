@@ -5,21 +5,40 @@ import {Client4} from 'mattermost-redux/client';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {isCloudLicense} from 'mattermost-redux/selectors/entities/general';
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import type {MarketplaceApp, MarketplacePlugin} from '@mattermost/types/marketplace';
-import type {CommandArgs} from '@mattermost/types/integrations';
 
 import {GlobalState} from 'types/store';
 
-import {getApp, getFilter, getPlugin} from 'selectors/views/marketplace';
+import {getFilter, getPlugin} from 'selectors/views/marketplace';
 import {ActionTypes} from 'utils/constants';
 
-import {isError} from 'types/actions';
+import {AppBindingLocations, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
+import {AppCall, AppExpand, AppFormValues} from '@mattermost/types/apps';
+import {createCallContext, createCallRequest} from 'utils/apps';
+import {DoAppCallResult, intlShim} from 'components/suggestion/command_provider/app_command_parser/app_command_parser_dependencies';
 
-import {executeCommand} from './command';
+import {doAppSubmit, openAppsModal, postEphemeralCallResponseForContext} from './apps';
+
+export function fetchRemoteListing(): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState() as GlobalState;
+        const filter = getFilter(state);
+
+        try {
+            const plugins = await Client4.getRemoteMarketplacePlugins(filter);
+            dispatch({
+                type: ActionTypes.RECEIVED_MARKETPLACE_PLUGINS,
+                plugins,
+            });
+            return {data: plugins};
+        } catch (error: any) {
+            return {error};
+        }
+    };
+}
 
 // fetchPlugins fetches the latest marketplace plugins and apps, subject to any existing search filter.
 export function fetchListing(localOnly = false): ActionFunc {
@@ -119,9 +138,9 @@ export function installPlugin(id: string) {
     };
 }
 
-// installApp installed an App using a given URL via the /apps install slash command.
+// installApp installed an App using a given URL a call to the `/install-listed` call path.
 //
-// On success, it also requests the current state of the plugins to reflect the newly installed plugin.
+// On success, it also requests the current state of the apps to reflect the newly installed app.
 export function installApp(id: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc): Promise<boolean> => {
         dispatch({
@@ -129,37 +148,39 @@ export function installApp(id: string) {
             id,
         });
 
-        const state = getState() as GlobalState;
-
-        const channelID = getCurrentChannelId(state);
-        const teamID = getCurrentTeamId(state);
-
-        const app = getApp(state, id);
-        if (!app) {
-            dispatch({
-                type: ActionTypes.INSTALLING_MARKETPLACE_ITEM_FAILED,
-                id,
-                error: 'Unknown app: ' + id,
-            });
-            return false;
-        }
-
-        const args: CommandArgs = {
-            channel_id: channelID,
-            team_id: teamID,
+        const callPath = '/install-listed';
+        const call: AppCall = {
+            path: callPath,
         };
 
-        let command = `/apps install listed ${id}`;
-        if (isCloudLicense(state)) {
-            command = `/apps install ${id}`;
-        }
+        const expand: AppExpand = {
+            acting_user: '+summary',
+            locale: 'all',
+        };
 
-        const result = await dispatch(executeCommand(command, args));
-        if (isError(result)) {
+        const values: AppFormValues = {
+            app: {
+                label: id,
+                value: id,
+            },
+        };
+
+        const state = getState();
+        const channelID = getCurrentChannelId(state);
+        const teamID = getCurrentTeamId(state);
+        const location = AppBindingLocations.MARKETPLACE;
+        const context = createCallContext('apps', location, channelID, teamID);
+
+        const creq = createCallRequest(call, context, expand, values);
+
+        const res = await dispatch(doAppSubmit(creq, intlShim)) as DoAppCallResult;
+
+        if (res.error) {
+            const errorResponse = res.error;
             dispatch({
                 type: ActionTypes.INSTALLING_MARKETPLACE_ITEM_FAILED,
                 id,
-                error: result.error.message,
+                error: errorResponse.text,
             });
             return false;
         }
@@ -168,6 +189,16 @@ export function installApp(id: string) {
             type: ActionTypes.INSTALLING_MARKETPLACE_ITEM_SUCCEEDED,
             id,
         });
+
+        const callResp = res.data!;
+        if (callResp.type === AppCallResponseTypes.FORM && callResp.form) {
+            dispatch(openAppsModal(callResp.form, creq.context));
+        }
+
+        if (callResp.text) {
+            dispatch(postEphemeralCallResponseForContext(callResp, callResp.text, context));
+        }
+
         return true;
     };
 }

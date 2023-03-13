@@ -6,11 +6,12 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {daysToLicenseExpire, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod, isTrialLicense} from 'utils/license_utils';
-import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes, Preferences, ConfigurationBanners, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes, Preferences, ConfigurationBanners, Constants, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {t} from 'utils/i18n';
 
 import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
 import {getSkuDisplayName} from 'utils/subscription';
+import {getViewportSize} from 'utils/utils';
 
 import ackIcon from 'images/icons/check-circle-outline.svg';
 import alertIcon from 'images/icons/round-white-info-icon.svg';
@@ -27,6 +28,7 @@ import {PreferenceType} from '@mattermost/types/preferences';
 import AnnouncementBar from '../default_announcement_bar';
 import TextDismissableBar from '../text_dismissable_bar';
 import RenewalLink from '../renewal_link/';
+import ExternalLink from 'components/external_link';
 
 type Props = {
     config?: Partial<ClientConfig>;
@@ -52,6 +54,8 @@ type Props = {
 };
 
 const ConfigurationAnnouncementBar = (props: Props) => {
+    const {formatMessage} = props.intl;
+
     const dismissExpiringLicense = () => {
         props.actions.dismissNotice(AnnouncementBarMessages.LICENSE_EXPIRING);
     };
@@ -247,18 +251,22 @@ const ConfigurationAnnouncementBar = (props: Props) => {
 
             let announcementBarType = AnnouncementBarTypes.ANNOUNCEMENT;
 
+            const {w: width} = getViewportSize();
             if (daysUntilLicenseExpires < 1) {
+                const viewportBasedMessage = width < Constants.MOBILE_SCREEN_WIDTH ? formatMessage({
+                    id: 'announcement_bar.error.trial_license_expiring_last_day.short',
+                    defaultMessage: 'This is the last day of your free trial.'},
+                ) : formatMessage({
+                    id: 'announcement_bar.error.trial_license_expiring_last_day',
+                    defaultMessage: 'This is the last day of your free trial. Purchase a license now to continue using Mattermost Professional and Enterprise features.',
+                });
                 message = (
                     <>
                         <img
                             className='advisor-icon'
                             src={warningIcon}
                         />
-                        <FormattedMessage
-                            id='announcement_bar.error.trial_license_expiring_last_day'
-                            tagName='strong'
-                            defaultMessage={'This is the last day of your free trial. Purchase a license now to continue using Mattermost Professional and Enterprise features.'}
-                        />
+                        {viewportBasedMessage}
                     </>
                 );
                 announcementBarType = AnnouncementBarTypes.CRITICAL;
@@ -359,8 +367,6 @@ const ConfigurationAnnouncementBar = (props: Props) => {
         }
     }
 
-    const {formatMessage} = props.intl;
-
     if (props.config?.SendEmailNotifications !== 'true' &&
             props.config?.EnablePreviewModeBanner === 'true'
     ) {
@@ -391,13 +397,12 @@ const ConfigurationAnnouncementBar = (props: Props) => {
 
         const values = {
             linkSite: (msg: string) => (
-                <a
+                <ExternalLink
                     href={props.siteURL}
-                    target='_blank'
-                    rel='noreferrer'
+                    location='configuration_announcement_bar'
                 >
                     {msg}
-                </a>
+                </ExternalLink>
             ),
             linkConsole: (msg: string) => (
                 <Link to='/admin_console/environment/web_server'>

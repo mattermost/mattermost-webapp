@@ -22,10 +22,12 @@ import LineChart from 'components/analytics/line_chart';
 import StatisticCount from 'components/analytics/statistic_count';
 import TableChart from 'components/analytics/table_chart';
 import {ActivatedUserCard} from 'components/analytics/activated_users_card';
+import TrueUpReview from 'components/analytics/true_up_review';
 
 import {getMonthLong} from 'utils/i18n';
 
 import {formatPostsPerDayData, formatUsersWithPostsPerDayData, synchronizeChartLabels} from '../format';
+import ExternalLink from 'components/external_link';
 
 const LAST_ANALYTICS_TEAM = 'last_analytics_team';
 
@@ -195,13 +197,12 @@ export default class TeamAnalytics extends React.PureComponent<Props, State> {
                             defaultMessage='To maximize performance, some statistics are disabled. You can <link>re-enable them in config.json</link>.'
                             values={{
                                 link: (msg: React.ReactNode) => (
-                                    <a
+                                    <ExternalLink
                                         href='https://docs.mattermost.com/administration/statistics.html'
-                                        target='_blank'
-                                        rel='noreferrer'
+                                        location='team_analytics'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                             }}
                         />
@@ -309,6 +310,7 @@ export default class TeamAnalytics extends React.PureComponent<Props, State> {
 
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
+                        <TrueUpReview/>
                         {banner}
                         <div className='grid-statistics'>
                             <ActivatedUserCard

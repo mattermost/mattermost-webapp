@@ -44,7 +44,7 @@ describe('Scroll', () => {
             postListOfMessages({sender: otherUser, channelId: testChannelId});
 
             // # Main user scrolls to the middle so that multiline post is offscreen
-            scrollCurrentChannelFromTop('90%');
+            scrollCurrentChannelFromTop('100%');
 
             // * Delete the multiline message and verify that the channel did not scroll
             deletePostAndVerifyScroll(multilineMessageID, {user: otherUser});

@@ -9,13 +9,15 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {CloudLinks, CloudProducts} from 'utils/constants';
 import PrivateCloudSvg from 'components/common/svg_images_components/private_cloud_svg';
 import CloudTrialSvg from 'components/common/svg_images_components/cloud_trial_svg';
+import {TelemetryProps} from 'components/common/hooks/useOpenPricingModal';
+import ExternalLink from 'components/external_link';
 
 type Props = {
     contactSalesLink: any;
     isFreeTrial: boolean;
     trialQuestionsLink: any;
     subscriptionPlan: string | undefined;
-    onUpgradeMattermostCloud: (callerInfo: string) => void;
+    onUpgradeMattermostCloud: (telemetryProps?: TelemetryProps | undefined) => void;
 }
 
 const ContactSalesCard = (props: Props) => {
@@ -30,15 +32,14 @@ const ContactSalesCard = (props: Props) => {
     let description;
 
     const pricingLink = (
-        <a
+        <ExternalLink
+            location='contact_sales_card'
             href={CloudLinks.PRICING}
             rel='noopener noreferrer'
-            target='_blank'
-            className='PrivateCloudCard__pricingLink'
             onClick={() => trackEvent('cloud_admin', 'click_pricing_link')}
         >
             {CloudLinks.PRICING}
-        </a>
+        </ExternalLink>
     );
 
     const isCloudLegacyPlan = subscriptionPlan === CloudProducts.LEGACY;
@@ -142,10 +143,9 @@ const ContactSalesCard = (props: Props) => {
                     {description}
                 </div>
                 {(isFreeTrial || subscriptionPlan === CloudProducts.ENTERPRISE || isCloudLegacyPlan) &&
-                    <a
+                    <ExternalLink
+                        location='contact_sales_card'
                         href={isFreeTrial ? trialQuestionsLink : contactSalesLink}
-                        rel='noopener noreferrer'
-                        target='_blank'
                         className='PrivateCloudCard__actionButton'
                         onClick={() => trackEvent('cloud_admin', 'click_contact_sales')}
                     >
@@ -154,31 +154,49 @@ const ContactSalesCard = (props: Props) => {
                             defaultMessage='Contact Sales'
                         />
 
-                    </a>
+                    </ExternalLink>
                 }
                 {(!isFreeTrial && subscriptionPlan !== CloudProducts.ENTERPRISE && subscriptionPlan !== CloudProducts.LEGACY) &&
                     <button
                         type='button'
-                        onClick={() => onUpgradeMattermostCloud('admin_console_subscription_card_upgrade_now_button')}
+                        onClick={() => {
+                            if (subscriptionPlan === CloudProducts.STARTER) {
+                                onUpgradeMattermostCloud({trackingLocation: 'admin_console_subscription_card_upgrade_now_button'});
+                            } else {
+                                window.open(contactSalesLink, '_blank');
+                            }
+                        }}
                         className='PrivateCloudCard__actionButton'
                     >
-                        <FormattedMessage
-                            id='admin.billing.subscription.privateCloudCard.upgradeNow'
-                            defaultMessage='Upgrade Now'
-                        />
+                        {subscriptionPlan === CloudProducts.STARTER ? (
+                            <FormattedMessage
+                                id='admin.billing.subscription.privateCloudCard.upgradeNow'
+                                defaultMessage='Upgrade Now'
+                            />
+                        ) : (
+                            <FormattedMessage
+                                id='admin.billing.subscription.privateCloudCard.contactSales'
+                                defaultMessage='Contact Sales'
+                            />
+                        )
+
+                        }
+
                     </button>
                 }
             </div>
             <div className='PrivateCloudCard__image'>
-                {isFreeTrial ?
+                {isFreeTrial ? (
                     <CloudTrialSvg
                         width={170}
                         height={123}
-                    /> :
+                    />
+                ) : (
                     <PrivateCloudSvg
                         width={170}
                         height={123}
                     />
+                )
                 }
             </div>
         </div>

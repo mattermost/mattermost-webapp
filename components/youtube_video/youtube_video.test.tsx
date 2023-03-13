@@ -1,10 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow} from 'enzyme';
+import {mount, shallow} from 'enzyme';
 import React from 'react';
 
+import {DeepPartial} from 'redux';
+
+import {Provider} from 'react-redux';
+
 import ExternalImage from 'components/external_image';
+
+import mockStore from 'tests/test_store';
+
+import {GlobalState} from 'types/store';
 
 import YoutubeVideo from './youtube_video';
 
@@ -26,8 +34,27 @@ describe('YoutubeVideo', () => {
         },
     };
 
+    const initialState: DeepPartial<GlobalState> = {
+        entities: {
+            general: {
+                config: {},
+                license: {
+                    Cloud: 'true',
+                },
+            },
+            users: {
+                currentUserId: 'currentUserId',
+            },
+        },
+    };
+
     test('should match init snapshot', () => {
-        const wrapper = shallow(<YoutubeVideo {...baseProps}/>);
+        const store = mockStore(initialState);
+        const wrapper = mount(
+            <Provider store={store}>
+                <YoutubeVideo {...baseProps}/>
+            </Provider>,
+        );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(ExternalImage).prop('src')).toEqual('linkForThumbnail');
         expect(wrapper.find('a').text()).toEqual('Youtube title');

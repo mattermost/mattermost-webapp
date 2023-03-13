@@ -1,20 +1,20 @@
-.dropdown-menu__dotmenu {
-    .Menu__content {
-        width: 264px;
+.dot-menu {
+    &__item-new-badge {
+        display: flex;
+        align-items: center;
+        gap: 4px;
     }
 
-    .MenuItem > button {
-        .MenuItem__primary-text,
-        .grid {
-            display: grid;
-            align-items: center;
-            grid-template-columns: auto 1fr auto auto auto;
+    &__post-reminder-menu-header {
+        padding: 6px 20px;
+        margin: 0;
+        color: var(--center-channel-color);
+        font-weight: bold;
+        pointer-events: none;
+    }
 
-            .title-with-new-badge {
-                display: flex;
-                align-items: center;
-                gap: 4px;
-            }
-        }
+    &__item-trailing-icon {
+        display: flex;
+        margin-right: -4px;
     }
 }

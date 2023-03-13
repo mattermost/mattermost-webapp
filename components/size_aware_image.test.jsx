@@ -4,8 +4,11 @@
 import React from 'react';
 import {mount, shallow} from 'enzyme';
 
+import {Provider} from 'react-redux';
+
 import SizeAwareImage from 'components/size_aware_image';
 import LoadingImagePreview from 'components/loading_image_preview';
+import mockStore from 'tests/test_store';
 
 describe('components/SizeAwareImage', () => {
     const baseProps = {
@@ -24,18 +27,29 @@ describe('components/SizeAwareImage', () => {
         enablePublicLink: true,
     };
 
+    const store = mockStore({
+        entities: {
+            general: {
+                config: {},
+            },
+            users: {
+                currentUserId: 'currentUserId',
+            },
+        },
+    });
+
     test('should render an svg when first mounted with dimensions and img display set to none', () => {
-        const wrapper = mount(<SizeAwareImage {...baseProps}/>);
+        const wrapper = mount(<Provider store={store}><SizeAwareImage {...baseProps}/></Provider>);
 
         // since download and copy icons use svgs now, attachment svg should be searched as a direct child of image-loading__container
-        const viewBox = wrapper.find('.image-loading__container').children().filter('svg').prop('viewBox');
+        const viewBox = wrapper.find(SizeAwareImage).find('.image-loading__container').children().filter('svg').prop('viewBox');
         expect(viewBox).toEqual('0 0 300 200');
         const style = wrapper.find('.file-preview__button').prop('style');
         expect(style).toHaveProperty('display', 'none');
     });
 
     test('img should have inherited class name from prop', () => {
-        const wrapper = mount(<SizeAwareImage {...{...baseProps, className: 'imgClass'}}/>);
+        const wrapper = mount(<Provider store={store}><SizeAwareImage {...{...baseProps, className: 'imgClass'}}/></Provider>);
 
         const className = wrapper.find('img').prop('className');
         expect(className).toEqual('imgClass');
@@ -62,29 +76,29 @@ describe('components/SizeAwareImage', () => {
             },
         };
 
-        const wrapper = mount(<SizeAwareImage {...props}/>);
+        const wrapper = mount(<Provider store={store}><SizeAwareImage {...props}/></Provider>);
 
-        wrapper.setState({loaded: false, error: false});
+        wrapper.find(SizeAwareImage).setState({loaded: false, error: false});
 
         const src = wrapper.find('.image-loading__container img').prop('src');
         expect(src).toEqual('data:mime_type;base64,mini_preview');
     });
 
     test('should have display set to initial in loaded state', () => {
-        const wrapper = mount(<SizeAwareImage {...baseProps}/>);
-        wrapper.setState({loaded: true, error: false});
+        const wrapper = mount(<Provider store={store}><SizeAwareImage {...baseProps}/></Provider>);
+        wrapper.find(SizeAwareImage).setState({loaded: true, error: false});
 
         const style = wrapper.find('.file-preview__button').prop('style');
-        expect(style).toHaveProperty('display', 'inline');
+        expect(style).toHaveProperty('display', 'inline-block');
     });
 
     test('should render the actual image when first mounted without dimensions', () => {
         const props = {...baseProps};
         Reflect.deleteProperty(props, 'dimensions');
 
-        const wrapper = mount(<SizeAwareImage {...props}/>);
+        const wrapper = mount(<Provider store={store}><SizeAwareImage {...props}/></Provider>);
 
-        wrapper.setState({error: false});
+        wrapper.find(SizeAwareImage).setState({error: false});
 
         const src = wrapper.find('img').prop('src');
         expect(src).toEqual(baseProps.src);
@@ -102,13 +116,13 @@ describe('components/SizeAwareImage', () => {
     });
 
     test('should call onImageLoadFail when image load fails and should have svg', () => {
-        const wrapper = mount(<SizeAwareImage {...baseProps}/>);
+        const wrapper = mount(<Provider store={store}><SizeAwareImage {...baseProps}/></Provider>);
 
-        wrapper.find('img').prop('onError')();
+        wrapper.find(SizeAwareImage).find('img').prop('onError')();
 
-        expect(wrapper.state('error')).toBe(true);
-        expect(wrapper.find('svg').exists()).toEqual(true);
-        expect(wrapper.find(LoadingImagePreview).exists()).toEqual(false);
+        expect(wrapper.find(SizeAwareImage).state('error')).toBe(true);
+        expect(wrapper.find(SizeAwareImage).find('svg').exists()).toEqual(true);
+        expect(wrapper.find(SizeAwareImage).find(LoadingImagePreview).exists()).toEqual(false);
     });
 
     test('should match snapshot when handleSmallImageContainer prop is passed', () => {

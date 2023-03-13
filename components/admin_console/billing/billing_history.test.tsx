@@ -12,7 +12,7 @@ import mockStore from 'tests/test_store';
 
 import BillingHistory from './billing_history';
 
-const NO_INVOICES_LEGEND = 'All of your monthly payments will show here';
+const NO_INVOICES_LEGEND = 'All of your invoices will be shown here';
 
 const invoiceA = {
     id: 'in_1KNb3DI67GP2qpb4ueaJYBt8',
@@ -71,6 +71,9 @@ describe('components/admin_console/billing/billing_history', () => {
                 license: {
                     IsLicensed: 'true',
                     Cloud: 'true',
+                },
+                config: {
+                    DiagnosticsEnabled: 'false',
                 },
             },
             users: {
@@ -155,6 +158,9 @@ describe('BillingHistory -- self-hosted', () => {
                     IsLicensed: 'true',
                     Cloud: 'false',
                 },
+                config: {
+                    DiagnosticsEnabled: 'false',
+                },
             },
             users: {
                 currentUserId: 'current_user_id',
@@ -168,7 +174,6 @@ describe('BillingHistory -- self-hosted', () => {
                     invoices: {
                         in_1KNb3DI67GP2qpb4ueaJYBt8: invoiceA,
                         in_1KIWNTI67GP2qpb4KjGj1KAy: invoiceB,
-
                     },
                     invoicesLoaded: true,
                 },

@@ -31,23 +31,22 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
       telemetryId="start_self_hosted_trial_from_test"
       trackingPage="test"
     />
-    <a
+    <ExternalLink
       className="btn btn-secondary"
       data-testid="featureDiscovery_secondaryCallToAction"
       href="https://test.mattermost.com/secondary/"
-      rel="noopener noreferrer"
-      target="_blank"
+      location="feature_discovery"
     >
       <MemoizedFormattedMessage
         defaultMessage="Learn more"
         id="admin.ldap_feature_discovery.call_to_action.secondary"
       />
-    </a>
+    </ExternalLink>
     <p
       className="trial-legal-terms"
     >
       <MemoizedFormattedMessage
-        defaultMessage="By clicking <highlight>Start trial</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy> and receiving product emails."
+        defaultMessage="By clicking <highlight>Start trial</highlight>, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy> and receiving product emails."
         id="admin.feature_discovery.trial-request.accept-terms"
         values={
           Object {
@@ -96,23 +95,22 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot whe
       message="Try free for 30 days"
       telemetryId="start_cloud_trial_from_test"
     />
-    <a
+    <ExternalLink
       className="btn btn-secondary"
       data-testid="featureDiscovery_secondaryCallToAction"
       href="https://test.mattermost.com/secondary/"
-      rel="noopener noreferrer"
-      target="_blank"
+      location="feature_discovery"
     >
       <MemoizedFormattedMessage
         defaultMessage="Learn more"
         id="admin.ldap_feature_discovery.call_to_action.secondary"
       />
-    </a>
+    </ExternalLink>
     <p
       className="trial-legal-terms"
     >
       <MemoizedFormattedMessage
-        defaultMessage="By selecting <highlight>Try free for {trialLength} days</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails."
+        defaultMessage="By selecting <highlight>Try free for {trialLength} days</highlight>, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails."
         id="admin.feature_discovery.trial-request.accept-terms.cloudFree"
         values={
           Object {

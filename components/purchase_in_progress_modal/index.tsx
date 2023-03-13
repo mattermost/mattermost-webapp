@@ -7,7 +7,8 @@ import {FormattedMessage} from 'react-intl';
 
 import {GenericModal, GenericModalProps} from '@mattermost/components';
 
-import {getCurrentUserEmail} from 'mattermost-redux/selectors/entities/common';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
+import {getUserByEmail} from 'mattermost-redux/selectors/entities/users';
 import {Client4} from 'mattermost-redux/client';
 
 import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
@@ -15,6 +16,7 @@ import {useControlPurchaseInProgressModal} from 'components/common/hooks/useCont
 import {STORAGE_KEY_PURCHASE_IN_PROGRESS} from 'components/self_hosted_purchase_modal/constants';
 
 import './index.scss';
+import {GlobalState} from '@mattermost/types/store';
 
 interface Props {
     purchaserEmail: string;
@@ -22,7 +24,8 @@ interface Props {
 
 export default function PurchaseInProgressModal(props: Props) {
     const {close} = useControlPurchaseInProgressModal();
-    const userEmail = useSelector(getCurrentUserEmail);
+    const currentUser = useSelector(getCurrentUser);
+    const purchaserUser = useSelector((state: GlobalState) => getUserByEmail(state, props.purchaserEmail));
     const header = (
         <FormattedMessage
             id='self_hosted_signup.purchase_in_progress.title'
@@ -30,24 +33,36 @@ export default function PurchaseInProgressModal(props: Props) {
         />
     );
 
-    const sameUserAlreadyPurchasing = props.purchaserEmail === userEmail;
+    const sameUserAlreadyPurchasing = props.purchaserEmail === currentUser.email;
+    let username = '@' + purchaserUser.username;
+    if (purchaserUser.first_name && purchaserUser.last_name) {
+        username = purchaserUser.first_name + ' ' + purchaserUser.last_name;
+    }
     let description = (
         <FormattedMessage
             id='self_hosted_signup.purchase_in_progress.by_other'
-            defaultMessage='Purchase is being attempted by {email}. Try again after they have finished.'
+            defaultMessage='{username} is currently attempting to purchase a paid license.'
             values={{
-                email: props.purchaserEmail,
+                username,
             }}
         />
     );
+    let actionToTake;
     const genericModalProps: Partial<GenericModalProps> = {};
     if (sameUserAlreadyPurchasing) {
         description = (
             <FormattedMessage
                 id='self_hosted_signup.purchase_in_progress.by_self'
-                defaultMessage='You are already attempting purchase in another browser window. Please finish purchase in that window or close the modal before attempting in this window. If you are sure there is no other purchase window in progress, you can cancel the pending transaction by clicking the button below.'
+                defaultMessage='You are currently attempting to purchase in another browser window. Complete your purchase or close the other window(s).'
             />
         );
+        actionToTake = (
+            <FormattedMessage
+                id='self_hosted_signup.purchase_in_progress.by_self_restart'
+                defaultMessage='If you believe this to be a mistake, restart your purchase.'
+            />
+        );
+
         genericModalProps.handleConfirm = () => {
             localStorage.removeItem(STORAGE_KEY_PURCHASE_IN_PROGRESS);
             Client4.bootstrapSelfHostedSignup(true);
@@ -77,6 +92,11 @@ export default function PurchaseInProgressModal(props: Props) {
                 <div className='PurchaseInProgressModal__progress-description'>
                     {description}
                 </div>
+                {actionToTake &&
+                    <div className='PurchaseInProgressModal__progress-description'>
+                        {actionToTake}
+                    </div>
+                }
             </div>
         </GenericModal>
     );

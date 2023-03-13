@@ -42,7 +42,6 @@ describe('components/actions_menu/ActionsMenu on mobile view', () => {
             handleDismissTip: jest.fn(),
             showPulsatingDot: false,
             showTutorialTip: false,
-            userId: 'user_id_1',
             appsEnabled: false,
             isSysAdmin: true,
         };
