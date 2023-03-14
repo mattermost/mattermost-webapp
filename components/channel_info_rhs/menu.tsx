@@ -118,7 +118,7 @@ const Menu = ({channel, channelStats, isArchived, className, actions}: MenuProps
         return () => {
             setLoadingStats(true);
         };
-    }, []);
+    }, [channel.id]);
 
     return (
         <div
