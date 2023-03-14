@@ -48,10 +48,8 @@ export type HostedCustomerState = {
         trueUpReview?: true;
     };
     signupProgress: ValueOf<typeof SelfHostedSignupProgress>;
-    trueUpReview: {
-        status: TrueUpReviewStatus;
-        profile: TrueUpReviewProfile;
-    };
+    trueUpReviewStatus: TrueUpReviewStatusReducer;
+    trueUpReviewProfile: TrueUpReviewProfileReducer;
 }
 
 export type TrueUpReviewProfile = {
@@ -61,4 +59,13 @@ export type TrueUpReviewProfile = {
 export type TrueUpReviewStatus = {
     due_date: number;
     complete: boolean;
+}
+
+type RequestState = 'IDLE' | 'LOADING' | 'OK'
+export interface TrueUpReviewProfileReducer extends TrueUpReviewProfile {
+    getRequestState: RequestState;
+}
+
+export interface TrueUpReviewStatusReducer extends TrueUpReviewStatus {
+    getRequestState: RequestState;
 }

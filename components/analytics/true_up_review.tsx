@@ -8,7 +8,9 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import moment from 'moment';
 
-import {getTrueUpReviewBundle, getTrueUpReviewStatus} from 'actions/hosted_customer';
+import classNames from 'classnames';
+
+import {submitTrueUpReview, getTrueUpReviewStatus} from 'actions/hosted_customer';
 import {
     isCurrentLicenseCloud,
 } from 'mattermost-redux/selectors/entities/cloud';
@@ -27,7 +29,7 @@ import {GlobalState} from '@mattermost/types/store';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import classNames from 'classnames';
+import {TrueUpReviewProfileReducer, TrueUpReviewStatusReducer} from '@mattermost/types/hosted_customer';
 
 const TrueUpReview: React.FC = () => {
     const dispatch = useDispatch();
@@ -37,19 +39,27 @@ const TrueUpReview: React.FC = () => {
     const reviewStatus = useSelector(trueUpReviewStatusSelector);
     const isSystemAdmin = useSelector(isCurrentUserSystemAdmin);
     const license = useSelector(getLicense);
-    const [submitted, setSubmitted] = useState(false);
     const trueUpReviewError = useSelector((state: GlobalState) => {
         const errors = getSelfHostedErrors(state);
         return Boolean(errors.trueUpReview);
     });
+    const {getRequestState: statusRequestState}: TrueUpReviewStatusReducer = useSelector((state: GlobalState) => state.entities.hostedCustomer.trueUpReviewStatus || {complete: false, due_date: 0, getRequestState: 'IDLE'});
+    const {getRequestState: profileRequestState}: TrueUpReviewProfileReducer = useSelector((state: GlobalState) => state.entities.hostedCustomer.trueUpReviewProfile || {content: '', getRequestState: 'IDLE'});
 
     useEffect(() => {
+        if (statusRequestState === 'LOADING' || statusRequestState === 'OK') {
+            return;
+        }
         dispatch(getTrueUpReviewStatus());
-    }, [dispatch, getTrueUpReviewStatus]);
+    }, [dispatch, statusRequestState, statusRequestState]);
 
     // Download the review profile as a base64 encoded json file when the review request is submitted.
     useEffect(() => {
-        if (submitted && isAirGapped && !trueUpReviewError && reviewProfile.content.length > 0) {
+        if (profileRequestState === 'LOADING') {
+            return;
+        }
+
+        if (profileRequestState === 'OK' && isAirGapped && !trueUpReviewError && reviewProfile.content.length > 0) {
             // Create the bundle as a blob containing base64 encoded json data and assign it to a link element.
             const blob = new Blob([reviewProfile.content], {type: 'application/text'});
             const href = URL.createObjectURL(blob);
@@ -64,10 +74,8 @@ const TrueUpReview: React.FC = () => {
             // Remove link and revoke object url to avoid memory leaks.
             document.body.removeChild(link);
             URL.revokeObjectURL(href);
-
-            dispatch(getTrueUpReviewStatus());
         }
-    }, [isAirGapped, submitted, reviewProfile]);
+    }, [isAirGapped, reviewProfile, profileRequestState, trueUpReviewError]);
 
     const formattedDueDate = (): string => {
         if (!reviewStatus?.due_date) {
@@ -75,22 +83,20 @@ const TrueUpReview: React.FC = () => {
         }
 
         // Convert from milliseconds
-        const date = new Date(reviewStatus.due_date);
+        const date = new Date(reviewStatus?.due_date);
         return moment(date).format('MMMM DD, YYYY');
     };
 
     const handleSubmitReview = () => {
-        dispatch(getTrueUpReviewBundle());
-        dispatch(getTrueUpReviewStatus());
-        setSubmitted(true);
+        if (!trueUpReviewError) {
+            dispatch(submitTrueUpReview());
+        }
     };
 
     const handleDownloadBundle = () => {
-        dispatch(getTrueUpReviewBundle());
-
-        // Set submitted to true download the bundle data via useEffect
-        // (the selector for the review profile would only return the initial state without doing this).
-        setSubmitted(true);
+        if (!trueUpReviewError) {
+            dispatch(submitTrueUpReview());
+        }
     };
 
     const dueDate = (
@@ -167,13 +173,13 @@ const TrueUpReview: React.FC = () => {
         }
 
         // If the due date is empty we still have the default state.
-        if (reviewStatus.due_date === 0) {
+        if (reviewStatus?.due_date === 0) {
             return null;
         }
 
         // If we just submitted and the review status is set as complete, show the success
         // status details.
-        if (submitted) {
+        if (profileRequestState === 'OK') {
             return successStatus;
         }
 
@@ -186,13 +192,13 @@ const TrueUpReview: React.FC = () => {
     }
 
     // Only display the review details if we are within 2 weeks of the review due date.
-    const visibilityStart = moment(reviewStatus.due_date).subtract(2, 'weeks');
+    const visibilityStart = moment(reviewStatus?.due_date).subtract(2, 'weeks');
     if (moment().isBefore(visibilityStart)) {
         return null;
     }
 
     // If the review has already been submitted, don't show anything.
-    if (!submitted && reviewStatus.complete) {
+    if (profileRequestState === 'IDLE' && reviewStatus?.complete) {
         return null;
     }
 

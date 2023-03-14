@@ -181,11 +181,12 @@ export function retryFailedHostedCustomerFetches() {
     };
 }
 
-export function getTrueUpReviewBundle(): ActionFunc {
+export function submitTrueUpReview(): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.submitTrueUpReview,
         onSuccess: [HostedCustomerTypes.RECEIVED_TRUE_UP_REVIEW_BUNDLE],
-        onFailure: HostedCustomerTypes.TRUE_UP_REVIEW_FAILED,
+        onFailure: HostedCustomerTypes.TRUE_UP_REVIEW_PROFILE_FAILED,
+        onRequest: HostedCustomerTypes.TRUE_UP_REVIEW_PROFILE_REQUEST,
     });
 }
 
@@ -194,5 +195,6 @@ export function getTrueUpReviewStatus(): ActionFunc {
         clientFunc: Client4.getTrueUpReviewStatus,
         onSuccess: [HostedCustomerTypes.RECEIVED_TRUE_UP_REVIEW_STATUS],
         onFailure: HostedCustomerTypes.TRUE_UP_REVIEW_STATUS_FAILED,
+        onRequest: HostedCustomerTypes.TRUE_UP_REVIEW_STATUS_REQUEST,
     });
 }

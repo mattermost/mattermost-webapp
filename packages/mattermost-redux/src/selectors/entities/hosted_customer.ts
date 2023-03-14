@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {SelfHostedSignupProgress, HostedCustomerState, TrueUpReviewProfile, TrueUpReviewStatus} from '@mattermost/types/hosted_customer';
+import {SelfHostedSignupProgress, HostedCustomerState, TrueUpReviewProfileReducer, TrueUpReviewStatusReducer} from '@mattermost/types/hosted_customer';
 import {ValueOf} from '@mattermost/types/utilities';
 import {GlobalState} from '@mattermost/types/store';
 import {Invoice, Product} from '@mattermost/types/cloud';
@@ -26,10 +26,10 @@ export function getSelfHostedErrors(state: GlobalState): HostedCustomerState['er
     return state.entities.hostedCustomer.errors;
 }
 
-export function getTrueUpReviewProfile(state: GlobalState): TrueUpReviewProfile {
-    return state.entities.hostedCustomer.trueUpReview.profile;
+export function getTrueUpReviewProfile(state: GlobalState): TrueUpReviewProfileReducer {
+    return state.entities.hostedCustomer.trueUpReviewProfile;
 }
 
-export function getTrueUpReviewStatus(state: GlobalState): TrueUpReviewStatus {
-    return state.entities.hostedCustomer.trueUpReview.status;
+export function getTrueUpReviewStatus(state: GlobalState): TrueUpReviewStatusReducer {
+    return state.entities.hostedCustomer.trueUpReviewStatus;
 }

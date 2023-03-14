@@ -8,7 +8,7 @@ import {HostedCustomerTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Invoice, Product} from '@mattermost/types/cloud';
-import {SelfHostedSignupProgress, TrueUpReviewProfile, TrueUpReviewStatus} from '@mattermost/types/hosted_customer';
+import {SelfHostedSignupProgress, TrueUpReviewProfileReducer, TrueUpReviewStatusReducer} from '@mattermost/types/hosted_customer';
 
 interface SelfHostedProducts {
     products: Record<string, Product>;
@@ -106,7 +106,7 @@ export function errors(state: ErrorsReducer = emptyErrors, action: GenericAction
     case HostedCustomerTypes.SELF_HOSTED_INVOICES_FAILED: {
         return {...state, products: true};
     }
-    case HostedCustomerTypes.TRUE_UP_REVIEW_FAILED || HostedCustomerTypes.TRUE_UP_REVIEW_STATUS_FAILED: {
+    case HostedCustomerTypes.TRUE_UP_REVIEW_PROFILE_FAILED || HostedCustomerTypes.TRUE_UP_REVIEW_STATUS_FAILED: {
         return {...state, trueUpReview: true};
     }
     case HostedCustomerTypes.SELF_HOSTED_INVOICES_REQUEST:
@@ -120,18 +120,39 @@ export function errors(state: ErrorsReducer = emptyErrors, action: GenericAction
     }
 }
 
-function trueUpReview(state: TrueUpReviewProfile | TrueUpReviewStatus | null = null, action: GenericAction) {
+function trueUpReviewProfile(state: TrueUpReviewProfileReducer | null = null, action: GenericAction) {
     switch (action.type) {
     case HostedCustomerTypes.RECEIVED_TRUE_UP_REVIEW_BUNDLE: {
         return {
             ...state,
-            profile: action.data,
+            getRequestState: 'OK',
+            ...action.data,
         };
     }
+    case HostedCustomerTypes.TRUE_UP_REVIEW_PROFILE_REQUEST: {
+        return {
+            ...state,
+            getRequestState: 'LOADING',
+        };
+    }
+    default:
+        return state;
+    }
+}
+
+function trueUpReviewStatus(state: TrueUpReviewStatusReducer | null = null, action: GenericAction) {
+    switch (action.type) {
     case HostedCustomerTypes.RECEIVED_TRUE_UP_REVIEW_STATUS: {
         return {
             ...state,
-            status: action.data,
+            getRequestState: 'OK',
+            ...action.data,
+        };
+    }
+    case HostedCustomerTypes.TRUE_UP_REVIEW_STATUS_REQUEST: {
+        return {
+            ...state,
+            getRequestState: 'LOADING',
         };
     }
     default:
@@ -144,5 +165,6 @@ export default combineReducers({
     invoices,
     signupProgress,
     errors,
-    trueUpReview,
+    trueUpReviewProfile,
+    trueUpReviewStatus,
 });
