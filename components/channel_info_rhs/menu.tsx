@@ -34,6 +34,9 @@ const RightSide = styled.div`
 const Badge = styled.div`
     font-size: 12px;
     line-height: 18px;
+    width: 20px;
+    display: flex;
+    place-content: center;
 `;
 
 interface MenuItemProps {
