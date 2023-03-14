@@ -48,7 +48,7 @@ const TrueUpReview: React.FC = () => {
 
     // Download the review profile as a base64 encoded json file when the review request is submitted.
     useEffect(() => {
-        if (submitted) {
+        if (submitted && isAirGapped) {
             // Create the bundle as a blob containing base64 encoded json data and assign it to a link element.
             const dataBuffer = Buffer.from(JSON.stringify(reviewProfile));
             const blob = new Blob([dataBuffer.toString('base64')], {type: 'application/text'});
@@ -68,7 +68,7 @@ const TrueUpReview: React.FC = () => {
 
             dispatch(getTrueUpReviewStatus());
         }
-    }, [submitted, reviewProfile]);
+    }, [isAirGapped, submitted, reviewProfile]);
 
     const formattedDueDate = (): string => {
         if (!reviewStatus?.due_date) {
@@ -83,6 +83,7 @@ const TrueUpReview: React.FC = () => {
     const handleSubmitReview = () => {
         dispatch(getTrueUpReviewBundle());
         dispatch(getTrueUpReviewStatus());
+        setSubmitted(true);
     };
 
     const handleDownloadBundle = () => {
@@ -171,14 +172,28 @@ const TrueUpReview: React.FC = () => {
             return null;
         }
 
-        if (reviewStatus.complete) {
+        // If we just submitted and the review status is set as complete, show the success
+        // status details.
+        if (submitted) {
             return successStatus;
         }
 
         return reviewDetails;
     };
 
+    // Only show the true up review section if the user is an admin and we're not using a cloud instance.
     if (isCloud || !isSystemAdmin) {
+        return null;
+    }
+
+    // Only display the review details if we are within 2 weeks of the review due date.
+    let visibilityStart = moment(reviewStatus.due_date).subtract(2, 'weeks')
+    if (moment().isBefore(visibilityStart)) {
+        return null;
+    }
+
+    // If the review has already been submitted, don't show anything.
+    if (!submitted && reviewStatus.complete) {
         return null;
     }
 
