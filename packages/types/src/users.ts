@@ -55,6 +55,7 @@ export type UserProfile = {
     terms_of_service_create_at: number;
     remote_id?: string;
     status?: string;
+    first_day_of_week?: number;
 };
 
 export type UserProfileWithLastViewAt = UserProfile & {
