@@ -11,13 +11,14 @@ import {General} from 'mattermost-redux/constants';
 import {getFirstAdminSetupComplete as getFirstAdminSetupCompleteAction} from 'mattermost-redux/actions/general';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {Team} from '@mattermost/types/teams';
-import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeam, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
-import {getFirstAdminSetupComplete, getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getFirstAdminSetupComplete, getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {Client4} from 'mattermost-redux/client';
 
 import Constants from 'utils/constants';
+import {getSiteURL, teamNameToUrl} from 'utils/url';
+import {makeNewTeam} from 'utils/team_utils';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 
@@ -45,8 +46,6 @@ import InviteMembers from './invite_members';
 import LaunchingWorkspace, {START_TRANSITIONING_OUT} from './launching_workspace';
 
 import './preparing_workspace.scss';
-import { getSiteURL, teamNameToUrl } from 'utils/url';
-import { makeNewTeam } from 'utils/team_utils';
 
 const SubmissionStates = {
     Presubmit: 'Presubmit',
@@ -119,13 +118,17 @@ const PreparingWorkspace = (props: Props) => {
     const pluginsEnabled = config.PluginsEnabled === 'true';
     const showOnMountTimeout = useRef<NodeJS.Timeout>();
     const configSiteUrl = config.SiteURL;
+    const isSelfHosted = useSelector(getLicense).Cloud !== 'true';
 
     const stepOrder = [
-        WizardSteps.Organization,
+        isSelfHosted && WizardSteps.Organization,
         pluginsEnabled && WizardSteps.Plugins,
-        WizardSteps.InviteMembers,
+        isSelfHosted && WizardSteps.InviteMembers,
         WizardSteps.LaunchingWorkspace,
     ].filter((x) => Boolean(x)) as WizardStep[];
+
+    // first steporder that is not false
+    const firstShowablePage = stepOrder.filter((x) => Boolean(x))[0];
 
     const firstAdminSetupComplete = useSelector(getFirstAdminSetupComplete);
 
@@ -231,6 +234,7 @@ const PreparingWorkspace = (props: Props) => {
         // This endpoint sets setup complete state, so we need to make this request
         // even if admin skipped submitting plugins.
         const completeSetupRequest = {
+            organization: form.organization,
             install_plugins: pluginsToSetup,
         };
         try {
@@ -325,7 +329,7 @@ const PreparingWorkspace = (props: Props) => {
         });
     }, [form]);
 
-    const previous = (
+    let previous: React.ReactNode = (
         <div
             onClick={goPrevious}
             onKeyUp={goPrevious}
@@ -339,6 +343,9 @@ const PreparingWorkspace = (props: Props) => {
             />
         </div>
     );
+    if (currentStep === firstShowablePage) {
+        previous = null;
+    }
 
     return (
         <div className='PreparingWorkspace PreparingWorkspaceContainer'>
@@ -378,6 +385,7 @@ const PreparingWorkspace = (props: Props) => {
                 />
 
                 <Plugins
+                    isSelfHosted={isSelfHosted}
                     onPageView={onPageViews[WizardSteps.Plugins]}
                     previous={previous}
                     next={() => {

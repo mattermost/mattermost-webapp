@@ -1,16 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState, useMemo, useEffect} from 'react';
+import React, {useMemo, useEffect} from 'react';
 import {CSSTransition} from 'react-transition-group';
-import {FormattedMessage, useIntl} from 'react-intl';
-
-import {UserProfile} from 'mattermost-redux/types/users';
-
-import {t} from 'utils/i18n';
-import {Constants} from 'utils/constants';
-
-import UsersEmailsInput from 'components/widgets/inputs/users_emails_input';
+import {FormattedMessage} from 'react-intl';
 
 import {Animations, mapAnimationReasonToClass, Form, PreparingWorkspacePageProps} from './steps';
 

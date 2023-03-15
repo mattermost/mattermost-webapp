@@ -187,7 +187,7 @@ export type PreparingWorkspacePageProps = {
     transitionDirection: AnimationReason;
     next?: () => void;
     skip?: () => void;
-    previous?: JSX.Element;
+    previous?: React.ReactNode;
     show: boolean;
     onPageView: () => void;
 }

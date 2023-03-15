@@ -20,16 +20,15 @@ import {Animations, mapAnimationReasonToClass, Form, PreparingWorkspacePageProps
 import Title from './title';
 import Description from './description';
 import PageBody from './page_body';
-
 import SingleColumnLayout from './single_column_layout';
 
 import './plugins.scss';
-import PageLine from './page_line';
 
 type Props = PreparingWorkspacePageProps & {
     options: Form['plugins'];
     setOption: (option: keyof Form['plugins']) => void;
     className?: string;
+    isSelfHosted: boolean;
 }
 const Plugins = (props: Props) => {
     const {formatMessage} = useIntl();
@@ -44,6 +43,34 @@ const Plugins = (props: Props) => {
     if (props.className) {
         className += ' ' + props.className;
     }
+
+    let title = (
+        <FormattedMessage
+            id={'onboarding_wizard.cloud_plugins.title'}
+            defaultMessage='Welcome to Mattermost!'
+        />
+    );
+    let description = (
+        <FormattedMessage
+            id={'onboarding_wizard.cloud_plugins.description'}
+            defaultMessage={'Mattermost is better when integrated with the tools your team uses for collaboration. Popular tools are below, select the ones your team uses and we\'ll add them to your workspace. Additional set up may be needed later.'}
+        />
+    );
+    if (props.isSelfHosted) {
+        title = (
+            <FormattedMessage
+                id={'onboarding_wizard.self_hosted_plugins.title'}
+                defaultMessage='What tools do you use?'
+            />
+        );
+        description = (
+            <FormattedMessage
+                id={'onboarding_wizard.self_hosted_plugins.description'}
+                defaultMessage={'Choose the tools you work with, and we\'ll add them to your workspace. Additional set up may be needed later.'}
+            />
+        );
+    }
+
     return (
         <CSSTransition
             in={props.show}
@@ -54,28 +81,21 @@ const Plugins = (props: Props) => {
         >
             <div className={className}>
                 <SingleColumnLayout>
-                    <PageLine
-                        style={{
-                            height: '50vh',
-                            position: 'absolute',
-                            transform: 'translateY(-100%)',
-                            top: '-20px',
-                        }}
-                        noLeft={true}
-                    />
                     {props.previous}
                     <Title>
-                        <FormattedMessage
-                            id={'onboarding_wizard.plugins.title'}
-                            defaultMessage='What tools do you use?'
-                        />
+                        {title}
+                        {!props.isSelfHosted && (
+                            <div className='subtitle'>
+                                <CelebrateSVG/>
+                                <FormattedMessage
+                                    id={'onboarding_wizard.cloud_plugins.subtitle'}
+                                    defaultMessage='(almost there!)'
+                                />
+                            </div>
+
+                        )}
                     </Title>
-                    <Description>
-                        <FormattedMessage
-                            id={'onboarding_wizard.plugins.description'}
-                            defaultMessage={'Choose the tools you work with, and we\'ll add them to your workspace. Additional set up may be needed later.'}
-                        />
-                    </Description>
+                    <Description>{description}</Description>
                     <PageBody>
                         <MultiSelectCards
                             size='small'
@@ -178,9 +198,6 @@ const Plugins = (props: Props) => {
                             />
                         </button>
                     </div>
-                    <PageLine
-                        noLeft={true}
-                    />
                 </SingleColumnLayout>
             </div>
         </CSSTransition>

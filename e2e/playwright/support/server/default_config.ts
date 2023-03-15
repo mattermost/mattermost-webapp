@@ -682,7 +682,6 @@ const defaultServerConfig: AdminConfig = {
         BoardsDataRetention: false,
         NormalizeLdapDNs: false,
         EnableInactivityCheckJob: true,
-        UseCaseOnboarding: true,
         GraphQL: false,
         InsightsEnabled: true,
         CommandPalette: false,
