@@ -48,12 +48,10 @@
     }
 
     &__submit {
-        border-radius: 4px;
         font-weight: 600;
 
         &--error {
             background: rgba(var(--button-bg-rgb), 0.16);
-            border-radius: 4px;
             color: var(--button-bg);
             font-weight: 600;
         }
