@@ -10,7 +10,6 @@ import {ChannelTypes, PreferenceTypes, UserTypes} from 'mattermost-redux/action_
 
 import {Client4} from 'mattermost-redux/client';
 
-import {General, Preferences} from '../constants';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {MarkUnread} from 'mattermost-redux/constants/channels';
 
@@ -27,12 +26,15 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {ActionFunc, ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
+import {getChannelsIdForTeam, getChannelByName} from 'mattermost-redux/utils/channel_utils';
+
+import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
+
 import {Channel, ChannelNotifyProps, ChannelMembership, ChannelModerationPatch, ChannelsWithTotalCount, ChannelSearchOpts} from '@mattermost/types/channels';
 
 import {PreferenceType} from '@mattermost/types/preferences';
 
-import {getChannelsIdForTeam, getChannelByName} from 'mattermost-redux/utils/channel_utils';
-import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
+import {General, Preferences} from '../constants';
 
 import {addChannelToInitialCategory, addChannelToCategory} from './channel_categories';
 import {logError} from './errors';
@@ -1076,11 +1078,11 @@ export function searchGroupChannels(term: string): ActionFunc {
     });
 }
 
-export function getChannelStats(channelId: string): ActionFunc {
+export function getChannelStats(channelId: string, excludeFilesCount?: boolean): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let stat;
         try {
-            stat = await Client4.getChannelStats(channelId);
+            stat = await Client4.getChannelStats(channelId, excludeFilesCount);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
