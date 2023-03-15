@@ -153,14 +153,14 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
                   className="dndTime-tomorrow_timestamp"
                 >
                   <FormattedDate
-                    value={1970-01-02T08:00:02.021Z}
+                    value={2021-11-03T08:48:57.000Z}
                     weekday="short"
                   />
                   , 
                   <FormattedTime
                     hour12={true}
                     timeStyle="short"
-                    value={1970-01-02T08:00:02.021Z}
+                    value={2021-11-03T08:48:57.000Z}
                   />
                 </span>
               </React.Fragment>,
@@ -471,14 +471,14 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
                   className="dndTime-tomorrow_timestamp"
                 >
                   <FormattedDate
-                    value={1970-01-02T08:00:02.021Z}
+                    value={2021-11-03T08:48:57.000Z}
                     weekday="short"
                   />
                   , 
                   <FormattedTime
                     hour12={true}
                     timeStyle="short"
-                    value={1970-01-02T08:00:02.021Z}
+                    value={2021-11-03T08:48:57.000Z}
                   />
                 </span>
               </React.Fragment>,
@@ -741,14 +741,14 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
                   className="dndTime-tomorrow_timestamp"
                 >
                   <FormattedDate
-                    value={1970-01-02T08:00:02.021Z}
+                    value={2021-11-03T08:48:57.000Z}
                     weekday="short"
                   />
                   , 
                   <FormattedTime
                     hour12={true}
                     timeStyle="short"
-                    value={1970-01-02T08:00:02.021Z}
+                    value={2021-11-03T08:48:57.000Z}
                   />
                 </span>
               </React.Fragment>,
@@ -1011,14 +1011,14 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
                   className="dndTime-tomorrow_timestamp"
                 >
                   <FormattedDate
-                    value={1970-01-02T08:00:02.021Z}
+                    value={2021-11-03T08:48:57.000Z}
                     weekday="short"
                   />
                   , 
                   <FormattedTime
                     hour12={true}
                     timeStyle="short"
-                    value={1970-01-02T08:00:02.021Z}
+                    value={2021-11-03T08:48:57.000Z}
                   />
                 </span>
               </React.Fragment>,
@@ -1282,14 +1282,14 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
                   className="dndTime-tomorrow_timestamp"
                 >
                   <FormattedDate
-                    value={1970-01-02T08:00:02.021Z}
+                    value={2021-11-03T08:48:57.000Z}
                     weekday="short"
                   />
                   , 
                   <FormattedTime
                     hour12={true}
                     timeStyle="short"
-                    value={1970-01-02T08:00:02.021Z}
+                    value={2021-11-03T08:48:57.000Z}
                   />
                 </span>
               </React.Fragment>,
@@ -1527,14 +1527,14 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
                   className="dndTime-tomorrow_timestamp"
                 >
                   <FormattedDate
-                    value={1970-01-02T08:00:02.021Z}
+                    value={2021-11-03T08:48:57.000Z}
                     weekday="short"
                   />
                   , 
                   <FormattedTime
                     hour12={true}
                     timeStyle="short"
-                    value={1970-01-02T08:00:02.021Z}
+                    value={2021-11-03T08:48:57.000Z}
                   />
                 </span>
               </React.Fragment>,
@@ -1764,14 +1764,14 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
                   className="dndTime-tomorrow_timestamp"
                 >
                   <FormattedDate
-                    value={1970-01-02T08:00:02.021Z}
+                    value={2021-11-03T08:48:57.000Z}
                     weekday="short"
                   />
                   , 
                   <FormattedTime
                     hour12={true}
                     timeStyle="short"
-                    value={1970-01-02T08:00:02.021Z}
+                    value={2021-11-03T08:48:57.000Z}
                   />
                 </span>
               </React.Fragment>,
@@ -2034,14 +2034,14 @@ exports[`components/StatusDropdown should not show clear status button when cust
                   className="dndTime-tomorrow_timestamp"
                 >
                   <FormattedDate
-                    value={1970-01-02T08:00:02.021Z}
+                    value={2021-11-03T08:48:57.000Z}
                     weekday="short"
                   />
                   , 
                   <FormattedTime
                     hour12={true}
                     timeStyle="short"
-                    value={1970-01-02T08:00:02.021Z}
+                    value={2021-11-03T08:48:57.000Z}
                   />
                 </span>
               </React.Fragment>,
@@ -2352,14 +2352,14 @@ exports[`components/StatusDropdown should show clear status button when custom s
                   className="dndTime-tomorrow_timestamp"
                 >
                   <FormattedDate
-                    value={1970-01-02T08:00:02.021Z}
+                    value={2021-11-03T08:48:57.000Z}
                     weekday="short"
                   />
                   , 
                   <FormattedTime
                     hour12={true}
                     timeStyle="short"
-                    value={1970-01-02T08:00:02.021Z}
+                    value={2021-11-03T08:48:57.000Z}
                   />
                 </span>
               </React.Fragment>,
