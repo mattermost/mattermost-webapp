@@ -10,7 +10,6 @@ import {Constants} from 'utils/constants';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 import {Channel, ChannelStats} from '@mattermost/types/channels';
-import {Constants} from 'utils/constants';
 
 const MenuItemContainer = styled.div`
     padding: 8px 16px;
