@@ -27,6 +27,9 @@ import SelfHostedExpansionCard from './expansion_card';
 import './self_hosted_expansion_modal.scss';
 import {closeModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
+import {StripeCardElementChangeEvent} from '@stripe/stripe-js';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getFilteredUsersStats} from 'mattermost-redux/selectors/entities/users';
 
 export interface FormState {
     address: string;
@@ -72,6 +75,11 @@ export default function SelfHostedExpansionModal() {
     const intl = useIntl();
     const cardRef = useRef<CardInputType | null>(null);
     const theme = useSelector(getTheme);
+
+    const license = useSelector(getLicense)
+    const licensedSeats = parseInt(license.Users);
+    const activeUsers = useSelector(getFilteredUsersStats)?.total_users_count || 0;
+    const [additionalSeats, setAdditionalSeats] = useState(activeUsers <= licensedSeats ? 1 : activeUsers - licensedSeats);
     
     const [stripeLoadHint, setStripeLoadHint] = useState(Math.random());
     const stripeRef = useLoadStripe(stripeLoadHint);
@@ -153,8 +161,8 @@ export default function SelfHostedExpansionModal() {
                                     <CardInput
                                         forwardedRef={cardRef}
                                         required={true}
-                                        onCardInputChange={() => {
-                                            setFormState({...formState, cardFilled: true})
+                                        onCardInputChange={(event: StripeCardElementChangeEvent) => {
+                                            setFormState({...formState, cardFilled: event.complete})
                                         }}
                                         theme={theme}
                                     />
@@ -303,6 +311,7 @@ export default function SelfHostedExpansionModal() {
                                 }}
                                 canSubmit={canSubmit()}
                                 submit={submit}
+                                initialSeats={additionalSeats}
                             />
                         </div>
                         </div>

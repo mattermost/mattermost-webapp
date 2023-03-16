@@ -21,6 +21,7 @@ interface Props {
     updateSeats: (seats: number) => void;
     submit: () => void;
     canSubmit: boolean;
+    initialSeats: number;
 }
 
 export default function SelfHostedExpansionCard(props: Props) {
@@ -28,9 +29,7 @@ export default function SelfHostedExpansionCard(props: Props) {
     const startsAt = moment(parseInt(license.StartsAt)).format("MMM. D, YYYY");
     const endsAt = moment(parseInt(license.ExpiresAt)).format("MMM. D, YYYY");
     const licensedSeats = 100;//parseInt(license.Users);
-    
-    const activeUsers = 2;//useSelector(getFilteredUsersStats)?.total_users_count || 0;
-    const [additionalSeats, setAdditionalSeats] = useState(activeUsers <= licensedSeats ? 1 : activeUsers - licensedSeats);
+    const [additionalSeats, setAdditionalSeats] = useState(props.initialSeats);
     const [overMaxSeats, setOverMaxSeats] = useState(false);
     const licenseExpiry = parseInt(license.ExpiresAt);
     const invalidAdditionalSeats = additionalSeats === 0 || isNaN(additionalSeats);
@@ -97,9 +96,12 @@ export default function SelfHostedExpansionCard(props: Props) {
 
     const handleNewSeatsInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setOverMaxSeats(false);
+
         const requestedSeats = parseInt(e.target.value);
+
         const overMaxAdditionalSeats = requestedSeats > maxAdditionalSeats;
         setOverMaxSeats(overMaxAdditionalSeats);
+
         const finalSeatCount = overMaxAdditionalSeats ? maxAdditionalSeats : requestedSeats;
         setAdditionalSeats(finalSeatCount);
         props.updateSeats(finalSeatCount);
@@ -164,16 +166,20 @@ export default function SelfHostedExpansionCard(props: Props) {
                     {overMaxSeats && maxAdditionalSeats > 0 &&
                         <FormattedMessage
                             id='self_hosted_expansion_rhs_card_maximum_seats_warning'
-                            defaultMessage='You may only expand by an additional {maxAdditionalSeats} seats'
+                            defaultMessage='{warningIcon} You may only expand by an additional {maxAdditionalSeats} seats'
                             values={{
-                                maxAdditionalSeats
+                                maxAdditionalSeats,
+                                warningIcon: <WarningIcon additionalClassName={'SelfHostedExpansionRHSCard__warning'}/>
                             }}
                         />
                     }
                     {maxAdditionalSeats === 0 &&
                         <FormattedMessage
                             id='self_hosted_expansion_rhs_card_additional_seats_limit_warning'
-                            defaultMessage='You have reached the limit for additional seats'
+                            defaultMessage='{warningIcon} You have reached the limit for additional seats'
+                            values={{
+                                warningIcon: <WarningIcon additionalClassName={'SelfHostedExpansionRHSCard__warning'}/>
+                            }}
                         />
                     }
                 </div>
