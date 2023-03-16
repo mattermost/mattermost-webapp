@@ -16,20 +16,15 @@ import 'cypress-file-upload';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Profile > Profile Settings > Profile Picture', () => {
-    before(() => {
-        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+    beforeEach(() => {
+        cy.apiAdminLogin().apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
             cy.visit(offTopicUrl);
         });
     });
 
     it('MM-T2080 Can remove profile pic', () => {
-        const customImageMatch = 'image?_=';
-
         // * Verify the default profile image is shown first
-        cy.uiGetProfileHeader().
-            find('.Avatar').
-            should('have.attr', 'src').
-            and('not.include', customImageMatch);
+        verifyDefaultProfilePictureIsSet();
 
         // # Go to Profile
         cy.uiOpenProfileModal();
@@ -45,10 +40,7 @@ describe('Profile > Profile Settings > Profile Picture', () => {
         cy.get('body').type('{esc}');
 
         // * Profile picture is updated
-        cy.uiGetProfileHeader().
-            find('.Avatar').
-            should('have.attr', 'src').
-            and('include', customImageMatch);
+        verifyCustomProfilePictureIsSet();
 
         // # Go to Profile
         cy.uiOpenProfileModal();
@@ -67,10 +59,7 @@ describe('Profile > Profile Settings > Profile Picture', () => {
         cy.get('body').type('{esc}');
 
         // * Verify the default profile image is shown
-        cy.uiGetProfileHeader().
-            find('.Avatar').
-            should('have.attr', 'src').
-            and('not.include', customImageMatch);
+        verifyDefaultProfilePictureIsSet();
     });
 
     it('MM-T2077 Profile picture: non image file shows error', () => {
@@ -89,4 +78,54 @@ describe('Profile > Profile Settings > Profile Picture', () => {
             should('be.visible').
             and('contain', 'Image limits check failed. Resolution is too high.');
     });
+
+    it('MM-T2078 Profile picture: file type PNG accepted', () => {
+        verifyPictureIsAccepted('png-image-file.png');
+    });
+
+    it('MM-T2078 Profile picture: file type JPG accepted', () => {
+        verifyPictureIsAccepted('jpg-image-file.jpg');
+    });
+
+    it('MM-T2078 Profile picture: file type JPEG accepted', () => {
+        verifyPictureIsAccepted('jpeg-image-file.jpeg');
+    });
+
+    it('MM-T2078 Profile picture: file type BMP accepted', () => {
+        verifyPictureIsAccepted('bmp-image-file.bmp');
+    });
 });
+
+const customImageMatch = 'image?_=';
+
+function verifyDefaultProfilePictureIsSet() {
+    cy.uiGetProfileHeader().
+        find('.Avatar').
+        should('have.attr', 'src').
+        and('not.include', customImageMatch);
+}
+
+function verifyCustomProfilePictureIsSet() {
+    cy.uiGetProfileHeader().
+        find('.Avatar').
+        should('have.attr', 'src').
+        and('include', customImageMatch);
+}
+
+function verifyPictureIsAccepted(fileName: string) {
+    // * Verify the default profile image is shown first
+    verifyDefaultProfilePictureIsSet();
+
+    // # Open Profile > Profile Settings > Profile Picture > Edit
+    cy.uiOpenProfileModal().findByRole('button', {name: /picture edit/i}).click();
+
+    // # Select a new profile picture and click Save
+    cy.findByTestId('uploadPicture').attachFile(fileName);
+    cy.uiSave().wait(TIMEOUTS.HALF_SEC);
+
+    // # Close modal
+    cy.get('body').type('{esc}');
+
+    // * Profile picture is updated
+    verifyCustomProfilePictureIsSet();
+}
