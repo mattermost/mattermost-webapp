@@ -268,10 +268,17 @@ export function getRemainingDaysFromFutureTimestamp(timestamp?: number): number 
     return Math.floor((utcFuture - utcToday) / MS_PER_DAY);
 }
 
-export function isPastDateWithinDaysFromToday(timestamp: number, days: number): boolean {
+/**
+ *
+ * @param timestamp date you want to check is in the range of the provided number of days
+ * @param days number of days you want to check your date against to
+ * @param timeline 'f' represents future, 'p' represents past
+ * @returns boolean, true if your date is in the range of the provided number of days
+ */
+export function isDateWithinDaysFromToday(timestamp: number, days: number, timeline: 'f' | 'p'): boolean {
     const today = new Date().getTime();
     const daysSince = Math.round((today - timestamp) / MS_PER_DAY);
-    return daysSince <= days;
+    return timeline === 'p' ? daysSince <= days : daysSince >= days;
 }
 
 export function getLocaleDateFromUTC(timestamp: number, format = 'YYYY/MM/DD HH:mm:ss', userTimezone = '') {

@@ -5,7 +5,7 @@ import React, {ReactNode, useEffect, useRef, useState} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import {Posts, Preferences} from 'mattermost-redux/constants/index';
+import {Posts} from 'mattermost-redux/constants/index';
 import {isPostEphemeral} from 'mattermost-redux/utils/post_utils';
 
 import {Locations} from 'utils/constants';
@@ -34,8 +34,6 @@ type Props = {
     handleDropdownOpened?: (e: boolean) => void;
     collapsedThreadsEnabled?: boolean;
     shouldShowActionsMenu?: boolean;
-    showActionsMenuPulsatingDot?: boolean;
-    tourTipsEnabled: boolean;
     oneClickReactionsEnabled?: boolean;
     recentEmojis: Emoji[];
     isExpanded?: boolean;
@@ -63,7 +61,6 @@ const PostOptions = (props: Props): JSX.Element => {
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [showDotMenu, setShowDotMenu] = useState(false);
     const [showActionsMenu, setShowActionsMenu] = useState(false);
-    const [showActionTip, setShowActionTip] = useState(false);
 
     useEffect(() => {
         if (props.isLastPost &&
@@ -80,8 +77,6 @@ const PostOptions = (props: Props): JSX.Element => {
         isReadOnly,
         post,
         oneClickReactionsEnabled,
-        showActionsMenuPulsatingDot,
-        tourTipsEnabled,
         isMobileView,
     } = props;
 
@@ -102,34 +97,14 @@ const PostOptions = (props: Props): JSX.Element => {
     };
 
     const handleActionsMenuOpened = (open: boolean) => {
-        if (tourTipsEnabled && showActionsMenuPulsatingDot) {
-            setShowActionTip(true);
-            return;
-        }
         setShowActionsMenu(open);
         props.handleDropdownOpened!(open);
-    };
-
-    const handleActionsMenuTipOpened = () => {
-        setShowActionTip(true);
-        props.handleDropdownOpened!(true);
-    };
-
-    const handleActionsMenuGotItClick = () => {
-        props.setActionsMenuInitialisationState?.(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
-        setShowActionTip(false);
-        props.handleDropdownOpened!(false);
-    };
-
-    const handleTipDismissed = () => {
-        setShowActionTip(false);
-        props.handleDropdownOpened!(false);
     };
 
     const getDotMenuRef = () => dotMenuRef.current;
 
     const isPostDeleted = post && post.state === Posts.POST_DELETED;
-    const hoverLocal = props.hover || showEmojiPicker || showDotMenu || showActionsMenu || showActionTip;
+    const hoverLocal = props.hover || showEmojiPicker || showDotMenu || showActionsMenu; // || showActionTip;
     const showCommentIcon = isFromAutoResponder || (!systemMessage && (isMobileView ||
             hoverLocal || (!post.root_id && Boolean(props.hasReplies)) ||
             props.isFirstReply) && props.location === Locations.CENTER);
@@ -197,11 +172,6 @@ const PostOptions = (props: Props): JSX.Element => {
             location={props.location}
             handleDropdownOpened={handleActionsMenuOpened}
             isMenuOpen={showActionsMenu}
-            showPulsatingDot={tourTipsEnabled && showActionsMenuPulsatingDot}
-            showTutorialTip={tourTipsEnabled && showActionTip}
-            handleOpenTip={handleActionsMenuTipOpened}
-            handleNextTip={handleActionsMenuGotItClick}
-            handleDismissTip={handleTipDismissed}
         />
     );
     const dotMenu = (

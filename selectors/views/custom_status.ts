@@ -12,7 +12,7 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {Preferences} from 'mattermost-redux/constants';
 import {CustomStatusDuration, UserCustomStatus} from '@mattermost/types/users';
 
-import {isPastDateWithinDaysFromToday} from 'utils/utils';
+import {isDateWithinDaysFromToday} from 'utils/utils';
 
 import {GlobalState} from 'types/store';
 import {getCurrentUserTimezone} from 'selectors/general';
@@ -60,7 +60,7 @@ export function isCustomStatusEnabled(state: GlobalState) {
 function showCustomStatusPulsatingDotAndPostHeader(state: GlobalState) {
     // only show this for users during the first seven days
     const currentUser = getCurrentUser(state);
-    const hasUserCreationLessThanSevenDays = isPastDateWithinDaysFromToday(currentUser.create_at, 7);
+    const hasUserCreationLessThanSevenDays = isDateWithinDaysFromToday(currentUser.create_at, 7, 'f');
     const customStatusTutorialState = get(state, Preferences.CATEGORY_CUSTOM_STATUS, Preferences.NAME_CUSTOM_STATUS_TUTORIAL_STATE);
     const modalAlreadyViewed = customStatusTutorialState && JSON.parse(customStatusTutorialState)[Preferences.CUSTOM_STATUS_MODAL_VIEWED];
     return !modalAlreadyViewed && hasUserCreationLessThanSevenDays;
