@@ -5,8 +5,6 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {useIntl} from 'react-intl';
 
-import {Constants} from 'utils/constants';
-
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 import {Channel, ChannelStats} from '@mattermost/types/channels';
