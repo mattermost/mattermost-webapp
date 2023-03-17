@@ -31,6 +31,9 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal', () => {
     // required state to mount using the provider
     const state = {
         entities: {
+            users: {
+                currentUserId: 'current_user_id',
+            },
             admin: {
                 analytics: {
                     TOTAL_USERS: 9,
@@ -43,6 +46,9 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal', () => {
                 license: {
                     IsLicensed: 'false',
                     Cloud: 'true',
+                },
+                config: {
+                    DiagnosticsEnabled: 'false',
                 },
             },
             cloud: {

@@ -17,6 +17,7 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import Avatar from 'components/widgets/users/avatar';
 import {isSuccess} from 'types/actions';
+import ExternalLink from 'components/external_link';
 
 export type Props = {
     show: boolean;
@@ -171,13 +172,12 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
                             defaultMessage='Select additional permissions for the account. <link>Read more about roles and permissions</link>.'
                             values={{
                                 link: (msg: React.ReactNode) => (
-                                    <a
+                                    <ExternalLink
                                         href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
-                                        target='_blank'
-                                        rel='noreferrer'
+                                        location='manage_roles_modal'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                             }}
                         />
@@ -252,13 +252,12 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
                                     defaultMessage='Allow this account to generate <link>personal access tokens</link>.'
                                     values={{
                                         link: (msg: React.ReactNode) => (
-                                            <a
+                                            <ExternalLink
                                                 href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token'
-                                                target='_blank'
-                                                rel='noreferrer'
+                                                location='manage_roles_modal'
                                             >
                                                 {msg}
-                                            </a>
+                                            </ExternalLink>
                                         ),
                                     }}
                                 />

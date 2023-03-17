@@ -8,6 +8,7 @@ import {ProductNotices, ProductNotice} from '@mattermost/types/product_notices';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
+import ExternalLink from 'components/external_link';
 import Markdown from 'components/markdown';
 import GenericModal from 'components/generic_modal';
 import NextIcon from 'components/widgets/icons/fa_next_icon';
@@ -195,16 +196,15 @@ export default class ProductNoticesModal extends React.PureComponent<Props, Stat
 
         if (noOfNotices !== 1 && presentNoticeInfo.actionText) {
             return (
-                <a
-                    target='_blank'
+                <ExternalLink
                     id='actionButton'
-                    rel='noopener noreferrer'
                     className='GenericModal__button actionButton'
-                    href={presentNoticeInfo.actionParam}
+                    location='product_notices_modal'
+                    href={presentNoticeInfo.actionParam || ''}
                     onClick={this.trackClickEvent}
                 >
                     {presentNoticeInfo.actionText}
-                </a>
+                </ExternalLink>
             );
         }
         return null;

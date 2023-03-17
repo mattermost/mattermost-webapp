@@ -23,6 +23,7 @@ import AdminPanelTogglable from 'components/widgets/admin_console/admin_panel_to
 import PermissionsTree, {EXCLUDED_PERMISSIONS} from '../permissions_tree';
 import GuestPermissionsTree, {GUEST_INCLUDED_PERMISSIONS} from '../guest_permissions_tree';
 import PermissionsTreePlaybooks from '../permissions_tree_playbooks';
+import ExternalLink from 'components/external_link';
 
 type Props = {
     config: Partial<ClientConfig>;
@@ -373,13 +374,12 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent<
                                         defaultMessage='Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a <link>Team Override Scheme</link>is applied in specific teams.'
                                         values={{
                                             link: (msg: React.ReactNode) => (
-                                                <a
+                                                <ExternalLink
                                                     href='https://docs.mattermost.com/onboard/advanced-permissions.html'
-                                                    target='_blank'
-                                                    rel='noreferrer'
+                                                    location='permission_system_scheme_settings'
                                                 >
                                                     {msg}
-                                                </a>
+                                                </ExternalLink>
                                             ),
                                         }}
                                     />

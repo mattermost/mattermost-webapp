@@ -33,16 +33,15 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
             id="admin.elasticsearch.enableIndexingDescription"
             values={
               Object {
-                "documentationLink": <a
+                "documentationLink": <ExternalLink
                   href="https://docs.mattermost.com/scale/elasticsearch.html"
-                  rel="noopener noreferrer"
-                  target="_blank"
+                  location="elasticsearch_settings"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Learn more about Elasticsearch in our documentation."
                     id="admin.elasticsearch.enableIndexingDescription.documentationLinkText"
                   />
-                </a>,
+                </ExternalLink>,
               }
             }
           />
@@ -72,16 +71,15 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
             id="admin.elasticsearch.connectionUrlDescription"
             values={
               Object {
-                "documentationLink": <a
+                "documentationLink": <ExternalLink
                   href="https://docs.mattermost.com/scale/elasticsearch.html"
-                  rel="noopener noreferrer"
-                  target="_blank"
+                  location="elasticsearch_settings"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Please see documentation with server setup instructions."
                     id="admin.elasticsearch.connectionUrlExample.documentationLinkText"
                   />
-                </a>,
+                </ExternalLink>,
               }
             }
           />
@@ -506,16 +504,15 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
             id="admin.elasticsearch.enableIndexingDescription"
             values={
               Object {
-                "documentationLink": <a
+                "documentationLink": <ExternalLink
                   href="https://docs.mattermost.com/scale/elasticsearch.html"
-                  rel="noopener noreferrer"
-                  target="_blank"
+                  location="elasticsearch_settings"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Learn more about Elasticsearch in our documentation."
                     id="admin.elasticsearch.enableIndexingDescription.documentationLinkText"
                   />
-                </a>,
+                </ExternalLink>,
               }
             }
           />
@@ -545,16 +542,15 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
             id="admin.elasticsearch.connectionUrlDescription"
             values={
               Object {
-                "documentationLink": <a
+                "documentationLink": <ExternalLink
                   href="https://docs.mattermost.com/scale/elasticsearch.html"
-                  rel="noopener noreferrer"
-                  target="_blank"
+                  location="elasticsearch_settings"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Please see documentation with server setup instructions."
                     id="admin.elasticsearch.connectionUrlExample.documentationLinkText"
                   />
-                </a>,
+                </ExternalLink>,
               }
             }
           />

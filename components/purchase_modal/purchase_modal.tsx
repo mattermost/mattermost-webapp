@@ -56,6 +56,7 @@ import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
 
 import {Team} from '@mattermost/types/teams';
+import ExternalLink from 'components/external_link';
 
 import PaymentForm from '../payment_form/payment_form';
 
@@ -511,7 +512,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
 
     contactSalesLink = (text: ReactNode) => {
         return (
-            <a
+            <ExternalLink
                 className='footer-text'
                 onClick={() => {
                     trackEvent(
@@ -520,17 +521,16 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     );
                 }}
                 href={this.props.contactSalesLink}
-                target='_blank'
-                rel='noopener noreferrer'
+                location='purchase_modal'
             >
                 {text}
-            </a>
+            </ExternalLink>
         );
     }
 
     learnMoreLink = () => {
         return (
-            <a
+            <ExternalLink
                 className='footer-text'
                 onClick={() => {
                     trackEvent(
@@ -539,14 +539,13 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     );
                 }}
                 href={CloudLinks.PRORATED_PAYMENT}
-                target='_blank'
-                rel='noopener noreferrer'
+                location='purchase_modal'
             >
                 <FormattedMessage
                     defaultMessage={'Learn more'}
                     id={'admin.billing.subscription.LearnMore'}
                 />
-            </a>
+            </ExternalLink>
         );
     }
 

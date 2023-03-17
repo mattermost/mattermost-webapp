@@ -12,6 +12,7 @@ import SizeAwareImage from 'components/size_aware_image';
 import FilePreviewModal from 'components/file_preview_modal';
 
 import brokenImageIcon from 'images/icons/brokenimage.png';
+import ExternalLink from 'components/external_link';
 
 export default class MarkdownImage extends React.PureComponent {
     static defaultProps = {
@@ -152,15 +153,14 @@ export default class MarkdownImage extends React.PureComponent {
                 {(safeSrc) => {
                     if (!safeSrc) {
                         return (
-                            <a
+                            <ExternalLink
                                 className='theme markdown__link'
                                 href={src}
-                                rel='noopener noreferrer'
-                                target='_blank'
                                 title={this.props.title}
+                                location='markdown_image'
                             >
                                 {alt}
-                            </a>
+                            </ExternalLink>
                         );
                     }
 

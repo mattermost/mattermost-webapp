@@ -8,6 +8,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Markdown from 'components/markdown';
 import HelpLinks from 'components/help/components/help_links';
 import {HelpLink} from 'components/help/types';
+import ExternalLink from 'components/external_link';
 
 export default function HelpFormatting(): JSX.Element {
     const renderRawExample = (example: string | React.ReactNode): JSX.Element => {
@@ -261,13 +262,12 @@ export default function HelpFormatting(): JSX.Element {
                     defaultMessage='Create in-line images using an `!` followed by the alt text in square brackets and the link in normal brackets. Add hover text by placing it in quotes after the link. See the <link>product documentation</link> for details on working with in-line images.'
                     values={{
                         link: (msg: React.ReactNode) => (
-                            <a
+                            <ExternalLink
                                 href='https://docs.mattermost.com/messaging/formatting-text.html#in-line-images'
-                                target='_blank'
-                                rel='noreferrer'
+                                location='formatting_help'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                     }}
                 />
@@ -284,22 +284,20 @@ export default function HelpFormatting(): JSX.Element {
                     defaultMessage={'Open the emoji autocomplete by typing `:`. A full list of emojis can be found <linkEmoji>online</linkEmoji>. It is also possible to create your own <linkCustomEmoji>Custom Emoji</linkCustomEmoji> if the emoji you want to use doesn\'t exist.'}
                     values={{
                         linkEmoji: (msg: React.ReactNode) => (
-                            <a
+                            <ExternalLink
                                 href='http://www.emoji-cheat-sheet.com/'
-                                target='_blank'
-                                rel='noreferrer'
+                                location='formatting_help'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                         linkCustomEmoji: (msg: React.ReactNode) => (
-                            <a
+                            <ExternalLink
                                 href='https://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis'
-                                target='_blank'
-                                rel='noreferrer'
+                                location='formatting_help'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                     }}
                 />

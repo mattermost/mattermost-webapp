@@ -12,6 +12,7 @@ import BackstageList from 'components/backstage/components/backstage_list';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InstalledOAuthApp from '../installed_oauth_app';
 import {matchesFilter} from '../installed_oauth_app/installed_oauth_app';
+import ExternalLink from 'components/external_link';
 
 type Props = {
 
@@ -143,28 +144,26 @@ export default class InstalledOAuthApps extends React.PureComponent<Props, State
                         defaultMessage='Create {oauthApplications} to securely integrate bots and third-party apps with Mattermost. Visit the {appDirectory} to find available self-hosted apps.'
                         values={{
                             oauthApplications: (
-                                <a
-                                    target='_blank'
-                                    rel='noopener noreferrer'
+                                <ExternalLink
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-oauth2/'
+                                    location='installed_oauth_apps'
                                 >
                                     <FormattedMessage
                                         id='installed_oauth_apps.help.oauthApplications'
                                         defaultMessage='OAuth 2.0 applications'
                                     />
-                                </a>
+                                </ExternalLink>
                             ),
                             appDirectory: (
-                                <a
-                                    target='_blank'
-                                    rel='noopener noreferrer'
+                                <ExternalLink
                                     href='https://mattermost.com/marketplace/'
+                                    location='installed_oauth_apps'
                                 >
                                     <FormattedMessage
                                         id='installed_oauth_apps.help.appDirectory'
                                         defaultMessage='App Directory'
                                     />
-                                </a>
+                                </ExternalLink>
                             ),
                         }}
                     />
