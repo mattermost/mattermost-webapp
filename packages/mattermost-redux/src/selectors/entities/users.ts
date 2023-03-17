@@ -55,13 +55,13 @@ type Filters = {
 };
 
 export const daysOfWeek = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
 ];
 
 export function getUserIdsInChannels(state: GlobalState): RelationOneToManyUnique<Channel, UserProfile> {

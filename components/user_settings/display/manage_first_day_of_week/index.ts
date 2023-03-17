@@ -26,7 +26,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
 function mapStateToProps(state: GlobalState) {
     return {
         firstDayOfWeek: getFirstDayOfWeekForCurrentUser(state),
-        daysOfWeek: daysOfWeek,
+        daysOfWeek,
     };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ManageFirstDayOfWeek);

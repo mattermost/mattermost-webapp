@@ -36,8 +36,8 @@ type State = {
 };
 
 export default class ManageFirstDayOfWeek extends React.PureComponent<
-    Props,
-    State
+Props,
+State
 > {
     constructor(props: Props) {
         super(props);
@@ -55,7 +55,7 @@ export default class ManageFirstDayOfWeek extends React.PureComponent<
     onChange = (selectedOption: ValueType<SelectedOption>) => {
         if (selectedOption && 'value' in selectedOption) {
             this.setState({
-                firstDayOfWeek: +selectedOption.value,
+                firstDayOfWeek: Number(selectedOption.value),
                 selectedOption,
             });
         }
@@ -102,7 +102,7 @@ export default class ManageFirstDayOfWeek extends React.PureComponent<
     };
 
     handleFirstDayOfWeek = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        this.setState({firstDayOfWeek: +e.target.value});
+        this.setState({firstDayOfWeek: Number(e.target.value)});
     };
     render() {
         const daysOfWeekOptions = this.props.daysOfWeek.map((val, ind) => {
@@ -114,7 +114,7 @@ export default class ManageFirstDayOfWeek extends React.PureComponent<
         let serverError;
         if (this.state.serverError) {
             serverError = (
-                <label className="has-error">{this.state.serverError}</label>
+                <label className='has-error'>{this.state.serverError}</label>
             );
         }
 
@@ -127,18 +127,18 @@ export default class ManageFirstDayOfWeek extends React.PureComponent<
         };
 
         const firstDayOfWeekInput = (
-            <div className="pt-2">
+            <div className='pt-2'>
                 <ReactSelect
-                    className="react-select react-select-top"
-                    classNamePrefix="react-select"
-                    id="displayFirstDayOfWeek"
+                    className='react-select react-select-top'
+                    classNamePrefix='react-select'
+                    id='displayFirstDayOfWeek'
                     menuPortalTarget={document.body}
                     styles={reactStyles}
                     options={daysOfWeekOptions}
                     clearable={false}
                     onChange={this.onChange}
                     value={this.state.selectedOption}
-                    aria-labelledby="changeFirstDayOfWeek"
+                    aria-labelledby='changeFirstDayOfWeek'
                     isDisabled={false}
                 />
                 {serverError}
@@ -149,24 +149,24 @@ export default class ManageFirstDayOfWeek extends React.PureComponent<
 
         inputs.push(
             <div>
-                <br />
+                <br/>
                 <FormattedMessage
-                    id="user.settings.firstDayOfWeek"
-                    defaultMessage="Select the first day of week you want to see in the calendar."
+                    id='user.settings.firstDayOfWeek'
+                    defaultMessage='Select the first day of week you want to see in the calendar.'
                 />
-            </div>
+            </div>,
         );
 
         return (
             <SettingItemMax
                 title={
                     <FormattedMessage
-                        id="user.settings.display.firstDayOfWeek"
-                        defaultMessage="First Day of Week"
+                        id='user.settings.display.firstDayOfWeek'
+                        defaultMessage='First Day of Week'
                     />
                 }
-                containerStyle="timezone-container"
-                width="medium"
+                containerStyle='timezone-container'
+                width='medium'
                 submit={this.changeFirstDayOfWeek}
                 saving={this.state.isSaving}
                 inputs={inputs}

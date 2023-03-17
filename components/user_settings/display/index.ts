@@ -86,7 +86,7 @@ export function makeMapStateToProps() {
             emojiPickerEnabled,
             lastActiveDisplay,
             lastActiveTimeEnabled,
-            firstDayOfWeekLabel: getFirstDayOfWeekLabel(state)
+            firstDayOfWeekLabel: getFirstDayOfWeekLabel(state),
         };
     };
 }
