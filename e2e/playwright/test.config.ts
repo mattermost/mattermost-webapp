@@ -33,6 +33,8 @@ export type TestConfig = {
     snapshotEnabled: boolean;
     percyEnabled: boolean;
     percyToken?: string;
+    // Plugin settings
+    pluginMockOAuthToken?: string;
 };
 
 // All process.env should be defined here
@@ -58,6 +60,8 @@ const config: TestConfig = {
     snapshotEnabled: parseBool(process.env.PW_SNAPSHOT_ENABLE, false),
     percyEnabled: parseBool(process.env.PW_PERCY_ENABLE, false),
     percyToken: process.env.PERCY_TOKEN,
+    // Plugin settings
+    pluginMockOAuthToken: process.env.PLUGIN_E2E_MOCK_OAUTH_TOKEN,
 };
 
 function parseBool(actualValue: string | undefined, defaultValue: boolean) {
