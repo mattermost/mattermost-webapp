@@ -263,15 +263,7 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
             usernames.unshift(allUsernames[currentUsername]);
         }
 
-        Array.from(new Set(usernames));
-        const reduceNames = (acc: string[], username: string) => {
-            if (!acc.includes(username)) {
-                acc.push(username);
-            }
-            return acc;
-        };
-
-        return usernames.reduce(reduceNames, []);
+        return Array.from(new Set(usernames));
     }
 
     renderFormattedMessage(postType: string, userIds: string[], actorId?: string): JSX.Element {

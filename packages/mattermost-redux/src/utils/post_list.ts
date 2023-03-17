@@ -373,21 +373,21 @@ export function combineUserActivitySystemPost(systemPosts: Post[] = []) {
     systemPosts.reverse().forEach((post: Post) => {
         const postType = post.type;
         const actorId = post.user_id;
-        const userIds = isUsersRelatedPost(postType) ? post.props.addedUserId || post.props.removedUserId : [];
-        const usernames = isUsersRelatedPost(postType) ? post.props.addedUsername || post.props.removedUsername : [];
+        const userId = isUsersRelatedPost(postType) ? post.props.addedUserId || post.props.removedUserId : '';
+        const username = isUsersRelatedPost(postType) ? post.props.addedUsername || post.props.removedUsername : ' ';
 
         const prevPost = userActivities[userActivities.length - 1];
         const isSamePostType = prevPost && prevPost.postType === post.type;
         const isSameActor = prevPost && prevPost.actorId === post.user_id;
 
         if (isSamePostType && isSameActor && prevPost) {
-            prevPost.userIds.push(userIds);
-            prevPost.usernames.push(usernames);
+            prevPost.userIds.push(userId);
+            prevPost.usernames.push(username);
         } else {
             userActivities.push({
                 actorId,
-                userIds: [userIds],
-                usernames: [usernames],
+                userIds: [userId],
+                usernames: [username],
                 postType,
             });
         }
