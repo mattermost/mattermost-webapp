@@ -204,7 +204,7 @@ export type PostAnalytics = {
 }
 export type ActivityEntry = {
     postType: Post['type'];
-    actorId: string;
+    actorId: string[];
     userIds: string[];
     usernames: string[];
 }

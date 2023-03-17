@@ -330,18 +330,18 @@ function extractUserActivityData(userActivities: ActivityEntry[]) {
         if (isUsersRelatedPost(activity.postType)) {
             const {postType, actorId, userIds, usernames} = activity;
             if (usernames && userIds) {
-                messageData.push({postType, userIds: [...usernames, ...userIds], actorId});
+                messageData.push({postType, userIds: [...usernames, ...userIds], actorId: actorId[0]});
                 if (userIds.length > 0) {
                     allUserIds.push(...userIds);
                 }
                 if (usernames.length > 0) {
                     allUsernames.push(...usernames);
                 }
-                allUserIds.push(actorId);
+                allUserIds.push(actorId[0]);
             }
         } else {
             const {postType, actorId} = activity;
-            const userIds = [actorId];
+            const userIds = actorId;
             messageData.push({postType, userIds});
             allUserIds.push(...userIds);
         }
@@ -374,24 +374,27 @@ export function combineUserActivitySystemPost(systemPosts: Post[] = []) {
         const postType = post.type;
         const actorId = post.user_id;
         const userId = isUsersRelatedPost(postType) ? post.props.addedUserId || post.props.removedUserId : '';
-        const username = isUsersRelatedPost(postType) ? post.props.addedUsername || post.props.removedUsername : ' ';
+        const username = isUsersRelatedPost(postType) ? post.props.addedUsername || post.props.removedUsername : '';
 
         const prevPost = userActivities[userActivities.length - 1];
         const isSamePostType = prevPost && prevPost.postType === post.type;
-        const isSameActor = prevPost && prevPost.actorId === post.user_id;
+        const isSameActor = prevPost && prevPost.actorId[0] === post.user_id;
 
         if (isSamePostType && isSameActor && prevPost) {
             prevPost.userIds.push(userId);
             prevPost.usernames.push(username);
+        } else if (isSamePostType && userId === '' && username === '') {
+            prevPost.actorId.push(actorId);
         } else {
             userActivities.push({
-                actorId,
+                actorId: [actorId],
                 userIds: [userId],
                 usernames: [username],
                 postType,
             });
         }
     });
+
     return extractUserActivityData(userActivities);
 }
 
