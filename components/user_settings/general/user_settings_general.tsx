@@ -417,7 +417,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
         this.setState({lastName: e.target.value});
     }
 
-    updateNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateNickname = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         this.setState({nickname: e.target.value});
     }
 
@@ -993,13 +993,12 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                         key='nicknameSetting'
                         className='form-group'
                     >
-                        <label className='col-sm-5 control-label'>{nicknameLabel}</label>
-                        <div className='col-sm-7'>
-                            <input
+                        <label className='col-sm-3 control-label'>{nicknameLabel}</label>
+                        <div className='col-sm-9'>
+                            <textarea
                                 id='nickname'
                                 autoFocus={true}
                                 className='form-control'
-                                type='text'
                                 onChange={this.updateNickname}
                                 value={this.state.nickname}
                                 maxLength={Constants.MAX_NICKNAME_LENGTH}
