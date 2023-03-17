@@ -11,12 +11,18 @@ import classNames from 'classnames';
 
 import {DateTime} from 'luxon';
 
+import {useSelector} from 'react-redux';
+
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {UserStatus} from '@mattermost/types/users';
 
 import GenericModal from 'components/generic_modal';
 
-import Constants, {A11yCustomEventTypes, A11yFocusEventDetail, UserStatuses} from 'utils/constants';
+import Constants, {
+    A11yCustomEventTypes,
+    A11yFocusEventDetail,
+    UserStatuses,
+} from 'utils/constants';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
@@ -25,6 +31,8 @@ import {toUTCUnix} from 'utils/datetime';
 import {isKeyPressed, localizeMessage} from 'utils/utils';
 import Input from 'components/widgets/inputs/input/input';
 import DatePicker from 'components/date_picker';
+import {GlobalState} from '@mattermost/types/store';
+import {getFirstDayOfWeekForCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 type Props = {
     onExited: () => void;
@@ -43,9 +51,12 @@ type State = {
     dayPickerStartDate: Date;
     isPopperOpen: boolean;
     popperElement: HTMLDivElement | null;
-}
+};
 
-export default class DndCustomTimePicker extends React.PureComponent<Props, State> {
+export default class DndCustomTimePicker extends React.PureComponent<
+Props,
+State
+> {
     private buttonRef = React.createRef<HTMLButtonElement>();
     constructor(props: Props) {
         super(props);
@@ -87,7 +98,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
 
     formatDate = (date: Date): string => {
         return DateTime.fromJSDate(date).toFormat('yyyy-MM-dd');
-    }
+    };
 
     getText = () => {
         const modalHeaderText = (
@@ -107,7 +118,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             modalHeaderText,
             confirmButtonText,
         };
-    }
+    };
 
     handleConfirm = async () => {
         if (this.state.isPopperOpen) {
@@ -128,7 +139,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             last_activity_at: toUTCUnix(this.props.currentDate),
         });
         this.props.onExited();
-    }
+    };
 
     handleDaySelection = (day: Date) => {
         this.setState({
@@ -138,7 +149,9 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         });
     };
 
-    makeTimeMenuList = (date: Date): {timeMenuList: string[]; selectedTime: string} => {
+    makeTimeMenuList = (
+        date: Date,
+    ): {timeMenuList: string[]; selectedTime: string} => {
         const timeMenuItems = [];
         let h = 0;
         let m = 0;
@@ -157,10 +170,11 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
 
         for (let i = h; i < 24; i++) {
             for (let j = m / 30; j < 2; j++) {
-                const t = i.toString().padStart(2, '0') + ':' + (j * 30).toString().padStart(2, '0');
-                timeMenuItems.push(
-                    t,
-                );
+                const t =
+                    i.toString().padStart(2, '0') +
+                    ':' +
+                    (j * 30).toString().padStart(2, '0');
+                timeMenuItems.push(t);
             }
         }
 
@@ -168,21 +182,24 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             timeMenuList: timeMenuItems,
             selectedTime: timeMenuItems[0],
         };
-    }
+    };
 
-    handlePopperOpenState= (isOpen: boolean) => {
+    handlePopperOpenState = (isOpen: boolean) => {
         this.setState({
             isPopperOpen: isOpen,
         });
     };
 
     render() {
-        const {
-            modalHeaderText,
-            confirmButtonText,
-        } = this.getText();
+        const {modalHeaderText, confirmButtonText} = this.getText();
 
-        const {timeMenuList, selectedTime, selectedDate, dayPickerStartDate, isPopperOpen} = this.state;
+        const {
+            timeMenuList,
+            selectedTime,
+            selectedDate,
+            dayPickerStartDate,
+            isPopperOpen,
+        } = this.state;
         const timeMenuItems = timeMenuList.map((time) => {
             return (
                 <Menu.ItemAction
@@ -194,14 +211,17 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                         this.setState({
                             selectedTime: time,
                         });
-                        document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
-                            A11yCustomEventTypes.FOCUS, {
-                                detail: {
-                                    target: this.buttonRef.current,
-                                    keyboardOnly: true,
+                        document.dispatchEvent(
+                            new CustomEvent<A11yFocusEventDetail>(
+                                A11yCustomEventTypes.FOCUS,
+                                {
+                                    detail: {
+                                        target: this.buttonRef.current,
+                                        keyboardOnly: true,
+                                    },
                                 },
-                            },
-                        ));
+                            ),
+                        );
                     }}
                 >
                     {time}
@@ -219,20 +239,32 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             />
         );
 
+        const firstDayOfWeek = useSelector((state: GlobalState) =>
+            getFirstDayOfWeekForCurrentUser(state),
+        );
+
         const dayPickerProps: DayPickerProps = {
             initialFocus: isPopperOpen,
             mode: 'single',
             selected: selectedDate,
             onDayClick: this.handleDaySelection,
-            disabled: [{
-                before: dayPickerStartDate,
-            }],
+            disabled: [
+                {
+                    before: dayPickerStartDate,
+                },
+            ],
             showOutsideDays: true,
+            weekStartsOn: (firstDayOfWeek >= 0 && firstDayOfWeek < 7 ?
+                firstDayOfWeek :
+                undefined) as 0 | 2 | 1 | 3 | 4 | 5 | 6 | undefined,
         };
 
         return (
             <GenericModal
-                ariaLabel={localizeMessage('dnd_custom_time_picker_modal.defaultMsg', 'Disable notifications until')}
+                ariaLabel={localizeMessage(
+                    'dnd_custom_time_picker_modal.defaultMsg',
+                    'Disable notifications until',
+                )}
                 onExited={this.props.onExited}
                 modalHeaderText={modalHeaderText}
                 confirmButtonText={confirmButtonText}
@@ -254,8 +286,13 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                             value={this.formatDate(selectedDate)}
                             readOnly={true}
                             id='DndModal__calendar-input'
-                            className={classNames('DndModal__calendar-input', {'popper-open': isPopperOpen})}
-                            label={localizeMessage('dnd_custom_time_picker_modal.date', 'Date')}
+                            className={classNames('DndModal__calendar-input', {
+                                'popper-open': isPopperOpen,
+                            })}
+                            label={localizeMessage(
+                                'dnd_custom_time_picker_modal.date',
+                                'Date',
+                            )}
                             onClick={() => this.handlePopperOpenState(true)}
                             tabIndex={-1}
                             inputPrefix={inputIcon}

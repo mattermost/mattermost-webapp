@@ -27,10 +27,18 @@ type Props = {
     isPopperOpen: boolean;
     locale: string;
     handlePopperOpenState: (isOpen: boolean) => void;
-}
+};
 
-const DatePicker = ({children, datePickerProps, isPopperOpen, handlePopperOpenState, locale}: Props) => {
-    const [loadedLocales, setLoadedLocales] = useState<Record<string, Locale>>({});
+const DatePicker = ({
+    children,
+    datePickerProps,
+    isPopperOpen,
+    handlePopperOpenState,
+    locale,
+}: Props) => {
+    const [loadedLocales, setLoadedLocales] = useState<Record<string, Locale>>(
+        {},
+    );
     const {x, y, reference, floating, strategy, context} = useFloating({
         open: isPopperOpen,
         onOpenChange: () => handlePopperOpenState(false),
@@ -55,15 +63,11 @@ const DatePicker = ({children, datePickerProps, isPopperOpen, handlePopperOpenSt
     }, [loadedLocales, locale]);
 
     const iconLeft = useCallback(() => {
-        return (
-            <i className='icon icon-chevron-left'/>
-        );
+        return <i className='icon icon-chevron-left'/>;
     }, []);
 
     const iconRight = useCallback(() => {
-        return (
-            <i className='icon icon-chevron-right'/>
-        );
+        return <i className='icon icon-chevron-right'/>;
     }, []);
 
     return (
@@ -80,9 +84,7 @@ const DatePicker = ({children, datePickerProps, isPopperOpen, handlePopperOpenSt
                     modal={true}
                     initialFocus={-1}
                 >
-                    <div
-                        ref={floating}
-                    >
+                    <div ref={floating}>
                         <DayPicker
                             {...datePickerProps}
                             style={{
@@ -101,7 +103,6 @@ const DatePicker = ({children, datePickerProps, isPopperOpen, handlePopperOpenSt
                             {...getFloatingProps}
                         />
                     </div>
-
                 </FloatingFocusManager>
             )}
         </div>
