@@ -383,7 +383,7 @@ export function combineUserActivitySystemPost(systemPosts: Post[] = []) {
         if (isSamePostType && isSameActor && prevPost) {
             prevPost.userIds.push(userId);
             prevPost.usernames.push(username);
-        } else if (isSamePostType && userId === '' && username === '') {
+        } else if (isSamePostType && !isSameActor && !isUsersRelatedPost(postType)) {
             prevPost.actorId.push(actorId);
         } else {
             userActivities.push({
