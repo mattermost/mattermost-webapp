@@ -49,7 +49,6 @@ type Props = {
     shortcutReactToLastPostEmittedFrom?: string;
     isPostHeaderVisible?: boolean | null;
     isPostBeingEdited?: boolean;
-    shouldShowDotMenu: boolean;
     actions: {
         emitShortcutReactToLastPostFrom: (emittedFrom: 'CENTER' | 'RHS_ROOT' | 'NO_WHERE') => void;
     };
@@ -104,7 +103,7 @@ const PostOptions = (props: Props): JSX.Element => {
     const getDotMenuRef = () => dotMenuRef.current;
 
     const isPostDeleted = post && post.state === Posts.POST_DELETED;
-    const hoverLocal = props.hover || showEmojiPicker || showDotMenu || showActionsMenu; // || showActionTip;
+    const hoverLocal = props.hover || showEmojiPicker || showDotMenu || showActionsMenu;
     const showCommentIcon = isFromAutoResponder || (!systemMessage && (isMobileView ||
             hoverLocal || (!post.root_id && Boolean(props.hasReplies)) ||
             props.isFirstReply) && props.location === Locations.CENTER);
@@ -201,7 +200,7 @@ const PostOptions = (props: Props): JSX.Element => {
                 </button>
             </div>
         );
-    } else if (isPostDeleted || !props.shouldShowDotMenu) {
+    } else if (isPostDeleted) {
         options = null;
     } else if (props.location === Locations.SEARCH) {
         const hasCRTFooter = props.collapsedThreadsEnabled && !post.root_id && (post.reply_count > 0 || post.is_following);
