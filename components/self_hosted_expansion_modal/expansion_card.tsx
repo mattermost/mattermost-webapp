@@ -6,16 +6,16 @@ import {OutlinedInput, Tooltip} from '@mui/material';
 import moment from 'moment-timezone';
 import React, {Fragment, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {DocLinks, RecurringIntervals, SelfHostedProducts} from 'utils/constants';
+import {DocLinks, RecurringIntervals} from 'utils/constants';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
-import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 
 import './expansion_card.scss';
 import useGetSelfHostedProducts from 'components/common/hooks/useGetSelfHostedProducts';
 import {findSelfHostedProductBySku} from 'utils/hosted_customer';
+import ExternalLink from 'components/external_link';
 
 const MONTHS_IN_YEAR = 12;
 const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
@@ -31,11 +31,11 @@ interface Props {
 
 export default function SelfHostedExpansionCard(props: Props) {
     const license = useSelector(getLicense);
-    const startsAt = moment(parseInt(license.StartsAt)).format('MMM. D, YYYY');
-    const endsAt = moment(parseInt(license.ExpiresAt)).format('MMM. D, YYYY');
+    const startsAt = moment(parseInt(license.StartsAt, 10)).format('MMM. D, YYYY');
+    const endsAt = moment(parseInt(license.ExpiresAt, 10)).format('MMM. D, YYYY');
     const [additionalSeats, setAdditionalSeats] = useState(props.initialSeats);
     const [overMaxSeats, setOverMaxSeats] = useState(false);
-    const licenseExpiry = parseInt(license.ExpiresAt);
+    const licenseExpiry = parseInt(license.ExpiresAt, 10);
     const invalidAdditionalSeats = additionalSeats === 0 || isNaN(additionalSeats);
     const [products] = useGetSelfHostedProducts();
     const currentProduct = findSelfHostedProductBySku(products, license.SkuShortName);
@@ -72,7 +72,7 @@ export default function SelfHostedExpansionCard(props: Props) {
         const monthlyPrice = getMonthlyPrice();
         const monthsUntilExpiry = getMonthsUntilExpiry();
         return monthlyPrice * monthsUntilExpiry;
-    }
+    };
 
     const getTotal = () => {
         if (isNaN(additionalSeats)) {
@@ -90,8 +90,9 @@ export default function SelfHostedExpansionCard(props: Props) {
         if (currentProduct === null) {
             return 0;
         }
-        
+
         let recurringCost = 0;
+
         // if monthly
         if (currentProduct.recurring_interval === RecurringIntervals.MONTH) {
             recurringCost = getMonthlyPrice();
@@ -110,7 +111,7 @@ export default function SelfHostedExpansionCard(props: Props) {
     const handleNewSeatsInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setOverMaxSeats(false);
 
-        const requestedSeats = parseInt(e.target.value);
+        const requestedSeats = parseInt(e.target.value, 10);
 
         const overMaxAdditionalSeats = requestedSeats > maxAdditionalSeats;
         setOverMaxSeats(overMaxAdditionalSeats);
@@ -217,13 +218,7 @@ export default function SelfHostedExpansionCard(props: Props) {
                         />
                     </div>
                     <div className='costAmount'>
-                        <FormattedMessage
-                            id='self_hosted_expansion_rhs_card_subtotal_cost'
-                            defaultMessage='${subtotal}'
-                            values={{
-                                subtotal: getCostPerUser().toFixed(2),
-                            }}
-                        />
+                        <span>{'$' + getCostPerUser().toFixed(2)}</span>
                     </div>
                     <div className='totalCost'>
                         <FormattedMessage
@@ -237,13 +232,7 @@ export default function SelfHostedExpansionCard(props: Props) {
                         />
                     </div>
                     <span className='costAmount'>
-                        <FormattedMessage
-                            id='self_hosted_expansion_rhs_card_total_cost'
-                            defaultMessage='${total}'
-                            values={{
-                                total: getTotal().toFixed(2),
-                            }}
-                        />
+                        <span>{'$' + getTotal().toFixed(2)}</span>
                     </span>
                 </div>
                 <button
@@ -264,13 +253,11 @@ export default function SelfHostedExpansionCard(props: Props) {
                             see_how_billing_works: (text: string) => (
                                 <Fragment>
                                     <br/>
-                                    <a
+                                    <ExternalLink
                                         href={DocLinks.SELF_HOSTED_BILLING}
-                                        target='_blank'
-                                        rel='noreferrer'
                                     >
                                         {text}
-                                    </a>
+                                    </ExternalLink>
                                 </Fragment>
                             ),
                         }}

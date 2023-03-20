@@ -58,19 +58,27 @@ describe('PurchaseInProgressModal', () => {
     it('when purchaser and user emails are different, user is instructed to wait', () => {
         const stateOverride: DeepPartial<GlobalState> = JSON.parse(JSON.stringify(initialState));
         stateOverride.entities!.users!.currentUserId = 'otherUserId';
-        renderWithIntlAndStore(<div id='root-portal'><PurchaseInProgressModal
-            purchaserEmail={'admin@example.com'}
-            storageKey={STORAGE_KEY_PURCHASE_IN_PROGRESS}
-                                                     /></div>, stateOverride);
+        renderWithIntlAndStore(
+            <div id='root-portal'>
+                <PurchaseInProgressModal
+                    purchaserEmail={'admin@example.com'}
+                    storageKey={STORAGE_KEY_PURCHASE_IN_PROGRESS}
+                />
+            </div>, stateOverride,
+        );
 
         screen.getByText('@UserAdmin is currently attempting to purchase a paid license.');
     });
 
     it('when purchaser and user emails are same, allows user to reset purchase flow', () => {
-        renderWithIntlAndStore(<div id='root-portal'><PurchaseInProgressModal
-            purchaserEmail={'admin@example.com'}
-            storageKey={STORAGE_KEY_PURCHASE_IN_PROGRESS}
-                                                     /></div>, initialState);
+        renderWithIntlAndStore(
+            <div id='root-portal'>
+                <PurchaseInProgressModal
+                    purchaserEmail={'admin@example.com'}
+                    storageKey={STORAGE_KEY_PURCHASE_IN_PROGRESS}
+                />
+            </div>, initialState,
+        );
 
         expect(Client4.bootstrapSelfHostedSignup).not.toHaveBeenCalled();
         screen.getByText('Reset purchase flow').click();

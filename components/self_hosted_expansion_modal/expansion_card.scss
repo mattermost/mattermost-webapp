@@ -1,44 +1,43 @@
 .SelfHostedExpansionRHSCard {
-    max-width: 280px;
     display: flex;
+    max-width: 280px;
     flex-direction: column;
 
     &__Content {
-        border: 1px solid;
-        border-radius: 4px;
         padding: 24px;
+        border: 1px solid;
         border-color: rgba(var(--sys-denim-center-channel-text-rgb), 0.16);
+        border-radius: 4px;
     }
 
     &__RHSCardTitle {
         display: block;
-        text-align: center;
-        font-family: 'Open Sans';
-        font-weight: 600;
-        font-size: 14px;
-        color: rgba(var(--sys-denim-center-channel-text-rgb), 0.72);
         margin-bottom: 12px;
+        color: rgba(var(--sys-denim-center-channel-text-rgb), 0.72);
+        font-family: 'Open Sans';
+        font-size: 14px;
+        font-weight: 600;
+        text-align: center;
         text-transform: capitalize;
     }
 
     .seatsInput {
-        font-size: 14px;
-        font-weight: 400;
-        font-family: 'Open Sans';
         width: 73px;
         margin-left: auto;
+        font-family: 'Open Sans';
+        font-size: 14px;
+        font-weight: 400;
 
         input[type="number"] {
             text-align: right;
         }
 
-        input[type="number"]::-webkit-inner-spin-button, 
-        input[type="number"]::-webkit-outer-spin-button { 
-            -webkit-appearance: none; 
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
             margin: 0;
+            -webkit-appearance: none;
         }
     }
-
 
     &__PlanDetails {
         display: flex;
@@ -46,18 +45,18 @@
         text-align: center;
 
         .planName {
+            color: rgba(var(--sys-denim-center-channel-text-rgb), 0.72);
+            font-family: 'Metropolis';
             font-size: 20px;
             font-weight: 400;
-            font-family: 'Metropolis';
             text-transform: capitalize;
-            color: rgba(var(--sys-denim-center-channel-text-rgb), 0.72);
         }
 
         .usage {
-            font-family: 'Open Sans';
-            font-weight: 600;
-            font-size: 12px;
             color: rgba(var(--sys-denim-center-channel-text-rgb), 0.56);
+            font-family: 'Open Sans';
+            font-size: 12px;
+            font-weight: 600;
 
             :first-child {
                 text-transform: uppercase;
@@ -66,26 +65,27 @@
     }
 
     hr {
-        height: 2px;
         width: 90%;
+        height: 2px;
         background-color: rgba(var(--sys-denim-center-channel-text-rgb), 0.16);
     }
 
     &__seatInput,
     &__cost_breakdown {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
         font-weight: 400;
+        gap: 10px;
+        grid-template-columns: repeat(2, 1fr);
 
         .costPerUser > span:first-child {
             font-family: 'Open Sans';
             font-size: 14px;
         }
+
         .costPerUser > span:last-child {
+            color: rgba(var(--sys-denim-center-channel-text-rgb), 0.72);
             font-family: 'Open Sans';
             font-size: 12px;
-            color: rgba(var(--sys-denim-center-channel-text-rgb), 0.72);
         }
 
         .totalCost {
@@ -93,49 +93,48 @@
         }
 
         .totalCost > span:first-child {
-            font-family: 'Open Sans';
-            font-weight: 700;
-            font-size: 14px;
             color: var(--sys-denim-center-channel-text);
+            font-family: 'Open Sans';
+            font-size: 14px;
+            font-weight: 700;
         }
 
         .totalCost > span:last-child {
+            color: rgba(var(--sys-denim-center-channel-text-rgb), 0.72);
             font-family: 'Open Sans';
             font-size: 12px;
-            color: rgba(var(--sys-denim-center-channel-text-rgb), 0.72);
         }
 
         .costAmount {
-            font-weight: 700;
             margin-right: 0;
             margin-left: auto;
+            font-weight: 700;
         }
     }
 
     &__AddSeatsWarning {
-        font-family: 'Open Sans';
-        font-weight: 600;
-        font-size: 12px;
-        color: var(--dnd-indicator);
-        text-align: right;
+        display: block;
+        width: 100%;
         height: 35px;
         margin-bottom: 15px;
-        width: 100%;
-        display: block;
+        color: var(--dnd-indicator);
+        font-family: 'Open Sans';
+        font-size: 12px;
+        font-weight: 600;
+        text-align: right;
     }
 
     &__CompletePurchaseButton {
+        width: 100%;
         margin-top: 10px;
         margin-bottom: 10px;
         border-radius: 4px;
-        width: 100%;
     }
 
     &__ChargedTodayDisclaimer {
+        color: rgba(var(--sys-denim-center-channel-text-rgb), 0.72);
         font-family: 'Open Sans';
         font-size: 12px;
         font-weight: 400;
-        color: rgba(var(--sys-denim-center-channel-text-rgb), 0.72);
     }
 }
-

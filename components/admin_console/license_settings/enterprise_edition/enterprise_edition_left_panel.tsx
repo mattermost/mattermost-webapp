@@ -4,7 +4,7 @@
 import React, {RefObject, useEffect, useState} from 'react';
 import classNames from 'classnames';
 import {FormattedDate, FormattedMessage, FormattedNumber, FormattedTime, useIntl} from 'react-intl';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import Tag from 'components/widgets/tag/tag';
 
@@ -13,7 +13,7 @@ import {ClientLicense} from '@mattermost/types/config';
 import {Client4} from 'mattermost-redux/client';
 
 import {getRemainingDaysFromFutureTimestamp, toTitleCase} from 'utils/utils';
-import {FileTypes, ModalIdentifiers} from 'utils/constants';
+import {FileTypes} from 'utils/constants';
 import {getSkuDisplayName} from 'utils/subscription';
 import {calculateOverageUserActivated} from 'utils/overage_team';
 import {getConfig} from 'mattermost-redux/selectors/entities/admin';
@@ -22,8 +22,6 @@ import './enterprise_edition.scss';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useCanSelfHostedExpand from 'components/common/hooks/useCanSelfHostedExpand';
 import {getExpandSeatsLink} from 'selectors/cloud';
-import {openModal} from 'actions/views/modals';
-import SelfHostedExpansionModal from 'components/self_hosted_expansion_modal';
 import useControlSelfHostedExpansionModal from 'components/common/hooks/useControlSelfHostedExpansionModal';
 
 const DAYS_UNTIL_EXPIRY_WARNING_DISPLAY_THRESHOLD = 30;
@@ -54,7 +52,6 @@ const EnterpriseEditionLeftPanel = ({
     handleChange,
     statsActiveUsers,
 }: EnterpriseEditionProps) => {
-    const dispatch = useDispatch();
     const {formatMessage} = useIntl();
     const [unsanitizedLicense, setUnsanitizedLicense] = useState(license);
     const openPricingModal = useOpenPricingModal();

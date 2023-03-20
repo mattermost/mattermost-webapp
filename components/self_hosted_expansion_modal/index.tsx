@@ -25,14 +25,11 @@ import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import DropdownInput from 'components/dropdown_input';
 import StripeProvider from '../self_hosted_purchase_modal/stripe_provider';
 
-import SelfHostedExpansionCard from './expansion_card';
-
-import './self_hosted_expansion_modal.scss';
 import {closeModal} from 'actions/views/modals';
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser, getFilteredUsersStats} from 'mattermost-redux/selectors/entities/users';
-import {pageVisited, trackEvent} from 'actions/telemetry_actions';
+import {pageVisited} from 'actions/telemetry_actions';
 
 import {Client4} from 'mattermost-redux/client';
 import {HostedCustomerTypes} from 'mattermost-redux/action_types';
@@ -43,6 +40,10 @@ import {isDevModeEnabled} from 'selectors/general';
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {confirmSelfHostedExpansion} from 'actions/hosted_customer';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
+
+import SelfHostedExpansionCard from './expansion_card';
+
+import './self_hosted_expansion_modal.scss';
 
 import {STORAGE_KEY_EXPANSION_IN_PROGRESS} from './constants';
 
@@ -92,8 +93,8 @@ export default function SelfHostedExpansionModal() {
     const isDevMode = useSelector(isDevModeEnabled);
 
     const license = useSelector(getLicense);
-    const licensedSeats = 100;//parseInt(license.Users);
-    const activeUsers = 2;//useSelector(getFilteredUsersStats)?.total_users_count || 0;
+    const licensedSeats = parseInt(license.Users, 10);
+    const activeUsers = useSelector(getFilteredUsersStats)?.total_users_count || 0;
     const [additionalSeats, setAdditionalSeats] = useState(activeUsers <= licensedSeats ? 1 : activeUsers - licensedSeats);
 
     const [stripeLoadHint, setStripeLoadHint] = useState(Math.random());
@@ -205,7 +206,7 @@ export default function SelfHostedExpansionModal() {
                     name: formState.cardName,
                     card,
                 },
-                progress,
+                submitProgress,
                 {
                     seats: formState.seats,
                 },
@@ -437,18 +438,6 @@ export default function SelfHostedExpansionModal() {
                                                 required={true}
                                             />
                                         </div>
-                                    </div>
-                                    <div
-                                        className='shipping-address-section form-row'
-                                        onClick={() => {
-                                            console.log('hi');
-                                        }}
-                                    >
-                                        <input
-                                            type='checkbox'
-                                            aria-label='My shipping address is the same as my billing address'
-                                        />
-                                        <span style={{marginTop: '3px', marginLeft: '5px'}}> My billing address and shipping address are not the same.</span>
                                     </div>
                                 </div>
                             </div>
