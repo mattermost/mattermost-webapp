@@ -1,96 +1,109 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {OutlinedInput} from '@mui/material';
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {OutlinedInput, Tooltip} from '@mui/material';
+
 import moment from 'moment-timezone';
 import React, {Fragment, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {useSelector} from 'react-redux';
-import {getFilteredUsersStats} from 'mattermost-redux/selectors/entities/users';
-import {DocLinks, RecurringIntervals} from 'utils/constants';
+import {useDispatch, useSelector} from 'react-redux';
+
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {DocLinks, RecurringIntervals, SelfHostedProducts} from 'utils/constants';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
-import './expansion_card.scss';
 import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
+
+import './expansion_card.scss';
+import useGetSelfHostedProducts from 'components/common/hooks/useGetSelfHostedProducts';
+import {findSelfHostedProductBySku} from 'utils/hosted_customer';
 
 const MONTHS_IN_YEAR = 12;
 const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
 const MAX_TRANSACTION_VALUE = 1_000_000 - 1;
 
 interface Props {
-    updateSeats: (seats: number) => void;
-    submit: () => void;
     canSubmit: boolean;
+    licensedSeats: number;
     initialSeats: number;
+    submit: () => void;
+    updateSeats: (seats: number) => void;
 }
 
 export default function SelfHostedExpansionCard(props: Props) {
-    const license = useSelector(getLicense)
-    const startsAt = moment(parseInt(license.StartsAt)).format("MMM. D, YYYY");
-    const endsAt = moment(parseInt(license.ExpiresAt)).format("MMM. D, YYYY");
-    const licensedSeats = 100;//parseInt(license.Users);
+    const license = useSelector(getLicense);
+    const startsAt = moment(parseInt(license.StartsAt)).format('MMM. D, YYYY');
+    const endsAt = moment(parseInt(license.ExpiresAt)).format('MMM. D, YYYY');
     const [additionalSeats, setAdditionalSeats] = useState(props.initialSeats);
     const [overMaxSeats, setOverMaxSeats] = useState(false);
     const licenseExpiry = parseInt(license.ExpiresAt);
     const invalidAdditionalSeats = additionalSeats === 0 || isNaN(additionalSeats);
-
-    const subscription = useSelector(getSubscriptionProduct);
+    const [products] = useGetSelfHostedProducts();
+    const currentProduct = findSelfHostedProductBySku(products, license.SkuShortName);
 
     const getMonthsUntilExpiry = () => {
         const now = new Date();
         return Math.ceil((licenseExpiry - now.getTime()) / MILLISECONDS_PER_DAY / 30);
-    }
+    };
 
     const getMonthlyPrice = () => {
-        if (typeof subscription === "undefined") {
+        if (currentProduct === null) {
             return 0;
         }
 
-        if(subscription?.recurring_interval === RecurringIntervals.MONTH) {
-            return subscription.price_per_seat
+        if (currentProduct?.recurring_interval === RecurringIntervals.MONTH) {
+            return currentProduct.price_per_seat;
         }
 
-        const costPerMonth = (subscription.price_per_seat / MONTHS_IN_YEAR);
+        const costPerMonth = (currentProduct.price_per_seat / MONTHS_IN_YEAR);
 
         // Only display 2 decimal places if the cost per month is not evenly divisible over 12 months.
         if (!Number.isInteger(costPerMonth)) {
             // Keep the return value as a number.
-            return parseFloat(costPerMonth.toFixed(2));
+            return costPerMonth;
         }
 
         return costPerMonth;
-    }
+    };
 
-    const getSubtotal = () => {
-        const monthlyPrice = getMonthlyPrice();
-        const monthsUntilExpiry = getMonthsUntilExpiry();
+    const getCostPerUser = () => {
         if (isNaN(additionalSeats)) {
             return 0;
         }
-        return additionalSeats * monthlyPrice * monthsUntilExpiry;
+        const monthlyPrice = getMonthlyPrice();
+        const monthsUntilExpiry = getMonthsUntilExpiry();
+        return monthlyPrice * monthsUntilExpiry;
     }
+
+    const getTotal = () => {
+        if (isNaN(additionalSeats)) {
+            return 0;
+        }
+        const monthlyPrice = getMonthlyPrice();
+        const monthsUntilExpiry = getMonthsUntilExpiry();
+        return additionalSeats * monthlyPrice * monthsUntilExpiry;
+    };
 
     // Finds the maximum number of additional seats that is possible, taking into account
     // the stripe transaction limit. The maximum number of seats will follow the formula:
     // (StripeTransaction Limit - (Current_Seats * Price Per Seat)) / price_per_seat
     const getMaximumAdditionalSeats = () => {
-        let recurringCost = 0;
-        if (typeof subscription === "undefined") {
-            return recurringCost;
+        if (currentProduct === null) {
+            return 0;
         }
-
+        
+        let recurringCost = 0;
         // if monthly
-        if (subscription.recurring_interval === RecurringIntervals.MONTH) {
+        if (currentProduct.recurring_interval === RecurringIntervals.MONTH) {
             recurringCost = getMonthlyPrice();
         } else { // if yearly
-            recurringCost = subscription.price_per_seat;
+            recurringCost = currentProduct.price_per_seat;
         }
 
-        const currentPaymentPrice = recurringCost * licensedSeats;
+        const currentPaymentPrice = recurringCost * props.licensedSeats;
         const remainingTransactionLimit = MAX_TRANSACTION_VALUE - currentPaymentPrice;
         const remainingSeats = Math.floor(remainingTransactionLimit / recurringCost);
         return Math.max(0, remainingSeats);
-    }
+    };
 
     const maxAdditionalSeats = getMaximumAdditionalSeats();
 
@@ -104,8 +117,9 @@ export default function SelfHostedExpansionCard(props: Props) {
 
         const finalSeatCount = overMaxAdditionalSeats ? maxAdditionalSeats : requestedSeats;
         setAdditionalSeats(finalSeatCount);
+
         props.updateSeats(finalSeatCount);
-    }
+    };
 
     return (
         <div className='SelfHostedExpansionRHSCard'>
@@ -132,7 +146,7 @@ export default function SelfHostedExpansionCard(props: Props) {
                             id='self_hosted_expansion_rhs_card_licensed_seats'
                             defaultMessage='{licensedSeats} LICENSES SEATS'
                             values={{
-                                licensedSeats
+                                licensedSeats: props.licensedSeats,
                             }}
                         />
                     </div>
@@ -159,7 +173,7 @@ export default function SelfHostedExpansionCard(props: Props) {
                             id='self_hosted_expansion_rhs_card_must_add_seats_warning'
                             defaultMessage='{warningIcon} You must add a seat to continue'
                             values={{
-                                warningIcon: <WarningIcon additionalClassName={'SelfHostedExpansionRHSCard__warning'}/>
+                                warningIcon: <WarningIcon additionalClassName={'SelfHostedExpansionRHSCard__warning'}/>,
                             }}
                         />
                     }
@@ -169,18 +183,21 @@ export default function SelfHostedExpansionCard(props: Props) {
                             defaultMessage='{warningIcon} You may only expand by an additional {maxAdditionalSeats} seats'
                             values={{
                                 maxAdditionalSeats,
-                                warningIcon: <WarningIcon additionalClassName={'SelfHostedExpansionRHSCard__warning'}/>
+                                warningIcon: <WarningIcon additionalClassName={'SelfHostedExpansionRHSCard__warning'}/>,
                             }}
                         />
                     }
                     {maxAdditionalSeats === 0 &&
-                        <FormattedMessage
-                            id='self_hosted_expansion_rhs_card_additional_seats_limit_warning'
-                            defaultMessage='{warningIcon} You have reached the limit for additional seats'
-                            values={{
-                                warningIcon: <WarningIcon additionalClassName={'SelfHostedExpansionRHSCard__warning'}/>
-                            }}
-                        />
+                        <Tooltip title={'test'}>
+                            <FormattedMessage
+                                id='self_hosted_expansion_rhs_card_additional_seats_limit_warning'
+                                defaultMessage='{warningIcon} Transaction amount limit reached.{break}Please contact sales'
+                                values={{
+                                    break: <br/>,
+                                    warningIcon: <WarningIcon additionalClassName={'SelfHostedExpansionRHSCard__warning'}/>,
+                                }}
+                            />
+                        </Tooltip>
                     }
                 </div>
                 <div className='SelfHostedExpansionRHSCard__cost_breakdown'>
@@ -194,7 +211,7 @@ export default function SelfHostedExpansionCard(props: Props) {
                             id='self_hosted_expansion_rhs_card_cost_per_user_breakdown'
                             defaultMessage='{costPerUser} x {monthsUntilExpiry} months'
                             values={{
-                                costPerUser: getMonthlyPrice(),
+                                costPerUser: getMonthlyPrice().toFixed(2),
                                 monthsUntilExpiry: getMonthsUntilExpiry(),
                             }}
                         />
@@ -204,7 +221,7 @@ export default function SelfHostedExpansionCard(props: Props) {
                             id='self_hosted_expansion_rhs_card_subtotal_cost'
                             defaultMessage='${subtotal}'
                             values={{
-                                subtotal: getSubtotal()
+                                subtotal: getCostPerUser().toFixed(2),
                             }}
                         />
                     </div>
@@ -219,17 +236,21 @@ export default function SelfHostedExpansionCard(props: Props) {
                             defaultMessage='The total will be prorated'
                         />
                     </div>
-                    <div className='costAmount'>
+                    <span className='costAmount'>
                         <FormattedMessage
                             id='self_hosted_expansion_rhs_card_total_cost'
                             defaultMessage='${total}'
                             values={{
-                                total: 0
+                                total: getTotal().toFixed(2),
                             }}
                         />
-                    </div>
+                    </span>
                 </div>
-                <button className='btn btn-primary SelfHostedExpansionRHSCard__CompletePurchaseButton' disabled={!props.canSubmit}>
+                <button
+                    className='btn btn-primary SelfHostedExpansionRHSCard__CompletePurchaseButton'
+                    disabled={!props.canSubmit || maxAdditionalSeats === 0}
+                    onClick={props.submit}
+                >
                     <FormattedMessage
                         id='self_hosted_expansion_rhs_complete_button'
                         defaultMessage='Complete purchase'
@@ -257,5 +278,5 @@ export default function SelfHostedExpansionCard(props: Props) {
                 </div>
             </div>
         </div>
-    )
-}   
+    );
+}

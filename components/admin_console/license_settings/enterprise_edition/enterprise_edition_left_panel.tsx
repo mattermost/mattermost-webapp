@@ -24,6 +24,7 @@ import useCanSelfHostedExpand from 'components/common/hooks/useCanSelfHostedExpa
 import {getExpandSeatsLink} from 'selectors/cloud';
 import {openModal} from 'actions/views/modals';
 import SelfHostedExpansionModal from 'components/self_hosted_expansion_modal';
+import useControlSelfHostedExpansionModal from 'components/common/hooks/useControlSelfHostedExpansionModal';
 
 const DAYS_UNTIL_EXPIRY_WARNING_DISPLAY_THRESHOLD = 30;
 const DAYS_UNTIL_EXPIRY_DANGER_DISPLAY_THRESHOLD = 5;
@@ -58,6 +59,7 @@ const EnterpriseEditionLeftPanel = ({
     const [unsanitizedLicense, setUnsanitizedLicense] = useState(license);
     const openPricingModal = useOpenPricingModal();
     const canExpand = useCanSelfHostedExpand();
+    const selfHostedExpansionModal = useControlSelfHostedExpansionModal({trackingLocation: 'license_settings'});
     const expandableLink = useSelector(getExpandSeatsLink);
 
     useEffect(() => {
@@ -91,11 +93,11 @@ const EnterpriseEditionLeftPanel = ({
     );
 
     const handleClickAddSeats = () => {
-        // if (!isSelfHostedExpansionEnabled && !canExpand) {
-            // window.open(expandableLink(unsanitizedLicense.Id), '_blank');
-        // } else {
-            dispatch(openModal({modalId: ModalIdentifiers.SELF_HOSTED_EXPANSION, dialogType: SelfHostedExpansionModal}));
-        // }
+        if (!isSelfHostedExpansionEnabled && !canExpand) {
+            window.open(expandableLink(unsanitizedLicense.Id), '_blank');
+        } else {
+            selfHostedExpansionModal.open();
+        }
     };
 
     return (

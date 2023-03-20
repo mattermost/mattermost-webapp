@@ -7,7 +7,14 @@ import {useSelector} from 'react-redux';
 import {Client4} from 'mattermost-redux/client';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
-import {BillingSchemes} from 'utils/constants';
+import {BillingSchemes, SelfHostedProducts} from 'utils/constants';
+
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
+
+import {isCloudLicense} from 'utils/license_utils';
+import useGetSelfHostedProducts from './useGetSelfHostedProducts';
+import {findSelfHostedProductBySku} from 'utils/hosted_customer';
+
 
 export default function useCanSelfHostedExpand() {
     // NOTE: This is a basic implementation to get things up and running, more details to come later.
@@ -15,8 +22,15 @@ export default function useCanSelfHostedExpand() {
     const config = useSelector(getConfig);
     const isEnterpriseReady = config.BuildEnterpriseReady === 'true';
     const isSalesServeOnly = useSelector(getSubscriptionProduct)?.billing_scheme === BillingSchemes.SALES_SERVE;
+    const license = useSelector(getLicense);
+    const isCloud = isCloudLicense(license);
+    const [products] = useGetSelfHostedProducts();
+    const currentProduct = findSelfHostedProductBySku(products, license.SkuShortName);
+    // Self Hosted Products never contains a product for starter, additional check is done out of caution.
+    const isSelfHostedStarter = currentProduct === null || currentProduct?.sku === SelfHostedProducts.STARTER
 
     useEffect(() => {
+        
         if (!isEnterpriseReady) {
             return;
         }
@@ -29,5 +43,5 @@ export default function useCanSelfHostedExpand() {
             });
     }, [isEnterpriseReady]);
 
-    return !isSalesServeOnly && expansionAvailable;
+    return !isCloud && !isSelfHostedStarter && !isSalesServeOnly && expansionAvailable;
 }

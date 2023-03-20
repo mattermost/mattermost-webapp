@@ -72,6 +72,8 @@ import './self_hosted_purchase_modal.scss';
 
 import {STORAGE_KEY_PURCHASE_IN_PROGRESS} from './constants';
 
+import {inferNames} from 'utils/hosted_customer';
+
 export interface State {
     address: string;
     address2: string;
@@ -268,17 +270,6 @@ interface Props {
 
 interface FakeProgress {
     intervalId?: NodeJS.Timeout;
-}
-
-function inferNames(user: UserProfile, cardName: string): [string, string] {
-    if (user.first_name) {
-        return [user.first_name, user.last_name];
-    }
-    const names = cardName.split(' ');
-    if (cardName.length === 2) {
-        return [names[0], names[1]];
-    }
-    return [names[0], names.slice(1).join(' ')];
 }
 
 export default function SelfHostedPurchaseModal(props: Props) {
