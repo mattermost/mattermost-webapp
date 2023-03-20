@@ -1,1 +1,9 @@
-{}
+{
+  "about.buildnumber": "رقم الاصداره:",
+  "about.cloudEdition": "سحابى",
+  "about.copyright": "حقوق الطبع والنشر 2015 - {currentYear} Mattermost، Inc. جميع الحقوق محفوظة",
+  "about.database": "قاعده بيانات:",
+  "about.date": "تاريخ الاصداره:",
+  "about.dbversion": "إصدار مخطط قاعدة البيانات:",
+  "about.enterpriseEditione1": "إصدار المؤسسة"
+}
