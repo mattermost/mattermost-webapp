@@ -14,6 +14,7 @@ import {isKeyPressed} from 'utils/utils';
 import Constants from 'utils/constants';
 
 import {UserProfile} from '@mattermost/types/users';
+import ExternalLink from 'components/external_link';
 
 type Actions = {
     updateMe: (user: UserProfile) => Promise<ActionResult>;
@@ -232,13 +233,12 @@ export class ManageLanguage extends React.PureComponent<Props, State> {
                         defaultMessage='Would you like to help with translations? Join the <link>Mattermost Translation Server</link> to contribute.'
                         values={{
                             link: (msg: React.ReactNode) => (
-                                <a
+                                <ExternalLink
                                     href='http://translate.mattermost.com'
-                                    target='_blank'
-                                    rel='noreferrer'
+                                    location='manage_languages'
                                 >
                                     {msg}
-                                </a>
+                                </ExternalLink>
                             ),
                         }}
                     />

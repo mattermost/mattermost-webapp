@@ -4,6 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import ExternalLink from 'components/external_link';
+
 interface Props {
     agreed: boolean;
     setAgreed: (agreed: boolean) => void;
@@ -31,13 +33,12 @@ export default function Terms(props: Props) {
                             values={{
                                 a: (chunks: React.ReactNode) => {
                                     return (
-                                        <a
+                                        <ExternalLink
                                             href={HostedCustomerLinks.TERMS_AND_CONDITIONS}
-                                            target='_blank'
-                                            rel='noreferrer'
+                                            location='self_hosted_purchase_modal_terms'
                                         >
                                             {chunks}
-                                        </a>
+                                        </ExternalLink>
                                     );
                                 },
                             }}

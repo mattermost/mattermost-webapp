@@ -29,6 +29,7 @@ import SaveButton from 'components/save_button';
 import AlertBanner from 'components/alert_banner';
 
 import './payment_info_edit.scss';
+import ExternalLink from 'components/external_link';
 
 let stripePromise: Promise<Stripe | null>;
 
@@ -114,16 +115,15 @@ const PaymentInfoEdit: React.FC = () => {
                                         id='admin.billing.payment_info_edit.creditCardWarningDescription'
                                         defaultMessage='Your credit card will be charged based on the number of users you have at the end of the monthly billing cycle. '
                                     />
-                                    <a
-                                        target='_blank'
-                                        rel='noopener noreferrer'
+                                    <ExternalLink
+                                        location='payment_info_edit'
                                         href={CloudLinks.BILLING_DOCS}
                                     >
                                         <FormattedMessage
                                             id='admin.billing.subscription.planDetails.howBillingWorks'
                                             defaultMessage='See how billing works'
                                         />
-                                    </a>
+                                    </ExternalLink>
                                 </>
                             }
                             onDismiss={() => setShowCreditCardWarning(false)}

@@ -35,18 +35,17 @@ exports[`components/OpenIdConvert should match snapshot 1`] = `
           id="admin.openIdConvert.text"
         />
       </button>
-      <a
+      <ExternalLink
         className="btn-secondary"
         data-testid="openIdLearnMore"
         href="https://www.mattermost.com/default-openid-docs"
-        rel="noopener noreferrer"
-        target="_blank"
+        location="openid_convert"
       >
         <MemoizedFormattedMessage
           defaultMessage="Learn more"
           id="admin.openIdConvert.help"
         />
-      </a>
+      </ExternalLink>
       <div
         className="error-message"
         data-testid="errorMessage"

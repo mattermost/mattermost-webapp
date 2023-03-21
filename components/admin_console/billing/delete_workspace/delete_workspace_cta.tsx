@@ -15,6 +15,8 @@ import {isCloudLicense} from 'utils/license_utils';
 
 import {getCloudSubscription, getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 
+import ExternalLink from 'components/external_link';
+
 import DeleteWorkspaceModal from './delete_workspace_modal';
 
 export default function DeleteWorkspaceCTA() {
@@ -72,13 +74,15 @@ export default function DeleteWorkspaceCTA() {
                         id='admin.billing.subscription.deleteWorkspaceSection.description'
                         defaultMessage='Deleting {workspaceLink} is final and cannot be reversed.'
                         values={{
-                            workspaceLink: <a href={`${workspaceUrl}`}>{workspaceUrl}</a>,
+                            workspaceLink: (
+                                <a href={`${workspaceUrl}`}>{workspaceUrl}</a>
+                            ),
                         }}
                     />
                 </div>
-                <a
-                    rel='noopener noreferrer'
-                    target='_blank'
+                <ExternalLink
+                    href=''
+                    location='delete_workspace_cta'
                     className='cancelSubscriptionSection__contactUs'
                     onClick={handleOnClickDelete}
                 >
@@ -86,7 +90,7 @@ export default function DeleteWorkspaceCTA() {
                         id='admin.billing.subscription.deleteWorkspaceSection.delete'
                         defaultMessage='Delete Workspace'
                     />
-                </a>
+                </ExternalLink>
             </div>
         </div>
     );

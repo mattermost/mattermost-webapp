@@ -36,18 +36,17 @@ exports[`components/HeaderFooterTemplate should match snapshot with about link 1
         <span
           className="pull-right"
         >
-          <a
+          <ExternalLink
             className="footer-link"
             href="http://testaboutlink"
             id="about_link"
             key="about_link"
-            rel="noopener noreferrer"
-            target="_blank"
+            location="header_footer_template"
           >
             <MemoizedFormattedMessage
               id="web.footer.about"
             />
-          </a>
+          </ExternalLink>
         </span>
       </div>
     </div>
@@ -91,54 +90,50 @@ exports[`components/HeaderFooterTemplate should match snapshot with all links 1`
         <span
           className="pull-right"
         >
-          <a
+          <ExternalLink
             className="footer-link"
             href="http://testaboutlink"
             id="about_link"
             key="about_link"
-            rel="noopener noreferrer"
-            target="_blank"
+            location="header_footer_template"
           >
             <MemoizedFormattedMessage
               id="web.footer.about"
             />
-          </a>
-          <a
+          </ExternalLink>
+          <ExternalLink
             className="footer-link"
             href="http://testprivacypolicylink"
             id="privacy_link"
             key="privacy_link"
-            rel="noopener noreferrer"
-            target="_blank"
+            location="header_footer_template"
           >
             <MemoizedFormattedMessage
               id="web.footer.privacy"
             />
-          </a>
-          <a
+          </ExternalLink>
+          <ExternalLink
             className="footer-link"
             href="http://testtermsofservicelink"
             id="terms_link"
             key="terms_link"
-            rel="noopener noreferrer"
-            target="_blank"
+            location="header_footer_template"
           >
             <MemoizedFormattedMessage
               id="web.footer.terms"
             />
-          </a>
-          <a
+          </ExternalLink>
+          <ExternalLink
             className="footer-link"
             href="http://testhelplink"
             id="help_link"
             key="help_link"
-            rel="noopener noreferrer"
-            target="_blank"
+            location="header_footer_template"
           >
             <MemoizedFormattedMessage
               id="web.footer.help"
             />
-          </a>
+          </ExternalLink>
         </span>
       </div>
     </div>
@@ -228,18 +223,17 @@ exports[`components/HeaderFooterTemplate should match snapshot with help link 1`
         <span
           className="pull-right"
         >
-          <a
+          <ExternalLink
             className="footer-link"
             href="http://testhelplink"
             id="help_link"
             key="help_link"
-            rel="noopener noreferrer"
-            target="_blank"
+            location="header_footer_template"
           >
             <MemoizedFormattedMessage
               id="web.footer.help"
             />
-          </a>
+          </ExternalLink>
         </span>
       </div>
     </div>
@@ -283,18 +277,17 @@ exports[`components/HeaderFooterTemplate should match snapshot with privacy poli
         <span
           className="pull-right"
         >
-          <a
+          <ExternalLink
             className="footer-link"
             href="http://testprivacypolicylink"
             id="privacy_link"
             key="privacy_link"
-            rel="noopener noreferrer"
-            target="_blank"
+            location="header_footer_template"
           >
             <MemoizedFormattedMessage
               id="web.footer.privacy"
             />
-          </a>
+          </ExternalLink>
         </span>
       </div>
     </div>
@@ -338,18 +331,17 @@ exports[`components/HeaderFooterTemplate should match snapshot with term of serv
         <span
           className="pull-right"
         >
-          <a
+          <ExternalLink
             className="footer-link"
             href="http://testtermsofservicelink"
             id="terms_link"
             key="terms_link"
-            rel="noopener noreferrer"
-            target="_blank"
+            location="header_footer_template"
           >
             <MemoizedFormattedMessage
               id="web.footer.terms"
             />
-          </a>
+          </ExternalLink>
         </span>
       </div>
     </div>

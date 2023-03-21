@@ -27,6 +27,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {ModalData} from 'types/actions';
 
 import './feature_discovery.scss';
+import ExternalLink from 'components/external_link';
 
 type Props = {
     featureName: string;
@@ -117,18 +118,17 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                             defaultMessage='Contact sales'
                         />
                     </button>
-                    <a
+                    <ExternalLink
+                        location='feature_discovery'
                         className='btn btn-secondary'
                         href={learnMoreURL}
                         data-testid='featureDiscovery_secondaryCallToAction'
-                        target='_blank'
-                        rel='noopener noreferrer'
                     >
                         <FormattedMessage
                             id='admin.ldap_feature_discovery.call_to_action.secondary'
                             defaultMessage='Learn more'
                         />
-                    </a>
+                    </ExternalLink>
                 </div>
             );
         }
@@ -237,18 +237,17 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         return (
             <>
                 {ctaPrimaryButton}
-                <a
+                <ExternalLink
+                    location='feature_discovery'
                     className='btn btn-secondary'
                     href={learnMoreURL}
                     data-testid='featureDiscovery_secondaryCallToAction'
-                    target='_blank'
-                    rel='noopener noreferrer'
                 >
                     <FormattedMessage
                         id='admin.ldap_feature_discovery.call_to_action.secondary'
                         defaultMessage='Learn more'
                     />
-                </a>
+                </ExternalLink>
                 {gettingTrialError}
                 {(!this.props.isCloud || canRequestCloudFreeTrial) && <p className='trial-legal-terms'>
                     {canRequestCloudFreeTrial ? (
@@ -261,22 +260,20 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                                     <strong>{msg}</strong>
                                 ),
                                 linkEvaluation: (msg: React.ReactNode) => (
-                                    <a
+                                    <ExternalLink
+                                        location='feature_discovery'
                                         href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
-                                        target='_blank'
-                                        rel='noreferrer'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                                 linkPrivacy: (msg: React.ReactNode) => (
-                                    <a
+                                    <ExternalLink
+                                        location='feature_discovery'
                                         href={AboutLinks.PRIVACY_POLICY}
-                                        target='_blank'
-                                        rel='noreferrer'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                             }}
                         />
@@ -289,22 +286,20 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                                     <strong>{msg}</strong>
                                 ),
                                 linkEvaluation: (msg: React.ReactNode) => (
-                                    <a
+                                    <ExternalLink
+                                        location='feature_discovery'
                                         href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
-                                        target='_blank'
-                                        rel='noreferrer'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                                 linkPrivacy: (msg: React.ReactNode) => (
-                                    <a
+                                    <ExternalLink
+                                        location='feature_discovery'
                                         href={AboutLinks.PRIVACY_POLICY}
-                                        target='_blank'
-                                        rel='noreferrer'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                             }}
                         />
@@ -349,13 +344,12 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                         defaultMessage='Trial license could not be retrieved. Visit <link>{trialInfoLink}</link> to request a license.'
                         values={{
                             link: (msg: React.ReactNode) => (
-                                <a
+                                <ExternalLink
+                                    location='feature_discovery'
                                     href={LicenseLinks.TRIAL_INFO_LINK}
-                                    target='_blank'
-                                    rel='noreferrer'
                                 >
                                     {msg}
-                                </a>
+                                </ExternalLink>
                             ),
                             trialInfoLink: LicenseLinks.TRIAL_INFO_LINK,
                         }}
