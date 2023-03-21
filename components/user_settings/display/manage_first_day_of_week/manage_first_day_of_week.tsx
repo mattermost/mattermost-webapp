@@ -36,8 +36,8 @@ type State = {
 };
 
 export default class ManageFirstDayOfWeek extends React.PureComponent<
-Props,
-State
+    Props,
+    State
 > {
     constructor(props: Props) {
         super(props);
@@ -82,7 +82,10 @@ State
 
         const updatedUser = {
             ...user,
-            first_day_of_week: firstDayOfWeek,
+            props: {
+                ...user.props,
+                first_day_of_week: String(firstDayOfWeek),
+            },
         };
 
         actions.updateMe(updatedUser).then((res) => {
@@ -114,7 +117,7 @@ State
         let serverError;
         if (this.state.serverError) {
             serverError = (
-                <label className='has-error'>{this.state.serverError}</label>
+                <label className="has-error">{this.state.serverError}</label>
             );
         }
 
@@ -127,18 +130,18 @@ State
         };
 
         const firstDayOfWeekInput = (
-            <div className='pt-2'>
+            <div className="pt-2">
                 <ReactSelect
-                    className='react-select react-select-top'
-                    classNamePrefix='react-select'
-                    id='displayFirstDayOfWeek'
+                    className="react-select react-select-top"
+                    classNamePrefix="react-select"
+                    id="displayFirstDayOfWeek"
                     menuPortalTarget={document.body}
                     styles={reactStyles}
                     options={daysOfWeekOptions}
                     clearable={false}
                     onChange={this.onChange}
                     value={this.state.selectedOption}
-                    aria-labelledby='changeFirstDayOfWeek'
+                    aria-labelledby="changeFirstDayOfWeek"
                     isDisabled={false}
                 />
                 {serverError}
@@ -149,24 +152,24 @@ State
 
         inputs.push(
             <div>
-                <br/>
+                <br />
                 <FormattedMessage
-                    id='user.settings.firstDayOfWeek'
-                    defaultMessage='Select the first day of week you want to see in the calendar.'
+                    id="user.settings.firstDayOfWeek"
+                    defaultMessage="Select the first day of week you want to see in the calendar."
                 />
-            </div>,
+            </div>
         );
 
         return (
             <SettingItemMax
                 title={
                     <FormattedMessage
-                        id='user.settings.display.firstDayOfWeek'
-                        defaultMessage='First Day of Week'
+                        id="user.settings.display.firstDayOfWeek"
+                        defaultMessage="First Day of Week"
                     />
                 }
-                containerStyle='timezone-container'
-                width='medium'
+                containerStyle="timezone-container"
+                width="medium"
                 submit={this.changeFirstDayOfWeek}
                 saving={this.state.isSaving}
                 inputs={inputs}

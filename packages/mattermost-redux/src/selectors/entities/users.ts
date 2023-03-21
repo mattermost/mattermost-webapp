@@ -836,12 +836,12 @@ export const getLastActiveTimestampUnits: (state: GlobalState, userId: string) =
 );
 
 export function getFirstDayOfWeekForCurrentUser(state: GlobalState): number {
-    return getCurrentUser(state).first_day_of_week ?? 0;
+    return Number(getCurrentUser(state)?.props.first_day_of_week ?? "0")
 }
 
 export const getFirstDayOfWeekLabel: (state: GlobalState) => string = createSelector(
     'getFirstDayOfWeekLabel',
-    (state: GlobalState) => getCurrentUser(state).first_day_of_week ?? 0,
+    (state: GlobalState) => getFirstDayOfWeekForCurrentUser(state),
     (firstDayOfWeek: number) => {
         return daysOfWeek[firstDayOfWeek];
     },

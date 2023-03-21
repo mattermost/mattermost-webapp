@@ -48,7 +48,6 @@ const currentUserInfoQueryString = `
             is_bot: isBot
             bot_description: botDescription
             mfa_active: mfaActive
-            first_day_of_week: firstDayOfWeek
         }
         teamMembers(userId: "me") {
             team {
