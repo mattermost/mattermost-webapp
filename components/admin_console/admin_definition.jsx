@@ -2497,7 +2497,7 @@ const AdminDefinition = {
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
                             it.stateIsFalse('EmailSettings.SendEmailNotifications'),
                         ),
-                        validate: validators.isRequired(t('admin.environment.notifications.feedbackEmail.required'), '"Notification From Address" is required'),
+                        validate: !it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin') && validators.isRequired(t('admin.environment.notifications.feedbackEmail.required'), '"Notification From Address" is required'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
