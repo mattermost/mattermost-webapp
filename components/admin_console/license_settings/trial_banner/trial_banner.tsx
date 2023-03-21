@@ -20,6 +20,7 @@ import {AboutLinks, LicenseLinks, Preferences, Unique} from 'utils/constants';
 
 import {GlobalState} from 'types/store';
 import store from 'stores/redux_store.jsx';
+import ExternalLink from 'components/external_link';
 
 interface TrialBannerProps {
     isDisabled: boolean;
@@ -47,9 +48,12 @@ export const EmbargoedEntityTrialError = () => {
             defaultMessage='We were unable to process the request due to limitations for embargoed countries. <link>Learn more in our documentation</link>, or reach out to legal@mattermost.com for questions around export limitations.'
             values={{
                 link: (text: string) => (
-                    <a href={LicenseLinks.EMBARGOED_COUNTRIES}>
+                    <ExternalLink
+                        location='trial_banner'
+                        href={LicenseLinks.EMBARGOED_COUNTRIES}
+                    >
                         {text}
-                    </a>
+                    </ExternalLink>
                 ),
             }}
         />
@@ -192,13 +196,12 @@ const TrialBanner = ({
                             defaultMessage='Trial license could not be retrieved. Visit <link>{trialInfoLink}</link> to request a license.'
                             values={{
                                 link: (msg: React.ReactNode) => (
-                                    <a
+                                    <ExternalLink
+                                        location='trial_banner'
                                         href={LicenseLinks.TRIAL_INFO_LINK}
-                                        target='_blank'
-                                        rel='noreferrer'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                                 trialInfoLink: LicenseLinks.TRIAL_INFO_LINK,
                             }}
@@ -228,22 +231,20 @@ const TrialBanner = ({
                     values={{
                         strong: (msg: React.ReactNode) => <strong>{msg}</strong>,
                         linkEvaluation: (msg: React.ReactNode) => (
-                            <a
+                            <ExternalLink
                                 href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
-                                target='_blank'
-                                rel='noreferrer'
+                                location='trial_banner'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                         linkPrivacy: (msg: React.ReactNode) => (
-                            <a
+                            <ExternalLink
                                 href={AboutLinks.PRIVACY_POLICY}
-                                target='_blank'
-                                rel='noreferrer'
+                                location='trial_banner'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                     }}
                 />
@@ -298,22 +299,20 @@ const TrialBanner = ({
                         values={{
                             strong: (msg: React.ReactNode) => <strong>{msg}</strong>,
                             linkEvaluation: (msg: React.ReactNode) => (
-                                <a
+                                <ExternalLink
                                     href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
-                                    target='_blank'
-                                    rel='noreferrer'
+                                    location='trial_banner'
                                 >
                                     {msg}
-                                </a>
+                                </ExternalLink>
                             ),
                             linkPrivacy: (msg: React.ReactNode) => (
-                                <a
+                                <ExternalLink
                                     href={AboutLinks.PRIVACY_POLICY}
-                                    target='_blank'
-                                    rel='noreferrer'
+                                    location='trial_banner'
                                 >
                                     {msg}
-                                </a>
+                                </ExternalLink>
                             ),
                         }}
                     />

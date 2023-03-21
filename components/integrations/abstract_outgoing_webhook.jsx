@@ -12,6 +12,7 @@ import BackstageHeader from 'components/backstage/components/backstage_header';
 import ChannelSelect from 'components/channel_select';
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
+import ExternalLink from 'components/external_link';
 
 export default class AbstractOutgoingWebhook extends React.PureComponent {
     static propTypes = {
@@ -475,16 +476,15 @@ export default class AbstractOutgoingWebhook extends React.PureComponent {
                                         defaultMessage='Specify the URL that the messages will be sent to. If the URL is private, add it as a {link}.'
                                         values={{
                                             link: (
-                                                <a
+                                                <ExternalLink
                                                     href='https://docs.mattermost.com/configure/configuration-settings.html#session-lengths'
-                                                    target='_blank'
-                                                    rel='noopener noreferrer'
+                                                    location='abstract_outgoing_webhook'
                                                 >
                                                     <FormattedMessage
                                                         id='add_outgoing_webhook.callbackUrls.helpLinkText'
                                                         defaultMessage='trusted internal connection'
                                                     />
-                                                </a>
+                                                </ExternalLink>
                                             ),
                                         }}
                                     />

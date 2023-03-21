@@ -15,6 +15,7 @@ import {GetFilteredUsersStatsOpts, UsersStats} from '@mattermost/types/users';
 import {ServerError} from '@mattermost/types/errors';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
+import ExternalLink from 'components/external_link';
 
 import {AboutLinks, CloudLinks, ModalIdentifiers} from 'utils/constants';
 
@@ -252,14 +253,13 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
 
     createLink = (link: string, text: string) => {
         return (
-            <a
-                target='_blank'
+            <ExternalLink
+                location='license_settings'
                 id='privacyLink'
-                rel='noopener noreferrer'
                 href={link}
             >
                 {text}
-            </a>
+            </ExternalLink>
         );
     }
 

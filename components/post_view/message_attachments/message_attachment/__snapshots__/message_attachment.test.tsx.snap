@@ -24,11 +24,10 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
         }
       }
     >
-      <a
+      <ExternalLink
         href="author_link"
         key="attachment__author-name"
-        rel="noopener noreferrer"
-        target="_blank"
+        location="message_attachment"
       >
         <Connect(ExternalImage)
           key="attachment__author-icon"
@@ -42,18 +41,17 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
         >
           author_name
         </span>
-      </a>
+      </ExternalLink>
       <h1
         className="attachment__title"
       >
-        <a
+        <ExternalLink
           className="attachment__title-link"
           href="title_link"
-          rel="noopener noreferrer"
-          target="_blank"
+          location="message_attachment"
         >
           title
-        </a>
+        </ExternalLink>
       </h1>
       <div>
         <div
@@ -172,11 +170,10 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
         }
       }
     >
-      <a
+      <ExternalLink
         href="author_link"
         key="attachment__author-name"
-        rel="noopener noreferrer"
-        target="_blank"
+        location="message_attachment"
       >
         <Connect(ExternalImage)
           key="attachment__author-icon"
@@ -190,18 +187,17 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
         >
           author_name
         </span>
-      </a>
+      </ExternalLink>
       <h1
         className="attachment__title"
       >
-        <a
+        <ExternalLink
           className="attachment__title-link"
           href="title_link"
-          rel="noopener noreferrer"
-          target="_blank"
+          location="message_attachment"
         >
           title
-        </a>
+        </ExternalLink>
       </h1>
       <div>
         <div
@@ -316,11 +312,10 @@ exports[`components/post_view/MessageAttachment should match snapshot when no fo
         }
       }
     >
-      <a
+      <ExternalLink
         href="author_link"
         key="attachment__author-name"
-        rel="noopener noreferrer"
-        target="_blank"
+        location="message_attachment"
       >
         <Connect(ExternalImage)
           key="attachment__author-icon"
@@ -334,18 +329,17 @@ exports[`components/post_view/MessageAttachment should match snapshot when no fo
         >
           author_name
         </span>
-      </a>
+      </ExternalLink>
       <h1
         className="attachment__title"
       >
-        <a
+        <ExternalLink
           className="attachment__title-link"
           href="title_link"
-          rel="noopener noreferrer"
-          target="_blank"
+          location="message_attachment"
         >
           title
-        </a>
+        </ExternalLink>
       </h1>
       <div>
         <div

@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 
 import './icon_message.scss';
+import ExternalLink from 'components/external_link';
 
 type Props = {
     icon: JSX.Element;
@@ -90,15 +91,14 @@ export default function IconMessage(props: Props) {
     } else if (linkText && linkURL) {
         link = (
             <div className='IconMessage-link'>
-                <a
+                <ExternalLink
                     href={linkURL}
-                    target='_blank'
-                    rel='noopener noreferrer'
+                    location='icon_message'
                 >
                     <FormattedMessage
                         id={linkText}
                     />
-                </a>
+                </ExternalLink>
             </div>
         );
     }
