@@ -55,7 +55,7 @@ export function PostReminderSubmenu(props: Props) {
             break;
         case 'tomorrow':
             // set to next day 8 in the morning
-            endTime = currentDate.add(1, 'day').set('hour', 8);
+            endTime = currentDate.add(1, 'day').set({hour: 8, minute: 0});
             break;
         }
 
@@ -84,7 +84,7 @@ export function PostReminderSubmenu(props: Props) {
 
             let trailing: React.ReactNode;
             if (id === 'tomorrow') {
-                const tomorrow = getCurrentMomentForTimezone(props.timezone).add(1, 'day').set('hour', 8).toDate();
+                const tomorrow = getCurrentMomentForTimezone(props.timezone).add(1, 'day').set({hour: 8, minute: 0}).toDate();
                 trailing = (
                     <span className={`postReminder-${id}_timestamp`}>
                         <FormattedDate
