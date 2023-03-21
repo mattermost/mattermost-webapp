@@ -10,6 +10,8 @@ import {getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import FileInfoPreview from 'components/file_info_preview';
 
+import {getSiteURL} from 'utils/url';
+
 const INITIAL_RENDERED_PAGES = 3;
 
 export default class PDFPreview extends React.PureComponent {
@@ -151,7 +153,7 @@ export default class PDFPreview extends React.PureComponent {
 
             const pdf = await PDFJS.getDocument({
                 url: this.props.fileUrl,
-                cMapUrl: '/static/cmaps/',
+                cMapUrl: getSiteURL() + '/static/cmaps/',
                 cMapPacked: true,
             }).promise;
             this.onDocumentLoad(pdf);
