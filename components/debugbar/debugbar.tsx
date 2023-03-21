@@ -10,7 +10,7 @@ import {TrashCanOutlineIcon, CloseIcon} from '@mattermost/compass-icons/componen
 import {clearLines} from 'mattermost-redux/actions/debugbar';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import QuickInput from 'components/quick_input';
+import {DebugBarKeys} from '@mattermost/types/debugbar';
 
 import StoreCalls from './storecalls';
 import ApiCalls from './apicalls';
@@ -21,16 +21,18 @@ import Logs from './logs';
 
 import './debugbar.scss';
 
-const OPEN = 300;
-const CLOSED = 36;
+const OPEN = 400;
+const CLOSED = 34;
+
+const {API, STORE, SQL, LOGS, EMAILS, SYSTEM} = DebugBarKeys;
 
 const ITEMS = [
-    {tab: 'api', text: 'Api Calls'},
-    {tab: 'store', text: 'Store Calls'},
-    {tab: 'sql', text: 'SQL Queries'},
-    {tab: 'logs', text: 'Server'},
-    {tab: 'emails', text: 'Emails'},
-    {tab: 'system', text: 'System Info'},
+    {tab: API, text: 'Api Calls'},
+    {tab: STORE, text: 'Store Calls'},
+    {tab: SQL, text: 'SQL Queries'},
+    {tab: LOGS, text: 'Server'},
+    {tab: EMAILS, text: 'Emails'},
+    {tab: SYSTEM, text: 'System Info'},
 ];
 
 function Tab({
@@ -61,7 +63,7 @@ function DebugBar() {
     const [windowWidth, setWindowWidth] = useState(0);
     const [windowHeight, setWindowHeight] = useState(0);
     const [tab, setTab] = useState('');
-    const [filterText, setFilterText] = useState('');
+
     const dispatch = useDispatch();
 
     const setBarHeight = useCallback((e) => {
@@ -83,6 +85,12 @@ function DebugBar() {
             window.removeEventListener('resize', handleSize);
         };
     }, []);
+
+    useEffect(() => {
+        if (!hidden && !tab) {
+            setTab(API);
+        }
+    }, [hidden, tab]);
 
     const onOpen = useCallback(() => {
         if (!hidden) {
@@ -140,72 +148,56 @@ function DebugBar() {
                 ))}
 
                 {!hidden && (
-                    <>
+                    <div className='DebugBar__Actions'>
                         {tab !== 'system' && (
-                            <QuickInput
-                                id='debugbar_filter'
-                                placeholder='Filter'
-                                className='form-control'
-                                value={filterText}
-                                onChange={(e) => setFilterText(e.target.value)}
-                            />
-                        )}
-                        <div className='DebugBar__Actions'>
-                            {tab !== 'system' && (
-                                <button
-                                    className='header__Button'
-                                    onClick={() => dispatch(clearLines())}
-                                >
-                                    <TrashCanOutlineIcon
-                                        title='clear everything'
-                                        size={16}
-                                        color={'currentColor'}
-                                    />
-                                </button>
-                            )}
                             <button
                                 className='header__Button'
-                                title='close'
-                                onClick={onClose}
+                                onClick={() => dispatch(clearLines())}
+                                title='clear everything'
                             >
-                                <CloseIcon
+                                <TrashCanOutlineIcon
                                     size={16}
                                     color={'currentColor'}
                                 />
                             </button>
-                        </div>
-                    </>
+                        )}
+                        <button
+                            className='header__Button'
+                            onClick={onClose}
+                            title='close'
+                        >
+                            <CloseIcon
+                                size={16}
+                                color={'currentColor'}
+                            />
+                        </button>
+                    </div>
                 )}
             </div>
             <div className='body'>
-                {tab === 'api' &&
+                {tab === API &&
                     <ApiCalls
-                        filter={filterText}
-                        height={height}
+                        height={height - CLOSED}
                         width={windowWidth}
                     />}
-                {tab === 'store' &&
+                {tab === STORE &&
                     <StoreCalls
-                        filter={filterText}
-                        height={height}
+                        height={height - CLOSED}
                         width={windowWidth}
                     />}
-                {tab === 'sql' &&
+                {tab === SQL &&
                     <SqlQueries
-                        filter={filterText}
-                        height={height}
+                        height={height - CLOSED}
                         width={windowWidth}
                     />}
-                {tab === 'logs' &&
+                {tab === LOGS &&
                     <Logs
-                        filter={filterText}
-                        height={height}
+                        height={height - CLOSED}
                         width={windowWidth}
                     />}
                 {tab === 'emails' &&
                     <EmailsSent
-                        filter={filterText}
-                        height={height}
+                        height={height - CLOSED}
                         width={windowWidth}
                     />}
                 {tab === 'system' && <SystemInfo/>}

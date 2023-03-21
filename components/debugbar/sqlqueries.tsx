@@ -1,7 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useState, useEffect} from 'react';
+import React, {memo, useState, useEffect, useMemo} from 'react';
+import cn from 'classnames';
 import {useSelector} from 'react-redux';
 import {FixedSizeList as List} from 'react-window';
 import styled from 'styled-components';
@@ -12,25 +13,23 @@ import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
 
 import {DebugBarSQLQuery} from '@mattermost/types/debugbar';
+import {GlobalState} from '@mattermost/types/store';
 
-import Query from './query';
-import Code from './code';
-import Time from './time';
+import {Code, Query, Time, Input, Footer, Empty} from './components';
 
 type Props = {
-    filter: string;
     height: number;
     width: number;
 }
 
 type RowProps = {
-    data: Array<{query: DebugBarSQLQuery; onDoubleClick: (query: DebugBarSQLQuery) => void}>;
+    data: Array<{query: DebugBarSQLQuery; onDoubleClick: (e: React.MouseEvent) => void; highlight: boolean}>;
     index: number;
     style: React.CSSProperties;
 }
 
 const ModalBody = styled.div`
-    height: ${({height}: {height: number}) => `calc(100% - ${height}px)`};
+    height: ${({height}: {height: number}) => `calc(100% - ${height + 32}px)`};
     padding: 40px;
     overflow: scroll;
     word-break: break-word;
@@ -49,13 +48,13 @@ const Title = styled.h4`
 `;
 
 function Row({data, index, style}: RowProps) {
-    const {query, onDoubleClick} = data[index];
+    const {query, onDoubleClick, highlight} = data[index];
 
     return (
         <div
             key={query.time + '_' + query.duration}
-            className='DebugBarTable__row'
-            onDoubleClick={() => onDoubleClick((query))}
+            className={cn('DebugBarTable__row', {'DebugBarTable__row--highlight': highlight})}
+            onDoubleClick={onDoubleClick}
             style={style}
         >
             <div className={'time'}><Time time={query.time}/></div>
@@ -70,9 +69,10 @@ function Row({data, index, style}: RowProps) {
     );
 }
 
-function SQLQueries({filter, height, width}: Props) {
+function SQLQueries({height, width}: Props) {
     const [explain, setExplain] = useState('');
     const [viewQuery, setViewQuery] = useState<DebugBarSQLQuery|null>(null);
+    const [regex, setRegex] = useState<RegExp>();
 
     useEffect(() => {
         if (viewQuery !== null) {
@@ -82,7 +82,15 @@ function SQLQueries({filter, height, width}: Props) {
         }
     }, [viewQuery]);
 
-    let queries = useSelector(getSqlQueries);
+    const queries = useSelector((state) => getSqlQueries(state as GlobalState, regex));
+
+    const data = useMemo(() => {
+        return queries.map((query) => ({
+            query,
+            highlight: JSON.stringify(query) === JSON.stringify(viewQuery),
+            onDoubleClick: () => setViewQuery(query),
+        }));
+    }, [queries, viewQuery]);
 
     const modal = (
         <RootPortal>
@@ -132,24 +140,26 @@ function SQLQueries({filter, height, width}: Props) {
         </RootPortal>
     );
 
-    if (filter !== '') {
-        queries = queries.filter((v) => JSON.stringify(v).indexOf(filter) !== -1);
-    }
-
-    const data = queries.map((query) => ({query, onDoubleClick: () => setViewQuery(query)}));
-
     return (
         <div className='DebugBarTable'>
             {modal}
-            <List
-                itemData={data}
-                itemCount={queries.length}
-                itemSize={50}
-                height={height}
-                width={width - 2}
-            >
-                {Row}
-            </List>
+            {data.length > 0 ? (
+                <List
+                    itemData={data}
+                    itemCount={data.length}
+                    itemSize={50}
+                    height={height - 32}
+                    width={width - 2}
+                >
+                    {Row}
+                </List>
+            ) : (
+                <Empty height={height - 32}/>
+            )}
+
+            <Footer>
+                <Input onChange={setRegex}/>
+            </Footer>
         </div>
     );
 }

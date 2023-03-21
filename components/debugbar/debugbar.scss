@@ -11,6 +11,13 @@
     grid-column: 1/span 5;
     grid-row: 4;
 
+    .truncate {
+        overflow: hidden;
+        min-width: 0;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
     .debug {
         color: rgba(var(--semantic-color-general), 0.5);
     }
@@ -38,8 +45,8 @@
 
     .handler {
         width: 100%;
-        padding-top: 4px;
-        background: rgba(var(--sidebar-bg-rgb), 0.8);
+        padding-top: 2px;
+        background: var(--sidebar-text-active-border);
         cursor: ns-resize;
     }
 
@@ -93,7 +100,7 @@
             height: 50px;
             flex-wrap: nowrap;
             align-items: center;
-            padding: 3px 2px;
+            padding: 3px 8px;
 
             > .div {
                 padding: 0 10px;
@@ -106,22 +113,20 @@
             }
 
             .duration {
-                overflow: hidden;
+                @extend .truncate;
+
                 width: 100px;
                 flex-shrink: 0;
                 margin-left: auto;
                 text-align: right;
-                text-overflow: ellipsis;
-                white-space: nowrap;
             }
 
             .calls {
-                overflow: hidden;
+                @extend .truncate;
+
                 width: 300px;
                 flex-shrink: 0;
                 text-align: left;
-                text-overflow: ellipsis;
-                white-space: nowrap;
             }
 
             .method {
@@ -143,10 +148,16 @@
             }
 
             .logMessage {
-                overflow: hidden;
-                width: 400px;
-                text-overflow: ellipsis;
-                white-space: nowrap;
+                @extend .truncate;
+
+                width: 242px;
+                flex-shrink: 0;
+            }
+
+            .json {
+                @extend .truncate;
+
+                width: 100%;
             }
 
             .level {
@@ -168,6 +179,41 @@
 
             &:nth-child(even) {
                 background: rgba(var(--center-channel-color-rgb), 0.04);
+
+                &.DebugBarTable__row--highlight {
+                    background: rgb(var(--pinned-highlight-bg-mixed-rgb));
+                }
+            }
+
+            &--highlight {
+                background: rgb(var(--pinned-highlight-bg-mixed-rgb));
+            }
+        }
+
+        .Footer {
+            display: flex;
+            align-items: center;
+            background-color: var(--sidebar-bg);
+
+            &--right {
+                margin-left: auto;
+            }
+
+            .warn,
+            .error,
+            .info,
+            .debug {
+                @include button-style--none;
+                @include button-small;
+
+                &.active {
+                    font-weight: bold;
+                    text-decoration: underline;
+                }
+            }
+
+            .debug {
+                color: rgba(var(--sidebar-text-rgb), 0.8);
             }
         }
     }

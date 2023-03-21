@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo} from 'react';
+import React, {memo, useState} from 'react';
 import {useSelector} from 'react-redux';
 import cn from 'classnames';
 import {FixedSizeList as List} from 'react-window';
@@ -9,12 +9,11 @@ import {FixedSizeList as List} from 'react-window';
 import {getStoreCalls} from 'mattermost-redux/selectors/entities/debugbar';
 
 import {DebugBarStoreCall} from '@mattermost/types/debugbar';
+import {GlobalState} from '@mattermost/types/store';
 
-import Code from './code';
-import Time from './time';
+import {Code, Empty, Footer, Input, Time} from './components';
 
 type Props = {
-    filter: string;
     height: number;
     width: number;
 }
@@ -22,7 +21,7 @@ type Props = {
 type RowProps = {
     data: DebugBarStoreCall[];
     index: number;
-    style: any;
+    style: React.CSSProperties;
 }
 
 function Row({data, index, style}: RowProps) {
@@ -53,24 +52,29 @@ function Row({data, index, style}: RowProps) {
     );
 }
 
-function StoreCalls({filter, height, width}: Props) {
-    let calls = useSelector(getStoreCalls);
-
-    if (filter !== '') {
-        calls = calls.filter((v) => JSON.stringify(v).indexOf(filter) !== -1);
-    }
+function StoreCalls({height, width}: Props) {
+    const [regex, setRegex] = useState<RegExp>();
+    const calls = useSelector((state) => getStoreCalls(state as GlobalState, regex));
 
     return (
         <div className='DebugBarTable'>
-            <List
-                itemData={calls}
-                itemCount={calls.length}
-                itemSize={50}
-                height={height}
-                width={width - 2}
-            >
-                {Row}
-            </List>
+            {calls.length > 0 ? (
+                <List
+                    itemData={calls}
+                    itemCount={calls.length}
+                    itemSize={50}
+                    height={height - 32}
+                    width={width - 2}
+                >
+                    {Row}
+                </List>
+            ) : (
+                <Empty height={height - 32}/>
+            )}
+
+            <Footer>
+                <Input onChange={setRegex}/>
+            </Footer>
         </div>
     );
 }

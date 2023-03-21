@@ -4,7 +4,9 @@
 import {combineReducers} from 'redux';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {
+import {DebugBarTypes} from 'mattermost-redux/action_types';
+
+import type {
     DebugBarState,
     DebugBarAPICall,
     DebugBarSQLQuery,
@@ -12,7 +14,10 @@ import {
     DebugBarEmailSent,
     DebugBarLog,
 } from '@mattermost/types/debugbar';
-import {DebugBarTypes} from 'mattermost-redux/action_types';
+
+import {DebugBarKeys} from '@mattermost/types/debugbar';
+
+const {API, STORE, SQL, LOGS, EMAILS} = DebugBarKeys;
 
 export function emailsSent(state: DebugBarEmailSent[] = [], action: GenericAction): DebugBarEmailSent[] {
     switch (action.type) {
@@ -23,6 +28,9 @@ export function emailsSent(state: DebugBarEmailSent[] = [], action: GenericActio
         return state;
     }
     case DebugBarTypes.CLEAR_LINES: {
+        if (action.key && action.key !== EMAILS) {
+            return state;
+        }
         return [];
     }
     default:
@@ -39,6 +47,9 @@ export function apiCalls(state: DebugBarAPICall[] = [], action: GenericAction): 
         return state;
     }
     case DebugBarTypes.CLEAR_LINES: {
+        if (action.key && action.key !== API) {
+            return state;
+        }
         return [];
     }
     default:
@@ -55,6 +66,9 @@ export function storeCalls(state: DebugBarStoreCall[] = [], action: GenericActio
         return state;
     }
     case DebugBarTypes.CLEAR_LINES: {
+        if (action.key && action.key !== STORE) {
+            return state;
+        }
         return [];
     }
     default:
@@ -71,6 +85,9 @@ export function sqlQueries(state: DebugBarSQLQuery[] = [], action: GenericAction
         return state;
     }
     case DebugBarTypes.CLEAR_LINES: {
+        if (action.key && action.key !== SQL) {
+            return state;
+        }
         return [];
     }
     default:
@@ -87,6 +104,9 @@ export function logs(state: DebugBarLog[] = [], action: GenericAction): DebugBar
         return state;
     }
     case DebugBarTypes.CLEAR_LINES: {
+        if (action.key && action.key !== LOGS) {
+            return state;
+        }
         return [];
     }
     default:

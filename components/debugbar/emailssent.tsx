@@ -11,10 +11,9 @@ import {getEmailsSent} from 'mattermost-redux/selectors/entities/debugbar';
 import {GenericModal} from '@mattermost/components';
 import {DebugBarEmailSent} from '@mattermost/types/debugbar';
 
-import Time from './time';
+import {Empty, Time} from './components';
 
 type Props = {
-    filter: string;
     height: number;
     width: number;
 }
@@ -22,15 +21,12 @@ type Props = {
 type RowProps = {
     data: DebugBarEmailSent[];
     index: number;
-    style: any;
+    style: React.CSSProperties;
 }
 
-function EmailsSent({filter, height, width}: Props) {
+function EmailsSent({height, width}: Props) {
     const [viewEmail, setViewEmail] = useState<DebugBarEmailSent|null>(null);
-    let emails = useSelector(getEmailsSent);
-    if (filter !== '') {
-        emails = emails.filter((v) => JSON.stringify(v).indexOf(filter) !== -1);
-    }
+    const emails = useSelector(getEmailsSent);
 
     function Row({data, index, style}: RowProps) {
         return (
@@ -87,15 +83,19 @@ function EmailsSent({filter, height, width}: Props) {
     return (
         <div className='DebugBarTable'>
             {modal}
-            <List
-                itemData={emails}
-                itemCount={emails.length}
-                itemSize={50}
-                height={height}
-                width={width - 2}
-            >
-                {Row}
-            </List>
+            {emails.length ? (
+                <List
+                    itemData={emails}
+                    itemCount={emails.length}
+                    itemSize={50}
+                    height={height}
+                    width={width - 2}
+                >
+                    {Row}
+                </List>
+            ) : (
+                <Empty height={height}/>
+            )}
         </div>
     );
 }
