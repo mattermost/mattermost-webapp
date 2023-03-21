@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {MouseEvent} from 'react';
+import React, {MouseEvent, KeyboardEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Draggable, Droppable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
@@ -37,6 +37,7 @@ type Props = {
     draggingState: DraggingState;
     currentUserId: string;
     touchedInviteMembersButton: boolean;
+    isAdmin: boolean;
     actions: {
         setCategoryCollapsed: (categoryId: string, collapsed: boolean) => void;
         setCategorySorting: (categoryId: string, sorting: CategorySorting) => void;
@@ -99,7 +100,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         this.a11yKeyDownRegistered = false;
     }
 
-    handleA11yKeyDown = (e: KeyboardEvent) => {
+    handleA11yKeyDown = (e: KeyboardEvent<HTMLButtonElement>['nativeEvent']) => {
         if (isKeyPressed(e, Constants.KeyCodes.ENTER)) {
             this.handleCollapse();
         }
@@ -139,7 +140,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         }
     }
 
-    handleOpenDirectMessagesModal = (event: MouseEvent<HTMLLIElement | HTMLButtonElement>) => {
+    handleOpenDirectMessagesModal = (event: MouseEvent<HTMLLIElement | HTMLButtonElement> | KeyboardEvent<HTMLLIElement | HTMLButtonElement>) => {
         event.preventDefault();
 
         this.props.handleOpenMoreDirectChannelsModal(event.nativeEvent);
@@ -323,6 +324,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                             <InviteMembersButton
                                 className='followingSibling'
                                 touchedInviteMembersButton={this.props.touchedInviteMembersButton}
+                                isAdmin={this.props.isAdmin}
                                 onClick={() => {
                                     if (!this.props.touchedInviteMembersButton) {
                                         this.props.actions.savePreferences(
@@ -381,9 +383,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                                 {categoryMenu}
                                             </SidebarCategoryHeader>
                                             <div
-                                                className={classNames('SidebarChannelGroup_content', {
-                                                    hasFollowingSibling: category.type === CategoryTypes.DIRECT_MESSAGES,
-                                                })}
+                                                className={classNames('SidebarChannelGroup_content')}
                                             >
                                                 <ul
                                                     role='list'

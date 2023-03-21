@@ -18,6 +18,7 @@ import {ItemStatus, TELEMETRY_CATEGORIES, ModalIdentifiers, LicenseLinks, AboutL
 
 import GenericModal from 'components/generic_modal';
 import {CustomMessageInputType} from 'components/widgets/inputs/input/input';
+import ExternalLink from 'components/external_link';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
@@ -64,7 +65,6 @@ const RequestBusinessEmailModal = (
         validateEmail(email);
     }, []);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const validateEmail = useCallback(debounce(async (email: string) => {
         // no value set, no validation and clean the custom input label
         if (!email) {
@@ -137,22 +137,20 @@ const RequestBusinessEmailModal = (
                             </strong>
                         ),
                         linkEvaluation: (msg: React.ReactNode) => (
-                            <a
+                            <ExternalLink
                                 href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
-                                target='_blank'
-                                rel='noreferrer'
+                                location='request_business_email_modal'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                         linkPrivacy: (msg: React.ReactNode) => (
-                            <a
+                            <ExternalLink
                                 href={AboutLinks.PRIVACY_POLICY}
-                                target='_blank'
-                                rel='noreferrer'
+                                location='request_business_email_modal'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                     }}
                 />

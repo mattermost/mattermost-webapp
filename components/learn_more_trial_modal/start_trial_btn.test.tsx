@@ -46,6 +46,9 @@ jest.mock('actions/admin_actions', () => ({
 describe('components/learn_more_trial_modal/start_trial_btn', () => {
     const state = {
         entities: {
+            users: {
+                currentUserId: 'current_user_id',
+            },
             admin: {
                 analytics: {
                     TOTAL_USERS: 9,
@@ -57,6 +60,9 @@ describe('components/learn_more_trial_modal/start_trial_btn', () => {
             general: {
                 license: {
                     IsLicensed: 'false',
+                },
+                config: {
+                    TelemetryId: 'test_telemetry_id',
                 },
             },
         },

@@ -66,6 +66,7 @@ const state: GlobalState = {
             postsInChannel: {},
             postsInThread: {},
             pendingPostIds: [],
+            postEditHistory: [],
             reactions: {},
             openGraph: {},
             selectedPostId: '',
@@ -258,6 +259,7 @@ const state: GlobalState = {
             categories: [],
             templatesInCategory: {},
             playbookTemplates: [],
+            linkedProducts: {},
         },
     },
     errors: [],
@@ -280,10 +282,6 @@ const state: GlobalState = {
                 error: null,
             },
             updateChannel: {
-                status: 'not_started',
-                error: null,
-            },
-            getChannelsAndChannelMembers: {
                 status: 'not_started',
                 error: null,
             },

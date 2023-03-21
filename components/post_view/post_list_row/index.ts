@@ -13,8 +13,8 @@ import {GlobalState} from 'types/store';
 
 import {getUsage} from 'mattermost-redux/selectors/entities/usage';
 import {getCloudLimits, getCloudLimitsLoaded} from 'mattermost-redux/selectors/entities/cloud';
-import {getLimitedViews} from 'mattermost-redux/selectors/entities/posts';
-import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
+import {getLimitedViews, getPost} from 'mattermost-redux/selectors/entities/posts';
+import {getCurrentChannelId, getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
 import {PostListRowListIds} from 'utils/constants';
 
@@ -27,15 +27,19 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const usage = getUsage(state);
     const limits = getCloudLimits(state);
     const limitsLoaded = getCloudLimitsLoaded(state);
+    const post = getPost(state, ownProps.listId);
+    const currentUserId = getCurrentUserId(state);
 
     const props: Pick<
     PostListRowProps,
-    'shortcutReactToLastPostEmittedFrom' | 'usage' | 'limits' | 'limitsLoaded' | 'exceededLimitChannelId' | 'firstInaccessiblePostTime'
+    'shortcutReactToLastPostEmittedFrom' | 'usage' | 'limits' | 'limitsLoaded' | 'exceededLimitChannelId' | 'firstInaccessiblePostTime' | 'post' | 'currentUserId'
     > = {
         shortcutReactToLastPostEmittedFrom,
         usage,
         limits,
         limitsLoaded,
+        post,
+        currentUserId,
     };
     if ((ownProps.listId === PostListRowListIds.OLDER_MESSAGES_LOADER || ownProps.listId === PostListRowListIds.CHANNEL_INTRO_MESSAGE) && limitsLoaded) {
         const currentChannelId = getCurrentChannelId(state);

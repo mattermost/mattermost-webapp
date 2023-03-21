@@ -11,6 +11,7 @@ import {t} from 'utils/i18n';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import LocalizedInput from 'components/localized_input/localized_input';
+import ExternalLink from 'components/external_link';
 
 type MFAControllerState = {
     enforceMultifactorAuthentication: boolean;
@@ -159,22 +160,20 @@ export default class Setup extends React.PureComponent<Props, State> {
                             values={{
                                 strong: (msg: React.ReactNode) => <strong>{msg}</strong>,
                                 linkiTunes: (msg: React.ReactNode) => (
-                                    <a
+                                    <ExternalLink
                                         href='https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8'
-                                        target='_blank'
-                                        rel='noreferrer'
+                                        location='mfa_setup'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                                 linkGooglePlay: (msg: React.ReactNode) => (
-                                    <a
+                                    <ExternalLink
                                         href='https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en'
-                                        target='_blank'
-                                        rel='noreferrer'
+                                        location='mfa_setup'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                             }}
                         />

@@ -18,6 +18,8 @@ import {applyTheme} from 'utils/utils';
 
 import {ModalData} from 'types/actions';
 
+import ExternalLink from 'components/external_link';
+
 import CustomThemeChooser from './custom_theme_chooser/custom_theme_chooser';
 import PremadeThemeChooser from './premade_theme_chooser';
 
@@ -249,17 +251,16 @@ export default class ThemeSetting extends React.PureComponent<Props, State> {
                 inputs.push(
                     <div key='otherThemes'>
                         <br/>
-                        <a
+                        <ExternalLink
                             id='otherThemes'
                             href='http://docs.mattermost.com/help/settings/theme-colors.html#custom-theme-examples'
-                            target='_blank'
-                            rel='noopener noreferrer'
+                            location='user_settings_theme'
                         >
                             <FormattedMessage
                                 id='user.settings.display.theme.otherThemes'
                                 defaultMessage='See other themes'
                             />
-                        </a>
+                        </ExternalLink>
                     </div>,
                 );
 

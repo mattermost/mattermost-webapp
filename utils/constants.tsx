@@ -7,8 +7,6 @@ import keyMirror from 'key-mirror';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {CustomStatusDuration} from '@mattermost/types/users';
-
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import audioIcon from 'images/icons/audio.svg';
@@ -28,6 +26,8 @@ import solarizedLightIcon from 'images/themes/code_themes/solarized-light.png';
 import logoWebhook from 'images/webhook_icon.jpg';
 
 import {t} from 'utils/i18n';
+
+import {CustomStatusDuration} from '@mattermost/types/users';
 
 import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/github.css';
 
@@ -157,6 +157,7 @@ export const Preferences = {
     CONFIGURATION_BANNERS: 'configuration_banners',
     NOTIFY_ADMIN_REVOKE_DOWNGRADED_WORKSPACE: 'admin_revoke_downgraded_instance',
     OVERAGE_USERS_BANNER: 'overage_users_banner',
+    CLOUD_YEARLY_NUDGE_BANNER: 'cloud_yearly_nudge_banner',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -408,6 +409,7 @@ export const ModalIdentifiers = {
     SUCCESS_MODAL: 'success_modal',
     ERROR_MODAL: 'error_modal',
     DND_CUSTOM_TIME_PICKER: 'dnd_custom_time_picker',
+    POST_REMINDER_CUSTOM_TIME_PICKER: 'post_reminder_custom_time_picker',
     CUSTOM_STATUS: 'custom_status',
     COMMERCIAL_SUPPORT: 'commercial_support',
     NO_INTERNET_CONNECTION: 'no_internet_connection',
@@ -442,13 +444,21 @@ export const ModalIdentifiers = {
     CLOUD_INVOICE_PREVIEW: 'cloud_invoice_preview',
     BILLING_HISTORY: 'billing_history',
     SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
+    RESTORE_POST_MODAL: 'restore_post',
+    INFO_TOAST: 'info_toast',
     MARK_ALL_THREADS_AS_READ: 'mark_all_threads_as_read_modal',
     DELINQUENCY_MODAL_DOWNGRADE: 'delinquency_modal_downgrade',
     CLOUD_LIMITS_DOWNGRADE: 'cloud_limits_downgrade',
     AIR_GAPPED_SELF_HOSTED_PURCHASE: 'air_gapped_self_hosted_purchase',
-    WORK_TEMPLATES: 'work_template',
+    WORK_TEMPLATE: 'work_template',
     DOWNGRADE_MODAL: 'downgrade_modal',
     PURCHASE_IN_PROGRESS: 'purchase_in_progress',
+    DELETE_WORKSPACE: 'delete_workspace',
+    FEEDBACK: 'feedback',
+    DELETE_WORKSPACE_PROGRESS: 'delete_workspace_progress',
+    DELETE_WORKSPACE_RESULT: 'delete_workspace_result',
+    SCREENING_IN_PROGRESS: 'screening_in_progress',
+    CONFIRM_SWITCH_TO_YEARLY: 'confirm_switch_to_yearly',
 };
 
 export const UserStatuses = {
@@ -493,7 +503,7 @@ export const SelfHostedProducts = {
     ENTERPRISE: 'enterprise',
 };
 
-export const PaidFeatures = {
+export const MattermostFeatures = {
     GUEST_ACCOUNTS: 'mattermost.feature.guest_accounts',
     CUSTOM_USER_GROUPS: 'mattermost.feature.custom_user_groups',
     CREATE_MULTIPLE_TEAMS: 'mattermost.feature.create_multiple_teams',
@@ -505,6 +515,7 @@ export const PaidFeatures = {
     ALL_PROFESSIONAL_FEATURES: 'mattermost.feature.all_professional',
     ALL_ENTERPRISE_FEATURES: 'mattermost.feature.all_enterprise',
     UPGRADE_DOWNGRADED_WORKSPACE: 'mattermost.feature.upgrade_downgraded_workspace',
+    PLUGIN_FEATURE: 'mattermost.feature.plugin',
 };
 
 export enum LicenseSkus {
@@ -668,10 +679,6 @@ export const CrtTutorialTriggerSteps = {
     STARTED: 1,
     FINISHED: 999,
 };
-export const AutoTourStatus = {
-    ENABLED: 0,
-    DISABLED: 1,
-};
 
 export const CrtThreadPaneSteps = {
     THREADS_PANE_POPOVER: 0,
@@ -714,6 +721,7 @@ export const CloudBanners = {
     TRIAL: 'trial',
     UPGRADE_FROM_TRIAL: 'upgrade_from_trial',
     THREE_DAYS_LEFT_TRIAL_MODAL_DISMISSED: 'dismiss_3_days_left_trial_modal',
+    NUDGE_TO_YEARLY_BANNER_DISMISSED: 'nudge_to_yearly_banner_dismissed',
 };
 
 export const ConfigurationBanners = {
@@ -764,28 +772,29 @@ export const TELEMETRY_LABELS = {
 };
 
 export const PostTypes = {
-    JOIN_LEAVE: 'system_join_leave' as const,
-    JOIN_CHANNEL: 'system_join_channel' as const,
-    LEAVE_CHANNEL: 'system_leave_channel' as const,
-    ADD_TO_CHANNEL: 'system_add_to_channel' as const,
-    REMOVE_FROM_CHANNEL: 'system_remove_from_channel' as const,
-    ADD_REMOVE: 'system_add_remove' as const,
-    JOIN_TEAM: 'system_join_team' as const,
-    LEAVE_TEAM: 'system_leave_team' as const,
-    ADD_TO_TEAM: 'system_add_to_team' as const,
-    REMOVE_FROM_TEAM: 'system_remove_from_team' as const,
-    HEADER_CHANGE: 'system_header_change' as const,
-    DISPLAYNAME_CHANGE: 'system_displayname_change' as const,
-    CONVERT_CHANNEL: 'system_convert_channel' as const,
-    PURPOSE_CHANGE: 'system_purpose_change' as const,
-    CHANNEL_DELETED: 'system_channel_deleted' as const,
-    CHANNEL_UNARCHIVED: 'system_channel_restored' as const,
-    SYSTEM_GENERIC: 'system_generic' as const,
-    FAKE_PARENT_DELETED: 'system_fake_parent_deleted' as const,
-    EPHEMERAL: 'system_ephemeral' as const,
-    EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel' as const,
-    REMOVE_LINK_PREVIEW: 'remove_link_preview' as const,
-    ME: 'me' as const,
+    JOIN_LEAVE: 'system_join_leave',
+    JOIN_CHANNEL: 'system_join_channel',
+    LEAVE_CHANNEL: 'system_leave_channel',
+    ADD_TO_CHANNEL: 'system_add_to_channel',
+    REMOVE_FROM_CHANNEL: 'system_remove_from_channel',
+    ADD_REMOVE: 'system_add_remove',
+    JOIN_TEAM: 'system_join_team',
+    LEAVE_TEAM: 'system_leave_team',
+    ADD_TO_TEAM: 'system_add_to_team',
+    REMOVE_FROM_TEAM: 'system_remove_from_team',
+    HEADER_CHANGE: 'system_header_change',
+    DISPLAYNAME_CHANGE: 'system_displayname_change',
+    CONVERT_CHANNEL: 'system_convert_channel',
+    PURPOSE_CHANGE: 'system_purpose_change',
+    CHANNEL_DELETED: 'system_channel_deleted',
+    CHANNEL_UNARCHIVED: 'system_channel_restored',
+    SYSTEM_GENERIC: 'system_generic',
+    FAKE_PARENT_DELETED: 'system_fake_parent_deleted',
+    EPHEMERAL: 'system_ephemeral',
+    EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
+    REMOVE_LINK_PREVIEW: 'remove_link_preview',
+    ME: 'me',
+    REMINDER: 'reminder',
 };
 
 export const StatTypes = keyMirror({
@@ -887,6 +896,7 @@ export const StoragePrefixes = {
     CHANNEL_CATEGORY_COLLAPSED: 'channelCategoryCollapsed_',
     INLINE_IMAGE_VISIBLE: 'isInlineImageVisible_',
     DELINQUENCY: 'delinquency_',
+    HIDE_JOINED_CHANNELS: 'hideJoinedChannels',
 };
 
 export const LandingPreferenceTypes = {
@@ -1010,6 +1020,7 @@ export const RHSStates = {
     CHANNEL_FILES: 'channel-files',
     CHANNEL_INFO: 'channel-info',
     CHANNEL_MEMBERS: 'channel-members',
+    EDIT_HISTORY: 'edit-history',
 };
 
 export const UploadStatuses = {
@@ -1075,6 +1086,7 @@ export const DocLinks = {
     UPGRADE_SERVER: 'https://docs.mattermost.com/upgrade/upgrading-mattermost-server.html',
     ONBOARD_LDAP: 'https://docs.mattermost.com/onboard/ad-ldap.html',
     ONBOARD_SSO: 'https://docs.mattermost.com/onboard/sso-saml.html',
+    TRUE_UP_REVIEW: 'https://mattermost.com/pl/true-up-documentation',
 };
 
 export const LicenseLinks = {
@@ -1082,7 +1094,10 @@ export const LicenseLinks = {
     TRIAL_INFO_LINK: 'https://mattermost.com/trial',
     EMBARGOED_COUNTRIES: 'https://mattermost.com/pl/limitations-for-embargoed-countries',
     SOFTWARE_SERVICES_LICENSE_AGREEMENT: 'https://mattermost.com/pl/software-and-services-license-agreement',
+    SOFTWARE_SERVICES_LICENSE_AGREEMENT_TEXT: 'Software Services and License Agreement',
 };
+
+export const MattermostLink = 'https://mattermost.com/';
 
 export const BillingSchemes = {
     FLAT_FEE: 'flat_fee',
@@ -1330,7 +1345,6 @@ export const Constants = {
     CrtTutorialSteps,
     CrtTutorialTriggerSteps,
     ExploreOtherToolsTourSteps,
-    AutoTourStatus,
     CrtThreadPaneSteps,
     PostTypes,
     ErrorPageTypes,
@@ -1444,6 +1458,7 @@ export const Constants = {
     OFFICE365_SERVICE: 'office365',
     OAUTH_SERVICES: ['gitlab', 'google', 'office365', 'openid'],
     OPENID_SERVICE: 'openid',
+    OPENID_SERVICE_FEATURE_DISCOVERY: 'openid_feature_discovery',
     OPENID_SCOPES: 'profile openid email',
     EMAIL_SERVICE: 'email',
     LDAP_SERVICE: 'ldap',
@@ -1781,7 +1796,7 @@ export const Constants = {
         clojure: {name: 'Clojure', extensions: ['clj', 'boot', 'cl2', 'cljc', 'cljs', 'cljs.hl', 'cljscm', 'cljx', 'hic'], aliases: ['clj']},
         coffeescript: {name: 'CoffeeScript', extensions: ['coffee', '_coffee', 'cake', 'cjsx', 'cson', 'iced'], aliases: ['coffee', 'coffee-script']},
         cpp: {name: 'C/C++', extensions: ['cpp', 'c', 'cc', 'h', 'c++', 'h++', 'hpp'], aliases: ['c++', 'c']},
-        cs: {name: 'C#', extensions: ['cs', 'csharp'], aliases: ['c#', 'csharp']},
+        csharp: {name: 'C#', extensions: ['cs', 'csharp'], aliases: ['c#', 'cs', 'csharp']},
         css: {name: 'CSS', extensions: ['css']},
         d: {name: 'D', extensions: ['d', 'di'], aliases: ['dlang']},
         dart: {name: 'Dart', extensions: ['dart']},

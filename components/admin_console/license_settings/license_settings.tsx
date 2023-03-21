@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
-/* eslint-disable header/header */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React from 'react';
 
 import {ClientLicense} from '@mattermost/types/config';
@@ -17,6 +15,7 @@ import {GetFilteredUsersStatsOpts, UsersStats} from '@mattermost/types/users';
 import {ServerError} from '@mattermost/types/errors';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
+import ExternalLink from 'components/external_link';
 
 import {AboutLinks, CloudLinks, ModalIdentifiers} from 'utils/constants';
 
@@ -121,7 +120,6 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                 },
             });
         }
-        // eslint-disable-next-line react/no-did-update-set-state
         this.setState({fileSelected: false, file: null});
     }
 
@@ -255,14 +253,13 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
 
     createLink = (link: string, text: string) => {
         return (
-            <a
-                target='_blank'
+            <ExternalLink
+                location='license_settings'
                 id='privacyLink'
-                rel='noopener noreferrer'
                 href={link}
             >
                 {text}
-            </a>
+            </ExternalLink>
         );
     }
 
@@ -423,4 +420,3 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         return null;
     }
 }
-/* eslint-enable react/no-string-refs */

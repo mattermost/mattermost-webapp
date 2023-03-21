@@ -11,6 +11,7 @@
 // Group: @custom_status
 
 import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
 
 describe('MM-T4065 Setting manual status clear time less than 7 days away', () => {
     before(() => {
@@ -31,6 +32,7 @@ describe('MM-T4065 Setting manual status clear time less than 7 days away', () =
         duration: '30 minutes',
     };
 
+    dayjs.extend(advancedFormat);
     const today = dayjs();
     const dateToBeSelected = today.add(3, 'd');
     const months = dateToBeSelected.get('month') - today.get('month');
@@ -99,19 +101,19 @@ describe('MM-T4065 Setting manual status clear time less than 7 days away', () =
 
     it('MM-T4065_6 should show selected date in the date input field', () => {
         // # Click on DayPicker input field
-        cy.get('.DayPickerInput input').click();
+        cy.get('.dateTime__calendar-icon').click();
 
         // * Verify that DayPicker overlay is visible
-        cy.get('.DayPickerInput-Overlay').should('be.visible');
+        cy.get('.date-picker__popper').should('be.visible');
 
         // # Click on the date which is dateToBeSelected
         for (let i = 0; i < months; i++) {
             cy.get('.fa-angle-right').click();
         }
-        cy.get('.DayPickerInput-Overlay').find(`.DayPicker-Week div[aria-label="${dateToBeSelected.format('ddd MMM DD YYYY')}"]`).click();
+        cy.get('.date-picker__popper').find(`.rdp-month button[aria-label="${dateToBeSelected.format('Do MMMM (dddd)')}"]`).click();
 
         // * Check that the date input should have the correct value
-        cy.get('.DayPickerInput input').should('have.value', dateToBeSelected.format('YYYY-MM-DD'));
+        cy.get('input#customStatus__calendar-input').should('have.value', dateToBeSelected.format('YYYY-MM-DD'));
     });
 
     it('MM-T4065_7 should show selected time in the time input field', () => {

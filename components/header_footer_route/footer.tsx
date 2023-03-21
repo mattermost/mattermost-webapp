@@ -8,6 +8,7 @@ import {useSelector} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import './footer.scss';
+import ExternalLink from 'components/external_link';
 
 const Footer = () => {
     const {formatMessage} = useIntl();
@@ -23,48 +24,44 @@ const Footer = () => {
                 {`© ${new Date().getFullYear()} Mattermost Inc.`}
             </span>
             {AboutLink && (
-                <a
+                <ExternalLink
                     key='footer-link-about'
                     className='footer-link'
                     href={AboutLink}
-                    target='_blank'
-                    rel='noopener noreferrer'
+                    location='footer'
                 >
                     {formatMessage({id: 'web.footer.about', defaultMessage: 'About'})}
-                </a>
+                </ExternalLink>
             )}
             {PrivacyPolicyLink && (
-                <a
+                <ExternalLink
                     key='footer-link-privacy'
                     className='footer-link'
                     href={PrivacyPolicyLink}
-                    target='_blank'
-                    rel='noopener noreferrer'
+                    location='footer'
                 >
                     {formatMessage({id: 'web.footer.privacy', defaultMessage: 'Privacy Policy'})}
-                </a>
+                </ExternalLink>
             )}
             {TermsOfServiceLink && (
-                <a
+                <ExternalLink
                     key='footer-link-terms'
                     className='footer-link'
                     href={TermsOfServiceLink}
-                    target='_blank'
-                    rel='noopener noreferrer'
+                    location='footer'
                 >
                     {formatMessage({id: 'web.footer.terms', defaultMessage: 'Terms'})}
-                </a>
+                </ExternalLink>
             )}
             {HelpLink && (
-                <a
+                <ExternalLink
                     key='footer-link-help'
                     className='footer-link'
                     href={HelpLink}
-                    target='_blank'
-                    rel='noopener noreferrer'
+                    location='footer'
                 >
                     {formatMessage({id: 'web.footer.help', defaultMessage: 'Help'})}
-                </a>
+                </ExternalLink>
             )}
         </div>
     );

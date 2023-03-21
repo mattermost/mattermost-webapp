@@ -8,7 +8,7 @@ import {UserProfile} from '@mattermost/types/users';
 
 import {convertRolesNamesArrayToString} from 'mattermost-redux/actions/roles';
 
-export const CHANNELS_AND_CHANNEL_MEMBERS_PER_PAGE = 80;
+export const CHANNELS_AND_CHANNEL_MEMBERS_PER_PAGE = 200;
 
 type Cursor = {
     cursor: string;

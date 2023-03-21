@@ -17,6 +17,7 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history_svg';
 
 import {CloudLinks} from 'utils/constants';
+import ExternalLink from 'components/external_link';
 
 import BillingHistoryTable from './billing_history_table';
 
@@ -34,9 +35,8 @@ const noBillingHistorySection = (
                 defaultMessage='In the future, this is where your billing history will show.'
             />
         </div>
-        <a
-            target='_blank'
-            rel='noopener noreferrer'
+        <ExternalLink
+            location='billing_history'
             href={CloudLinks.BILLING_DOCS}
             className='BillingHistory__noHistory-link'
             onClick={() => trackEvent('cloud_admin', 'click_billing_history', {screen: 'billing'})}
@@ -45,7 +45,7 @@ const noBillingHistorySection = (
                 id='admin.billing.history.seeHowBillingWorks'
                 defaultMessage='See how billing works'
             />
-        </a>
+        </ExternalLink>
     </div>
 );
 
@@ -84,7 +84,7 @@ const BillingHistory = () => {
                                 <div className='BillingHistory__cardHeaderText-bottom'>
                                     <FormattedMessage
                                         id='admin.billing.history.allPaymentsShowHere'
-                                        defaultMessage='All of your monthly payments will show here'
+                                        defaultMessage='All of your invoices will be shown here'
                                     />
                                 </div>
                             </div>

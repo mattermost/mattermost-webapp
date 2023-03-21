@@ -20,6 +20,7 @@ import * as Utils from 'utils/utils';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import ErrorLink from 'components/error_page/error_link';
+import ExternalLink from 'components/external_link';
 
 type Props = {
     user: UserProfile;
@@ -281,28 +282,23 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
 type ErrorLinkProps = {
     defaultMessage: string;
     messageId: string;
-    onClickHandler: (e: React.MouseEvent<HTMLAnchorElement>) => Promise<void>;
+    onClickHandler: (e: React.MouseEvent) => Promise<void>;
     url: string;
     forceAck: boolean;
-}
+};
 
 const WarnMetricAckErrorLink: React.FC<ErrorLinkProps> = ({defaultMessage, messageId, onClickHandler, url, forceAck}: ErrorLinkProps) => {
     return (
-        <a
+        <ExternalLink
             href={url}
-            rel='noopener noreferrer'
-            target='_blank'
             data-forceAck={forceAck}
-            onClick={
-                (e) => {
-                    onClickHandler(e);
-                }
-            }
+            onClick={onClickHandler}
+            location='warn_metric_ack_modal'
         >
             <FormattedMessage
                 id={messageId}
                 defaultMessage={defaultMessage}
             />
-        </a>
+        </ExternalLink>
     );
 };

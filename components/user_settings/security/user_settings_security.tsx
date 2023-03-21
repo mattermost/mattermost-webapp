@@ -24,6 +24,8 @@ import ToggleModalButton from 'components/toggle_modal_button';
 import {OAuthApp} from '@mattermost/types/integrations';
 import {UserProfile} from '@mattermost/types/users';
 
+import ExternalLink from 'components/external_link';
+
 import MfaSection from './mfa_section';
 import UserAccessTokenSection from './user_access_token_section';
 
@@ -107,10 +109,10 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
         const res = await this.props.actions.getAuthorizedOAuthApps();
         if ('data' in res) {
             const {data} = res;
-            this.setState({authorizedApps: data, serverError: null}); //eslint-disable-line react/no-did-mount-set-state
+            this.setState({authorizedApps: data, serverError: null});
         } else if ('error' in res) {
             const {error} = res;
-            this.setState({serverError: error.message}); //eslint-disable-line react/no-did-mount-set-state
+            this.setState({serverError: error.message});
         }
     };
 
@@ -813,13 +815,12 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
             ) {
                 apps = this.state.authorizedApps.map((app) => {
                     const homepage = (
-                        <a
+                        <ExternalLink
                             href={app.homepage}
-                            target='_blank'
-                            rel='noopener noreferrer'
+                            location='user_settings_security'
                         >
                             {app.homepage}
-                        </a>
+                        </ExternalLink>
                     );
 
                     return (

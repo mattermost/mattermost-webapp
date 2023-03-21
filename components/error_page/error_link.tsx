@@ -2,7 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import {FormattedMessage} from 'react-intl';
+
+import ExternalLink from 'components/external_link';
 
 type Props = {
     url: string;
@@ -12,16 +15,15 @@ type Props = {
 
 const ErrorLink: React.FC<Props> = ({url, messageId, defaultMessage}: Props) => {
     return (
-        <a
+        <ExternalLink
             href={url}
-            rel='noopener noreferrer'
-            target='_blank'
+            location='error_link'
         >
             <FormattedMessage
                 id={messageId}
                 defaultMessage={defaultMessage}
             />
-        </a>
+        </ExternalLink>
     );
 };
 
