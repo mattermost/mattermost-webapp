@@ -46,6 +46,7 @@ import SelfHostedExpansionCard from './expansion_card';
 import './self_hosted_expansion_modal.scss';
 
 import {STORAGE_KEY_EXPANSION_IN_PROGRESS} from './constants';
+import {ValueOf} from '@mattermost/types/utilities';
 
 export interface FormState {
     address: string;
@@ -83,6 +84,50 @@ export function makeInitialState(seats: number): FormState {
     };
 }
 
+export function canSubmit(formState: FormState, progress: ValueOf<typeof SelfHostedSignupProgress>) {
+    if (formState.submitting) {
+        return false;
+    }
+
+    const validAddress = Boolean(
+        formState.organization &&
+        formState.address &&
+        formState.city &&
+        formState.state &&
+        formState.postalCode &&
+        formState.country,
+    );
+    const validCard = Boolean(
+        formState.cardName &&
+        formState.cardFilled,
+    );
+    const validSeats = formState.seats > 0;
+
+    switch (progress) {
+        case SelfHostedSignupProgress.PAID:
+        case SelfHostedSignupProgress.CREATED_LICENSE:
+        case SelfHostedSignupProgress.CREATED_SUBSCRIPTION:
+            return true;
+        case SelfHostedSignupProgress.CONFIRMED_INTENT: {
+            return Boolean(
+                validAddress &&
+                validSeats
+            );
+        }
+        case SelfHostedSignupProgress.START:
+        case SelfHostedSignupProgress.CREATED_CUSTOMER:
+        case SelfHostedSignupProgress.CREATED_INTENT:
+            return Boolean(
+                validCard &&
+                validAddress &&
+                validSeats
+            );
+        default: {
+            return false;
+        }
+    }
+};
+
 export default function SelfHostedExpansionModal() {
     const dispatch = useDispatch<DispatchFunc>();
     const intl = useIntl();
@@ -109,33 +154,7 @@ export default function SelfHostedExpansionModal() {
         defaultMessage: 'Provide your payment details',
     });
 
-    const canSubmit = () => {
-        if (formState.submitting) {
-            return false;
-        }
-
-        const validAddress = Boolean(
-            formState.organization &&
-            formState.address &&
-            formState.city &&
-            formState.state &&
-            formState.postalCode &&
-            formState.country,
-        );
-        const validCard = Boolean(
-            formState.cardName &&
-            formState.cardFilled,
-        );
-        const validSeats = formState.seats > 0;
-
-        return Boolean(
-            validCard &&
-            validAddress &&
-            validSeats,
-        );
-    };
-
-    const canSubmitForm = canSubmit();
+    const canSubmitForm = canSubmit(formState, progress);
 
     const submit = async () => {
         let submitProgress = progress;

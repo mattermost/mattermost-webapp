@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {OutlinedInput, Tooltip} from '@mui/material';
+import {OutlinedInput} from '@mui/material';
 
 import moment from 'moment-timezone';
 import React, {Fragment, useState} from 'react';
@@ -159,6 +159,7 @@ export default function SelfHostedExpansionCard(props: Props) {
                         defaultMessage='Add new seats'
                     />
                     <OutlinedInput
+                        data-testid='seatsInput'
                         className='seatsInput'
                         size='small'
                         type='number'
@@ -189,16 +190,14 @@ export default function SelfHostedExpansionCard(props: Props) {
                         />
                     }
                     {maxAdditionalSeats === 0 &&
-                        <Tooltip title={'test'}>
-                            <FormattedMessage
-                                id='self_hosted_expansion_rhs_card_additional_seats_limit_warning'
-                                defaultMessage='{warningIcon} Transaction amount limit reached.{break}Please contact sales'
-                                values={{
-                                    break: <br/>,
-                                    warningIcon: <WarningIcon additionalClassName={'SelfHostedExpansionRHSCard__warning'}/>,
-                                }}
-                            />
-                        </Tooltip>
+                        <FormattedMessage
+                            id='self_hosted_expansion_rhs_card_additional_seats_limit_warning'
+                            defaultMessage='{warningIcon} Transaction amount limit reached.{break}Please contact sales'
+                            values={{
+                                break: <br/>,
+                                warningIcon: <WarningIcon additionalClassName={'SelfHostedExpansionRHSCard__warning'}/>,
+                            }}
+                        />
                     }
                 </div>
                 <div className='SelfHostedExpansionRHSCard__cost_breakdown'>

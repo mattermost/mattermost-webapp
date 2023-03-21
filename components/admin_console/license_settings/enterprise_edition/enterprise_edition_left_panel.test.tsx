@@ -31,7 +31,7 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
         SkuShortName: 'Enterprise',
         Name: 'LicenseName',
         Company: 'Mattermost Inc.',
-        Users: '1000000',
+        Users: '1000',
     };
 
     const initialState: DeepPartial<GlobalState> = {
@@ -116,7 +116,7 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
                 n.childAt(0).text().includes('USERS');
         });
 
-        expect(item.text()).toContain('1,000,000');
+        expect(item.text()).toContain('1,000');
     });
 
     test('should not add any class if active users is lower than the minimal', async () => {

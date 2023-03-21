@@ -19,7 +19,7 @@ import {useControlModal, ControlModal} from './useControlModal';
 
 interface HookOptions{
     onClick?: () => void;
-    trackingLocation?: string;
+    trackingLocation: string;
 }
 
 export default function useControlSelfHostedExpansionModal(options: HookOptions): ControlModal {
@@ -64,9 +64,8 @@ export default function useControlSelfHostedExpansionModal(options: HookOptions)
                     const result = await Client4.bootstrapSelfHostedSignup();
 
                     if (result.email !== currentUser.email) {
-                        // JWT already exists and was created by another admin,
-                        // meaning another admin is already trying to purchase.
-                        // Notify user of this and do not allow them to try to purchase concurrently.
+                        // Token already exists and was created by another admin.
+                        // Notify user of this and do not allow them to try to expand concurrently.
                         dispatch(openModal({
                             modalId: ModalIdentifiers.EXPANSION_IN_PROGRESS,
                             dialogType: PurchaseInProgressModal,

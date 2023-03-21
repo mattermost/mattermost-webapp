@@ -56,12 +56,11 @@ const EnterpriseEditionLeftPanel = ({
     const [unsanitizedLicense, setUnsanitizedLicense] = useState(license);
     const openPricingModal = useOpenPricingModal();
     const canExpand = useCanSelfHostedExpand();
-    const selfHostedExpansionModal = useControlSelfHostedExpansionModal({trackingLocation: 'license_settings'});
+    const selfHostedExpansionModal = useControlSelfHostedExpansionModal({trackingLocation: 'license_settings_add_seats'});
     const expandableLink = useSelector(getExpandSeatsLink);
 
     useEffect(() => {
         async function fetchUnSanitizedLicense() {
-            // This solves this the issue reported here: https://mattermost.atlassian.net/browse/MM-42906
             try {
                 const unsanitizedL = await Client4.getClientLicenseOld();
                 setUnsanitizedLicense(unsanitizedL);
