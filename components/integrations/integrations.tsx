@@ -19,6 +19,8 @@ import SlashCommandIcon from 'images/slash_command_icon.jpg';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
+import ExternalLink from 'components/external_link';
+
 import IntegrationOption from './integration_option';
 
 type Props = {
@@ -194,16 +196,15 @@ export default class Integrations extends React.PureComponent <Props> {
                         defaultMessage='Visit the {appDirectory} to find self-hosted, third-party apps and integrations for Mattermost.'
                         values={{
                             appDirectory: (
-                                <a
-                                    target='_blank'
-                                    rel='noopener noreferrer'
+                                <ExternalLink
                                     href='https://mattermost.com/marketplace'
+                                    location='integrations'
                                 >
                                     <FormattedMessage
                                         id='integrations.help.appDirectory'
                                         defaultMessage='App Directory'
                                     />
-                                </a>
+                                </ExternalLink>
                             ),
                         }}
                     />

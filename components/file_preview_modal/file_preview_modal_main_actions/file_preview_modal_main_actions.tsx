@@ -21,6 +21,7 @@ import {isFileInfo, LinkInfo} from '../types';
 
 import './file_preview_modal_main_actions.scss';
 import CopyButton from 'components/copy_button';
+import ExternalLink from 'components/external_link';
 
 interface DownloadLinkProps {
     download?: string;
@@ -131,15 +132,14 @@ const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
                 </Tooltip>
             }
         >
-            <a
+            <ExternalLink
                 href={props.fileURL}
                 className='file-preview-modal-main-actions__action-item'
-                target='_blank'
-                rel='noopener noreferrer'
+                location='file_preview_modal_main_actions'
                 download={props.filename}
             >
                 <i className='icon icon-download-outline'/>
-            </a>
+            </ExternalLink>
         </OverlayTrigger>
     );
     const getBeforeCopyText = () => {

@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import {useIntl} from 'react-intl';
 
 import {AboutLinks, LicenseLinks} from 'utils/constants';
+import ExternalLink from 'components/external_link';
 
 const ContainerSpan = styled.span`
 font-style: normal;
@@ -30,22 +31,20 @@ function StartTrialCaution() {
     }, {
         span: (chunks: React.ReactNode | React.ReactNodeArray) => (<Span>{chunks}</Span>),
         linkAgreement: (msg: React.ReactNode) => (
-            <a
+            <ExternalLink
                 href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
-                target='_blank'
-                rel='noreferrer'
+                location='start_trial_caution'
             >
                 {msg}
-            </a>
+            </ExternalLink>
         ),
         linkPrivacy: (msg: React.ReactNode) => (
-            <a
+            <ExternalLink
                 href={AboutLinks.PRIVACY_POLICY}
-                target='_blank'
-                rel='noreferrer'
+                location='start_trial_caution'
             >
                 {msg}
-            </a>
+            </ExternalLink>
         ),
     });
     return (<ContainerSpan>{message}</ContainerSpan>);

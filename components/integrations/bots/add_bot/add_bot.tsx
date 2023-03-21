@@ -26,6 +26,7 @@ import {Team} from '@mattermost/types/teams';
 import {Bot, BotPatch} from '@mattermost/types/bots';
 import {UserProfile} from '@mattermost/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
+import ExternalLink from 'components/external_link';
 
 const roleOptionSystemAdmin = 'System Admin';
 const roleOptionMember = 'Member';
@@ -633,13 +634,12 @@ export default class AddBot extends React.PureComponent<Props, State> {
                                     defaultMessage='Select additional permissions for the account. <link>Read more about roles and permissions</link>.'
                                     values={{
                                         link: (msg: React.ReactNode) => (
-                                            <a
+                                            <ExternalLink
                                                 href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
-                                                target='_blank'
-                                                rel='noreferrer'
+                                                location='add_bot'
                                             >
                                                 {msg}
-                                            </a>
+                                            </ExternalLink>
                                         ),
                                     }}
                                 />

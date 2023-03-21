@@ -11,6 +11,7 @@ import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 
 import type {Team} from '@mattermost/types/teams';
+import ExternalLink from 'components/external_link';
 
 type Props = {
     teamId?: string;
@@ -83,13 +84,12 @@ const OpenInvite = (props: Props) => {
                         defaultMessage='No, members of this team are added and removed by linked groups. <link>Learn More</link>'
                         values={{
                             link: (msg: React.ReactNode) => (
-                                <a
+                                <ExternalLink
                                     href='https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html'
-                                    target='_blank'
-                                    rel='noreferrer'
+                                    location='open_invite'
                                 >
                                     {msg}
-                                </a>
+                                </ExternalLink>
                             ),
                         }}
                     />

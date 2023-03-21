@@ -16,17 +16,16 @@ describe('components/MenuItemExternalLink', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-      <a
-        href="http://test.com"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <span
-          className="MenuItem__primary-text"
-        >
-          Whatever
-        </span>
-      </a>
-    `);
+            <ExternalLink
+              href="http://test.com"
+              location="menu_item_external_link"
+            >
+              <span
+                className="MenuItem__primary-text"
+              >
+                Whatever
+              </span>
+            </ExternalLink>
+        `);
     });
 });

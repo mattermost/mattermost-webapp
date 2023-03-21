@@ -8,6 +8,7 @@ import {t} from 'utils/i18n';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 
 import LineSwitch from '../../line_switch';
+import ExternalLink from 'components/external_link';
 
 type Props = {
     syncChecked: boolean;
@@ -37,13 +38,12 @@ const SyncGroupsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked
                 defaultMessage='When enabled, adding and removing users from groups will add or remove them from this team. The only way of inviting members to this team is by adding the groups they belong to. <link>Learn More</link>'
                 values={{
                     link: (msg: string) => (
-                        <a
+                        <ExternalLink
                             href='https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html'
-                            target='_blank'
-                            rel='noreferrer'
+                            location='team_modes'
                         >
                             {msg}
-                        </a>
+                        </ExternalLink>
                     ),
                 }}
             />

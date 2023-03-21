@@ -34,6 +34,7 @@
       2
     ],
     "no-duplicate-imports": 0,
+    "mattermost/use-external-link": 2,
     "import/no-duplicates": 2,
     "max-nested-callbacks": ["error", 10],
     "no-unused-expressions": 0,
