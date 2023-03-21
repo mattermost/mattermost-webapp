@@ -40,13 +40,13 @@ import {isDevModeEnabled} from 'selectors/general';
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {confirmSelfHostedExpansion} from 'actions/hosted_customer';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {ValueOf} from '@mattermost/types/utilities';
 
 import SelfHostedExpansionCard from './expansion_card';
 
 import './self_hosted_expansion_modal.scss';
 
 import {STORAGE_KEY_EXPANSION_IN_PROGRESS} from './constants';
-import {ValueOf} from '@mattermost/types/utilities';
 
 export interface FormState {
     address: string;
@@ -104,29 +104,29 @@ export function canSubmit(formState: FormState, progress: ValueOf<typeof SelfHos
     const validSeats = formState.seats > 0;
 
     switch (progress) {
-        case SelfHostedSignupProgress.PAID:
-        case SelfHostedSignupProgress.CREATED_LICENSE:
-        case SelfHostedSignupProgress.CREATED_SUBSCRIPTION:
-            return true;
-        case SelfHostedSignupProgress.CONFIRMED_INTENT: {
-            return Boolean(
-                validAddress &&
-                validSeats
-            );
-        }
-        case SelfHostedSignupProgress.START:
-        case SelfHostedSignupProgress.CREATED_CUSTOMER:
-        case SelfHostedSignupProgress.CREATED_INTENT:
-            return Boolean(
-                validCard &&
-                validAddress &&
-                validSeats
-            );
-        default: {
-            return false;
-        }
+    case SelfHostedSignupProgress.PAID:
+    case SelfHostedSignupProgress.CREATED_LICENSE:
+    case SelfHostedSignupProgress.CREATED_SUBSCRIPTION:
+        return true;
+    case SelfHostedSignupProgress.CONFIRMED_INTENT: {
+        return Boolean(
+            validAddress &&
+                validSeats,
+        );
     }
-};
+    case SelfHostedSignupProgress.START:
+    case SelfHostedSignupProgress.CREATED_CUSTOMER:
+    case SelfHostedSignupProgress.CREATED_INTENT:
+        return Boolean(
+            validCard &&
+                validAddress &&
+                validSeats,
+        );
+    default: {
+        return false;
+    }
+    }
+}
 
 export default function SelfHostedExpansionModal() {
     const dispatch = useDispatch<DispatchFunc>();
