@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import {
     filterGroupsMatchingTerm,
 } from './group_utils';
@@ -57,36 +55,36 @@ describe('group utils', () => {
         const groups = [groupA, groupB, groupC];
 
         it('should match all for empty filter', () => {
-            assert.deepEqual(filterGroupsMatchingTerm(groups, ''), [groupA, groupB, groupC]);
+            expect(filterGroupsMatchingTerm(groups, '')).toEqual([groupA, groupB, groupC]);
         });
 
         it('should filter out results which do not match', () => {
-            assert.deepEqual(filterGroupsMatchingTerm(groups, 'testBad'), []);
+            expect(filterGroupsMatchingTerm(groups, 'testBad')).toEqual([]);
         });
 
         it('should match by name', () => {
-            assert.deepEqual(filterGroupsMatchingTerm(groups, 'software-engineers'), [groupC]);
+            expect(filterGroupsMatchingTerm(groups, 'software-engineers')).toEqual([groupC]);
         });
 
         it('should match by split part of the name', () => {
-            assert.deepEqual(filterGroupsMatchingTerm(groups, 'group'), [groupA, groupB]);
-            assert.deepEqual(filterGroupsMatchingTerm(groups, 'board'), [groupA]);
+            expect(filterGroupsMatchingTerm(groups, 'group')).toEqual([groupA, groupB]);
+            expect(filterGroupsMatchingTerm(groups, 'board')).toEqual([groupA]);
         });
 
         it('should match by display_name fully', () => {
-            assert.deepEqual(filterGroupsMatchingTerm(groups, 'software engineers'), [groupC]);
+            expect(filterGroupsMatchingTerm(groups, 'software engineers')).toEqual([groupC]);
         });
 
         it('should match by display_name case-insensitive', () => {
-            assert.deepEqual(filterGroupsMatchingTerm(groups, 'software ENGINEERS'), [groupC]);
+            expect(filterGroupsMatchingTerm(groups, 'software ENGINEERS')).toEqual([groupC]);
         });
 
         it('should ignore leading @ for name', () => {
-            assert.deepEqual(filterGroupsMatchingTerm(groups, '@developers'), [groupB]);
+            expect(filterGroupsMatchingTerm(groups, '@developers')).toEqual([groupB]);
         });
 
         it('should ignore leading @ for display_name', () => {
-            assert.deepEqual(filterGroupsMatchingTerm(groups, '@software'), [groupC]);
+            expect(filterGroupsMatchingTerm(groups, '@software')).toEqual([groupC]);
         });
     });
 });

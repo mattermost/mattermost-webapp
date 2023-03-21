@@ -7,6 +7,7 @@ import {getVideoId, ytRegex, handleYoutubeTime} from 'utils/youtube';
 
 import ExternalImage from 'components/external_image';
 import {OpenGraphMetadata} from '@mattermost/types/posts';
+import ExternalLink from 'components/external_link';
 
 type Props = {
     postId: string;
@@ -53,13 +54,12 @@ export default class YoutubeVideo extends React.PureComponent<Props, State> {
             <h4>
                 <span className='video-type'>{'YouTube - '}</span>
                 <span className='video-title'>
-                    <a
+                    <ExternalLink
                         href={this.props.link}
-                        target='blank'
-                        rel='noopener noreferrer'
+                        location='youtube_video'
                     >
                         {metadata?.title || 'unknown'}
-                    </a>
+                    </ExternalLink>
                 </span>
             </h4>
         );

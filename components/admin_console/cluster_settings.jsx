@@ -10,6 +10,8 @@ import * as Utils from 'utils/utils';
 
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
+import ExternalLink from 'components/external_link';
+
 import AdminSettings from './admin_settings';
 import BooleanSetting from './boolean_setting';
 import ClusterTableContainer from './cluster_table_container.jsx';
@@ -83,13 +85,12 @@ export default class ClusterSettings extends AdminSettings {
                         values={{
                             clusterId: Client4.clusterId,
                             link: (msg) => (
-                                <a
+                                <ExternalLink
+                                    location='cluster_settings'
                                     href='http://docs.mattermost.com/deployment/cluster.html'
-                                    target='_blank'
-                                    rel='noreferrer'
                                 >
                                     {msg}
-                                </a>
+                                </ExternalLink>
                             ),
                         }}
                     />
@@ -111,13 +112,12 @@ export default class ClusterSettings extends AdminSettings {
                         defaultMessage='WARNING: These settings may not sync with the other servers in the cluster. High Availability inter-node communication will not start until you modify the config.json to be identical on all servers and restart Mattermost. Please see the <link>documentation</link> on how to add or remove a server from the cluster. If you are accessing the System Console through a load balancer and experiencing issues, please see the Troubleshooting Guide in our <link>documentation</link>.'
                         values={{
                             link: (msg) => (
-                                <a
+                                <ExternalLink
+                                    location='cluster_settings'
                                     href='http://docs.mattermost.com/deployment/cluster.html'
-                                    target='_blank'
-                                    rel='noreferrer'
                                 >
                                     {msg}
-                                </a>
+                                </ExternalLink>
                             ),
                         }}
                     />
@@ -155,13 +155,12 @@ export default class ClusterSettings extends AdminSettings {
                             defaultMessage='When true, Mattermost will run in High Availability mode. Please see <link>documentation</link> to learn more about configuring High Availability for Mattermost.'
                             values={{
                                 link: (msg) => (
-                                    <a
+                                    <ExternalLink
+                                        location='cluster_settings'
                                         href='http://docs.mattermost.com/deployment/cluster.html'
-                                        target='_blank'
-                                        rel='noreferrer'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                             }}
                         />

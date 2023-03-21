@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import HelpLinks from 'components/help/components/help_links';
 import {HelpLink} from 'components/help/types';
+import ExternalLink from 'components/external_link';
 
 export default function Messaging(): JSX.Element {
     return (
@@ -64,13 +65,12 @@ export default function Messaging(): JSX.Element {
                     values={{
                         strong: (msg: React.ReactNode) => <strong>{msg}</strong>,
                         link: (msg: React.ReactNode) => (
-                            <a
+                            <ExternalLink
                                 href='https://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis'
-                                target='_blank'
-                                rel='noreferrer'
+                                location='messaging_help'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                     }}
                 />

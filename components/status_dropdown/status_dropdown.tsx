@@ -10,10 +10,7 @@ import Text from '@mattermost/compass-components/components/text';
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 import {TUserStatus} from '@mattermost/compass-components/shared';
 
-import {PreferenceType} from '@mattermost/types/preferences';
-import {PulsatingDot} from '@mattermost/components';
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {CustomStatusDuration, UserCustomStatus, UserProfile, UserStatus} from '@mattermost/types/users';
 
 import * as GlobalActions from 'actions/global_actions';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
@@ -37,6 +34,10 @@ import {Constants, ModalIdentifiers, UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {getCurrentDateTimeForTimezone, getCurrentMomentForTimezone} from 'utils/timezone';
 import {localizeMessage} from 'utils/utils';
+
+import {CustomStatusDuration, UserCustomStatus, UserProfile, UserStatus} from '@mattermost/types/users';
+import {PulsatingDot} from '@mattermost/components';
+import {PreferenceType} from '@mattermost/types/preferences';
 
 import './status_dropdown.scss';
 
@@ -378,12 +379,14 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
                                 <FormattedDate
                                     value={tomorrow}
                                     weekday='short'
+                                    timeZone={this.props.timezone}
                                 />
                                 {', '}
                                 <FormattedTime
                                     value={tomorrow}
                                     timeStyle='short'
                                     hour12={!this.props.isMilitaryTime}
+                                    timeZone={this.props.timezone}
                                 />
                             </span>
                         </>

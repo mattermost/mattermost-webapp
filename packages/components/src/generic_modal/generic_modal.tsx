@@ -16,6 +16,7 @@ export type Props = {
     handleCancel?: () => void;
     handleConfirm?: () => void;
     handleEnterKeyPress?: () => void;
+    handleKeydown?: (event?: React.KeyboardEvent<HTMLDivElement>) => void;
     confirmButtonText?: React.ReactNode;
     confirmButtonClassName?: string;
     cancelButtonText?: React.ReactNode;
@@ -37,7 +38,10 @@ export type Props = {
     compassDesign?: boolean;
     backdrop?: boolean;
     backdropClassName?: string;
+    headerButton?: React.ReactNode;
+    tabIndex?: number;
     children: React.ReactNode;
+    keyboardEscape?: boolean;
 };
 
 type State = {
@@ -52,6 +56,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
         autoCloseOnCancelButton: true,
         autoCloseOnConfirmButton: true,
         enforceFocus: true,
+        keyboardEscape: true,
     };
 
     constructor(props: Props) {
@@ -87,7 +92,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
         }
     }
 
-    private onEnterKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    private onEnterKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
         if (event.key === 'Enter') {
             if (this.props.autoCloseOnConfirmButton) {
                 this.onHide();
@@ -96,6 +101,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
                 this.props.handleEnterKeyPress();
             }
         }
+        this.props.handleKeydown?.(event);
     }
 
     private handleShow = () => {
@@ -160,6 +166,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
                 <h1 id='genericModalLabel'>
                     {this.props.modalHeaderText}
                 </h1>
+                {this.props.headerButton}
             </div>
         );
 
@@ -181,11 +188,12 @@ export class GenericModal extends React.PureComponent<Props, State> {
                 backdrop={this.props.backdrop}
                 backdropClassName={this.props.backdropClassName}
                 container={this.props.container}
+                keyboard={this.props.keyboardEscape}
             >
                 <FocusTrap active={isFocusTrapActive}>
                     <div
                         onKeyDown={this.onEnterKeyDown}
-                        tabIndex={0}
+                        tabIndex={this.props.tabIndex || 0}
                         className='GenericModal__wrapper-enter-key-press-catcher'
                     >
                         <Modal.Header closeButton={true}>

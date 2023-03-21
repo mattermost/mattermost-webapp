@@ -20,6 +20,7 @@ import BooleanSetting from '../boolean_setting';
 import SettingsGroup from '../settings_group.jsx';
 import TextSetting from '../text_setting';
 import {appsPluginID} from 'utils/apps';
+import ExternalLink from 'components/external_link';
 
 const PluginItemState = ({state}: {state: number}) => {
     switch (state) {
@@ -672,13 +673,12 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                         defaultMessage='Enable plugin uploads in config.json. See <link>documentation</link> to learn more.'
                         values={{
                             link: (msg: React.ReactNode) => (
-                                <a
+                                <ExternalLink
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/'
-                                    target='_blank'
-                                    rel='noreferrer'
+                                    location='plugin_management'
                                 >
                                     {msg}
-                                </a>
+                                </ExternalLink>
                             ),
                         }}
                     />
@@ -874,13 +874,12 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                             defaultMessage='When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See <link>documentation</link> to learn more.'
                             values={{
                                 link: (msg: React.ReactNode) => (
-                                    <a
+                                    <ExternalLink
                                         href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/'
-                                        target='_blank'
-                                        rel='noreferrer'
+                                        location='plugin_management'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                             }}
                         />
@@ -1021,13 +1020,12 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                     defaultMessage='Upload a plugin for your Mattermost server. See <link>documentation</link> to learn more.'
                     values={{
                         link: (msg: React.ReactNode) => (
-                            <a
+                            <ExternalLink
                                 href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/'
-                                target='_blank'
-                                rel='noreferrer'
+                                location='plugin_management'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                     }}
                 />
@@ -1039,13 +1037,12 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                     defaultMessage='Enable plugin uploads in config.json. See <link>documentation</link> to learn more.'
                     values={{
                         link: (msg: React.ReactNode) => (
-                            <a
+                            <ExternalLink
                                 href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/'
-                                target='_blank'
-                                rel='noreferrer'
+                                location='plugin_management'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                     }}
                 />
@@ -1057,13 +1054,12 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                     defaultMessage='To enable plugins, set **Enable Plugins** to true. See <link>documentation</link> to learn more.'
                     values={{
                         link: (msg: React.ReactNode) => (
-                            <a
+                            <ExternalLink
                                 href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/'
-                                target='_blank'
-                                rel='noreferrer'
+                                location='plugin_management'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                     }}
                 />
@@ -1107,13 +1103,12 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                             defaultMessage='When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See <link>documentation</link> to learn more.'
                                             values={{
                                                 link: (msg: React.ReactNode) => (
-                                                    <a
+                                                    <ExternalLink
                                                         href='https://mattermost.com/pl/default-plugin-signing'
-                                                        target='_blank'
-                                                        rel='noreferrer'
+                                                        location='plugin_management'
                                                     >
                                                         {msg}
-                                                    </a>
+                                                    </ExternalLink>
                                                 ),
                                             }}
                                         />
@@ -1203,13 +1198,12 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                             defaultMessage='When true, enables System Administrators to install plugins from the <link>marketplace</link>.'
                                             values={{
                                                 link: (msg: React.ReactNode) => (
-                                                    <a
+                                                    <ExternalLink
                                                         href='https://mattermost.com/pl/default-mattermost-marketplace.html'
-                                                        target='_blank'
-                                                        rel='noreferrer'
+                                                        location='plugin_management'
                                                     >
                                                         {msg}
-                                                    </a>
+                                                    </ExternalLink>
                                                 ),
                                             }}
                                         />

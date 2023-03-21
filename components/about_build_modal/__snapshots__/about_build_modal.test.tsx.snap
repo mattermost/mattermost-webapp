@@ -198,13 +198,12 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
           defaultMessage="Learn more about Enterprise Edition at "
           id="about.enterpriseEditionLearn"
         />
-        <a
+        <ExternalLink
           href="https://mattermost.com/"
-          rel="noopener noreferrer"
-          target="_blank"
+          location="about_build_modal"
         >
           mattermost.com
-        </a>
+        </ExternalLink>
       </div>
       <div
         className="form-group"
@@ -225,29 +224,27 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
         <div
           className="about-modal__links"
         >
-          <a
+          <ExternalLink
             href="https://mattermost.com/terms-of-use/"
             id="tosLink"
-            rel="noopener noreferrer"
-            target="_blank"
+            location="about_build_modal"
           >
             <MemoizedFormattedMessage
               defaultMessage="Terms of Use"
               id="about.tos"
             />
-          </a>
+          </ExternalLink>
            - 
-          <a
+          <ExternalLink
             href="https://mattermost.com/privacy-policy/"
             id="privacyLink"
-            rel="noopener noreferrer"
-            target="_blank"
+            location="about_build_modal"
           >
             <MemoizedFormattedMessage
               defaultMessage="Privacy Policy"
               id="about.privacy"
             />
-          </a>
+          </ExternalLink>
         </div>
       </div>
     </div>
@@ -433,13 +430,12 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
           defaultMessage="Join the Mattermost community at "
           id="about.teamEditionLearn"
         />
-        <a
+        <ExternalLink
           href="https://mattermost.com/community/"
-          rel="noopener noreferrer"
-          target="_blank"
+          location="about_build_modal"
         >
           mattermost.com/community/
-        </a>
+        </ExternalLink>
       </div>
       <div
         className="form-group"
@@ -460,29 +456,27 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
         <div
           className="about-modal__links"
         >
-          <a
+          <ExternalLink
             href="https://mattermost.com/terms-of-use/"
             id="tosLink"
-            rel="noopener noreferrer"
-            target="_blank"
+            location="about_build_modal"
           >
             <MemoizedFormattedMessage
               defaultMessage="Terms of Use"
               id="about.tos"
             />
-          </a>
+          </ExternalLink>
            - 
-          <a
+          <ExternalLink
             href="https://mattermost.com/privacy-policy/"
             id="privacyLink"
-            rel="noopener noreferrer"
-            target="_blank"
+            location="about_build_modal"
           >
             <MemoizedFormattedMessage
               defaultMessage="Privacy Policy"
               id="about.privacy"
             />
-          </a>
+          </ExternalLink>
         </div>
       </div>
     </div>
@@ -678,13 +672,12 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
           defaultMessage="Join the Mattermost community at "
           id="about.teamEditionLearn"
         />
-        <a
+        <ExternalLink
           href="https://mattermost.com/community/"
-          rel="noopener noreferrer"
-          target="_blank"
+          location="about_build_modal"
         >
           mattermost.com/community/
-        </a>
+        </ExternalLink>
       </div>
       <div
         className="form-group"
@@ -705,29 +698,27 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
         <div
           className="about-modal__links"
         >
-          <a
+          <ExternalLink
             href="https://mattermost.com/terms-of-use/"
             id="tosLink"
-            rel="noopener noreferrer"
-            target="_blank"
+            location="about_build_modal"
           >
             <MemoizedFormattedMessage
               defaultMessage="Terms of Use"
               id="about.tos"
             />
-          </a>
+          </ExternalLink>
            - 
-          <a
+          <ExternalLink
             href="https://mattermost.com/privacy-policy/"
             id="privacyLink"
-            rel="noopener noreferrer"
-            target="_blank"
+            location="about_build_modal"
           >
             <MemoizedFormattedMessage
               defaultMessage="Privacy Policy"
               id="about.privacy"
             />
-          </a>
+          </ExternalLink>
         </div>
       </div>
     </div>
@@ -912,13 +903,12 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
           defaultMessage="Join the Mattermost community at "
           id="about.teamEditionLearn"
         />
-        <a
+        <ExternalLink
           href="https://mattermost.com/community/"
-          rel="noopener noreferrer"
-          target="_blank"
+          location="about_build_modal"
         >
           mattermost.com/community/
-        </a>
+        </ExternalLink>
       </div>
       <div
         className="form-group"
@@ -939,29 +929,27 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
         <div
           className="about-modal__links"
         >
-          <a
+          <ExternalLink
             href="https://mattermost.com/terms-of-use/"
             id="tosLink"
-            rel="noopener noreferrer"
-            target="_blank"
+            location="about_build_modal"
           >
             <MemoizedFormattedMessage
               defaultMessage="Terms of Use"
               id="about.tos"
             />
-          </a>
+          </ExternalLink>
            - 
-          <a
+          <ExternalLink
             href="https://mattermost.com/privacy-policy/"
             id="privacyLink"
-            rel="noopener noreferrer"
-            target="_blank"
+            location="about_build_modal"
           >
             <MemoizedFormattedMessage
               defaultMessage="Privacy Policy"
               id="about.privacy"
             />
-          </a>
+          </ExternalLink>
         </div>
       </div>
     </div>

@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import HelpLinks from 'components/help/components/help_links';
 import {HelpLink} from 'components/help/types';
+import ExternalLink from 'components/external_link';
 
 export default function HelpCommands(): JSX.Element {
     return (
@@ -40,13 +41,12 @@ export default function HelpCommands(): JSX.Element {
                     defaultMessage='Built-in slash commands come with all Mattermost installations. See the <link>product documentation</link> for a list of available built-in slash commands.'
                     values={{
                         link: (msg: React.ReactNode) => (
-                            <a
+                            <ExternalLink
                                 href='https://docs.mattermost.com/messaging/executing-slash-commands.html'
-                                target='_blank'
-                                rel='noreferrer'
+                                location='help_commands'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                     }}
                 />
@@ -86,13 +86,12 @@ export default function HelpCommands(): JSX.Element {
                     defaultMessage='Custom slash commands are disabled by default and can be enabled by the System Admin in the System Console by going to <strong>Integrations > Integration Management</strong>. Learn about configuring custom slash commands in the <link>developer documentation</link>.'
                     values={{
                         link: (msg: React.ReactNode) => (
-                            <a
+                            <ExternalLink
                                 href='https://developers.mattermost.com/integrate/slash-commands/'
-                                target='_blank'
-                                rel='noreferrer'
+                                location='help_commands'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                         strong: (msg: React.ReactNode) => <strong>{msg}</strong>,
                     }}
