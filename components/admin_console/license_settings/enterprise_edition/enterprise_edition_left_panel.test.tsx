@@ -13,7 +13,6 @@ import {renderWithIntl} from 'tests/react_testing_utils';
 import {OverActiveUserLimits, SelfHostedProducts} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
 
-
 import {General} from 'mattermost-redux/constants';
 import {DeepPartial} from '@mattermost/types/utilities';
 import {GlobalState} from '@mattermost/types/store';
@@ -78,9 +77,9 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
                             price_per_seat: 7.5,
                         }),
                     },
-                    productsLoaded: true
-                }
-            }
+                    productsLoaded: true,
+                },
+            },
         },
     };
 
