@@ -10,7 +10,9 @@ import moment from 'moment-timezone';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import {renderWithIntl} from 'tests/react_testing_utils';
-import {OverActiveUserLimits} from 'utils/constants';
+import {OverActiveUserLimits, SelfHostedProducts} from 'utils/constants';
+import {TestHelper} from 'utils/test_helper';
+
 
 import {General} from 'mattermost-redux/constants';
 import {DeepPartial} from '@mattermost/types/utilities';
@@ -66,6 +68,19 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
             cloud: {
                 subscription: undefined,
             },
+            hostedCustomer: {
+                products: {
+                    products: {
+                        prod_professional: TestHelper.getProductMock({
+                            id: 'prod_professional',
+                            name: 'Professional',
+                            sku: SelfHostedProducts.PROFESSIONAL,
+                            price_per_seat: 7.5,
+                        }),
+                    },
+                    productsLoaded: true
+                }
+            }
         },
     };
 
