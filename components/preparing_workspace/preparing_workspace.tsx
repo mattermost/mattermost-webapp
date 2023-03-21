@@ -43,6 +43,7 @@ import Organization from './organization';
 import Plugins from './plugins';
 import Progress from './progress';
 import InviteMembers from './invite_members';
+import InviteMembersIllustration from './invite_members_illustration';
 import LaunchingWorkspace, {START_TRANSITIONING_OUT} from './launching_workspace';
 
 import './preparing_workspace.scss';
@@ -363,6 +364,11 @@ const PreparingWorkspace = (props: Props) => {
             <div className='PreparingWorkspace__logo'>
                 <LogoSvg/>
             </div>
+            {currentStep === WizardSteps.InviteMembers && (
+                <div style={{display: 'flex', position: 'absolute', flexDirection: 'row-reverse', alignItems: 'center', width: '100%', height: '100%'}}>
+                    <InviteMembersIllustration/>
+                </div>
+            )}
             <Progress
                 step={currentStep}
                 stepOrder={stepOrder}
@@ -436,8 +442,6 @@ const PreparingWorkspace = (props: Props) => {
                     configSiteUrl={configSiteUrl}
                     formUrl={form.url}
                     browserSiteUrl={browserSiteUrl}
-                    inferredProtocol={form.inferredProtocol}
-                    showInviteLink={true}
                 />
                 <LaunchingWorkspace
                     onPageView={onPageViews[WizardSteps.LaunchingWorkspace]}

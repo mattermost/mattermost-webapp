@@ -22,8 +22,6 @@ type Props = PreparingWorkspacePageProps & {
     formUrl: Form['url'];
     configSiteUrl?: string;
     browserSiteUrl: string;
-    inferredProtocol: 'http' | 'https' | null;
-    showInviteLink: boolean;
 }
 
 const InviteMembers = (props: Props) => {
@@ -64,7 +62,7 @@ const InviteMembers = (props: Props) => {
             unmountOnExit={true}
         >
             <div className={className}>
-                <SingleColumnLayout>
+                <SingleColumnLayout style={{width: 547}}>
                     {props.previous}
                     <Title>
                         <FormattedMessage
