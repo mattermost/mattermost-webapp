@@ -113,7 +113,7 @@ const NewChannelModal = () => {
 
         const channel: Channel = {
             team_id: currentTeamId,
-            name: url || cryptoJSRandomWordArray(16).toString(),
+            name: url,
             display_name: displayName,
             purpose,
             header: '',
@@ -235,6 +235,9 @@ const NewChannelModal = () => {
     };
 
     const handleOnDisplayNameBlur = () => {
+        if (displayName && !url) {
+            setURL(cryptoJSRandomWordArray(16).toString());
+        }
         if (!displayNameModified) {
             setDisplayNameModified(true);
         }
