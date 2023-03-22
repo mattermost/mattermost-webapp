@@ -35,7 +35,7 @@ const MainTabs = {
     CHANNELS_TAB: 'Channels',
     PLAYBOOKS_TAB: 'Playbooks',
     BOARDS_TAB: 'Boards',
-    INTEGRATIONS_TAB: 'Integrations',
+    DASHBOARDS_TAB: 'Dashboard',
 };
 
 export default class ChannelView extends React.PureComponent<Props, State> {
@@ -197,6 +197,12 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                         unmountOnExit={true}
                     >
                         <Tab
+                            eventKey={MainTabs.DASHBOARDS_TAB}
+                            title={localizeMessage('channel_view.tabs.dashboard_tab', 'Dashboard')}
+                        >
+                            <ChannelIntegrationsTab {...this.props}/>
+                        </Tab>
+                        <Tab
                             eventKey={MainTabs.CHANNELS_TAB}
                             title={localizeMessage('channel_view.tabs.channels_tab', 'Channels')}
                         >
@@ -218,13 +224,6 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                         >
                             {'Placeholder for Boards Tab'}
                         </Tab>
-                        <Tab
-                            eventKey={MainTabs.INTEGRATIONS_TAB}
-                            title={localizeMessage('channel_view.tabs.integrations_tab', 'Integrations')}
-                        >
-                            <ChannelIntegrationsTab {...this.props}/>
-                        </Tab>
-
                     </Tabs>
                 </div>
             </div>

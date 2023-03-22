@@ -2807,7 +2807,7 @@
   "channel_view.tabs.channels_tab": "Channels",
   "channel_view.tabs.playbooks_tab": "Playbooks",
   "channel_view.tabs.boards_tab": "Boards",
-  "channel_view.tabs.integrations_tab": "Integrations",
+  "channel_view.tabs.dashboard_tab": "Dashboard",
   "channel_view.integrations_tab.placeholder": "This is a placeholder text coming from inside the Channel Integrations Tab View",
   "channel_header.addChannelHeader": "Add a channel header",
   "channel_header.channelFiles": "Channel files",

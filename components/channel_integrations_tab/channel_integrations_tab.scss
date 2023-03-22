@@ -21,6 +21,9 @@
 .ChannelIntegrationsTab {
     background-color: rgba(var(--center-channel-color-rgb), 0.04);
 
+    .Header{
+        padding: 24px 24px 0px;
+    }
     .integrations-body {
         padding: 24px;
         overflow-x: hidden;
