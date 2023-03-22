@@ -66,6 +66,21 @@
                 font-weight: 600;
                 text-align: left;
             }
+
+            .Input_fieldset {
+                height: 40px;
+                padding: 2px 1px;
+                background: var(--center-channel-bg);
+
+                .Input {
+                    height: 32px;
+                    background: inherit;
+                }
+
+                .Input_wrapper {
+                    margin: 0;
+                }
+            }
         }
 
         >.lhs {
