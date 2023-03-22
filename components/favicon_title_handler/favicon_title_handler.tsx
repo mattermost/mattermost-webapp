@@ -186,7 +186,7 @@ export class FaviconTitleHandlerClass extends React.PureComponent<Props> {
     }
 
     updateAppBadge = (unreadStatus: BasicUnreadStatus) => {
-        if (!navigator.setAppBadge) {
+        if (UserAgent.isDesktopApp() || !navigator.setAppBadge) {
             return;
         }
 
