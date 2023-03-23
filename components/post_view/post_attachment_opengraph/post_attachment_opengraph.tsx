@@ -21,6 +21,7 @@ import Tooltip from 'components/tooltip';
 import Constants, {PostTypes} from 'utils/constants';
 import {isSystemMessage} from 'utils/post_utils';
 import {makeUrlSafe} from 'utils/url';
+import ExternalLink from 'components/external_link';
 
 import {getNearestPoint} from './get_nearest_point';
 
@@ -127,13 +128,12 @@ const PostAttachmentOpenGraph = ({openGraphData, post, actions, link, isInPermal
     const safeLink = makeUrlSafe(openGraphData?.url || link);
 
     return (
-        <a
+        <ExternalLink
             className='PostAttachmentOpenGraph'
             role='link'
             href={safeLink}
-            target='_blank'
-            rel='noopener noreferrer'
             title={openGraphData?.title || openGraphData?.url || link}
+            location='post_attachment_opengraph'
         >
             {rest.currentUserId === post.user_id && !isInPermalink && (
                 <OverlayTrigger
@@ -168,7 +168,7 @@ const PostAttachmentOpenGraph = ({openGraphData, post, actions, link, isInPermal
                 isEmbedVisible={rest.isEmbedVisible}
                 toggleEmbedVisibility={rest.toggleEmbedVisibility}
             />
-        </a>
+        </ExternalLink>
     );
 };
 

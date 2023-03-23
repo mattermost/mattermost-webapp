@@ -19,6 +19,7 @@ import FormError from 'components/form_error';
 import imagePath from 'images/openid-convert/emoticon-outline.svg';
 
 import './openid_convert.scss';
+import ExternalLink from 'components/external_link';
 
 type Props = BaseProps & {
     disabled?: boolean;
@@ -104,18 +105,17 @@ export default class OpenIdConvert extends React.PureComponent<Props, State> {
                                 defaultMessage='Convert to OpenID Connect'
                             />
                         </button>
-                        <a
+                        <ExternalLink
                             className='btn-secondary'
+                            location='openid_convert'
                             href='https://www.mattermost.com/default-openid-docs'
                             data-testid='openIdLearnMore'
-                            target='_blank'
-                            rel='noopener noreferrer'
                         >
                             <FormattedMessage
                                 id='admin.openIdConvert.help'
                                 defaultMessage='Learn more'
                             />
-                        </a>
+                        </ExternalLink>
                         <div
                             className='error-message'
                             data-testid='errorMessage'

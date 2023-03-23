@@ -23,12 +23,16 @@ jest.mock('lodash/debounce', () => jest.fn((fn) => fn));
 describe('components/request_business_email_modal/request_business_email_modal', () => {
     const state = {
         entities: {
+            users: {
+                currentUserId: 'current_user_id',
+            },
             admin: {},
             general: {
                 license: {
                     IsLicensed: 'true',
                     Cloud: 'true',
                 },
+                config: {},
             },
             cloud: {
                 subscription: {id: 'subscriptionID'},

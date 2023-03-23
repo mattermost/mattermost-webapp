@@ -38,7 +38,6 @@ const PostHeaderCustomStatus = (props: ComponentProps) => {
                 userID={userId}
                 showTooltip={true}
                 emojiStyle={{
-                    marginLeft: 4,
                     marginTop: 2,
                 }}
             />

@@ -28,6 +28,7 @@ import {PreferenceType} from '@mattermost/types/preferences';
 import AnnouncementBar from '../default_announcement_bar';
 import TextDismissableBar from '../text_dismissable_bar';
 import RenewalLink from '../renewal_link/';
+import ExternalLink from 'components/external_link';
 
 type Props = {
     config?: Partial<ClientConfig>;
@@ -396,13 +397,12 @@ const ConfigurationAnnouncementBar = (props: Props) => {
 
         const values = {
             linkSite: (msg: string) => (
-                <a
+                <ExternalLink
                     href={props.siteURL}
-                    target='_blank'
-                    rel='noreferrer'
+                    location='configuration_announcement_bar'
                 >
                     {msg}
-                </a>
+                </ExternalLink>
             ),
             linkConsole: (msg: string) => (
                 <Link to='/admin_console/environment/web_server'>

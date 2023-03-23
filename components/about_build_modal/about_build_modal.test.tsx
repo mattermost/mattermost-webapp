@@ -134,14 +134,29 @@ describe('components/AboutBuildModal', () => {
 
     test('should call onExited callback when the modal is hidden', () => {
         const onExited = jest.fn();
+        const store = mockStore({
+            entities: {
+                general: {
+                    config: {},
+                    license: {
+                        Cloud: 'false',
+                    },
+                },
+                users: {
+                    currentUserId: 'currentUserId',
+                },
+            },
+        });
 
         const wrapper = mountWithIntl(
-            <AboutBuildModal
-                config={config}
-                license={license}
-                webappBuildHash='0a1b2c3d4f'
-                onExited={onExited}
-            />,
+            <Provider store={store}>
+                <AboutBuildModal
+                    config={config}
+                    license={license}
+                    webappBuildHash='0a1b2c3d4f'
+                    onExited={onExited}
+                />
+            </Provider>,
         );
 
         wrapper.find(Modal).first().props().onExited?.(document.createElement('div'));
@@ -149,19 +164,44 @@ describe('components/AboutBuildModal', () => {
     });
 
     test('should show default tos and privacy policy links and not the config links', () => {
+        const store = mockStore({
+            entities: {
+                general: {
+                    config: {},
+                    license: {
+                        Cloud: 'false',
+                    },
+                },
+                users: {
+                    currentUserId: 'currentUserId',
+                },
+            },
+        });
         const wrapper = mountWithIntl(
-            <AboutBuildModal
-                config={config}
-                license={license}
-                onExited={jest.fn()}
-            />,
+            <Provider store={store}>
+                <AboutBuildModal
+                    config={config}
+                    license={license}
+                    onExited={jest.fn()}
+                />
+            </Provider>,
         );
 
-        expect(wrapper.find('#tosLink').props().href).toBe(AboutLinks.TERMS_OF_SERVICE);
-        expect(wrapper.find('#privacyLink').props().href).toBe(AboutLinks.PRIVACY_POLICY);
+        expect(
+            wrapper.find(AboutBuildModal).find('a#tosLink').props().href,
+        ).toBe(
+            AboutLinks.TERMS_OF_SERVICE +
+                '?utm_source=mattermost&utm_medium=in-product&utm_content=about_build_modal&uid=currentUserId&sid=',
+        );
+        expect(
+            wrapper.find(AboutBuildModal).find('a#privacyLink').props().href,
+        ).toBe(
+            AboutLinks.PRIVACY_POLICY +
+                '?utm_source=mattermost&utm_medium=in-product&utm_content=about_build_modal&uid=currentUserId&sid=',
+        );
 
-        expect(wrapper.find('#tosLink').props().href).not.toBe(config?.TermsOfServiceLink);
-        expect(wrapper.find('#privacyLink').props().href).not.toBe(config?.PrivacyPolicyLink);
+        expect(wrapper.find(AboutBuildModal).find('a#tosLink').props().href).not.toBe(config?.TermsOfServiceLink);
+        expect(wrapper.find(AboutBuildModal).find('a#privacyLink').props().href).not.toBe(config?.PrivacyPolicyLink);
     });
 
     function shallowAboutBuildModal(props = {}) {

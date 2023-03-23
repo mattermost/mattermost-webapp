@@ -16,6 +16,7 @@ import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
 
 import './cloud_invoice_preview.scss';
+import ExternalLink from 'components/external_link';
 
 type Props = {
     onHide?: () => void;
@@ -52,13 +53,12 @@ function CloudInvoicePreview(props: Props) {
                         id='cloud.invoice_pdf_preview.download'
                         values={{
                             downloadLink: (msg: string) => (
-                                <a
-                                    href={props.url}
-                                    target='_blank'
-                                    rel='noreferrer'
+                                <ExternalLink
+                                    href={props.url || ''}
+                                    location='cloud_invoice_preview'
                                 >
                                     {msg}
-                                </a>),
+                                </ExternalLink>),
                         }}
                     />
                 </div>

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getRandomId} from '@e2e-support/utils';
+import {getRandomId} from '@e2e-support/util';
 import {Channel, ChannelType} from '@mattermost/types/channels';
 
 export function createRandomChannel(

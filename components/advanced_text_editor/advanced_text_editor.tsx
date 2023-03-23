@@ -424,7 +424,6 @@ const AdvanceTextEditor = ({
                 />
             )}
             slot2={null}
-            shouldScrollIntoView={true}
         />
     );
 
