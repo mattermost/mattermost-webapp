@@ -155,7 +155,10 @@ describe('Recent Emoji', () => {
         cy.reload();
 
         // # Hover over the last post by opening dot menu on it
-        cy.clickPostDotMenu();
+        cy.getLastPostId().then((postId) => {
+        // # Click on post dot menu so we can check for reaction icon
+            cy.get(`#post_${postId}`).trigger('mouseover');
+        });
 
         cy.get('#recent_reaction_0').should('exist').then((recentReaction) => {
             // * Assert that instead of custom emoji the system emoji is present as most recent in quick reaction menu
