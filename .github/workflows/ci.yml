@@ -282,8 +282,8 @@ jobs:
       env:
         DOCKER_CLI_EXPERIMENTAL: enabled
       run: |
-        wget https://raw.githubusercontent.com/mattermost/mattermost-server/master/build/Dockerfile
-        wget https://raw.githubusercontent.com/mattermost/mattermost-server/master/build/entrypoint.sh
+        wget https://raw.githubusercontent.com/mattermost/mattermost-server/master/server/build/Dockerfile
+        wget https://raw.githubusercontent.com/mattermost/mattermost-server/master/server/build/entrypoint.sh
         chmod +x entrypoint.sh
         export MM_PACKAGE=https://pr-builds.mattermost.com/$REPO_NAME/commit/${{ github.event.pull_request.head.sha || github.sha }}/mattermost-enterprise-linux-amd64.tar.gz
         docker buildx build --push --build-arg MM_PACKAGE=$MM_PACKAGE -t mattermost/mm-ee-test:${TAG} --provenance=false . 
