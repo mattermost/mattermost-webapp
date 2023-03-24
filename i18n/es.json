@@ -255,6 +255,7 @@
   "admin.billing.company_info_edit.sameAsBillingAddress": "Igual que la dirección de facturación",
   "admin.billing.company_info_edit.save": "Guardar información",
   "admin.billing.company_info_edit.title": "Editar información de la empresa",
+  "admin.billing.deleteWorkspace.failureModal.buttonText": "Prueba de nuevo",
   "admin.billing.history.allPaymentsShowHere": "Todos sus pagos mensuales se mostrarán aquí",
   "admin.billing.history.date": "Fecha",
   "admin.billing.history.description": "Descripción",
