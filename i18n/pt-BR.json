@@ -220,7 +220,7 @@
   "admin.audits.reload": "Recarregar",
   "admin.authentication.email": "Autenticação Email",
   "admin.authentication.gitlab": "GitLab",
-  "admin.authentication.guest_access": "Acesso Convidado (Beta)",
+  "admin.authentication.guest_access": "Acesso Convidado",
   "admin.authentication.ldap": "AD/LDAP",
   "admin.authentication.mfa": "Autenticação Multi-Fator",
   "admin.authentication.oauth": "OAuth 2.0",
