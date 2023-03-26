@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import {TestHelper} from 'utils/test_helper';
 
 import {GlobalState} from 'types/store';
@@ -79,7 +77,7 @@ describe('makeGetMentionKeysForPost', () => {
         const getMentionKeysForPost = makeGetMentionKeysForPost();
         const results = getMentionKeysForPost(baseState, post, channel);
         const expected = [{key: '@channel'}, {key: '@all'}, {key: '@here'}, {key: '@a123'}, {key: '@developers'}];
-        assert.deepEqual(results, expected);
+        expect(results).toEqual(expected);
     });
 
     it('should return mentionKeys without groups', () => {
@@ -92,7 +90,7 @@ describe('makeGetMentionKeysForPost', () => {
         const getMentionKeysForPost = makeGetMentionKeysForPost();
         const results = getMentionKeysForPost(baseState, post, channel);
         const expected = [{key: '@channel'}, {key: '@all'}, {key: '@here'}, {key: '@a123'}];
-        assert.deepEqual(results, expected);
+        expect(results).toEqual(expected);
     });
 
     it('should return group mentions and all mentions without channel mentions', () => {
@@ -105,7 +103,7 @@ describe('makeGetMentionKeysForPost', () => {
         const getMentionKeysForPost = makeGetMentionKeysForPost();
         const results = getMentionKeysForPost(baseState, post, channel);
         const expected = [{key: '@a123'}, {key: '@developers'}];
-        assert.deepEqual(results, expected);
+        expect(results).toEqual(expected);
     });
 
     it('should return all mentions without group mentions and channel mentions', () => {
@@ -118,6 +116,6 @@ describe('makeGetMentionKeysForPost', () => {
         const getMentionKeysForPost = makeGetMentionKeysForPost();
         const results = getMentionKeysForPost(baseState, post, channel);
         const expected = [{key: '@a123'}];
-        assert.deepEqual(results, expected);
+        expect(results).toEqual(expected);
     });
 });

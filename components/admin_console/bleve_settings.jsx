@@ -8,6 +8,8 @@ import {blevePurgeIndexes} from 'actions/admin_actions.jsx';
 import {JobStatuses, JobTypes} from 'utils/constants';
 import {t} from 'utils/i18n';
 
+import ExternalLink from 'components/external_link';
+
 import AdminSettings from './admin_settings';
 import BooleanSetting from './boolean_setting';
 import TextSetting from './text_setting';
@@ -105,16 +107,15 @@ export default class BleveSettings extends AdminSettings {
                             defaultMessage='When true, indexing of new posts occurs automatically. Search queries will use database search until "Enable Bleve for search queries" is enabled. {documentationLink}'
                             values={{
                                 documentationLink: (
-                                    <a
+                                    <ExternalLink
                                         href='https://docs.mattermost.com/deploy/bleve-search.html'
-                                        rel='noopener noreferrer'
-                                        target='_blank'
+                                        location='bleve_settings'
                                     >
                                         <FormattedMessage
                                             id='admin.bleve.enableIndexingDescription.documentationLinkText'
                                             defaultMessage='Learn more about Bleve in our documentation.'
                                         />
-                                    </a>
+                                    </ExternalLink>
                                 ),
                             }}
                         />

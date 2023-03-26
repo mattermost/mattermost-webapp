@@ -100,6 +100,7 @@ describe('Keyboard Shortcuts', () => {
             cy.viewport('iphone-6');
 
             // # Save Post
+            cy.pause();
             cy.uiPostDropdownMenuShortcut(postId, 'Save', 'S', 'RHS_ROOT');
 
             // * Verify post is Saved

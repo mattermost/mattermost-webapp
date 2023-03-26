@@ -785,10 +785,6 @@
         .post__body {
             background: transparent !important;
         }
-
-        .search-item-snippet {
-            overflow: visible;
-        }
     }
 
     &.post--hide-controls {
@@ -801,8 +797,6 @@
 
     &.post--thread {
         &.same--user {
-            padding: 0 0.5em 0 1em;
-
             .post__header,
             .post-preview__header {
                 margin-bottom: 0;
@@ -2130,6 +2124,7 @@
 
     &.post-message--overflow {
         .post-message__text-container {
+            -webkit-mask-image: linear-gradient(black calc(100% - 126px), transparent calc(100% - 36px));
             mask-image: linear-gradient(black calc(100% - 126px), transparent calc(100% - 36px));
         }
     }
@@ -2189,7 +2184,7 @@
     }
 
     &.top .post {
-        padding-top: 22px; // this is based off of 8px padding for post + 1em
+        padding-top: 16px; // this is based off of 8px padding for post + 1em
         &.same--root.same--user {
             padding-top: 1em;
         }
@@ -2282,6 +2277,16 @@
 
     .modal-footer {
         padding-top: 28px;
+        text-align: center;
+    }
+
+    .GenericModal__button {
+        margin: 0 4px;
+
+        &.cancel-button {
+            background-color: rgba(var(--button-bg-rgb), 0.08);
+            border-radius: 4px;
+        }
     }
 }
 
@@ -2314,19 +2319,6 @@
         border: none;
         background: none;
         font-size: 12px;
-    }
-}
-
-.modal-footer {
-    text-align: center;
-
-    .GenericModal__button {
-        margin: 0 4px;
-
-        &.cancel-button {
-            background-color: rgba(var(--button-bg-rgb), 0.08);
-            border-radius: 4px;
-        }
     }
 }
 

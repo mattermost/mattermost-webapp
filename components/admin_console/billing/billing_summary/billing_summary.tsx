@@ -21,6 +21,7 @@ import {Client4} from 'mattermost-redux/client';
 import {Invoice, InvoiceLineItem, Product} from '@mattermost/types/cloud';
 import {openModal} from 'actions/views/modals';
 import CloudInvoicePreview from 'components/cloud_invoice_preview';
+import ExternalLink from 'components/external_link';
 
 export const noBillingHistory = (
     <div className='BillingSummary__noBillingHistory'>
@@ -40,9 +41,8 @@ export const noBillingHistory = (
                 defaultMessage='In the future, this is where your most recent bill summary will show.'
             />
         </div>
-        <a
-            target='_blank'
-            rel='noopener noreferrer'
+        <ExternalLink
+            location='billing_summary'
             href={CloudLinks.BILLING_DOCS}
             className='BillingSummary__noBillingHistory-link'
             onClick={() => trackEvent('cloud_admin', 'click_how_billing_works', {screen: 'subscriptions'})}
@@ -51,7 +51,7 @@ export const noBillingHistory = (
                 id='admin.billing.subscriptions.billing_summary.noBillingHistory.link'
                 defaultMessage='See how billing works'
             />
-        </a>
+        </ExternalLink>
     </div>
 );
 

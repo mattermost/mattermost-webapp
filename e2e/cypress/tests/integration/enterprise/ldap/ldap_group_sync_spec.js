@@ -110,7 +110,7 @@ context('ldap', () => {
 
             // # Save settings
             cy.get('#saveSetting').should('be.enabled').click();
-            cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Channel Configuration');
+            cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Mattermost Channels');
 
             // # Go back to testChannel management page
             cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
@@ -136,7 +136,7 @@ context('ldap', () => {
             cy.get('#addGroupsToTeamToggle').scrollIntoView().click();
             cy.get('#multiSelectList').should('be.visible');
             cy.get('#multiSelectList>div').children().eq(0).click();
-            cy.uiGetButton('Add').click();
+            cy.uiGetButton('Add').click().wait(TIMEOUTS.ONE_SEC);
 
             // # Save settings
             cy.get('#saveSetting').should('be.enabled').click();
@@ -234,7 +234,7 @@ context('ldap', () => {
 
             // * Search private channel name and make sure it isn't there in public channel directory
             cy.get('#searchChannelsTextbox').type(testChannel.display_name);
-            cy.get('#moreChannelsList').should('include.text', 'No more channels to join');
+            cy.get('#moreChannelsList').should('include.text', 'No results for');
         });
 
         it('MM-T2629 - Private to public - More....', () => {
@@ -473,7 +473,7 @@ context('ldap', () => {
 
                 // * Search private channel name and make sure it isn't there in public channel directory
                 cy.get('#searchChannelsTextbox').type(publicChannel.display_name);
-                cy.get('#moreChannelsList').should('include.text', 'No more channels to join');
+                cy.get('#moreChannelsList').should('include.text', 'No results for');
             });
         });
 

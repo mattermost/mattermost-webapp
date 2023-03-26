@@ -15,4 +15,9 @@
         font-size: 15px;
         resize: none;
     }
+
+    &__FreeFormTextLimit {
+        color: var(--dnd-indicator);
+        float: right;
+    }
 }

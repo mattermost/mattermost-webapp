@@ -33,16 +33,15 @@ exports[`components/BleveSettings should match snapshot, disabled 1`] = `
             id="admin.bleve.enableIndexingDescription"
             values={
               Object {
-                "documentationLink": <a
+                "documentationLink": <ExternalLink
                   href="https://docs.mattermost.com/deploy/bleve-search.html"
-                  rel="noopener noreferrer"
-                  target="_blank"
+                  location="bleve_settings"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Learn more about Bleve in our documentation."
                     id="admin.bleve.enableIndexingDescription.documentationLinkText"
                   />
-                </a>,
+                </ExternalLink>,
               }
             }
           />
@@ -296,16 +295,15 @@ exports[`components/BleveSettings should match snapshot, enabled 1`] = `
             id="admin.bleve.enableIndexingDescription"
             values={
               Object {
-                "documentationLink": <a
+                "documentationLink": <ExternalLink
                   href="https://docs.mattermost.com/deploy/bleve-search.html"
-                  rel="noopener noreferrer"
-                  target="_blank"
+                  location="bleve_settings"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Learn more about Bleve in our documentation."
                     id="admin.bleve.enableIndexingDescription.documentationLinkText"
                   />
-                </a>,
+                </ExternalLink>,
               }
             }
           />

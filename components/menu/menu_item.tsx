@@ -1,10 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactElement, ReactNode, Children} from 'react';
+import React, {ReactElement, ReactNode, Children, KeyboardEvent, MouseEvent} from 'react';
 import {styled} from '@mui/material/styles';
 import MuiMenuItem from '@mui/material/MenuItem';
 import type {MenuItemProps as MuiMenuItemProps} from '@mui/material/MenuItem';
+
+import Constants from 'utils/constants';
+import {isKeyPressed} from 'utils/utils';
 
 export interface Props extends MuiMenuItemProps {
 
@@ -33,6 +36,11 @@ export interface Props extends MuiMenuItemProps {
     labels: ReactElement;
 
     /**
+     * for some cases we have explicit requirement for labels to be in row instead of stack
+     */
+    isLabelsRowLayout?: boolean;
+
+    /**
      * The meta data element to display extra information about menu item. Could be chevron, shortcut or badge.
      * It is formed with subMenuDetail and trailingElement. If only one is passed, it will be tailingElement. If two are
      * passed, first will be subMenuDetail and second will be trailingElement.
@@ -55,6 +63,8 @@ export interface Props extends MuiMenuItemProps {
      */
     isDestructive?: boolean;
 
+    onClick: (event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) => void;
+
     /**
      * ONLY to support submenus. Avoid passing children to this component. Support for children is only added to support submenus.
      */
@@ -76,12 +86,20 @@ export function MenuItem(props: Props) {
         labels,
         trailingElements,
         isDestructive,
+        isLabelsRowLayout,
         children,
+        onClick,
         ...restProps
     } = props;
 
     // When both primary and secondary labels are passed, we need to apply minor changes to the styling. Check below in styled component for more details.
     const hasSecondaryLabel = labels && labels.props && labels.props.children && Children.count(labels.props.children) === 2;
+
+    function handleClick(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) {
+        if (isCorrectKeyPressedOnMenuItem(event)) {
+            onClick(event);
+        }
+    }
 
     return (
         <MenuItemStyled
@@ -89,6 +107,9 @@ export function MenuItem(props: Props) {
             disableTouchRipple={true}
             isDestructive={isDestructive}
             hasSecondaryLabel={hasSecondaryLabel}
+            isLabelsRowLayout={isLabelsRowLayout}
+            onKeyDown={handleClick}
+            onMouseDown={handleClick}
             {...restProps}
         >
             {leadingElement && <div className='leading-element'>{leadingElement}</div>}
@@ -102,12 +123,14 @@ export function MenuItem(props: Props) {
 interface MenuItemStyledProps extends MuiMenuItemProps {
     isDestructive?: boolean;
     hasSecondaryLabel?: boolean;
+    isLabelsRowLayout?: boolean;
 }
 
 const MenuItemStyled = styled(MuiMenuItem, {
-    shouldForwardProp: (prop) => prop !== 'isDestructive' && prop !== 'hasSecondaryLabel',
+    shouldForwardProp: (prop) => prop !== 'isDestructive' &&
+        prop !== 'hasSecondaryLabel' && prop !== 'isLabelsRowLayout',
 })<MenuItemStyledProps>(
-    ({isDestructive = false, hasSecondaryLabel = false}) => {
+    ({isDestructive = false, hasSecondaryLabel = false, isLabelsRowLayout = false}) => {
         const hasOnlyPrimaryLabel = !hasSecondaryLabel;
         const isRegular = !isDestructive;
 
@@ -120,7 +143,7 @@ const MenuItemStyled = styled(MuiMenuItem, {
                 flexDirection: 'row',
                 flexWrap: 'nowrap',
                 justifyContent: 'flex-start',
-                alignItems: hasOnlyPrimaryLabel ? 'center' : 'flex-start',
+                alignItems: hasOnlyPrimaryLabel || isLabelsRowLayout ? 'center' : 'flex-start',
                 minHeight: '36px',
                 maxHeight: '56px',
 
@@ -195,7 +218,7 @@ const MenuItemStyled = styled(MuiMenuItem, {
                     flexDirection: 'row',
                     flexWrap: 'nowrap',
                     justifyContent: 'flex-end',
-                    color: 'rgba(var(--center-channel-color-rgb), 0.56)',
+                    color: isRegular ? 'rgba(var(--center-channel-color-rgb), 0.56)' : 'var(--error-text)',
                     gap: '4px',
                     marginInlineStart: '24px',
                     fontSize: '12px',
@@ -203,9 +226,34 @@ const MenuItemStyled = styled(MuiMenuItem, {
                     alignItems: 'center',
                 },
                 '&:hover .trailing-elements': {
-                    color: 'rgba(var(--center-channel-color-rgb), 0.72)',
+                    color: isRegular ? 'rgba(var(--center-channel-color-rgb), 0.72)' : 'var(--button-color)',
                 },
             },
         });
     },
 );
+
+/**
+ * Use this function to check if the menu item was pressed as per WAI-ARIA guidelines.
+ * @param event - The event to check if the menu item was pressed by mouse or keyboard. Either a mouse event or a keyboard event.
+ * @returns true if the menu item was pressed by mouse's "Primary" key or keyboard's "Space" or "Enter" key
+ **/
+function isCorrectKeyPressedOnMenuItem(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) {
+    if (event.type === 'keydown') {
+        const keyboardEvent = event as KeyboardEvent<HTMLLIElement>;
+        if (isKeyPressed(keyboardEvent, Constants.KeyCodes.ENTER) || isKeyPressed(keyboardEvent, Constants.KeyCodes.SPACE)) {
+            return true;
+        }
+
+        return false;
+    } else if (event.type === 'mousedown') {
+        const mouseEvent = event as MouseEvent<HTMLLIElement>;
+        if (mouseEvent.button === 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    return false;
+}

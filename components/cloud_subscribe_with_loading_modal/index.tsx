@@ -11,7 +11,7 @@ import {GlobalState} from 'types/store';
 import {subscribeCloudSubscription} from 'actions/cloud';
 import {closeModal} from 'actions/views/modals';
 import {Team} from '@mattermost/types/teams';
-import {Product} from '@mattermost/types/cloud';
+import {Feedback, Product} from '@mattermost/types/cloud';
 import {t} from 'utils/i18n';
 import {isModalOpen} from 'selectors/views/modals';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
@@ -23,12 +23,14 @@ import ProgressBar, {ProcessState} from 'components/icon_message_with_progress_b
 import {
     archiveAllTeamsExcept,
 } from 'mattermost-redux/actions/teams';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 type Props = RouteComponentProps & {
     onBack: () => void;
     onClose?: () => void;
     teamToKeep?: Team;
     selectedProduct?: Product | null | undefined;
+    downgradeFeedback?: Feedback;
 };
 
 const MIN_PROCESSING_MILLISECONDS = 8000;
@@ -37,7 +39,7 @@ const MAX_FAKE_PROGRESS = 95;
 function CloudSubscribeWithLoad(props: Props) {
     const intervalId = useRef<NodeJS.Timeout>({} as NodeJS.Timeout);
     const [progress, setProgress] = useState(0);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<DispatchFunc>();
     const [error, setError] = useState(false);
     const [processingState, setProcessingState] = useState(ProcessState.PROCESSING);
     const modalOpen = useSelector((state: GlobalState) =>
@@ -57,12 +59,12 @@ function CloudSubscribeWithLoad(props: Props) {
             await dispatch(archiveAllTeamsExcept(props.teamToKeep.id));
         }
 
-        const productUpdated = await dispatch(subscribeCloudSubscription(
-            props.selectedProduct?.id as string,
+        const result = await dispatch(subscribeCloudSubscription(
+            props.selectedProduct?.id as string, undefined, 0, props.downgradeFeedback,
         ));
 
         // the action subscribeCloudSubscription returns a true boolean when successful and an error when it fails
-        if (typeof productUpdated !== 'boolean') {
+        if (result.error) {
             setError(true);
             setProcessingState(ProcessState.FAILED);
             return;

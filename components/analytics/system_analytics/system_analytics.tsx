@@ -27,6 +27,7 @@ import {
     formatPostDoughtnutData,
     synchronizeChartLabels,
 } from '../format';
+import ExternalLink from 'components/external_link';
 
 const StatTypes = Constants.StatTypes;
 
@@ -114,13 +115,12 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                             defaultMessage='To maximize performance, some statistics are disabled. You can <link>re-enable them in config.json</link>.'
                             values={{
                                 link: (msg: React.ReactNode) => (
-                                    <a
+                                    <ExternalLink
                                         href='https://docs.mattermost.com/administration/statistics.html'
-                                        target='_blank'
-                                        rel='noreferrer'
+                                        location='system_analytics'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                             }}
                         />

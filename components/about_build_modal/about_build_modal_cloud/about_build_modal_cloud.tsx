@@ -11,6 +11,7 @@ import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import {GlobalState} from 'types/store';
 
 import './about_build_modal_cloud.scss';
+import ExternalLink from 'components/external_link';
 
 type Props = {
     onExited: () => void;
@@ -110,31 +111,28 @@ export default function AboutBuildModalCloud(props: Props) {
                                 defaultMessage='Mattermost is made possible by the open source software used in our <linkServer>server</linkServer>, <linkDesktop>desktop</linkDesktop> and <linkMobile>mobile</linkMobile> apps.'
                                 values={{
                                     linkServer: (msg: React.ReactNode) => (
-                                        <a
+                                        <ExternalLink
                                             href='https://github.com/mattermost/mattermost-server/blob/master/NOTICE.txt'
-                                            target='_blank'
-                                            rel='noreferrer'
+                                            location='about_build_modal_cloud'
                                         >
                                             {msg}
-                                        </a>
+                                        </ExternalLink>
                                     ),
                                     linkDesktop: (msg: React.ReactNode) => (
-                                        <a
+                                        <ExternalLink
                                             href='https://github.com/mattermost/desktop/blob/master/NOTICE.txt'
-                                            target='_blank'
-                                            rel='noreferrer'
+                                            location='about_build_modal_cloud'
                                         >
                                             {msg}
-                                        </a>
+                                        </ExternalLink>
                                     ),
                                     linkMobile: (msg: React.ReactNode) => (
-                                        <a
+                                        <ExternalLink
                                             href='https://github.com/mattermost/mattermost-mobile/blob/master/NOTICE.txt'
-                                            target='_blank'
-                                            rel='noreferrer'
+                                            location='about_build_modal_cloud'
                                         >
                                             {msg}
-                                        </a>
+                                        </ExternalLink>
                                     ),
                                 }}
                             />

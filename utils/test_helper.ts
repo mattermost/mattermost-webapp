@@ -12,7 +12,7 @@ import {Post} from '@mattermost/types/posts';
 import {CategorySorting, ChannelCategory} from '@mattermost/types/channel_categories';
 import {Command, IncomingWebhook} from '@mattermost/types/integrations';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-import {CustomEmoji} from '@mattermost/types/emojis';
+import {SystemEmoji, CustomEmoji} from '@mattermost/types/emojis';
 import {Session} from '@mattermost/types/sessions';
 import {ProductComponent} from 'types/store/plugins';
 import {ClientLicense} from '@mattermost/types/config';
@@ -383,6 +383,18 @@ export class TestHelper {
             update_at: 0,
             delete_at: 0,
             creator_id: 'user_id',
+            ...override,
+        };
+    }
+    public static getSystemEmojiMock(override: Partial<SystemEmoji>): SystemEmoji {
+        return {
+            name: '',
+            category: 'recent',
+            image: '',
+            short_name: '',
+            short_names: [],
+            batch: 0,
+            unified: '',
             ...override,
         };
     }

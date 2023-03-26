@@ -17,7 +17,8 @@ import ComplianceScreenFailedSvg from 'components/common/svg_images_components/a
 import AddressForm from 'components/payment_form/address_form';
 
 import {t} from 'utils/i18n';
-import {Address, CloudCustomer, Product, Invoice, areShippingDetailsValid} from '@mattermost/types/cloud';
+import {Address, CloudCustomer, Product, Invoice, areShippingDetailsValid, Feedback} from '@mattermost/types/cloud';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {localizeMessage, getNextBillingDate, getBlankAddressWithCountry} from 'utils/utils';
 
@@ -44,8 +45,8 @@ import BackgroundSvg from 'components/common/svg_images_components/background_sv
 import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import PricingModal from 'components/pricing_modal';
 import PlanLabel from 'components/common/plan_label';
-import Consequences from 'components/self_hosted_purchase_modal/consequences';
-import SeatsCalculator, {errorInvalidNumber, Seats} from 'components/self_hosted_purchase_modal/seats_calculator';
+import Consequences from 'components/seats_calculator/consequences';
+import SeatsCalculator, {errorInvalidNumber, Seats} from 'components/seats_calculator';
 import SwitchToYearlyPlanConfirmModal from 'components/switch_to_yearly_plan_confirm_modal';
 
 import {ModalData} from 'types/actions';
@@ -55,6 +56,7 @@ import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
 
 import {Team} from '@mattermost/types/teams';
+import ExternalLink from 'components/external_link';
 
 import PaymentForm from '../payment_form/payment_form';
 
@@ -138,7 +140,8 @@ type Props = {
             productId: string,
             shippingAddress: Address,
             seats?: number,
-        ) => Promise<boolean | null>;
+            downgradeFeedback?: Feedback,
+        ) => Promise<ActionResult>;
         getClientConfig: () => void;
         getCloudSubscription: () => void;
         getInvoices: () => void;
@@ -160,6 +163,7 @@ type State = {
     selectedProductPrice: string | null;
     usersCount: number;
     seats: Seats;
+    isSwitchingToAnnual: boolean;
 }
 
 /**
@@ -384,6 +388,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                 quantity: this.props.usersCount.toString(),
                 error: this.props.usersCount.toString() === '0' ? errorInvalidNumber : null,
             },
+            isSwitchingToAnnual: false,
         };
     }
 
@@ -461,7 +466,10 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             modalId: ModalIdentifiers.CONFIRM_SWITCH_TO_YEARLY,
             dialogType: SwitchToYearlyPlanConfirmModal,
             dialogProps: {
-                confirmSwitchToYearlyFunc: () => this.handleSubmitClick(this.props.callerCTA + '> purchase_modal > confirm_switch_to_annual_modal > confirm_click'),
+                confirmSwitchToYearlyFunc: () => {
+                    this.handleSubmitClick(this.props.callerCTA + '> purchase_modal > confirm_switch_to_annual_modal > confirm_click');
+                    this.setState({isSwitchingToAnnual: true});
+                },
                 contactSalesFunc: () => {
                     trackEvent(
                         TELEMETRY_CATEGORIES.CLOUD_ADMIN,
@@ -504,7 +512,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
 
     contactSalesLink = (text: ReactNode) => {
         return (
-            <a
+            <ExternalLink
                 className='footer-text'
                 onClick={() => {
                     trackEvent(
@@ -513,17 +521,16 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     );
                 }}
                 href={this.props.contactSalesLink}
-                target='_blank'
-                rel='noopener noreferrer'
+                location='purchase_modal'
             >
                 {text}
-            </a>
+            </ExternalLink>
         );
     }
 
     learnMoreLink = () => {
         return (
-            <a
+            <ExternalLink
                 className='footer-text'
                 onClick={() => {
                     trackEvent(
@@ -532,14 +539,13 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     );
                 }}
                 href={CloudLinks.PRORATED_PAYMENT}
-                target='_blank'
-                rel='noopener noreferrer'
+                location='purchase_modal'
             >
                 <FormattedMessage
                     defaultMessage={'Learn more'}
                     id={'admin.billing.subscription.LearnMore'}
                 />
-            </a>
+            </ExternalLink>
         );
     }
 
@@ -1021,6 +1027,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                         this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT}
                                         setIsUpgradeFromTrialToFalse={this.setIsUpgradeFromTrialToFalse}
                                         isUpgradeFromTrial={this.state.isUpgradeFromTrial}
+                                        isSwitchingToAnnual={this.state.isSwitchingToAnnual}
                                         telemetryProps={{
                                             callerInfo:
                                                 this.state.buttonClickedInfo,

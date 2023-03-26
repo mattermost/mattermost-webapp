@@ -42,6 +42,7 @@ describe('components/widgets/inputs/UsersEmailsInput', () => {
                 components={
                   Object {
                     "IndicatorsContainer": [Function],
+                    "Input": [Function],
                     "MultiValueRemove": [Function],
                     "NoOptionsMessage": [Function],
                   }
@@ -64,6 +65,12 @@ describe('components/widgets/inputs/UsersEmailsInput', () => {
                 openMenuOnClick={false}
                 openMenuOnFocus={true}
                 placeholder="test"
+                styles={
+                  Object {
+                    "input": [Function],
+                    "placeholder": [Function],
+                  }
+                }
                 tabSelectsValue={true}
                 value={
                   Array [
