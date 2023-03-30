@@ -3,8 +3,9 @@
 
 import React from 'react';
 
-import Completed from './onboarding_tasklist_completed';
 import {shallow} from 'enzyme';
+
+import Completed from './onboarding_tasklist_completed';
 
 let mockState: any;
 const mockDispatch = jest.fn();
