@@ -694,7 +694,7 @@ const defaultServerConfig: AdminConfig = {
         PeopleProduct: false,
         AnnualSubscription: false,
         ReduceOnBoardingTaskList: false,
-        OnboardingAutoShowLinkedBoard: true,
+        OnboardingAutoShowLinkedBoard: false,
         ThreadsEverywhere: false,
         GlobalDrafts: true,
         OnboardingTourTips: true,
