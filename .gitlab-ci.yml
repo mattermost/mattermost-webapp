@@ -11,7 +11,7 @@ variables:
 
 include:
   - project: mattermost/ci/mattermost-webapp
-    ref: master
+    ref: release-7.10
     file: private.yml
 
 empty:
@@ -30,7 +30,7 @@ test: #todo check on how to create junit.xml, there currently is none
     paths:
       - .npm/
   before_script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )'
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )"
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY_GITHUB" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
