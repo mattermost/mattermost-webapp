@@ -5,6 +5,8 @@ import React, {ReactNode, useEffect, useRef, useState} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
+import classnames from 'classnames';
+
 import {Posts, Preferences} from 'mattermost-redux/constants/index';
 import {isPostEphemeral} from 'mattermost-redux/utils/post_utils';
 
@@ -266,7 +268,7 @@ const PostOptions = (props: Props): JSX.Element => {
             <div
                 ref={dotMenuRef}
                 data-testid={`post-menu-${props.post.id}`}
-                className='col post-menu'
+                className={classnames('col post-menu', {'post-menu--position': !hoverLocal && showCommentIcon})}
             >
                 {!collapsedThreadsEnabled && !showRecentlyUsedReactions && dotMenu}
                 {showRecentReactions}
