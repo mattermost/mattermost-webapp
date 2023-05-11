@@ -3942,7 +3942,7 @@
   "list_modal.paginatorCount": "{startCount, number} - {endCount, number} из {total, number}",
   "loading_screen.loading": "Загрузка",
   "local": "локальный",
-  "login.cardtitle": "Войти",
+  "login.cardtitle": "Введите ваши данные для входа в Platrum",
   "login.cardtitle.external": "Войдите в систему, используя один из следующих способов:",
   "login.changed": " Метод входа успешно изменён",
   "login.contact_admin.detail": "Чтобы получить доступ к рабочему пространству вашей команды, свяжитесь с администратором рабочего пространства. Если вы уже были приглашены, проверьте свой почтовый ящик на наличие приглашения в рабочее пространство Mattermost.",
