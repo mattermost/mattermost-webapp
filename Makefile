@@ -1,6 +1,6 @@
 .PHONY: build dist test run clean stop check-style fix-style run-unit emojis help update-dependencies
 
-BUILD_SERVER_DIR = ../mattermost-server
+BUILD_SERVER_DIR = ../mattermost
 
 export NODE_OPTIONS=--max-old-space-size=4096
 
