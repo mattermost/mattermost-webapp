@@ -7,7 +7,7 @@
 * 'mattermost-webapp/utils/emoji.ts'
 * 'mattermost-webapp/sass/components/_emojisprite.scss'
 * 'mattermost-webapp/utils/emoji.json'
-* 'mattermost-server/model/emoji_data.go', (if server-dir argument is passed with path to server, otherwise it will be generated in './emoji_data.go'")
+* 'mattermost/model/emoji_data.go', (if server-dir argument is passed with path to server, otherwise it will be generated in './emoji_data.go'")
 *
 * For help on how to use this script, run:
 * npm run make-emojis -- --help
@@ -32,9 +32,9 @@ const argv = yargs(process.argv.slice(2)).
     scriptName('make-emojis').
     usage('Usage : npm run $0 -- [args]').
     example('npm run $0 -- --excluded-emoji-file ./excludedEmojis.txt', 'removes mentioned emojis from the app').
-    example('npm run $0 -- --server-dir ../mattermost-server', 'path to mattermost-server for copying emoji_data.go file').
+    example('npm run $0 -- --server-dir ../mattermost', 'path to mattermost for copying emoji_data.go file').
     option('server-dir', {
-        description: 'Path to mattermost-server',
+        description: 'Path to mattermost',
         type: 'string',
     }).
     option('excluded-emoji-file', {
