@@ -19,16 +19,7 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: npm
-      # - uses: actions/cache@2b8105bdae4b746666ee225970c4a281bbd9d51f # v3.2.4
-      #   id: npm-cache
-      #   with:
-      #     path: |
-      #       '**/node_modules'
-      #       'e2e/playwright/node_modules'
-      #       'e2e/cypress/node_modules'
-      #     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('e2e/cypress/package-lock.json') }}-${{ hashFiles('e2e/playwright/package-lock.json') }}
       - name: ci/get-node-modules
-        # if: steps.npm-cache.outputs.cache-hit != 'true'
         run: |
           make node_modules
           make e2e/playwright/node_modules
@@ -46,16 +37,7 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: npm
-      # - uses: actions/cache@2b8105bdae4b746666ee225970c4a281bbd9d51f # v3.2.4
-      #   id: npm-cache
-      #   with:
-      #     path: |
-      #       '**/node_modules'
-      #       'e2e/playwright/node_modules'
-      #       'e2e/cypress/node_modules'
-      #     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('e2e/cypress/package-lock.json') }}-${{ hashFiles('e2e/playwright/package-lock.json') }}
       - name: ci/get-node-modules
-        # if: steps.npm-cache.outputs.cache-hit != 'true'
         run: |
           make node_modules
           make e2e/playwright/node_modules
@@ -81,16 +63,7 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: npm
-      # - uses: actions/cache@2b8105bdae4b746666ee225970c4a281bbd9d51f # v3.2.4
-      #   id: npm-cache
-      #   with:
-      #     path: |
-      #       '**/node_modules'
-      #       'e2e/playwright/node_modules'
-      #       'e2e/cypress/node_modules'
-      #     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('e2e/cypress/package-lock.json') }}-${{ hashFiles('e2e/playwright/package-lock.json') }}
       - name: ci/get-node-modules
-        # if: steps.npm-cache.outputs.cache-hit != 'true'
         run: |
           make node_modules
           make e2e/playwright/node_modules
@@ -112,16 +85,7 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: npm
-      # - uses: actions/cache@2b8105bdae4b746666ee225970c4a281bbd9d51f # v3.2.4
-      #   id: npm-cache
-      #   with:
-      #     path: |
-      #       '**/node_modules'
-      #       'e2e/playwright/node_modules'
-      #       'e2e/cypress/node_modules'
-      #     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('e2e/cypress/package-lock.json') }}-${{ hashFiles('e2e/playwright/package-lock.json') }}
       - name: ci/get-node-modules
-        # if: steps.npm-cache.outputs.cache-hit != 'true'
         run: |
           make node_modules
           make e2e/playwright/node_modules
@@ -149,16 +113,7 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: npm
-      # - uses: actions/cache@2b8105bdae4b746666ee225970c4a281bbd9d51f # v3.2.4
-      #   id: npm-cache
-      #   with:
-      #     path: |
-      #       '**/node_modules'
-      #       'e2e/playwright/node_modules'
-      #       'e2e/cypress/node_modules'
-      #     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('e2e/cypress/package-lock.json') }}-${{ hashFiles('e2e/playwright/package-lock.json') }}
       - name: ci/get-node-modules
-        # if: steps.npm-cache.outputs.cache-hit != 'true'
         run: |
           make node_modules
           make e2e/playwright/node_modules
@@ -274,19 +229,19 @@ jobs:
     - name: cd/Login to Docker Hub
       uses: docker/login-action@3da7dc6e2b31f99ef2cb9fb4c50fb0971e0d0139 # v2.1.0
       with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        username: ${{ secrets.DOCKERHUB_DEV_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_DEV_TOKEN }}
     - name: cd/Setup Docker Buildx
       uses: docker/setup-buildx-action@11e8a2e2910826a92412015c515187a2d6750279 # v2.4
     - name: cd/docker-build-push
       env:
         DOCKER_CLI_EXPERIMENTAL: enabled
       run: |
-        wget https://raw.githubusercontent.com/mattermost/mattermost-server/master/build/Dockerfile
-        wget https://raw.githubusercontent.com/mattermost/mattermost-server/master/build/entrypoint.sh
+        wget https://raw.githubusercontent.com/mattermost/mattermost-server/release-7.9/build/Dockerfile
+        wget https://raw.githubusercontent.com/mattermost/mattermost-server/release-7.9/build/entrypoint.sh
         chmod +x entrypoint.sh
         export MM_PACKAGE=https://pr-builds.mattermost.com/$REPO_NAME/commit/${{ github.event.pull_request.head.sha || github.sha }}/mattermost-enterprise-linux-amd64.tar.gz
-        docker buildx build --push --build-arg MM_PACKAGE=$MM_PACKAGE -t mattermost/mm-ee-test:${TAG} .
+        docker buildx build --push --build-arg MM_PACKAGE=$MM_PACKAGE -t mattermostdevelopment/mm-ee-test:${TAG} --provenance=false .
   run-performance-bechmarks:
     uses: ./.github/workflows/performance-benchmarks.yml
     needs: prepare-docker-build
