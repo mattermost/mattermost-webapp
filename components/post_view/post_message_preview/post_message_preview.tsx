@@ -24,9 +24,12 @@ import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import {Constants} from 'utils/constants';
 import {General} from 'mattermost-redux/constants';
 
+import {Post} from '@mattermost/types/posts';
+
 import {OwnProps} from './index';
 
 export type Props = OwnProps & {
+    previewPost?: Post;
     currentTeamUrl: string;
     channelDisplayName?: string;
     user: UserProfile | null;
