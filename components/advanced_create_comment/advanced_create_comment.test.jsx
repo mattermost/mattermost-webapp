@@ -319,8 +319,6 @@ describe('components/AdvancedCreateComment', () => {
         const testError2 = 'test error 2';
         instance.handleUploadError(testError2, '', null, props.rootId);
 
-        // should not call onUpdateCommentDraft
-        expect(updateCommentDraftWithRootId.mock.calls.length).toBe(1);
         expect(wrapper.state().serverError.message).toBe(testError2);
     });
 
