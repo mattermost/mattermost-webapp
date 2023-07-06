@@ -4,6 +4,7 @@
 /* eslint-disable max-lines */
 
 import React from 'react';
+import {isNil} from 'lodash';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
@@ -32,12 +33,21 @@ import {
     groupsMentionedInText,
     mentionsMinusSpecialMentionsInText,
 } from 'utils/post_utils';
-import {getTable, hasHtmlLink, formatMarkdownMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
+import {
+    getHtmlTable,
+    hasHtmlLink,
+    formatMarkdownMessage,
+    formatGithubCodePaste,
+    isGitHubCodeBlock,
+    isTextUrl,
+    formatMarkdownLinkMessage,
+} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent';
 import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
 import EmojiMap from 'utils/emoji_map';
 import {applyMarkdown, ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
+import {execCommandInsertText} from 'utils/exec_commands';
 
 import Tooltip from 'components/tooltip';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -73,15 +83,6 @@ const KeyCodes = Constants.KeyCodes;
 
 function isDraftEmpty(draft: PostDraft): boolean {
     return !draft || (!draft.message && draft.fileInfos.length === 0);
-}
-
-// Temporary fix for IE-11, see MM-13423
-function trimRight(str: string) {
-    if (String.prototype.trimRight as any) {
-        return str.trimRight();
-    }
-
-    return str.replace(/\s*$/, '');
 }
 
 type TextboxElement = HTMLInputElement | HTMLTextAreaElement;
@@ -690,7 +691,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             return;
         }
 
-        if (trimRight(this.state.message) === '/header') {
+        if (this.state.message.trimEnd() === '/header') {
             const editChannelHeaderModalData = {
                 modalId: ModalIdentifiers.EDIT_CHANNEL_HEADER,
                 dialogType: EditChannelHeaderModal,
@@ -706,7 +707,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         const isDirectOrGroup =
             updateChannel.type === Constants.DM_CHANNEL || updateChannel.type === Constants.GM_CHANNEL;
-        if (!isDirectOrGroup && trimRight(this.state.message) === '/purpose') {
+        if (!isDirectOrGroup && this.state.message.trimEnd() === '/purpose') {
             const editChannelPurposeModalData = {
                 modalId: ModalIdentifiers.EDIT_CHANNEL_PURPOSE,
                 dialogType: EditChannelPurposeModal,
@@ -898,53 +899,42 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.draftsForChannel[channelId] = draft;
     }
 
-    pasteHandler = (e: ClipboardEvent) => {
-        /**
-         * casting HTMLInputElement on the EventTarget was necessary here
-         * since the ClipboardEvent type is not generic
-         */
-        if (!e.clipboardData || !e.clipboardData.items || ((e.target as TextboxElement)?.id !== 'post_textbox')) {
+    pasteHandler = (event: ClipboardEvent) => {
+        const {clipboardData, target} = event;
+
+        if (!clipboardData || !clipboardData.items || !target || ((target as TextboxElement)?.id !== 'post_textbox')) {
             return;
         }
 
-        const {clipboardData} = e;
+        const {selectionStart, selectionEnd} = target as TextboxElement;
 
-        const hasLinks = hasHtmlLink(clipboardData);
-        let table = getTable(clipboardData);
-        if (!table && !hasLinks) {
+        const hasSelection = !isNil(selectionStart) && !isNil(selectionEnd) && selectionStart < selectionEnd;
+        const hasTextUrl = isTextUrl(clipboardData);
+        const hasHTMLLinks = hasHtmlLink(clipboardData);
+        const htmlTable = getHtmlTable(clipboardData);
+        const shouldApplyLinkMarkdown = hasSelection && hasTextUrl;
+        const shouldApplyGithubCodeBlock = htmlTable && isGitHubCodeBlock(htmlTable.className);
+
+        if (!htmlTable && !hasHTMLLinks && !shouldApplyLinkMarkdown) {
             return;
         }
-        table = table as HTMLTableElement;
 
-        e.preventDefault();
+        event.preventDefault();
 
         const message = this.state.message;
-        if (table && isGitHubCodeBlock(table.className)) {
-            const selectionStart = (e.target as any).selectionStart;
-            const selectionEnd = (e.target as any).selectionEnd;
-            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart, selectionEnd, message, clipboardData});
-            const newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
-            this.setMessageAndCaretPostion(formattedMessage, newCaretPosition);
-            return;
+
+        // execCommand's insertText' triggers a 'change' event, hence we need not set respective state explicitly.
+        if (shouldApplyLinkMarkdown) {
+            const formattedLink = formatMarkdownLinkMessage({selectionStart, selectionEnd, message, clipboardData});
+            execCommandInsertText(formattedLink);
+        } else if (shouldApplyGithubCodeBlock) {
+            const {formattedCodeBlock} = formatGithubCodePaste({selectionStart, selectionEnd, message, clipboardData});
+            execCommandInsertText(formattedCodeBlock);
+        } else {
+            const {formattedMarkdown} = formatMarkdownMessage(clipboardData, message, this.state.caretPosition);
+            execCommandInsertText(formattedMarkdown);
         }
-
-        const originalSize = message.length;
-        const formattedMessage = formatMarkdownMessage(clipboardData, message.trim(), this.state.caretPosition);
-        const newCaretPosition = formattedMessage.length - (originalSize - this.state.caretPosition);
-        this.setMessageAndCaretPostion(formattedMessage, newCaretPosition);
-        this.handlePostPasteDraft(formattedMessage);
-    }
-
-    handlePostPasteDraft = (message: string) => {
-        const draft = {
-            ...this.props.draft,
-            message,
-        };
-
-        const channelId = this.props.currentChannel.id;
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft, channelId);
-        this.draftsForChannel[channelId] = draft;
-    }
+    };
 
     handleFileUploadChange = () => {
         this.focusTextbox();
