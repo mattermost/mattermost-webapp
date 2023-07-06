@@ -13,7 +13,7 @@ import {AppEvents, Constants, ModalIdentifiers, StoragePrefixes} from 'utils/con
 import {
     formatGithubCodePaste,
     formatMarkdownMessage,
-    getTable,
+    getHtmlTable,
     hasHtmlLink,
     isGitHubCodeBlock,
 } from 'utils/paste';
@@ -162,7 +162,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, channelId, draft, 
         }
 
         const hasLinks = hasHtmlLink(clipboardData);
-        const table = getTable(clipboardData);
+        const table = getHtmlTable(clipboardData);
         if (!table && !hasLinks) {
             return;
         }
@@ -177,7 +177,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, channelId, draft, 
             message = formattedMessage;
             newCaretPosition = selectionRange.start + formattedCodeBlock.length;
         } else {
-            message = formatMarkdownMessage(clipboardData, editText.trim(), newCaretPosition);
+            message = formatMarkdownMessage(clipboardData, editText.trim(), newCaretPosition).formattedMarkdown;
             newCaretPosition = message.length - (editText.length - newCaretPosition);
         }
 

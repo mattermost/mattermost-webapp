@@ -4,6 +4,7 @@
 /* eslint-disable max-lines */
 
 import React from 'react';
+import {isNil} from 'lodash';
 
 import {ModalData} from 'types/actions.js';
 
@@ -24,7 +25,16 @@ import {
     groupsMentionedInText,
     mentionsMinusSpecialMentionsInText,
 } from 'utils/post_utils';
-import {getTable, hasHtmlLink, formatMarkdownMessage, isGitHubCodeBlock, formatGithubCodePaste} from 'utils/paste';
+import {
+    getHtmlTable,
+    hasHtmlLink,
+    formatMarkdownMessage,
+    isGitHubCodeBlock,
+    formatGithubCodePaste,
+    isTextUrl,
+    formatMarkdownLinkMessage,
+} from 'utils/paste';
+import {execCommandInsertText} from 'utils/exec_commands';
 
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
@@ -409,45 +419,42 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         });
     }
 
-    pasteHandler = (e: ClipboardEvent) => {
-        // we need to cast the TextboxElement type onto the EventTarget here since the ClipboardEvent is not generic
-        if (!e.clipboardData || !e.clipboardData.items || (e.target as TextboxElement).id !== 'reply_textbox') {
+    pasteHandler = (event: ClipboardEvent) => {
+        const {clipboardData, target} = event;
+
+        if (!clipboardData || !clipboardData.items || !target || (target as TextboxElement)?.id !== 'reply_textbox') {
             return;
         }
 
-        const {clipboardData} = e;
-        const hasLinks = hasHtmlLink(clipboardData);
-        let table = getTable(clipboardData);
-        if (!table && !hasLinks) {
+        const {selectionStart, selectionEnd} = target as TextboxElement;
+
+        const hasSelection = !isNil(selectionStart) && !isNil(selectionEnd) && selectionStart < selectionEnd;
+        const hasTextUrl = isTextUrl(clipboardData);
+        const hasHTMLLinks = hasHtmlLink(clipboardData);
+        const htmlTable = getHtmlTable(clipboardData);
+        const shouldApplyLinkMarkdown = hasSelection && hasTextUrl;
+        const shouldApplyGithubCodeBlock = htmlTable && isGitHubCodeBlock(htmlTable.className);
+
+        if (!htmlTable && !hasHTMLLinks && !shouldApplyLinkMarkdown) {
             return;
         }
-        table = table as HTMLTableElement;
 
-        e.preventDefault();
+        event.preventDefault();
 
-        const draft = this.state.draft!;
-        let message = draft.message;
+        const message = this.state.draft?.message ?? '';
 
-        const caretPosition = this.state.caretPosition || 0;
-        if (table && isGitHubCodeBlock(table.className)) {
-            const selectionStart = (e.target as any).selectionStart;
-            const selectionEnd = (e.target as any).selectionEnd;
-            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart, selectionEnd, message, clipboardData});
-            const newCaretPosition = caretPosition + formattedCodeBlock.length;
-            message = formattedMessage;
-            this.setCaretPosition(newCaretPosition);
+        // execCommand's insertText' triggers a 'change' event, hence we need not set respective state explicitly.
+        if (shouldApplyLinkMarkdown) {
+            const formattedLink = formatMarkdownLinkMessage({selectionStart, selectionEnd, message, clipboardData});
+            execCommandInsertText(formattedLink);
+        } else if (shouldApplyGithubCodeBlock) {
+            const {formattedCodeBlock} = formatGithubCodePaste({selectionStart, selectionEnd, message, clipboardData});
+            execCommandInsertText(formattedCodeBlock);
         } else {
-            const originalSize = draft.message.length;
-            message = formatMarkdownMessage(clipboardData, draft.message.trim(), this.state.caretPosition);
-            const newCaretPosition = message.length - (originalSize - caretPosition);
-            this.setCaretPosition(newCaretPosition);
+            const {formattedMarkdown} = formatMarkdownMessage(clipboardData, message, this.state.caretPosition);
+            execCommandInsertText(formattedMarkdown);
         }
-
-        const updatedDraft = {...draft, message};
-
-        this.handleDraftChange(updatedDraft);
-        this.setState({draft: updatedDraft});
-    }
+    };
 
     handleNotifyAllConfirmation = () => {
         this.doSubmit();
