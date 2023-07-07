@@ -14,13 +14,15 @@ import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
 
 describe('components/AdvancedCreateComment', () => {
     jest.useFakeTimers();
+    let spiedRequestAnimationFrame:jest.SpyInstance<number, [FrameRequestCallback]>;;
     beforeEach(() => {
-        jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => setTimeout(cb, 16));
+        spiedRequestAnimationFrame=jest.spyOn(window, 'requestAnimationFrame')
+        spiedRequestAnimationFrame.mockImplementation((cb) => setTimeout(cb, 16));
     });
 
-    afterEach(() => {
-        window.requestAnimationFrame.mockRestore();
-    });
+        afterEach(() => {
+            spiedRequestAnimationFrame.mockRestore();
+        });
 
     const currentTeamId = 'current-team-id';
     const channelId = 'g6139tbospd18cmxroesdk3kkc';
