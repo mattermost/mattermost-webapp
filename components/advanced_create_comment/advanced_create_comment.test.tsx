@@ -3,14 +3,19 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import {EmojiIndicesByAlias, EmojiIndicesByUnicode, Emojis} from 'utils/emoji';
 
 import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 import {testComponentForMarkdownHotkeys} from 'tests/helpers/markdown_hotkey_helpers.js';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
+import {CustomEmoji, Emoji, SystemEmoji} from '@mattermost/types/emojis';
 
 import AdvancedCreateComment from 'components/advanced_create_comment/advanced_create_comment';
 import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
+import {PreferenceType} from '@mattermost/types/preferences';
+import {ActionResult} from 'mattermost-redux/types/actions';
+import EmojiMap from 'utils/emoji_map';
 
 describe('components/AdvancedCreateComment', () => {
     jest.useFakeTimers();
@@ -31,20 +36,23 @@ describe('components/AdvancedCreateComment', () => {
     const currentUserId = 'zaktnt8bpbgu8mb6ez9k64r7sa';
 
     const baseProps = {
-        channelId,
-        currentTeamId,
-        currentUserId,
-        rootId,
+        channelId :'',
+        currentTeamId:'',
+        currentUserId:'',
+        rootId:'',
         rootDeleted: false,
         channelMembersCount: 3,
         draft: {
             message: 'Test message',
             uploadsInProgress: [{}],
             fileInfos: [{}, {}, {}],
+           
+
+
         },
         enableAddButton: true,
         ctrlSend: false,
-        latestPostId,
+        latestPostId:'',
         locale: 'en',
         clearCommentDraftUploads: jest.fn(),
         onUpdateCommentDraft: jest.fn(),
@@ -64,7 +72,7 @@ describe('components/AdvancedCreateComment', () => {
         maxPostSize: Constants.DEFAULT_CHARACTER_LIMIT,
         rhsExpanded: false,
         badConnection: false,
-        getChannelTimezones: jest.fn(() => Promise.resolve([])),
+        getChannelTimezones: jest.fn().mockResolvedValue([] as ActionResult[]),
         isTimezoneEnabled: false,
         selectedPostFocussedAt: 0,
         isMarkdownPreviewEnabled: true,
@@ -76,12 +84,36 @@ describe('components/AdvancedCreateComment', () => {
         useLDAPGroupMentions: true,
         useCustomGroupMentions: true,
         openModal: jest.fn(),
+        messageInHistory: '',
+        createPostErrorId: '',
+        scrollToBottom: undefined,
+        onHeightChange: undefined,
+        focusOnMount: false,
+        isThreadView: false,
+
+        emitShortcutReactToLastPostFrom:function (location: string): void {
+            throw new Error('Function not implemented.');
+        } ,
+
+        groupsWithAllowReference:null,
+
+         channelMemberCountsByGroup:{},
+          savePreferences:function (userId: string, preferences: PreferenceType[]): ActionResult {
+            throw new Error('Function not implemented.');
+        } ,
+        emojiMap:new EmojiMap(new Map<string, CustomEmoji>)
+                
+
     };
 
     const emptyDraft = {
         message: '',
         uploadsInProgress: [],
         fileInfos: [],
+        channelId:'',
+        rootId:'',
+        createAt:0, 
+        updateAt:0
     };
 
     test('should match snapshot, empty comment', () => {
