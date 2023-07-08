@@ -166,6 +166,10 @@ describe('components/AdvancedCreateComment', () => {
             message: '@group',
             uploadsInProgress: [],
             fileInfos: [],
+            channelId:'', 
+            rootId:'', 
+            createAt:0,
+            updateAt:0
         };
 
         const searchAssociatedGroupsForReference = jest.fn();
