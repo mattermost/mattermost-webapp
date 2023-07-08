@@ -137,6 +137,10 @@ describe('components/AdvancedCreateComment', () => {
             message: 'Test message',
             uploadsInProgress: [],
             fileInfos: [],
+            channelId:'', 
+            rootId:'', 
+            createAt:0, 
+            updateAt:0
         };
         const ctrlSend = true;
         const props = {...baseProps, ctrlSend, draft, clearCommentDraftUploads, onResetHistoryIndex, getChannelMemberCountsByGroup};
