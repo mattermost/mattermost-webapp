@@ -209,15 +209,27 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     private lastBlurAt = 0;
     private draftsForPost: {[postID: string]: PostDraft | null} = {};
     private doInitialScrollToBottom = false;
-
+    public get DoInitialScrollToBottom():boolean{
+        return this.doInitialScrollToBottom;
+    }
     private saveDraftFrame?: number | null;
 
     private isDraftSubmitting = false;
     private isDraftEdited = false;
 
-    private readonly textboxRef: React.RefObject<TextboxClass>;
+    private textboxRef: React.RefObject<TextboxClass>;
     private readonly fileUploadRef: React.RefObject<FileUploadClass>;
+    
+    public get DraftsForPost():{[postID: string]: PostDraft | null}{
+        return this.draftsForPost;
+    }
 
+    public get textBoxRef():  React.RefObject<TextboxClass> {
+        return this.textboxRef;
+      }
+      set textBoxRef(newValue:React.RefObject<TextboxClass> ) {
+        this.textboxRef = newValue;
+      }
     static defaultProps = {
         focusOnMount: true,
     }
