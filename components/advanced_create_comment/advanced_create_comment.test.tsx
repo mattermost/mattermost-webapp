@@ -1,9 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-
+import {FileInfo} from '@mattermost/types/files';
 import React from 'react';
 import {shallow} from 'enzyme';
 import {EmojiIndicesByAlias, EmojiIndicesByUnicode, Emojis} from 'utils/emoji';
+import {PostDraft} from 'types/store/draft';
+import { GroupSource} from '@mattermost/types/groups';
+import {TextboxClass, TextboxElement} from '../textbox';
 
 import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 import {testComponentForMarkdownHotkeys} from 'tests/helpers/markdown_hotkey_helpers.js';
@@ -16,7 +19,35 @@ import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
 import {PreferenceType} from '@mattermost/types/preferences';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import EmojiMap from 'utils/emoji_map';
+import { any } from 'prop-types';
+import Group from 'react-select/src/components/Group';
+import { isEqual } from 'lodash';
 
+let preventDefaultObject={
+        preventDefault: jest.fn(),
+        nativeEvent: null as unknown as Event,
+        currentTarget: undefined as unknown as EventTarget & Element,
+        target: undefined as unknown as EventTarget,
+        bubbles: false,
+        cancelable: false,
+        defaultPrevented: false,
+        eventPhase: 0,
+        isTrusted: false,
+        isDefaultPrevented: function (): boolean {
+            throw new Error('Function not implemented.');
+        },
+        stopPropagation: function (): void {
+            throw new Error('Function not implemented.');
+        },
+        isPropagationStopped: function (): boolean {
+            throw new Error('Function not implemented.');
+        },
+        persist: function (): void {
+            throw new Error('Function not implemented.');
+        },
+        timeStamp: 0,
+        type: ''
+}
 describe('components/AdvancedCreateComment', () => {
     jest.useFakeTimers();
     let spiedRequestAnimationFrame:jest.SpyInstance<number, [FrameRequestCallback]>;;
@@ -34,7 +65,36 @@ describe('components/AdvancedCreateComment', () => {
     const rootId = '';
     const latestPostId = '3498nv24823948v23m4nv34';
     const currentUserId = 'zaktnt8bpbgu8mb6ez9k64r7sa';
+    let fInfo:FileInfo={
+    id:'',
+    user_id: '',
+    create_at: 0,
+    update_at: 0,
+    delete_at: 0,
+    name: '',
+    extension: '',
+    size: 0,
+    mime_type: '',
+    width: 0,
+    height: 0,
+    has_preview_image: false,
+    clientId: '',
+    post_id: '',
+    mini_preview: '',
+    archived: false,
+    link: '',
+    };
 
+
+    let emojiObject:Emoji={
+        id: '',
+        name: '',
+        category: 'custom',
+        create_at: 0,
+        update_at: 0,
+        delete_at: 0,
+        creator_id: '',
+    }
     const baseProps = {
         channelId :'',
         currentTeamId:'',
@@ -44,11 +104,14 @@ describe('components/AdvancedCreateComment', () => {
         channelMembersCount: 3,
         draft: {
             message: 'Test message',
-            uploadsInProgress: [{}],
-            fileInfos: [{}, {}, {}],
-           
-
-
+            uploadsInProgress: [],
+            fileInfos: [
+                    
+            ],
+            channelId:'', 
+            rootId:'', 
+            createAt:0,
+            updateAt:0
         },
         enableAddButton: true,
         ctrlSend: false,
@@ -184,7 +247,11 @@ describe('components/AdvancedCreateComment', () => {
         const draft = {
             message: '@group @othergroup',
             uploadsInProgress: [],
-            fileInfos: [],
+            fileInfos: [], 
+            channelId:'', 
+            rootId:'', 
+            createAt:0,
+            updateAt:0
         };
         const getChannelMemberCountsByGroup = jest.fn();
         const props = {...baseProps, draft, getChannelMemberCountsByGroup};
@@ -200,7 +267,10 @@ describe('components/AdvancedCreateComment', () => {
         const draft = {
             message: '@group @othergroup',
             uploadsInProgress: [],
-            fileInfos: [],
+            fileInfos: [], channelId:'', 
+            rootId:'', 
+            createAt:0,
+            updateAt:0
         };
 
         const getChannelMemberCountsByGroup = jest.fn();
@@ -215,12 +285,17 @@ describe('components/AdvancedCreateComment', () => {
     test('should match snapshot, non-empty message and uploadsInProgress + fileInfos', () => {
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [{}],
-            fileInfos: [{}, {}, {}],
+            uploadsInProgress: [],
+            fileInfos: [],
+            channelId:'', 
+            rootId:'', 
+            createAt:0,
+            updateAt:0
         };
+        const props = {...baseProps, draft};
 
         const wrapper = shallow(
-            <AdvancedCreateComment {...baseProps}/>,
+            <AdvancedCreateComment {...props}/>,
         );
 
         wrapper.setState({draft});
@@ -228,7 +303,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     test('should correctly change state when toggleEmojiPicker is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment {...baseProps}/>,
         );
 
@@ -240,7 +315,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     test('should correctly change state when hideEmojiPicker is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment {...baseProps}/>,
         );
 
@@ -248,16 +323,16 @@ describe('components/AdvancedCreateComment', () => {
         expect(wrapper.state().showEmojiPicker).toBe(false);
     });
 
-    test('should correctly update draft when handleEmojiClick is called', () => {
-        const onUpdateCommentDraft = jest.fn();
-        const draft = emptyDraft;
-        const enableAddButton = false;
-        const props = {...baseProps, draft, onUpdateCommentDraft, enableAddButton};
+        test('should correctly update draft when handleEmojiClick is called', () => {
+            const onUpdateCommentDraft = jest.fn();
+            const draft = emptyDraft;
+            const enableAddButton = false;
+            const props = {...baseProps, draft, onUpdateCommentDraft, enableAddButton};
 
-        const wrapper = shallow(
-            <AdvancedCreateComment {...props}/>,
-        );
-
+            const wrapper = shallow<AdvancedCreateComment>(
+                <AdvancedCreateComment {...props}/>,
+            );
+                
         const mockImpl = () => {
             return {
                 setSelectionRange: jest.fn(),
@@ -269,10 +344,9 @@ describe('components/AdvancedCreateComment', () => {
         const mockTop = () => {
             return document.createElement('div');
         };
-
-        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()};
-
-        wrapper.instance().handleEmojiClick({name: 'smile'});
+        
+        emojiObject.name='smile'
+        wrapper.instance().handleEmojiClick(emojiObject);
 
         jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft).toHaveBeenCalled();
@@ -281,37 +355,39 @@ describe('components/AdvancedCreateComment', () => {
         expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
             expect.objectContaining({message: ':smile: '}),
         );
-        expect(wrapper.state().draft.message).toBe(':smile: ');
+        expect(wrapper.state().draft!.message).toBe(':smile: ');
 
-        wrapper.setState({draft: {message: 'test', uploadsInProgress: [], fileInfos: []},
+        wrapper.setState({draft: {message: 'test', uploadsInProgress: [], fileInfos: [],channelId:'', rootId:'', createAt:0, updateAt:0},
             caretPosition: 'test'.length, // cursor is at the end
         });
-        wrapper.instance().handleEmojiClick({name: 'smile'});
+
+        emojiObject.name="smile"
+        wrapper.instance().handleEmojiClick(emojiObject);
 
         // Message with no space at the end
         jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
             expect.objectContaining({message: 'test :smile:  '}),
         );
-        expect(wrapper.state().draft.message).toBe('test :smile:  ');
+        expect(wrapper.state().draft!.message).toBe('test :smile:  ');
 
-        wrapper.setState({draft: {message: 'test ', uploadsInProgress: [], fileInfos: []},
+        wrapper.setState({draft: {message: 'test ', uploadsInProgress: [], fileInfos: [],channelId:'',rootId:'',createAt:0,updateAt:0},
             caretPosition: 'test '.length, // cursor is at the end
         });
-        wrapper.instance().handleEmojiClick({name: 'smile'});
+        wrapper.instance().handleEmojiClick(emojiObject);
 
         // Message with space at the end
         jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft.mock.calls[2][0]).toEqual(
             expect.objectContaining({message: 'test  :smile:  '}),
         );
-        expect(wrapper.state().draft.message).toBe('test  :smile:  ');
+        expect(wrapper.state().draft!.message).toBe('test  :smile:  ');
 
         expect(wrapper.state().showEmojiPicker).toBe(false);
     });
 
     test('handlePostError should update state with the correct error', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment {...baseProps}/>,
         );
 
@@ -326,12 +402,16 @@ describe('components/AdvancedCreateComment', () => {
         const updateCommentDraftWithRootId = jest.fn();
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [1, 2, 3],
-            fileInfos: [{}, {}, {}],
+            uploadsInProgress: ['1', '2', '3'],
+            fileInfos: [fInfo, fInfo, fInfo],
+            channelId:'',
+            rootId:'',
+            createAt:0,
+            updateAt:0
         };
         const props = {...baseProps, draft, updateCommentDraftWithRootId};
 
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment {...props}/>,
         );
 
@@ -339,28 +419,28 @@ describe('components/AdvancedCreateComment', () => {
 
         const testError1 = 'test error 1';
         wrapper.setState({draft});
-        instance.draftsForPost[props.rootId] = draft;
-        instance.handleUploadError(testError1, 1, null, props.rootId);
+        instance.DraftsForPost[props.rootId] = draft;
+        instance.handleUploadError(testError1, 1, undefined, props.rootId);
 
         expect(updateCommentDraftWithRootId).toHaveBeenCalled();
         expect(updateCommentDraftWithRootId.mock.calls[0][0]).toEqual(props.rootId);
         expect(updateCommentDraftWithRootId.mock.calls[0][1]).toEqual(
             expect.objectContaining({uploadsInProgress: [2, 3]}),
         );
-        expect(wrapper.state().serverError.message).toBe(testError1);
-        expect(wrapper.state().draft.uploadsInProgress).toEqual([2, 3]);
+        expect(wrapper.state().serverError!.message).toBe(testError1);
+        expect(wrapper.state().draft!.uploadsInProgress).toEqual([2, 3]);
 
         // clientId = -1
         const testError2 = 'test error 2';
-        instance.handleUploadError(testError2, -1, null, props.rootId);
+        instance.handleUploadError(testError2, -1, undefined, props.rootId);
 
         // should not call onUpdateCommentDraft
         expect(updateCommentDraftWithRootId.mock.calls.length).toBe(1);
-        expect(wrapper.state().serverError.message).toBe(testError2);
+        expect(wrapper.state().serverError!.message).toBe(testError2);
     });
 
     test('should call openModal when showPostDeletedModal is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment {...baseProps}/>,
         );
 
@@ -373,26 +453,31 @@ describe('components/AdvancedCreateComment', () => {
         const onUpdateCommentDraft = jest.fn();
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [1, 2, 3],
-            fileInfos: [{}, {}, {}],
+            uploadsInProgress: ['1', '2', '3'],
+            fileInfos: [fInfo, fInfo, fInfo],
+            channelId:'',
+            rootId:'',
+            createAt:0,
+            updateAt:0
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment {...props}/>,
         );
 
         const focusTextbox = jest.fn();
         wrapper.setState({draft});
         wrapper.instance().focusTextbox = focusTextbox;
-        wrapper.instance().handleUploadStart([4, 5]);
+        wrapper.instance().handleUploadStart(['4', '5']);
 
         expect(onUpdateCommentDraft).toHaveBeenCalled();
         expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
             expect.objectContaining({uploadsInProgress: [1, 2, 3, 4, 5]}),
         );
-
-        expect(wrapper.state().draft.uploadsInProgress === [1, 2, 3, 4, 5]);
+        
+        const result = isEqual(wrapper.state().draft!.uploadsInProgress,['1', '2', '3', '4', '5'])
+        expect(result);
         expect(focusTextbox).toHaveBeenCalled();
     });
 
@@ -401,22 +486,28 @@ describe('components/AdvancedCreateComment', () => {
         const fileInfos = [{id: '1', name: 'aaa', create_at: 100}, {id: '2', name: 'bbb', create_at: 200}];
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [1, 2, 3],
-            fileInfos,
+            uploadsInProgress: ['1', '2', '3'],
+            fileInfos: [fInfo, fInfo, fInfo],
+            channelId:'',
+            rootId:'',
+            createAt:0,
+            updateAt:0
         };
         const props = {...baseProps, updateCommentDraftWithRootId, draft};
 
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment {...props}/>,
         );
 
         const instance = wrapper.instance();
         wrapper.setState({draft});
-        instance.draftsForPost[props.rootId] = draft;
+        instance.DraftsForPost[props.rootId] = draft;
 
-        const uploadCompleteFileInfo = [{id: '3', name: 'ccc', create_at: 300}];
+        const fInfo1=fInfo;
+        fInfo.id='3'; fInfo.name= 'ccc', fInfo.create_at=300;
+        const uploadCompleteFileInfo = [fInfo1];
         const expectedNewFileInfos = fileInfos.concat(uploadCompleteFileInfo);
-        instance.handleFileUploadComplete(uploadCompleteFileInfo, [3], null, props.rootId);
+        instance.handleFileUploadComplete(uploadCompleteFileInfo, ['3'], '', props.rootId);
 
         jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(updateCommentDraftWithRootId).toHaveBeenCalled();
@@ -425,20 +516,37 @@ describe('components/AdvancedCreateComment', () => {
             expect.objectContaining({uploadsInProgress: [1, 2], fileInfos: expectedNewFileInfos}),
         );
 
-        expect(wrapper.state().draft.uploadsInProgress).toEqual([1, 2]);
-        expect(wrapper.state().draft.fileInfos).toEqual(expectedNewFileInfos);
+        expect(wrapper.state().draft!.uploadsInProgress).toEqual([1, 2]);
+        expect(wrapper.state().draft!.fileInfos).toEqual(expectedNewFileInfos);
     });
 
     test('should open PostDeletedModal when createPostErrorId === api.post.create_post.root_id.app_error', () => {
         const onUpdateCommentDraft = jest.fn();
+
+        const fInfo1:FileInfo = fInfo;
+        fInfo1.id='1';
+        fInfo1.name='aaa';
+        fInfo1.create_at=100;
+
+        const fInfo2:FileInfo=fInfo;
+        fInfo2.id='2';
+        fInfo2.name='bbb';
+        fInfo2.create_at=200;
+
+
+        
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [1, 2, 3],
-            fileInfos: [{id: '1', name: 'aaa', create_at: 100}, {id: '2', name: 'bbb', create_at: 200}],
+            fileInfos: [fInfo1,fInfo2],
+            uploadsInProgress: ['1', '2', '3'],
+            channelId:'',
+            rootId:'',
+            createAt:0,
+            updateAt:0
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment {...props}/>,
         );
 
@@ -452,19 +560,59 @@ describe('components/AdvancedCreateComment', () => {
 
     test('should open PostDeletedModal when message is submitted to deleted root', () => {
         const onUpdateCommentDraft = jest.fn();
+
+        const fInfo1:FileInfo = fInfo;
+        fInfo1.id='1';
+        fInfo1.name='aaa';
+        fInfo1.create_at=100;
+
+        const fInfo2:FileInfo=fInfo;
+        fInfo2.id='2';
+        fInfo2.name='bbb';
+        fInfo2.create_at=200;
+
+
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [1, 2, 3],
-            fileInfos: [{id: '1', name: 'aaa', create_at: 100}, {id: '2', name: 'bbb', create_at: 200}],
+            uploadsInProgress: ['1', '2', '3'],
+            fileInfos: [fInfo1, fInfo2],
+            channelId:'',
+            rootId:'',
+            createAt:0,
+            updateAt:0
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment {...props}/>,
         );
 
         wrapper.setProps({rootDeleted: true});
-        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        wrapper.instance().handleSubmit({
+            preventDefault: jest.fn(),
+            nativeEvent: null as unknown as Event,
+            currentTarget: undefined as unknown as EventTarget & Element,
+            target: undefined as unknown as EventTarget,
+            bubbles: false,
+            cancelable: false,
+            defaultPrevented: false,
+            eventPhase: 0,
+            isTrusted: false,
+            isDefaultPrevented: function (): boolean {
+                throw new Error('Function not implemented.');
+            },
+            stopPropagation: function (): void {
+                throw new Error('Function not implemented.');
+            },
+            isPropagationStopped: function (): boolean {
+                throw new Error('Function not implemented.');
+            },
+            persist: function (): void {
+                throw new Error('Function not implemented.');
+            },
+            timeStamp: 0,
+            type: ''
+        });
 
         expect(props.openModal).toHaveBeenCalledTimes(1);
         expect(props.openModal.mock.calls[0][0]).toMatchObject({
@@ -473,24 +621,47 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     describe('focusTextbox', () => {
+        const fInfo1:FileInfo = fInfo;
+        fInfo1.id='1';
+        fInfo1.name='aaa';
+        fInfo1.create_at=100;
+
+        const fInfo2:FileInfo=fInfo;
+        fInfo2.id='2';
+        fInfo2.name='bbb';
+        fInfo2.create_at=200;
+
+
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [1, 2, 3],
-            fileInfos: [{id: '1', name: 'aaa', create_at: 100}, {id: '2', name: 'bbb', create_at: 200}],
+            uploadsInProgress: ['1', '2', '3'],
+            fileInfos: [fInfo1, fInfo2],
+            channelId:'',
+            rootId:'',
+            createAt:0,
+            updateAt:0
         };
-
         it('is called when rootId changes', () => {
             const props = {...baseProps, draft};
-            const wrapper = shallow(
+            const wrapper = shallow<AdvancedCreateComment>(
                 <AdvancedCreateComment {...props}/>,
             );
 
             const focusTextbox = jest.fn();
             wrapper.instance().focusTextbox = focusTextbox;
-
+            
             const newProps = {
                 ...props,
                 rootId: 'testid123',
+                showEmojiPicker:false,
+                  renderScrollbar:false, 
+                  scrollbarWidth:0,
+                  errorClass:'', 
+                  serverError:null, 
+                  showFormat:false,
+                  uploadsProgressPercent:{
+                    "clientId":fInfo
+                  }
             };
 
             // Note that setProps doesn't actually trigger componentDidUpdate
@@ -501,7 +672,7 @@ describe('components/AdvancedCreateComment', () => {
 
         it('is called when selectPostFocussedAt changes', () => {
             const props = {...baseProps, draft, selectedPostFocussedAt: 1000};
-            const wrapper = shallow(
+            const wrapper = shallow<AdvancedCreateComment>(
                 <AdvancedCreateComment {...props}/>,
             );
 
@@ -511,17 +682,27 @@ describe('components/AdvancedCreateComment', () => {
             const newProps = {
                 ...props,
                 selectedPostFocussedAt: 2000,
+                
             };
-
+            
+            const additionalProps ={showEmojiPicker:false,
+                renderScrollbar:false, 
+                scrollbarWidth:0,
+                errorClass:'', 
+                serverError:null, 
+                showFormat:false,
+                uploadsProgressPercent:{
+                  "clientId":fInfo
+                }}
             // Note that setProps doesn't actually trigger componentDidUpdate
             wrapper.setProps(newProps);
-            wrapper.instance().componentDidUpdate(props, props);
+            wrapper.instance().componentDidUpdate(props,{...props,...additionalProps});
             expect(focusTextbox).toHaveBeenCalled();
         });
 
         it('is not called when rootId and selectPostFocussedAt have not changed', () => {
             const props = {...baseProps, draft, selectedPostFocussedAt: 1000};
-            const wrapper = shallow(
+            const wrapper = shallow<AdvancedCreateComment>(
                 <AdvancedCreateComment {...props}/>,
             );
 
@@ -531,28 +712,52 @@ describe('components/AdvancedCreateComment', () => {
 
             // Note that setProps doesn't actually trigger componentDidUpdate
             wrapper.setProps(props);
-            wrapper.instance().componentDidUpdate(props, props);
+            const additionalProps={
+                showEmojiPicker:false,
+                  renderScrollbar:false, 
+                  scrollbarWidth:0,
+                  errorClass:'', 
+                  serverError:null, 
+                  showFormat:false,
+                  uploadsProgressPercent:{
+                    "clientId":fInfo
+                  }
+            }
+            wrapper.instance().componentDidUpdate(props, {...props,...additionalProps});
             expect(focusTextbox).not.toHaveBeenCalled();
         });
     });
 
     test('handleChange should update comment draft correctly', () => {
+        const fInfo1:FileInfo = fInfo;
+    
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [1, 2, 3],
-            fileInfos: [{}, {}, {}],
+            uploadsInProgress: ['1', '2', '3'],
+            fileInfos: [fInfo, fInfo,fInfo],
+            channelId:'',
+            rootId:'',
+            createAt:0,
+            updateAt:0
         };
         const scrollToBottom = jest.fn();
         const props = {...baseProps, draft, scrollToBottom};
 
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment
                 {...props}
             />,
         );
 
         const testMessage = 'new msg';
-        wrapper.instance().handleChange({target: {value: testMessage}});
+        let eventObject :  React.ChangeEvent<TextboxElement>
+        let target:any= {
+            value: testMessage,
+            addEventListener:undefined as unknown as typeof addEventListener, 
+            dispatchEvent:undefined as unknown as typeof dispatchEvent, 
+            removeEventListener:undefined as unknown as typeof removeEventListener
+        }
+        wrapper.instance().handleChange({target});
 
         // The callback won't we called until after a short delay
         expect(baseProps.onUpdateCommentDraft).not.toHaveBeenCalled();
@@ -563,7 +768,7 @@ describe('components/AdvancedCreateComment', () => {
         expect(baseProps.onUpdateCommentDraft.mock.calls[0][0]).toEqual(
             expect.objectContaining({message: testMessage}),
         );
-        expect(wrapper.state().draft.message).toBe(testMessage);
+        expect(wrapper.state().draft!.message).toBe(testMessage);
         expect(scrollToBottom).toHaveBeenCalled();
     });
 
@@ -573,80 +778,122 @@ describe('components/AdvancedCreateComment', () => {
         const error = new Error('No command found');
         error.server_error_id = 'api.command.execute_command.not_found.app_error';
         const onSubmit = jest.fn(() => Promise.reject(error));
-
+        
         const draft = {
             message: '/fakecommand other text',
-            uploadsInProgress: [1, 2, 3],
-            fileInfos: [{}, {}, {}],
+            uploadsInProgress: ['1', '2', '3'],
+            fileInfos: [fInfo, fInfo,fInfo],
+            channelId:'',
+            rootId:'',
+            createAt:0,
+            updateAt:0
         };
+    
         const props = {...baseProps, onUpdateCommentDraft, draft, onSubmit};
 
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment {...props}/>,
         );
 
-        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        await wrapper.instance().handleSubmit(preventDefaultObject);
 
         expect(onSubmit).toHaveBeenCalledWith({
             message: '/fakecommand other text',
             uploadsInProgress: [],
-            fileInfos: [{}, {}, {}],
+            fileInfos:[fInfo,fInfo,f    Info],
         }, {ignoreSlash: false});
 
         wrapper.instance().handleChange({
-            target: {value: 'some valid text'},
+            target: {
+                value: 'some valid text',
+                addEventListener:null as any,
+                dispatchEvent:null as any,
+                removeEventListener:null as any},
         });
 
-        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        wrapper.instance().handleSubmit({
+            preventDefault: jest.fn(),
+            nativeEvent: null as unknown as Event,
+            currentTarget: undefined as unknown as EventTarget & Element,
+            target: undefined as unknown as EventTarget,
+            bubbles: false,
+            cancelable: false,
+            defaultPrevented: false,
+            eventPhase: 0,
+            isTrusted: false,
+            isDefaultPrevented: function (): boolean {
+                throw new Error('Function not implemented.');
+            },
+            stopPropagation: function (): void {
+                throw new Error('Function not implemented.');
+            },
+            isPropagationStopped: function (): boolean {
+                throw new Error('Function not implemented.');
+            },
+            persist: function (): void {
+                throw new Error('Function not implemented.');
+            },
+            timeStamp: 0,
+            type: ''
+        });
 
         expect(onSubmit).toHaveBeenCalledWith({
             message: 'some valid text',
             uploadsInProgress: [],
-            fileInfos: [{}, {}, {}],
+            fileInfos:[fInfo,fInfo,fInfo],
         }, {ignoreSlash: false});
     });
 
     test('should scroll to bottom when uploadsInProgress increase', () => {
+
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [1, 2, 3],
-            fileInfos: [{}, {}, {}],
+            uploadsInProgress: ['1', '2', '3'],
+            fileInfos: [fInfo, fInfo,fInfo],
+            channelId:'',
+            rootId:'',
+            createAt:0,
+            updateAt:0
         };
         const scrollToBottom = jest.fn();
         const props = {...baseProps, draft, scrollToBottom};
 
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment
                 {...props}
             />,
         );
 
-        wrapper.setState({draft: {...draft, uploadsInProgress: [1, 2, 3, 4]}});
+        wrapper.setState({draft: {...draft, uploadsInProgress: ['1', '2', '3', '4']}});
         expect(scrollToBottom).toHaveBeenCalled();
     });
 
     test('handleSubmit should call onSubmit prop', () => {
         const onSubmit = jest.fn();
-        const draft = {
+       const draft = {
             message: 'Test message',
-            uploadsInProgress: [],
-            fileInfos: [{}, {}, {}],
+            uploadsInProgress: ['1', '2', '3'],
+            fileInfos: [fInfo, fInfo,fInfo],
+            channelId:'',
+            rootId:'',
+            createAt:0,
+            updateAt:0
         };
         const props = {...baseProps, draft, onSubmit};
 
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment {...props}/>,
         );
 
         const preventDefault = jest.fn();
-        wrapper.instance().handleSubmit({preventDefault});
+        wrapper.instance().handleSubmit(preventDefaultObject);
         expect(onSubmit).toHaveBeenCalled();
         expect(preventDefault).toHaveBeenCalled();
     });
 
     describe('handleSubmit', () => {
-        let onSubmit;
-        let preventDefault;
+        let onSubmit: jest.Mock<any, any>;
+        let preventDefault: jest.Mock<any, any>;
 
         beforeEach(() => {
             onSubmit = jest.fn();
@@ -661,18 +908,24 @@ describe('components/AdvancedCreateComment', () => {
                         draft: {
                             message: `Test message @${mention}`,
                             uploadsInProgress: [],
-                            fileInfos: [{}, {}, {}],
+                            fileInfos: [fInfo,fInfo,fInfo],
+                            rootId:'',
+                            channelId:'',
+                            createAt:0,
+                            updateAt:0
                         },
-                        onSubmit,
+                        onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) : void=>{
+                            
+                        },
                         channelMembersCount: 1,
                         enableConfirmNotificationsToChannel: true,
                     };
 
-                    const wrapper = shallow(
+                    const wrapper = shallow<AdvancedCreateComment>(
                         <AdvancedCreateComment {...props}/>,
                     );
 
-                    wrapper.instance().handleSubmit({preventDefault});
+                    wrapper.instance().handleSubmit(preventDefaultObject);
                     expect(onSubmit).toHaveBeenCalled();
                     expect(preventDefault).toHaveBeenCalled();
                     expect(props.openModal).not.toHaveBeenCalled();
@@ -684,41 +937,59 @@ describe('components/AdvancedCreateComment', () => {
                         draft: {
                             message: `Test message @${mention}`,
                             uploadsInProgress: [],
-                            fileInfos: [{}, {}, {}],
+                            fileInfos: [fInfo,fInfo,fInfo],
+                            channelId:'',
+                            rootId:'',
+                            createAt:0,
+                            updateAt:0
                         },
-                        onSubmit,
+                        onSubmit:(draft: PostDraft, options: { ignoreSlash: boolean }): void => {
+                            // Function body implementation goes here
+                            console.log('onSubmit called');
+                            console.log('Draft:', draft);
+                            console.log('Options:', options);
+                          },
                         channelMembersCount: 8,
                         enableConfirmNotificationsToChannel: false,
                     };
 
-                    const wrapper = shallow(
+                    const wrapper = shallow<AdvancedCreateComment>(
                         <AdvancedCreateComment {...props}/>,
                     );
 
-                    wrapper.instance().handleSubmit({preventDefault});
+                    wrapper.instance().handleSubmit(preventDefaultObject);
                     expect(onSubmit).toHaveBeenCalled();
                     expect(preventDefault).toHaveBeenCalled();
                     expect(props.openModal).not.toHaveBeenCalled();
                 });
 
                 it('when no mention', () => {
-                    const props = {
-                        ...baseProps,
-                        draft: {
-                            message: `Test message ${mention}`,
-                            uploadsInProgress: [],
-                            fileInfos: [{}, {}, {}],
-                        },
-                        onSubmit,
-                        channelMembersCount: 8,
-                        enableConfirmNotificationsToChannel: true,
-                    };
+                        const props = {
+                            ...baseProps,
+                            draft: {
+                                message: `Test message ${mention}`,
+                                uploadsInProgress: [],
+                                fileInfos: [fInfo,fInfo,fInfo],
+                                channelId:'',
+                                rootId:'',
+                                createAt:0,
+                                updateAt:0
+                            },
+                            onSubmit:(draft: PostDraft, options: { ignoreSlash: boolean }): void => {
+                                // Function body implementation goes here
+                                console.log('onSubmit called');
+                                console.log('Draft:', draft);
+                                console.log('Options:', options);
+                              },
+                            channelMembersCount: 8,
+                            enableConfirmNotificationsToChannel: true,
+                        };
 
-                    const wrapper = shallow(
+                    const wrapper = shallow<AdvancedCreateComment>(
                         <AdvancedCreateComment {...props}/>,
                     );
 
-                    wrapper.instance().handleSubmit({preventDefault});
+                    wrapper.instance().handleSubmit(preventDefaultObject);
                     expect(onSubmit).toHaveBeenCalled();
                     expect(preventDefault).toHaveBeenCalled();
                     expect(props.openModal).not.toHaveBeenCalled();
@@ -731,18 +1002,27 @@ describe('components/AdvancedCreateComment', () => {
                         draft: {
                             message: `Test message @${mention}`,
                             uploadsInProgress: [],
-                            fileInfos: [{}, {}, {}],
+                            fileInfos: [fInfo,fInfo,fInfo],
+                            channelId:'',
+                            rootId:'',
+                            createAt:0,
+                            updateAt:0
                         },
-                        onSubmit,
+                        onSubmit:(draft: PostDraft, options: { ignoreSlash: boolean }): void => {
+                            // Function body implementation goes here
+                            console.log('onSubmit called');
+                            console.log('Draft:', draft);
+                            console.log('Options:', options);
+                          },
                         channelMembersCount: 8,
                         enableConfirmNotificationsToChannel: true,
                     };
 
-                    const wrapper = shallow(
+                    const wrapper = shallow<AdvancedCreateComment>(
                         <AdvancedCreateComment {...props}/>,
                     );
 
-                    wrapper.instance().handleSubmit({preventDefault});
+                    wrapper.instance().handleSubmit(preventDefaultObject);
                     expect(onSubmit).toHaveBeenCalled();
                     expect(preventDefault).toHaveBeenCalled();
                     expect(props.openModal).not.toHaveBeenCalled();
@@ -755,18 +1035,27 @@ describe('components/AdvancedCreateComment', () => {
                     draft: {
                         message: `Test message @${mention}`,
                         uploadsInProgress: [],
-                        fileInfos: [{}, {}, {}],
+                        fileInfos: [fInfo,fInfo,fInfo],
+                        createAt:0,
+                        updateAt:0,
+                        channelId:'',
+                        rootId:''
                     },
-                    onSubmit,
+                    onSubmit:(draft: PostDraft, options: { ignoreSlash: boolean }): void => {
+                        // Function body implementation goes here
+                        console.log('onSubmit called');
+                        console.log('Draft:', draft);
+                        console.log('Options:', options);
+                      },
                     channelMembersCount: 8,
                     enableConfirmNotificationsToChannel: true,
                 };
 
-                const wrapper = shallow(
+                const wrapper = shallow<AdvancedCreateComment>(
                     <AdvancedCreateComment {...props}/>,
                 );
 
-                wrapper.instance().handleSubmit({preventDefault});
+                wrapper.instance().handleSubmit(preventDefaultObject);
                 expect(onSubmit).not.toHaveBeenCalled();
                 expect(preventDefault).toHaveBeenCalled();
                 expect(props.openModal).toHaveBeenCalled();
@@ -778,19 +1067,28 @@ describe('components/AdvancedCreateComment', () => {
                     draft: {
                         message: `Test message @${mention}`,
                         uploadsInProgress: [],
-                        fileInfos: [{}, {}, {}],
+                        fileInfos: [fInfo,fInfo,fInfo],
+                        createAt:0,
+                        updateAt:0,
+                        channelId:'',
+                        rootId:''
                     },
-                    onSubmit,
+                    onSubmit:(draft: PostDraft, options: { ignoreSlash: boolean }): void => {
+                        // Function body implementation goes here
+                        console.log('onSubmit called');
+                        console.log('Draft:', draft);
+                        console.log('Options:', options);
+                      },
                     isTimezoneEnabled: true,
                     channelMembersCount: 8,
                     enableConfirmNotificationsToChannel: true,
                 };
 
-                const wrapper = shallow(
+                const wrapper = shallow<AdvancedCreateComment>(
                     <AdvancedCreateComment {...props}/>,
                 );
 
-                await wrapper.instance().handleSubmit({preventDefault});
+                await wrapper.instance().handleSubmit(preventDefaultObject);
                 wrapper.setState({channelTimezoneCount: 4});
 
                 expect(onSubmit).not.toHaveBeenCalled();
@@ -806,19 +1104,28 @@ describe('components/AdvancedCreateComment', () => {
                     draft: {
                         message: `Test message @${mention}`,
                         uploadsInProgress: [],
-                        fileInfos: [{}, {}, {}],
+                        fileInfos: [fInfo,fInfo,fInfo],
+                        createAt:0,
+                        updateAt:0,
+                        channelId:'',
+                        rootId:''
                     },
-                    onSubmit,
+                    onSubmit:(draft: PostDraft, options: { ignoreSlash: boolean }): void => {
+                        // Function body implementation goes here
+                        console.log('onSubmit called');
+                        console.log('Draft:', draft);
+                        console.log('Options:', options);
+                      },
                     isTimezoneEnabled: true,
                     channelMembersCount: 8,
                     enableConfirmNotificationsToChannel: true,
                 };
 
-                const wrapper = shallow(
+                const wrapper = shallow<AdvancedCreateComment>(
                     <AdvancedCreateComment {...props}/>,
                 );
 
-                await wrapper.instance().handleSubmit({preventDefault});
+                await wrapper.instance().handleSubmit(preventDefaultObject);
                 wrapper.setState({channelTimezoneCount: 0});
 
                 expect(onSubmit).not.toHaveBeenCalled();
@@ -829,24 +1136,42 @@ describe('components/AdvancedCreateComment', () => {
             });
         });
 
+    
         it('should show Confirm Modal for @group mention when needed and no timezone notification', async () => {
             const props = {
                 ...baseProps,
                 draft: {
                     message: 'Test message @developers',
                     uploadsInProgress: [],
-                    fileInfos: [{}, {}, {}],
+                    fileInfos: [fInfo,fInfo,fInfo],
+                    createAt:0,
+                    updateAt:0,
+                    channelId:'',
+                    rootId:''
                 },
+               
                 groupsWithAllowReference: new Map([
                     ['@developers', {
                         id: 'developers',
                         name: 'developers',
+                        display_name: '',
+                        description: '',
+                        source: '',
+                        remote_id: null,
+                        create_at: 0,
+                        update_at: 0,
+                        delete_at: 0,
+                        has_syncables: false,
+                        member_count: 0,
+                        scheme_admin: false,
+                        allow_reference: false,
                     }],
                 ]),
                 channelMemberCountsByGroup: {
                     developers: {
                         channel_member_count: 10,
                         channel_member_timezones_count: 0,
+                        group_id:''
                     },
                 },
                 isTimezoneEnabled: false,
@@ -855,13 +1180,13 @@ describe('components/AdvancedCreateComment', () => {
                 enableConfirmNotificationsToChannel: true,
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<AdvancedCreateComment>(
                 <AdvancedCreateComment {...props}/>,
             );
             const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
             wrapper.instance().showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
 
-            await wrapper.instance().handleSubmit({preventDefault});
+            await wrapper.instance().handleSubmit(preventDefaultObject);
 
             expect(onSubmit).not.toHaveBeenCalled();
             expect(preventDefault).toHaveBeenCalled();
@@ -871,55 +1196,78 @@ describe('components/AdvancedCreateComment', () => {
         });
 
         it('should show Confirm Modal for @group mentions when needed and no timezone notification', async () => {
+            const additionalProperties={
+                display_name:'', description:'', source:'', remote_id:'',
+                 update_at:0, delete_at:0, has_syncables:false,
+                 create_at:0, member_count:0, scheme_admin:false, allow_reference:false
+            }
             const props = {
                 ...baseProps,
                 draft: {
                     message: 'Test message @developers @boss @love @you @software-developers',
                     uploadsInProgress: [],
-                    fileInfos: [{}, {}, {}],
+                    fileInfos:[fInfo,fInfo,fInfo],
+                    createAt:0,
+                    updateAt:0,
+                    channelId:'',
+                    rootId:''
                 },
                 groupsWithAllowReference: new Map([
                     ['@developers', {
                         id: 'developers',
                         name: 'developers',
+                        ...additionalProperties
                     }],
                     ['@boss', {
                         id: 'boss',
                         name: 'boss',
+                        ...additionalProperties
                     }],
                     ['@love', {
                         id: 'love',
                         name: 'love',
+                        ...additionalProperties
                     }],
                     ['@you', {
                         id: 'you',
                         name: 'you',
+                        ...additionalProperties
                     }],
                     ['@software-developers', {
                         id: 'softwareDevelopers',
                         name: 'software-developers',
+                        ...additionalProperties
                     }],
                 ]),
                 channelMemberCountsByGroup: {
                     developers: {
                         channel_member_count: 10,
                         channel_member_timezones_count: 0,
+                        group_id:''
                     },
                     boss: {
                         channel_member_count: 20,
                         channel_member_timezones_count: 0,
+                        group_id:''
+
                     },
                     love: {
                         channel_member_count: 30,
                         channel_member_timezones_count: 0,
+                        group_id:''
+
                     },
                     you: {
                         channel_member_count: 40,
                         channel_member_timezones_count: 0,
+                        group_id:''
+
                     },
                     softwareDevelopers: {
                         channel_member_count: 5,
                         channel_member_timezones_count: 0,
+                        group_id:''
+
                     },
                 },
                 isTimezoneEnabled: false,
@@ -928,14 +1276,14 @@ describe('components/AdvancedCreateComment', () => {
                 enableConfirmNotificationsToChannel: true,
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<AdvancedCreateComment>(
                 <AdvancedCreateComment {...props}/>,
             );
 
             const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
             wrapper.instance().showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
 
-            await wrapper.instance().handleSubmit({preventDefault});
+            await wrapper.instance().handleSubmit(preventDefaultObject);
 
             expect(onSubmit).not.toHaveBeenCalled();
             expect(preventDefault).toHaveBeenCalled();
@@ -943,14 +1291,18 @@ describe('components/AdvancedCreateComment', () => {
             expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers', '@boss', '@love', '@you', '@software-developers'], 0, 40);
             expect(props.openModal).toHaveBeenCalled();
         });
-
+    
         it('should show Confirm Modal for @group mention with timezone enabled', async () => {
             const props = {
                 ...baseProps,
                 draft: {
                     message: 'Test message @developers',
                     uploadsInProgress: [],
-                    fileInfos: [{}, {}, {}],
+                    fileInfos:[fInfo,fInfo,fInfo],
+                    channelId:'',
+                    rootId:'',
+                    createAt:0,
+                    updateAt:0
                 },
                 groupsWithAllowReference: new Map([
                     ['@developers', {
@@ -970,14 +1322,14 @@ describe('components/AdvancedCreateComment', () => {
                 enableConfirmNotificationsToChannel: true,
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<AdvancedCreateComment>(
                 <AdvancedCreateComment {...props}/>,
             );
 
             const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
             wrapper.instance().showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
 
-            await wrapper.instance().handleSubmit({preventDefault});
+            await wrapper.instance().handleSubmit(preventDefaultObject);
 
             expect(onSubmit).not.toHaveBeenCalled();
             expect(preventDefault).toHaveBeenCalled();
@@ -996,31 +1348,35 @@ describe('components/AdvancedCreateComment', () => {
                 draft: {
                     message: '/fakecommand other text',
                     uploadsInProgress: [],
-                    fileInfos: [{}, {}, {}],
+                    fileInfos: [fInfo,fInfo,fInfo],
+                    channelId: '',
+                    rootId: '',
+                    updateAt:0,
+                    createAt:0
                 },
                 onSubmit: onSubmitWithError,
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<AdvancedCreateComment>(
                 <AdvancedCreateComment {...props}/>,
             );
 
-            await wrapper.instance().handleSubmit({preventDefault});
+            await wrapper.instance().handleSubmit(preventDefaultObject);
 
             expect(onSubmitWithError).toHaveBeenCalledWith({
                 message: '/fakecommand other text',
                 uploadsInProgress: [],
-                fileInfos: [{}, {}, {}],
+                fileInfos: [fInfo,fInfo,fInfo],
             }, {ignoreSlash: false});
             expect(preventDefault).toHaveBeenCalled();
 
             wrapper.setProps({onSubmit});
-            await wrapper.instance().handleSubmit({preventDefault});
+            await wrapper.instance().handleSubmit(preventDefaultObject);
 
             expect(onSubmit).toHaveBeenCalledWith({
                 message: '/fakecommand other text',
                 uploadsInProgress: [],
-                fileInfos: [{}, {}, {}],
+                fileInfos: [fInfo,fInfo,fInfo],
             }, {ignoreSlash: true});
             expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
         });
@@ -1035,16 +1391,20 @@ describe('components/AdvancedCreateComment', () => {
                 draft: {
                     message: '/fakecommand other text',
                     uploadsInProgress: [],
-                    fileInfos: [{}, {}, {}],
+                    fileInfos:[fInfo,fInfo,fInfo],
+                    createAt:0,
+                    updateAt:0,
+                    rootId:'',
+                    channelId:''
                 },
                 onSubmit: onSubmitWithError,
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<AdvancedCreateComment>(
                 <AdvancedCreateComment {...props}/>,
             );
 
-            const submitPromise = wrapper.instance().handleSubmit({preventDefault});
+            const submitPromise = wrapper.instance().handleSubmit(preventDefaultObject);
             expect(props.onUpdateCommentDraft).not.toHaveBeenCalled();
 
             await submitPromise;
@@ -1059,18 +1419,18 @@ describe('components/AdvancedCreateComment', () => {
                     draft: {
                         message: `Test message @${mention}`,
                         uploadsInProgress: [],
-                        fileInfos: [{}, {}, {}],
+                        fileInfos:[fInfo,fInfo,fInfo],
                     },
                     onSubmit,
                 };
 
-                const wrapper = shallow(
+                const wrapper = shallow<AdvancedCreateComment>(
                     <AdvancedCreateComment {...props}/>,
                 );
 
-                wrapper.instance().handleSubmit({preventDefault});
+                wrapper.instance().handleSubmit(preventDefaultObject);
                 expect(onSubmit).toHaveBeenCalled();
-                expect(wrapper.state('draft').props.mentionHighlightDisabled).toBe(true);
+                expect(wrapper.state('draft')!.props.mentionHighlightDisabled).toBe(true);
             });
 
             it(`should not set mentionHighlightDisabled when user does have permission and message contains channel channel @${mention}`, async () => {
@@ -1081,18 +1441,18 @@ describe('components/AdvancedCreateComment', () => {
                     draft: {
                         message: `Test message @${mention}`,
                         uploadsInProgress: [],
-                        fileInfos: [{}, {}, {}],
+                        fileInfos:[fInfo,fInfo,fInfo],
                     },
                     onSubmit,
                 };
 
-                const wrapper = shallow(
+                const wrapper = shallow<AdvancedCreateComment>(
                     <AdvancedCreateComment {...props}/>,
                 );
 
-                wrapper.instance().handleSubmit({preventDefault});
+                wrapper.instance().handleSubmit(preventDefaultObject);
                 expect(onSubmit).toHaveBeenCalled();
-                expect(wrapper.state('draft').props).toBe(undefined);
+                expect(wrapper.state('draft')!.props).toBe(undefined);
             });
         });
 
@@ -1103,62 +1463,72 @@ describe('components/AdvancedCreateComment', () => {
                 draft: {
                     message: 'Test message',
                     uploadsInProgress: [],
-                    fileInfos: [{}, {}, {}],
+                    fileInfos:[fInfo,fInfo,fInfo],
                 },
                 onSubmit,
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<AdvancedCreateComment>(
                 <AdvancedCreateComment {...props}/>,
             );
 
-            wrapper.instance().handleSubmit({preventDefault});
+            wrapper.instance().handleSubmit(preventDefaultObject);
             expect(onSubmit).toHaveBeenCalled();
-            expect(wrapper.state('draft').props).toBe(undefined);
+            expect(wrapper.state('draft')!.props).toBe(undefined);
         });
     });
 
     test('removePreview should remove file info and upload in progress with corresponding id', () => {
         const onUpdateCommentDraft = jest.fn();
+        let fInfo1=fInfo, fInfo2=fInfo,fInfo3=fInfo;
+        fInfo1.id='1',fInfo2.id='2',fInfo3.id='3'
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [4, 5, 6],
-            fileInfos: [{id: 1}, {id: 2}, {id: 3}],
+            uploadsInProgress: ['4', '5', '6'],
+            fileInfos: [fInfo1,fInfo2,fInfo3],
+            channelId:'',
+            rootId:'',
+            createAt:0,
+            updateAt:0
         };
         const props = {...baseProps, draft, onUpdateCommentDraft};
 
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment {...props}/>,
         );
 
         wrapper.setState({draft});
 
-        wrapper.instance().removePreview(3);
+        wrapper.instance().removePreview('3');
 
         jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft).toHaveBeenCalled();
         expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
-            expect.objectContaining({fileInfos: [{id: 1}, {id: 2}]}),
+            expect.objectContaining({fileInfos: [fInfo1,fInfo2]}),
         );
-        expect(wrapper.state().draft.fileInfos).toEqual([{id: 1}, {id: 2}]);
+        expect(wrapper.state().draft!.fileInfos).toEqual([fInfo1,fInfo2]);
 
-        wrapper.instance().removePreview(5);
+        wrapper.instance().removePreview('5');
 
         jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
-            expect.objectContaining({uploadsInProgress: [4, 6]}),
+            expect.objectContaining({uploadsInProgress: ['4', '6']}),
         );
-        expect(wrapper.state().draft.uploadsInProgress).toEqual([4, 6]);
+        expect(wrapper.state().draft!.uploadsInProgress).toEqual([4, 6]);
     });
 
     test('should match draft state on componentWillReceiveProps with change in messageInHistory', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [],
-            fileInfos: [{}, {}, {}],
+            fileInfos:[fInfo,fInfo,fInfo],
+            createAt:0,
+            updateAt:0,
+            channelId:'',
+            rootId:''
         };
 
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment {...baseProps}/>,
         );
         expect(wrapper.state('draft')).toEqual(draft);
@@ -1175,19 +1545,19 @@ describe('components/AdvancedCreateComment', () => {
             fileInfos: [{id: 1}, {id: 2}, {id: 3}],
         };
 
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment {...baseProps}/>,
         );
         wrapper.setState({draft});
         expect(wrapper.state('draft')).toEqual(draft);
 
         wrapper.setProps({rootId: 'new_root_id'});
-        expect(wrapper.state('draft')).toEqual({...draft, uploadsInProgress: [], fileInfos: [{}, {}, {}]});
+        expect(wrapper.state('draft')).toEqual({...draft, uploadsInProgress: [], fileInfos:[fInfo,fInfo,fInfo]});
     });
 
     test('should match snapshot when cannot post', () => {
         const props = {...baseProps, canPost: false};
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment {...props}/>,
         );
 
@@ -1196,7 +1566,7 @@ describe('components/AdvancedCreateComment', () => {
 
     test('should match snapshot, emoji picker disabled', () => {
         const props = {...baseProps, enableEmojiPicker: false};
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment {...props}/>,
         );
 
@@ -1204,7 +1574,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     test('check for handleFileUploadChange callback for focus', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment {...baseProps}/>,
         );
         const instance = wrapper.instance();
@@ -1220,7 +1590,7 @@ describe('components/AdvancedCreateComment', () => {
         const onEditLatestPost = jest.fn().
             mockImplementationOnce(() => ({data: true})).
             mockImplementationOnce(() => ({data: false}));
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment
                 {...baseProps}
                 ctrlSend={true}
@@ -1246,8 +1616,11 @@ describe('components/AdvancedCreateComment', () => {
         const mockTop = () => {
             return document.createElement('div');
         };
-
-        instance.textboxRef.current = {blur, focus, getInputBox: jest.fn(mockImpl)};
+        const newTextBoxRef= {
+            ...instance.textBoxRef,
+            current:{blur, focus, getInputBox: jest.fn(mockImpl)}
+        }
+        instance.textBoxRef=newTextBoxRef;
 
         const mockTarget = {
             selectionStart: 0,
@@ -1310,7 +1683,7 @@ describe('components/AdvancedCreateComment', () => {
     test('should the RHS thread scroll to bottom one time after mount when props.draft.message is not empty', () => {
         const draft = emptyDraft;
         const scrollToBottom = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment
                 {...baseProps}
                 scrollToBottom={scrollToBottom}
@@ -1318,23 +1691,23 @@ describe('components/AdvancedCreateComment', () => {
         );
 
         expect(scrollToBottom).toBeCalledTimes(0);
-        expect(wrapper.instance().doInitialScrollToBottom).toEqual(true);
+        expect(wrapper.instance().DoInitialScrollToBottom).toEqual(true);
 
         // should scroll to bottom on first component update
         wrapper.setState({draft: {...draft, message: 'new message'}});
         expect(scrollToBottom).toBeCalledTimes(1);
-        expect(wrapper.instance().doInitialScrollToBottom).toEqual(false);
+        expect(wrapper.instance().DoInitialScrollToBottom).toEqual(false);
 
         // but not after the first update
         wrapper.setState({draft: {...draft, message: 'another message'}});
         expect(scrollToBottom).toBeCalledTimes(1);
-        expect(wrapper.instance().doInitialScrollToBottom).toEqual(false);
+        expect(wrapper.instance().DoInitialScrollToBottom).toEqual(false);
     });
 
     test('should the RHS thread scroll to bottom when state.draft.uploadsInProgress increases but not when it decreases', () => {
         const draft = emptyDraft;
         const scrollToBottom = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment
                 {...baseProps}
                 draft={draft}
@@ -1344,19 +1717,19 @@ describe('components/AdvancedCreateComment', () => {
 
         expect(scrollToBottom).toBeCalledTimes(0);
 
-        wrapper.setState({draft: {...draft, uploadsInProgress: [1]}});
+        wrapper.setState({draft: {...draft, uploadsInProgress: ['1']}});
         expect(scrollToBottom).toBeCalledTimes(1);
 
-        wrapper.setState({draft: {...draft, uploadsInProgress: [1, 2]}});
+        wrapper.setState({draft: {...draft, uploadsInProgress: ['1', '2']}});
         expect(scrollToBottom).toBeCalledTimes(2);
 
-        wrapper.setState({draft: {...draft, uploadsInProgress: [2]}});
+        wrapper.setState({draft: {...draft, uploadsInProgress: ['2']}});
         expect(scrollToBottom).toBeCalledTimes(2);
     });
 
     it('should be able to format a pasted markdown table', () => {
         const draft = emptyDraft;
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment
                 {...baseProps}
                 draft={draft}
@@ -1374,8 +1747,12 @@ describe('components/AdvancedCreateComment', () => {
                 focus: jest.fn(),
             };
         };
-
-        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
+        const newTextBoxRef= {
+            ...wrapper.instance().textBoxRef,
+            current: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}
+        }
+        wrapper.instance().textBoxRef=newTextBoxRef;
+        // wrapper.instance().TextboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
 
         const event = {
             target: {
@@ -1394,12 +1771,12 @@ describe('components/AdvancedCreateComment', () => {
         const markdownTable = '| test | test |\n| --- | --- |\n| test | test |';
 
         wrapper.instance().pasteHandler(event);
-        expect(wrapper.state('draft').message).toBe(markdownTable);
+        expect(wrapper.state('draft')!.message).toBe(markdownTable);
     });
 
     it('should be able to format a pasted markdown table without headers', () => {
         const draft = emptyDraft;
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment
                 {...baseProps}
                 draft={draft}
@@ -1418,7 +1795,12 @@ describe('components/AdvancedCreateComment', () => {
             };
         };
 
-        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
+          const newTextBoxRef= {
+            ...wrapper.instance().textBoxRef,
+            current: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}
+        }
+        wrapper.instance().textBoxRef=newTextBoxRef;
+        // wrapper.instance().TextboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
 
         const event = {
             target: {
@@ -1437,12 +1819,12 @@ describe('components/AdvancedCreateComment', () => {
         const markdownTable = '| test | test |\n| --- | --- |\n| test | test |\n';
 
         wrapper.instance().pasteHandler(event);
-        expect(wrapper.state('draft').message).toBe(markdownTable);
+        expect(wrapper.state('draft')!.message).toBe(markdownTable);
     });
 
     it('should be able to format a pasted hyperlink', () => {
         const draft = emptyDraft;
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment
                 {...baseProps}
                 draft={draft}
@@ -1461,7 +1843,12 @@ describe('components/AdvancedCreateComment', () => {
             };
         };
 
-        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
+        const newTextBoxRef= {
+            ...wrapper.instance().textBoxRef,
+            current: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}
+        }
+        wrapper.instance().textBoxRef=newTextBoxRef;
+        // wrapper.instance().TextboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
 
         const event = {
             target: {
@@ -1480,12 +1867,12 @@ describe('components/AdvancedCreateComment', () => {
         const markdownLink = '[link text](https://test.domain)';
 
         wrapper.instance().pasteHandler(event);
-        expect(wrapper.state('draft').message).toBe(markdownLink);
+        expect(wrapper.state('draft')!.message).toBe(markdownLink);
     });
 
     it('should be able to format a github codeblock (pasted as a table)', () => {
         const draft = emptyDraft;
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment
                 {...baseProps}
                 draft={draft}
@@ -1503,10 +1890,14 @@ describe('components/AdvancedCreateComment', () => {
                 focus: jest.fn(),
             };
         };
+        const newTextBoxRef= {
+            ...wrapper.instance().textBoxRef,
+            current: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}
+        }
+        wrapper.instance().textBoxRef=newTextBoxRef;
+        // wrapper.instance().TextboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
 
-        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
-
-        const event = {
+        const event:any = {
             target: {
                 id: 'reply_textbox',
             },
@@ -1514,7 +1905,7 @@ describe('components/AdvancedCreateComment', () => {
             clipboardData: {
                 items: [1],
                 types: ['text/plain', 'text/html'],
-                getData: (type) => {
+                getData: (type:string) => {
                     if (type === 'text/plain') {
                         return '// a javascript codeblock example\nif (1 > 0) {\n  return \'condition is true\';\n}';
                     }
@@ -1526,12 +1917,12 @@ describe('components/AdvancedCreateComment', () => {
         const codeBlockMarkdown = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
 
         wrapper.instance().pasteHandler(event);
-        expect(wrapper.state('draft').message).toBe(codeBlockMarkdown);
+        expect(wrapper.state('draft')!.message).toBe(codeBlockMarkdown);
     });
 
     it('should be able to format a github codeblock (pasted as a table) with with existing draft post', () => {
         const draft = emptyDraft;
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment
                 {...baseProps}
                 draft={draft}
@@ -1550,7 +1941,12 @@ describe('components/AdvancedCreateComment', () => {
             };
         };
 
-        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()};
+        const newTextBoxRef= {
+            ...wrapper.instance().textBoxRef,
+            current: {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()}
+        }
+        wrapper.instance().textBoxRef=newTextBoxRef;
+        // wrapper.instance().TextboxRef.current = {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()};
         wrapper.setState({
             draft: {
                 ...draft,
@@ -1559,7 +1955,7 @@ describe('components/AdvancedCreateComment', () => {
             caretPosition: 'test'.length, // cursor is at the end
         });
 
-        const event = {
+        const event:any = {
             target: {
                 id: 'reply_textbox',
             },
@@ -1567,7 +1963,7 @@ describe('components/AdvancedCreateComment', () => {
             clipboardData: {
                 items: [1],
                 types: ['text/plain', 'text/html'],
-                getData: (type) => {
+                getData: (type:string) => {
                     if (type === 'text/plain') {
                         return '// a javascript codeblock example\nif (1 > 0) {\n  return \'condition is true\';\n}';
                     }
@@ -1579,14 +1975,14 @@ describe('components/AdvancedCreateComment', () => {
         const codeBlockMarkdown = "test\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
 
         wrapper.instance().pasteHandler(event);
-        expect(wrapper.state('draft').message).toBe(codeBlockMarkdown);
+        expect(wrapper.state('draft')!.message).toBe(codeBlockMarkdown);
     });
 
     test('should show preview and edit mode, and return focus on preview disable', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment {...baseProps}/>,
         );
-        const instance = wrapper.instance();
+        const instance:AdvancedCreateComment = wrapper.instance();
         instance.focusTextbox = jest.fn();
         expect(instance.focusTextbox).not.toBeCalled();
 
@@ -1601,7 +1997,7 @@ describe('components/AdvancedCreateComment', () => {
         expect(instance.focusTextbox).toBeCalled();
     });
 
-    testComponentForLineBreak((value) => (
+    testComponentForLineBreak((value:string) => (
         <AdvancedCreateComment
             {...baseProps}
             draft={{
@@ -1610,10 +2006,10 @@ describe('components/AdvancedCreateComment', () => {
             }}
             ctrlSend={true}
         />
-    ), (instance) => instance.state().draft.message, false);
+    ), (instance: any) => instance.state().draft.message, false);
 
     testComponentForMarkdownHotkeys(
-        (value) => (
+        (value:string) => (
             <AdvancedCreateComment
                 {...baseProps}
                 draft={{
@@ -1623,11 +2019,11 @@ describe('components/AdvancedCreateComment', () => {
                 ctrlSend={true}
             />
         ),
-        (wrapper, setSelectionRangeFn) => {
+        (wrapper :any, setSelectionRangeFn :any) => {
             const mockTop = () => {
                 return document.createElement('div');
             };
-            wrapper.instance().textboxRef = {
+            wrapper.instance().textBoxRef = {
                 current: {
                     getInputBox: jest.fn(() => {
                         return {
@@ -1639,13 +2035,13 @@ describe('components/AdvancedCreateComment', () => {
                 },
             };
         },
-        (instance) => instance.find(AdvanceTextEditor),
-        (instance) => instance.state().draft.message,
+        (instance :any) => instance.find(AdvanceTextEditor),
+        (instance :any) => instance.state().draft.message,
         false,
     );
 
     it('should blur when ESCAPE is pressed', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment
                 {...baseProps}
             />,
@@ -1659,8 +2055,12 @@ describe('components/AdvancedCreateComment', () => {
                 focus: jest.fn(),
             };
         };
-
-        instance.textboxRef.current = {blur, getInputBox: jest.fn(mockImpl)};
+        // const newTextBoxRef= {
+        //     ...wrapper.instance().textBoxRef,
+        //     current: {blur, getInputBox: jest.fn(mockImpl)}
+        // }
+        // wrapper.instance().textBoxRef=newTextBoxRef;
+        instance.textBoxRef.current = {blur, getInputBox: jest.fn(mockImpl)};
 
         const mockTarget = {
             selectionStart: 0,
@@ -1668,7 +2068,7 @@ describe('components/AdvancedCreateComment', () => {
             value: 'brown\nfox jumps over lazy dog',
         };
 
-        const commentEscapeKey = {
+        const commentEscapeKey:any = {
             preventDefault: jest.fn(),
             ctrlKey: true,
             key: Constants.KeyCodes.ESCAPE[0],
