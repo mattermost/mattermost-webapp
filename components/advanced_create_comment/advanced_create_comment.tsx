@@ -199,6 +199,7 @@ type State = {
     serverError: (ServerError & {submittedMessage?: string}) | null;
     showFormat: boolean;
     isFormattingBarHidden: boolean;
+    channelTimezoneCount:any
 };
 
 function isDraftEmpty(draft: PostDraft): boolean {
@@ -263,6 +264,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             serverError: null,
             showFormat: false,
             isFormattingBarHidden: props.isFormattingBarHidden,
+            channelTimezoneCount:undefined
         };
 
         this.textboxRef = React.createRef();
