@@ -65,24 +65,9 @@ describe('components/AdvancedCreateComment', () => {
     const rootId = '';
     const latestPostId = '3498nv24823948v23m4nv34';
     const currentUserId = 'zaktnt8bpbgu8mb6ez9k64r7sa';
-    let fInfo:FileInfo={
+    let fInfo:any={
     id:'',
-    user_id: '',
-    create_at: 0,
-    update_at: 0,
-    delete_at: 0,
-    name: '',
-    extension: '',
-    size: 0,
-    mime_type: '',
-    width: 0,
-    height: 0,
-    has_preview_image: false,
-    clientId: '',
-    post_id: '',
-    mini_preview: '',
-    archived: false,
-    link: '',
+    user_id: ''
     };
 
 
@@ -95,6 +80,11 @@ describe('components/AdvancedCreateComment', () => {
         delete_at: 0,
         creator_id: '',
     }
+    const draftObject:any={
+        message: 'Test message',
+        uploadsInProgress: [],
+        fileInfos: [],
+    }
     const baseProps = {
         channelTimezoneCount:undefined,
         channelId :'',
@@ -103,17 +93,7 @@ describe('components/AdvancedCreateComment', () => {
         rootId:'',
         rootDeleted: false,
         channelMembersCount: 3,
-        draft: {
-            message: 'Test message',
-            uploadsInProgress: [],
-            fileInfos: [
-                    
-            ],
-            channelId:'', 
-            rootId:'', 
-            createAt:0,
-            updateAt:0
-        },
+        draft: draftObject,
         enableAddButton: true,
         ctrlSend: false,
         latestPostId:'',
@@ -170,18 +150,9 @@ describe('components/AdvancedCreateComment', () => {
 
     };
 
-    const emptyDraft = {
-        message: '',
-        uploadsInProgress: [],
-        fileInfos: [],
-        channelId:'',
-        rootId:'',
-        createAt:0, 
-        updateAt:0
-    };
-
+    
     test('should match snapshot, empty comment', () => {
-        const draft = emptyDraft;
+        const draft :any= baseProps.draft;
         const enableAddButton = false;
         const ctrlSend = true;
         const props = {...baseProps, draft, enableAddButton, ctrlSend};
@@ -197,14 +168,10 @@ describe('components/AdvancedCreateComment', () => {
         const clearCommentDraftUploads = jest.fn();
         const onResetHistoryIndex = jest.fn();
         const getChannelMemberCountsByGroup = jest.fn();
-        const draft = {
+        const draft:any = {
             message: 'Test message',
             uploadsInProgress: [],
             fileInfos: [],
-            channelId:'', 
-            rootId:'', 
-            createAt:0, 
-            updateAt:0
         };
         const ctrlSend = true;
         const props = {...baseProps, ctrlSend, draft, clearCommentDraftUploads, onResetHistoryIndex, getChannelMemberCountsByGroup};
@@ -226,14 +193,11 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     test('should call searchAssociatedGroupsForReference if there is one mention in the draft', () => {
-        const draft = {
+        const draft:any = {
             message: '@group',
             uploadsInProgress: [],
             fileInfos: [],
-            channelId:'', 
-            rootId:'', 
-            createAt:0,
-            updateAt:0
+
         };
 
         const searchAssociatedGroupsForReference = jest.fn();
@@ -245,14 +209,10 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     test('should call getChannelMemberCountsByGroup if there is more than one mention in the draft', () => {
-        const draft = {
+        const draft:any = {
             message: '@group @othergroup',
             uploadsInProgress: [],
             fileInfos: [], 
-            channelId:'', 
-            rootId:'', 
-            createAt:0,
-            updateAt:0
         };
         const getChannelMemberCountsByGroup = jest.fn();
         const props = {...baseProps, draft, getChannelMemberCountsByGroup};
@@ -265,13 +225,11 @@ describe('components/AdvancedCreateComment', () => {
     test('should not call getChannelMemberCountsByGroup, without group mentions permission or license', () => {
         const useLDAPGroupMentions = false;
         const useCustomGroupMentions = false;
-        const draft = {
+        const draft:any = {
             message: '@group @othergroup',
             uploadsInProgress: [],
-            fileInfos: [], channelId:'', 
-            rootId:'', 
-            createAt:0,
-            updateAt:0
+            fileInfos: [],
+            
         };
 
         const getChannelMemberCountsByGroup = jest.fn();
@@ -284,14 +242,11 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     test('should match snapshot, non-empty message and uploadsInProgress + fileInfos', () => {
-        const draft = {
+        const draft :any= {
             message: 'Test message',
             uploadsInProgress: [],
             fileInfos: [],
-            channelId:'', 
-            rootId:'', 
-            createAt:0,
-            updateAt:0
+            
         };
         const props = {...baseProps, draft};
 
@@ -326,7 +281,7 @@ describe('components/AdvancedCreateComment', () => {
 
         test('should correctly update draft when handleEmojiClick is called', () => {
             const onUpdateCommentDraft = jest.fn();
-            const draft = emptyDraft;
+            const draft:any = baseProps.draft;
             const enableAddButton = false;
             const props = {...baseProps, draft, onUpdateCommentDraft, enableAddButton};
 
@@ -358,7 +313,7 @@ describe('components/AdvancedCreateComment', () => {
         );
         expect(wrapper.state().draft!.message).toBe(':smile: ');
 
-        wrapper.setState({draft: {message: 'test', uploadsInProgress: [], fileInfos: [],channelId:'', rootId:'', createAt:0, updateAt:0},
+        wrapper.setState({draft: {...baseProps.draft,message: 'test'},
             caretPosition: 'test'.length, // cursor is at the end
         });
 
@@ -372,7 +327,7 @@ describe('components/AdvancedCreateComment', () => {
         );
         expect(wrapper.state().draft!.message).toBe('test :smile:  ');
 
-        wrapper.setState({draft: {message: 'test ', uploadsInProgress: [], fileInfos: [],channelId:'',rootId:'',createAt:0,updateAt:0},
+        wrapper.setState({draft: {...baseProps.draft,message: 'test '},
             caretPosition: 'test '.length, // cursor is at the end
         });
         wrapper.instance().handleEmojiClick(emojiObject);
@@ -401,14 +356,11 @@ describe('components/AdvancedCreateComment', () => {
 
     test('handleUploadError should update state with the correct error', () => {
         const updateCommentDraftWithRootId = jest.fn();
-        const draft = {
+        const draft:any = {
             message: 'Test message',
             uploadsInProgress: ['1', '2', '3'],
             fileInfos: [fInfo, fInfo, fInfo],
-            channelId:'',
-            rootId:'',
-            createAt:0,
-            updateAt:0
+            
         };
         const props = {...baseProps, draft, updateCommentDraftWithRootId};
 
@@ -426,10 +378,10 @@ describe('components/AdvancedCreateComment', () => {
         expect(updateCommentDraftWithRootId).toHaveBeenCalled();
         expect(updateCommentDraftWithRootId.mock.calls[0][0]).toEqual(props.rootId);
         expect(updateCommentDraftWithRootId.mock.calls[0][1]).toEqual(
-            expect.objectContaining({uploadsInProgress: [2, 3]}),
+            expect.objectContaining({uploadsInProgress: ["2", "3"]}),
         );
         expect(wrapper.state().serverError!.message).toBe(testError1);
-        expect(wrapper.state().draft!.uploadsInProgress).toEqual([2, 3]);
+        expect(wrapper.state().draft!.uploadsInProgress).toEqual(["2", "3"]);
 
         // clientId = -1
         const testError2 = 'test error 2';
@@ -452,14 +404,11 @@ describe('components/AdvancedCreateComment', () => {
 
     test('handleUploadStart should update comment draft correctly', () => {
         const onUpdateCommentDraft = jest.fn();
-        const draft = {
+        const draft:any = {
             message: 'Test message',
             uploadsInProgress: ['1', '2', '3'],
             fileInfos: [fInfo, fInfo, fInfo],
-            channelId:'',
-            rootId:'',
-            createAt:0,
-            updateAt:0
+            
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
@@ -474,7 +423,7 @@ describe('components/AdvancedCreateComment', () => {
 
         expect(onUpdateCommentDraft).toHaveBeenCalled();
         expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
-            expect.objectContaining({uploadsInProgress: [1, 2, 3, 4, 5]}),
+            expect.objectContaining({uploadsInProgress: ["1", "2", "3", "4", "5"]}),
         );
         
         const result = isEqual(wrapper.state().draft!.uploadsInProgress,['1', '2', '3', '4', '5'])
@@ -485,14 +434,11 @@ describe('components/AdvancedCreateComment', () => {
     test('handleFileUploadComplete should update comment draft correctly', () => {
         const updateCommentDraftWithRootId = jest.fn();
         const fileInfos = [{id: '1', name: 'aaa', create_at: 100}, {id: '2', name: 'bbb', create_at: 200}];
-        const draft = {
+        const draft:any = {
             message: 'Test message',
             uploadsInProgress: ['1', '2', '3'],
             fileInfos: [fInfo, fInfo, fInfo],
-            channelId:'',
-            rootId:'',
-            createAt:0,
-            updateAt:0
+            
         };
         const props = {...baseProps, updateCommentDraftWithRootId, draft};
 
@@ -505,7 +451,7 @@ describe('components/AdvancedCreateComment', () => {
         instance.DraftsForPost[props.rootId] = draft;
 
         const fInfo1=fInfo;
-        fInfo.id='3'; fInfo.name= 'ccc', fInfo.create_at=300;
+        fInfo1.id='3'; fInfo1.name= 'ccc', fInfo1.create_at=300;
         const uploadCompleteFileInfo = [fInfo1];
         const expectedNewFileInfos = fileInfos.concat(uploadCompleteFileInfo);
         instance.handleFileUploadComplete(uploadCompleteFileInfo, ['3'], '', props.rootId);
@@ -514,10 +460,10 @@ describe('components/AdvancedCreateComment', () => {
         expect(updateCommentDraftWithRootId).toHaveBeenCalled();
         expect(updateCommentDraftWithRootId.mock.calls[0][0]).toEqual(props.rootId);
         expect(updateCommentDraftWithRootId.mock.calls[0][1]).toEqual(
-            expect.objectContaining({uploadsInProgress: [1, 2], fileInfos: expectedNewFileInfos}),
+            expect.objectContaining({uploadsInProgress: ['1', '2'], fileInfos: expectedNewFileInfos}),
         );
 
-        expect(wrapper.state().draft!.uploadsInProgress).toEqual([1, 2]);
+        expect(wrapper.state().draft!.uploadsInProgress).toEqual(['1', '2']);
         expect(wrapper.state().draft!.fileInfos).toEqual(expectedNewFileInfos);
     });
 
@@ -536,14 +482,11 @@ describe('components/AdvancedCreateComment', () => {
 
 
         
-        const draft = {
+        const draft:any = {
             message: 'Test message',
             fileInfos: [fInfo1,fInfo2],
             uploadsInProgress: ['1', '2', '3'],
-            channelId:'',
-            rootId:'',
-            createAt:0,
-            updateAt:0
+            
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
@@ -573,14 +516,11 @@ describe('components/AdvancedCreateComment', () => {
         fInfo2.create_at=200;
 
 
-        const draft = {
+        const draft :any= {
             message: 'Test message',
             uploadsInProgress: ['1', '2', '3'],
             fileInfos: [fInfo1, fInfo2],
-            channelId:'',
-            rootId:'',
-            createAt:0,
-            updateAt:0
+          
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
@@ -633,14 +573,10 @@ describe('components/AdvancedCreateComment', () => {
         fInfo2.create_at=200;
 
 
-        const draft = {
+        const draft:any = {
             message: 'Test message',
             uploadsInProgress: ['1', '2', '3'],
             fileInfos: [fInfo1, fInfo2],
-            channelId:'',
-            rootId:'',
-            createAt:0,
-            updateAt:0
         };
         it('is called when rootId changes', () => {
             const props = {...baseProps, draft};
@@ -733,14 +669,11 @@ describe('components/AdvancedCreateComment', () => {
     test('handleChange should update comment draft correctly', () => {
         const fInfo1:FileInfo = fInfo;
     
-        const draft = {
+        const draft:any = {
             message: 'Test message',
             uploadsInProgress: ['1', '2', '3'],
             fileInfos: [fInfo, fInfo,fInfo],
-            channelId:'',
-            rootId:'',
-            createAt:0,
-            updateAt:0
+            
         };
         const scrollToBottom = jest.fn();
         const props = {...baseProps, draft, scrollToBottom};
@@ -779,14 +712,11 @@ describe('components/AdvancedCreateComment', () => {
         error.server_error_id = 'api.command.execute_command.not_found.app_error';
         const onSubmit = jest.fn(() => Promise.reject(error));
         
-        const draft = {
+        const draft:any = {
             message: '/fakecommand other text',
             uploadsInProgress: ['1', '2', '3'],
             fileInfos: [fInfo, fInfo,fInfo],
-            channelId:'',
-            rootId:'',
-            createAt:0,
-            updateAt:0
+            
         };
     
         const props = {...baseProps, onUpdateCommentDraft, draft, onSubmit};
@@ -843,14 +773,12 @@ describe('components/AdvancedCreateComment', () => {
 
     test('should scroll to bottom when uploadsInProgress increase', () => {
 
-        const draft = {
+        const draft:any = {
             message: 'Test message',
             uploadsInProgress: ['1', '2', '3'],
             fileInfos: [fInfo, fInfo,fInfo],
-            channelId:'',
-            rootId:'',
-            createAt:0,
-            updateAt:0
+            
+           
         };
         const scrollToBottom = jest.fn();
         const props = {...baseProps, draft, scrollToBottom};
@@ -867,14 +795,11 @@ describe('components/AdvancedCreateComment', () => {
 
     test('handleSubmit should call onSubmit prop', () => {
         const onSubmit = jest.fn();
-       const draft = {
+       const draft:any = {
             message: 'Test message',
             uploadsInProgress: ['1', '2', '3'],
             fileInfos: [fInfo, fInfo,fInfo],
-            channelId:'',
-            rootId:'',
-            createAt:0,
-            updateAt:0
+        
         };
         const props = {...baseProps, draft, onSubmit};
 
@@ -903,13 +828,10 @@ describe('components/AdvancedCreateComment', () => {
                     const props = {
                         ...baseProps,
                         draft: {
+                            ...baseProps.draft,
                             message: `Test message @${mention}`,
                             uploadsInProgress: [],
                             fileInfos: [fInfo,fInfo,fInfo],
-                            rootId:'',
-                            channelId:'',
-                            createAt:0,
-                            updateAt:0
                         },
                         onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) : void=>{
                             
@@ -932,13 +854,10 @@ describe('components/AdvancedCreateComment', () => {
                     const props = {
                         ...baseProps,
                         draft: {
+                            ...baseProps.draft,
                             message: `Test message @${mention}`,
                             uploadsInProgress: [],
                             fileInfos: [fInfo,fInfo,fInfo],
-                            channelId:'',
-                            rootId:'',
-                            createAt:0,
-                            updateAt:0
                         },
                         onSubmit:(draft: PostDraft, options: { ignoreSlash: boolean }): void => {
                             // Function body implementation goes here
@@ -964,13 +883,11 @@ describe('components/AdvancedCreateComment', () => {
                         const props = {
                             ...baseProps,
                             draft: {
+                                ...baseProps.draft,
                                 message: `Test message ${mention}`,
                                 uploadsInProgress: [],
                                 fileInfos: [fInfo,fInfo,fInfo],
-                                channelId:'',
-                                rootId:'',
-                                createAt:0,
-                                updateAt:0
+                                
                             },
                             onSubmit:(draft: PostDraft, options: { ignoreSlash: boolean }): void => {
                                 // Function body implementation goes here
@@ -997,13 +914,11 @@ describe('components/AdvancedCreateComment', () => {
                         ...baseProps,
                         useChannelMentions: false,
                         draft: {
+                            ...baseProps.draft,
                             message: `Test message @${mention}`,
                             uploadsInProgress: [],
                             fileInfos: [fInfo,fInfo,fInfo],
-                            channelId:'',
-                            rootId:'',
-                            createAt:0,
-                            updateAt:0
+                            
                         },
                         onSubmit:(draft: PostDraft, options: { ignoreSlash: boolean }): void => {
                             // Function body implementation goes here
@@ -1030,13 +945,11 @@ describe('components/AdvancedCreateComment', () => {
                 const props = {
                     ...baseProps,
                     draft: {
+                        ...baseProps.draft,
                         message: `Test message @${mention}`,
                         uploadsInProgress: [],
                         fileInfos: [fInfo,fInfo,fInfo],
-                        createAt:0,
-                        updateAt:0,
-                        channelId:'',
-                        rootId:''
+                       
                     },
                     onSubmit:(draft: PostDraft, options: { ignoreSlash: boolean }): void => {
                         // Function body implementation goes here
@@ -1062,13 +975,11 @@ describe('components/AdvancedCreateComment', () => {
                 const props = {
                     ...baseProps,
                     draft: {
+                        ...baseProps.draft,
                         message: `Test message @${mention}`,
                         uploadsInProgress: [],
                         fileInfos: [fInfo,fInfo,fInfo],
-                        createAt:0,
-                        updateAt:0,
-                        channelId:'',
-                        rootId:''
+                      
                     },
                     onSubmit:(draft: PostDraft, options: { ignoreSlash: boolean }): void => {
                         // Function body implementation goes here
@@ -1099,13 +1010,11 @@ describe('components/AdvancedCreateComment', () => {
                 const props = {
                     ...baseProps,
                     draft: {
+                        ...baseProps.draft,
                         message: `Test message @${mention}`,
                         uploadsInProgress: [],
                         fileInfos: [fInfo,fInfo,fInfo],
-                        createAt:0,
-                        updateAt:0,
-                        channelId:'',
-                        rootId:''
+                      
                     },
                     onSubmit:(draft: PostDraft, options: { ignoreSlash: boolean }): void => {
                         // Function body implementation goes here
@@ -1138,13 +1047,11 @@ describe('components/AdvancedCreateComment', () => {
             const props = {
                 ...baseProps,
                 draft: {
+                    ...baseProps.draft,
                     message: 'Test message @developers',
                     uploadsInProgress: [],
                     fileInfos: [fInfo,fInfo,fInfo],
-                    createAt:0,
-                    updateAt:0,
-                    channelId:'',
-                    rootId:''
+                    
                 },
                
                 groupsWithAllowReference: new Map([
@@ -1201,13 +1108,11 @@ describe('components/AdvancedCreateComment', () => {
             const props = {
                 ...baseProps,
                 draft: {
+                    ...baseProps.draft,
                     message: 'Test message @developers @boss @love @you @software-developers',
                     uploadsInProgress: [],
                     fileInfos:[fInfo,fInfo,fInfo],
-                    createAt:0,
-                    updateAt:0,
-                    channelId:'',
-                    rootId:''
+                
                 },
                 groupsWithAllowReference: new Map([
                     ['@developers', {
@@ -1301,13 +1206,11 @@ describe('components/AdvancedCreateComment', () => {
                 ...additionalGroupProperties,
                 ...baseProps,
                 draft: {
+                    ...baseProps.draft,
                     message: 'Test message @developers',
                     uploadsInProgress: [],
                     fileInfos:[fInfo,fInfo,fInfo],
-                    channelId:'',
-                    rootId:'',
-                    createAt:0,
-                    updateAt:0
+                    
                 },
                 groupsWithAllowReference: new Map([
                     ['@developers', {
@@ -1351,13 +1254,11 @@ describe('components/AdvancedCreateComment', () => {
             const props = {
                 ...baseProps,
                 draft: {
+                    ...baseProps.draft,
                     message: '/fakecommand other text',
                     uploadsInProgress: [],
                     fileInfos: [fInfo,fInfo,fInfo],
-                    channelId: '',
-                    rootId: '',
-                    updateAt:0,
-                    createAt:0
+                    
                 },
                 onSubmit: onSubmitWithError,
             };
@@ -1394,13 +1295,11 @@ describe('components/AdvancedCreateComment', () => {
             const props = {
                 ...baseProps,
                 draft: {
+                    ...baseProps.draft,
                     message: '/fakecommand other text',
                     uploadsInProgress: [],
                     fileInfos:[fInfo,fInfo,fInfo],
-                    createAt:0,
-                    updateAt:0,
-                    rootId:'',
-                    channelId:''
+                    
                 },
                 onSubmit: onSubmitWithError,
             };
@@ -1422,10 +1321,10 @@ describe('components/AdvancedCreateComment', () => {
                     useChannelMentions: false,
                     enableConfirmNotificationsToChannel: false,
                     draft: {
+                        ...baseProps.draft, 
                         message: `Test message @${mention}`,
                         uploadsInProgress: [],
                         fileInfos:[fInfo,fInfo,fInfo],
-                        createAt:0,updateAt:0, rootId:'', channelId:''
                     },
                     onSubmit,
                 };
@@ -1445,10 +1344,10 @@ describe('components/AdvancedCreateComment', () => {
                     useChannelMentions: true,
                     enableConfirmNotificationsToChannel: false,
                     draft: {
+                        ...baseProps.draft,
                         message: `Test message @${mention}`,
                         uploadsInProgress: [],
                         fileInfos:[fInfo,fInfo,fInfo],
-                        createAt:0,updateAt:0, rootId:'', channelId:''
 
                     },
                     onSubmit,
@@ -1469,13 +1368,11 @@ describe('components/AdvancedCreateComment', () => {
                 ...baseProps,
                 useChannelMentions: false,
                 draft: {
+                    ...baseProps.draft,
                     message: 'Test message',
                     uploadsInProgress: [],
                     fileInfos:[fInfo,fInfo,fInfo],
-                    createAt:0,
-                    updateAt:0,
-                    channelId:'',
-                    rootId:''
+                    
                 },
                 onSubmit,
             };
@@ -1494,14 +1391,10 @@ describe('components/AdvancedCreateComment', () => {
         const onUpdateCommentDraft = jest.fn();
         let fInfo1=fInfo, fInfo2=fInfo,fInfo3=fInfo;
         fInfo1.id='1',fInfo2.id='2',fInfo3.id='3'
-        const draft = {
+        const draft:any = {
             message: 'Test message',
             uploadsInProgress: ['4', '5', '6'],
             fileInfos: [fInfo1,fInfo2,fInfo3],
-            channelId:'',
-            rootId:'',
-            createAt:0,
-            updateAt:0
         };
         const props = {...baseProps, draft, onUpdateCommentDraft};
 
@@ -1526,18 +1419,15 @@ describe('components/AdvancedCreateComment', () => {
         expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
             expect.objectContaining({uploadsInProgress: ['4', '6']}),
         );
-        expect(wrapper.state().draft!.uploadsInProgress).toEqual([4, 6]);
+        expect(wrapper.state().draft!.uploadsInProgress).toEqual(['4', '6']);
     });
 
     test('should match draft state on componentWillReceiveProps with change in messageInHistory', () => {
-        const draft = {
+        const draft :any= {
             message: 'Test message',
             uploadsInProgress: [],
             fileInfos:[fInfo,fInfo,fInfo],
-            createAt:0,
-            updateAt:0,
-            channelId:'',
-            rootId:''
+            
         };
 
         const wrapper = shallow<AdvancedCreateComment>(
@@ -1551,14 +1441,11 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     test('should match draft state on componentWillReceiveProps with new rootId', () => {
-        const draft = {
+        const draft:any = {
             message: 'Test message',
             uploadsInProgress: ['4', '5', '6'],
             fileInfos: [{...fInfo,id: '1'}, {...fInfo,id: '2'}, {...fInfo,id: '3'}],
-            createAt:0,
-            updateAt:0,
-            rootId:'',
-            channelId:''
+          
         };
 
         const wrapper = shallow<AdvancedCreateComment>(
@@ -1676,7 +1563,7 @@ describe('components/AdvancedCreateComment', () => {
         expect(downKey.preventDefault).toHaveBeenCalledTimes(1);
         expect(onMoveHistoryIndexForward).toHaveBeenCalledTimes(1);
 
-        wrapper.setState({draft: {message: '', fileInfos: [], uploadsInProgress: [],createAt:0,updateAt:0,channelId:'',rootId:''}});
+        wrapper.setState({draft: {...baseProps.draft,message: '', fileInfos: [], uploadsInProgress: []}});
         const upKeyForEdit :any= {
             preventDefault: jest.fn(),
             ctrlKey: false,
@@ -1697,7 +1584,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     test('should the RHS thread scroll to bottom one time after mount when props.draft.message is not empty', () => {
-        const draft = emptyDraft;
+        const draft :any= baseProps.draft;
         const scrollToBottom = jest.fn();
         const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment
@@ -1721,7 +1608,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     test('should the RHS thread scroll to bottom when state.draft.uploadsInProgress increases but not when it decreases', () => {
-        const draft = emptyDraft;
+        const draft:any = baseProps.draft;
         const scrollToBottom = jest.fn();
         const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment
@@ -1744,7 +1631,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     it('should be able to format a pasted markdown table', () => {
-        const draft = emptyDraft;
+        const draft :any= baseProps.draft;
         const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment
                 {...baseProps}
@@ -1791,7 +1678,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     it('should be able to format a pasted markdown table without headers', () => {
-        const draft = emptyDraft;
+        const draft:any = baseProps.draft;
         const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment
                 {...baseProps}
@@ -1839,7 +1726,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     it('should be able to format a pasted hyperlink', () => {
-        const draft = emptyDraft;
+        const draft:any = baseProps.draft;
         const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment
                 {...baseProps}
@@ -1887,7 +1774,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     it('should be able to format a github codeblock (pasted as a table)', () => {
-        const draft = emptyDraft;
+        const draft:any = baseProps.draft;
         const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment
                 {...baseProps}
@@ -1937,7 +1824,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     it('should be able to format a github codeblock (pasted as a table) with with existing draft post', () => {
-        const draft = emptyDraft;
+        const draft:any = baseProps.draft;
         const wrapper = shallow<AdvancedCreateComment>(
             <AdvancedCreateComment
                 {...baseProps}
