@@ -13,13 +13,15 @@ exports[`components/AdvancedCreateComment should match snapshot when cannot post
     currentUserId=""
     draft={
       Object {
-        "channelId": "",
-        "createAt": 0,
-        "fileInfos": Array [],
+        "fileInfos": Array [
+          Object {},
+          Object {},
+          Object {},
+        ],
         "message": "Test message",
-        "rootId": "",
-        "updateAt": 0,
-        "uploadsInProgress": Array [],
+        "uploadsInProgress": Array [
+          Object {},
+        ],
       }
     }
     emitTypingEvent={[Function]}
@@ -148,6 +150,7 @@ exports[`components/AdvancedCreateComment should match snapshot, emoji picker di
 <form
   onSubmit={[Function]}
 >
+  <FileLimitStickyBanner />
   <AdvanceTextEditor
     applyMarkdown={[Function]}
     badConnection={false}
@@ -157,13 +160,15 @@ exports[`components/AdvancedCreateComment should match snapshot, emoji picker di
     currentUserId=""
     draft={
       Object {
-        "channelId": "",
-        "createAt": 0,
-        "fileInfos": Array [],
+        "fileInfos": Array [
+          Object {},
+          Object {},
+          Object {},
+        ],
         "message": "Test message",
-        "rootId": "",
-        "updateAt": 0,
-        "uploadsInProgress": Array [],
+        "uploadsInProgress": Array [
+          Object {},
+        ],
       }
     }
     emitTypingEvent={[Function]}
@@ -220,6 +225,7 @@ exports[`components/AdvancedCreateComment should match snapshot, empty comment 1
 <form
   onSubmit={[Function]}
 >
+  <FileLimitStickyBanner />
   <AdvanceTextEditor
     applyMarkdown={[Function]}
     badConnection={false}
@@ -229,13 +235,15 @@ exports[`components/AdvancedCreateComment should match snapshot, empty comment 1
     currentUserId=""
     draft={
       Object {
-        "channelId": "",
-        "createAt": 0,
-        "fileInfos": Array [],
-        "message": "",
-        "rootId": "",
-        "updateAt": 0,
-        "uploadsInProgress": Array [],
+        "fileInfos": Array [
+          Object {},
+          Object {},
+          Object {},
+        ],
+        "message": "Test message",
+        "uploadsInProgress": Array [
+          Object {},
+        ],
       }
     }
     emitTypingEvent={[Function]}
@@ -267,7 +275,7 @@ exports[`components/AdvancedCreateComment should match snapshot, empty comment 1
     isThreadView={false}
     location="RHS_COMMENT"
     maxPostSize={4000}
-    message=""
+    message="Test message"
     postId=""
     postMsgKeyPress={[Function]}
     removePreview={[Function]}
@@ -292,6 +300,7 @@ exports[`components/AdvancedCreateComment should match snapshot, non-empty messa
 <form
   onSubmit={[Function]}
 >
+  <FileLimitStickyBanner />
   <AdvanceTextEditor
     applyMarkdown={[Function]}
     badConnection={false}
@@ -301,13 +310,15 @@ exports[`components/AdvancedCreateComment should match snapshot, non-empty messa
     currentUserId=""
     draft={
       Object {
-        "channelId": "",
-        "createAt": 0,
-        "fileInfos": Array [],
+        "fileInfos": Array [
+          Object {},
+          Object {},
+          Object {},
+        ],
         "message": "Test message",
-        "rootId": "",
-        "updateAt": 0,
-        "uploadsInProgress": Array [],
+        "uploadsInProgress": Array [
+          Object {},
+        ],
       }
     }
     emitTypingEvent={[Function]}
