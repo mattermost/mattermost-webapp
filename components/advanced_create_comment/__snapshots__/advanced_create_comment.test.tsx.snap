@@ -74,6 +74,74 @@ exports[`components/AdvancedCreateComment should match snapshot when cannot post
 </form>
 `;
 
+exports[`components/AdvancedCreateComment should match snapshot, comment with message 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <AdvanceTextEditor
+    applyMarkdown={[Function]}
+    badConnection={false}
+    canPost={true}
+    canUploadFiles={true}
+    channelId=""
+    currentUserId=""
+    draft={
+      Object {
+        "fileInfos": Array [],
+        "message": "Test message",
+        "uploadsInProgress": Array [],
+      }
+    }
+    emitTypingEvent={[Function]}
+    enableEmojiPicker={true}
+    enableGifPicker={true}
+    errorClass={null}
+    fileUploadRef={
+      Object {
+        "current": null,
+      }
+    }
+    getFileUploadTarget={[Function]}
+    handleBlur={[Function]}
+    handleChange={[Function]}
+    handleEmojiClick={[Function]}
+    handleFileUploadChange={[Function]}
+    handleFileUploadComplete={[Function]}
+    handleGifClick={[Function]}
+    handleKeyDown={[Function]}
+    handleMouseUpKeyUp={[Function]}
+    handlePostError={[Function]}
+    handleSelect={[Function]}
+    handleSubmit={[Function]}
+    handleUploadError={[Function]}
+    handleUploadProgress={[Function]}
+    handleUploadStart={[Function]}
+    hideEmojiPicker={[Function]}
+    isFormattingBarHidden={false}
+    isThreadView={false}
+    location="RHS_COMMENT"
+    maxPostSize={4000}
+    message="Test message"
+    postId=""
+    postMsgKeyPress={[Function]}
+    removePreview={[Function]}
+    serverError={null}
+    setShowPreview={[Function]}
+    shouldShowPreview={false}
+    showEmojiPicker={false}
+    textboxRef={
+      Object {
+        "current": null,
+      }
+    }
+    toggleAdvanceTextEditor={[Function]}
+    toggleEmojiPicker={[Function]}
+    uploadsProgressPercent={Object {}}
+    useChannelMentions={true}
+  />
+</form>
+`;
+
 exports[`components/AdvancedCreateComment should match snapshot, emoji picker disabled 1`] = `
 <form
   onSubmit={[Function]}
