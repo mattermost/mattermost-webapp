@@ -651,7 +651,8 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                             <span>{currentRoles} </span>
                             {!isDisabled &&
                                 <span className='caret'/>
-                            }                        </a>
+                            }
+                        </a>
                         {this.renderAccessToken()}
                     </div>
                     <Menu
