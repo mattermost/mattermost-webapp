@@ -102,7 +102,7 @@ export class Header extends PureComponent<Props, State> {
     renderTabs(props: Props, style: Style) {
         const {appProps, onTrending, onCategories} = props;
         const {header} = appProps;
-        return header.tabs.map((tab, index) => {
+        return header.tabs.map((tab: any, index: any) => {
             let link;
             if (tab === constants.Tab.TRENDING) {
                 link = this.renderTab({name: 'trending', callback: onTrending, Icon: GifTrendingIcon, index, style});
