@@ -155,6 +155,9 @@ var config = {
             'mattermost-redux/test': 'packages/mattermost-redux/test',
             'mattermost-redux': 'packages/mattermost-redux/src',
             reselect: 'packages/reselect/src',
+
+            // This alias restricts single version of styled components acros all packages
+            'styled-components': path.resolve(__dirname, 'node_modules', 'styled-components'),
         },
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
         fallback: {
