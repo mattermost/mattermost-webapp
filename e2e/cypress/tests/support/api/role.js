@@ -30,6 +30,7 @@ export const defaultRolesPermissions = {
         'read_channel',
         'add_reaction',
         'edit_post',
+        'read_channel_content',
     ],
     channel_user: [
         'remove_reaction',
@@ -51,6 +52,7 @@ export const defaultRolesPermissions = {
         'add_reaction',
         'read_channel',
         'get_public_link',
+        'read_channel_content',
     ],
     sysadmin: [
         'read_user_access_token',
@@ -275,6 +277,7 @@ export const defaultRolesPermissions = {
         'sysconsole_write_about_edition_and_license',
         'read_license_information',
         'manage_license_information',
+        'read_channel_content',
     ],
     system_guest: [
         'create_direct_channel',
