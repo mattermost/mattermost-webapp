@@ -12,6 +12,7 @@ import {reconnect} from 'actions/websocket_actions.jsx';
 import Constants from 'utils/constants';
 import {isIosSafari} from 'utils/user_agent';
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
+import {TEAM_NAME_PATH_PATTERN} from 'utils/path';
 
 import {makeAsyncComponent} from 'components/async_load';
 import ChannelController from 'components/channel_layout/channel_controller';
@@ -210,17 +211,17 @@ function TeamController(props: Props) {
     return (
         <Switch>
             <Route
-                path={'/:team/integrations'}
+                path={`/:team(${TEAM_NAME_PATH_PATTERN})/integrations`}
                 component={BackstageController}
             />
             <Route
-                path={'/:team/emoji'}
+                path={`/:team(${TEAM_NAME_PATH_PATTERN})/emoji`}
                 component={BackstageController}
             />
             {props.plugins?.map((plugin) => (
                 <Route
                     key={plugin.id}
-                    path={'/:team/' + (plugin as any).route}
+                    path={`/:team(${TEAM_NAME_PATH_PATTERN})/` + (plugin as any).route}
                     render={() => (
                         <Pluggable
                             pluggableName={'NeedsTeamComponent'}
